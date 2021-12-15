@@ -49,5 +49,5 @@ BaselineOfBlocBenchs >> declareSaucoPerfMeterOn: spec [
 BaselineOfBlocBenchs >> declareSpecBrickOn: spec [
 	spec
 		baseline: 'SpecBrick'
-		with: [ spec repository: 'github://pharo-graphics/SpecBrick/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Spec-Brick/src' ]
 ]
