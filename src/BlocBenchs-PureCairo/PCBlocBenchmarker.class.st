@@ -27,13 +27,19 @@ PCBlocBenchmarker >> beSkia [
 { #category : #hook }
 PCBlocBenchmarker >> closeWindow [
 
-	space close.
+	space close
 ]
 
 { #category : #hook }
 PCBlocBenchmarker >> frameCount [
 	
 	^ frames
+]
+
+{ #category : #hook }
+PCBlocBenchmarker >> host [
+
+	^ BlMorphicWindowHost new
 ]
 
 { #category : #printing }
@@ -43,16 +49,24 @@ PCBlocBenchmarker >> label [
 ]
 
 { #category : #hook }
+PCBlocBenchmarker >> newSpace [	
+
+	self flag: #todo. "Side effect (original setting is not restored)"
+	Bloc preferableSpartaCanvas: spartaCanvasBuilderClass.
+
+	^ BlSpace new
+		host: self host;
+		title: self label;
+		extent: 800@500;
+		yourself
+
+]
+
+{ #category : #hook }
 PCBlocBenchmarker >> openWindow [
 
 	| random numberOfCircles radius |
-	Bloc preferableSpartaCanvas: spartaCanvasBuilderClass.
-	space := BlSpace new
-		host: BlMorphicWindowHost new;
-		extent: 800@500;
-		title: self label;
-		yourself.
-	
+	space := self newSpace.
 	random := Random seed: 1.
 	numberOfCircles := 300.
 	radius := 50.0.

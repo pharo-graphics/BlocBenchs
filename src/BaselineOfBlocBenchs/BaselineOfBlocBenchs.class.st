@@ -17,10 +17,16 @@ BaselineOfBlocBenchs >> baseline: spec [
 				declareSpecBrickOn: spec.
 
 			spec
-				package: 'BlocBenchs-MeteringCases' with: [ spec requires: #('SpecBrick' 'SaucoPerfMeter' 'FFICallLogger') ];
-				package: 'BlocBenchs-Printing' with: [ spec requires: #('SpecBrick' 'BlocBenchs-MeteringCases' 'DataFrame') ];
-				package: 'BlocBenchs-PureCairo' with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame' 'FFICallLogger') ];
-				package: 'BlocBenchs-Sparta' with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame') ].
+				package: 'BlocBenchs-MeteringCases'
+					with: [ spec requires: #('SpecBrick' 'SaucoPerfMeter' 'FFICallLogger') ];
+				package: 'BlocBenchs-Printing'
+					with: [ spec requires: #('SpecBrick' 'BlocBenchs-MeteringCases' 'DataFrame') ];
+				package: 'BlocBenchs-NullRenderer'
+					with: [ spec requires: #('SpecBrick') ];
+				package: 'BlocBenchs-PureCairo'
+					with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame' 'FFICallLogger' 'BlocBenchs-NullRenderer') ];
+				package: 'BlocBenchs-Sparta'
+					with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame') ].
  ]
 ]
 

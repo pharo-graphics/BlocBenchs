@@ -8,6 +8,7 @@ Example of use:
 	{
 	PCBlocBenchmarker new beSkia; yourself.
 	PCBlocBenchmarker new beCairo; yourself.
+	PCBlocNullRendererBenchmarker new.
 	PCAthensBenchmarker new.
 	} do: [:each |
 		Smalltalk garbageCollect. 1 second wait.
