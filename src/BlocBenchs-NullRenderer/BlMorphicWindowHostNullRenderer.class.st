@@ -5,22 +5,8 @@ Class {
 }
 
 { #category : #'driver selection' }
-BlMorphicWindowHostNullRenderer class >> isSupported [
-	^ true
-]
-
-{ #category : #'driver selection' }
 BlMorphicWindowHostNullRenderer class >> label [
-	^ 'Morphic'
-]
-
-{ #category : #'driver selection' }
-BlMorphicWindowHostNullRenderer class >> priority [
-	"I am a default host, hence return zero.
-	Morphic host is the most stable and will work on any machine"
-	<return: #Number>
-
-	^ 20
+	^ 'Morphic NullRenderer'
 ]
 
 { #category : #'host - api' }
