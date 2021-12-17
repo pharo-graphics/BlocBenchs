@@ -10,13 +10,15 @@ Class {
 }
 
 { #category : #visiting }
-PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [ 
+PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 
 	| aColor |
 	aColor := aBlPaintBackground paint color.
 	cairoCanvas
-		setSourceR: aColor red g: aColor green b: aColor blue a: aColor alpha.
-
+		setSourceR: aColor red
+		g: aColor green
+		b: aColor blue
+		a: aColor alpha
 ]
 
 { #category : #initialization }
@@ -26,11 +28,9 @@ PCRenderer >> createFormSpaceRenderer [
 ]
 
 { #category : #'as yet unclassified' }
-PCRenderer >> drawCircle: topLeftPoint radius: radiusPoint paint: aBlPaintBackground [ 
+PCRenderer >> drawCircle: topLeftPoint radius: radiusPoint [
 
 	| pathBuilder center |
-	aBlPaintBackground pureCairoApplyTo: self.
-
 	center := topLeftPoint + radiusPoint.
 	pathBuilder := AthensCairoPathBuilder new.
 	pathBuilder context: cairoCanvas.
@@ -45,9 +45,7 @@ PCRenderer >> drawCircle: topLeftPoint radius: radiusPoint paint: aBlPaintBackgr
 ]
 
 { #category : #'api - drawing' }
-PCRenderer >> drawRectangle: aRectangle paint: aBlPaintBackground [ 
-
-	aBlPaintBackground pureCairoApplyTo: self.
+PCRenderer >> drawRectangle: aRectangle [
 
 	cairoCanvas
 		rectangleX: aRectangle left
