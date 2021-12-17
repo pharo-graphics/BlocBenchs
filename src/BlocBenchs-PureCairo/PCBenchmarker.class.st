@@ -9,6 +9,7 @@ Example of use:
 	PCBlocBenchmarker new beSkia; yourself.
 	PCBlocBenchmarker new beCairo; yourself.
 	PCBlocNullRendererBenchmarker new.
+	PCBlocPCRendererBenchmarker new.
 	PCAthensBenchmarker new.
 	} do: [:each |
 		Smalltalk garbageCollect. 1 second wait.
@@ -18,6 +19,14 @@ Example of use:
 			reportOnTranscript ]
 ] fork
 ~~~
+
+It was also interesting to see:
+~~~
+WorldState MinCycleLapse: 1. ""By default, 16""
+[ PCBlocNullRendererBenchmarker new run ] fork.
+AndreasSystemProfiler spyOnWorldFor: 5.
+~~~
+
 "
 Class {
 	#name : #PCBenchmarker,

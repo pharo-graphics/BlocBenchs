@@ -14,7 +14,6 @@ BlNullHostSpaceRenderer >> initializeForSurface: aSurface [
 { #category : #rendering }
 BlNullHostSpaceRenderer >> renderSpace: aSpace [
 	"Render a space and return a collection of damaged rectangles"
-	<return: #Collection of: #Rectangle>
 	
 	^ #()
 ]

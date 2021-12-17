@@ -23,8 +23,10 @@ BaselineOfBlocBenchs >> baseline: spec [
 					with: [ spec requires: #('SpecBrick' 'BlocBenchs-MeteringCases' 'DataFrame') ];
 				package: 'BlocBenchs-NullRenderer'
 					with: [ spec requires: #('SpecBrick') ];
+				package: 'BlocBenchs-PCRenderer'
+					with: [ spec requires: #('SpecBrick') ];
 				package: 'BlocBenchs-PureCairo'
-					with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame' 'FFICallLogger' 'BlocBenchs-NullRenderer') ];
+					with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame' 'FFICallLogger' 'BlocBenchs-NullRenderer' 'BlocBenchs-PCRenderer') ];
 				package: 'BlocBenchs-Sparta'
 					with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame') ].
  ]
