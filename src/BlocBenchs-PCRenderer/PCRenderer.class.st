@@ -30,6 +30,12 @@ PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 
 ]
 
+{ #category : #visiting }
+PCRenderer >> acceptBlTransparentBackground: aBlTransparentBackground [ 
+
+	"Nothing to do"
+]
+
 { #category : #initialization }
 PCRenderer >> createFormSpaceRenderer [
 
