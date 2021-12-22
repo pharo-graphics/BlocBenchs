@@ -1,5 +1,5 @@
 Class {
-	#name : #PCAthensBenchmarker,
+	#name : #PCMorphBenchmarker,
 	#superclass : #PCBenchmarker,
 	#instVars : [
 		'window',
@@ -9,26 +9,26 @@ Class {
 }
 
 { #category : #hook }
-PCAthensBenchmarker >> closeWindow [
+PCMorphBenchmarker >> closeWindow [
 
 	window delete
 
 ]
 
 { #category : #hook }
-PCAthensBenchmarker >> frameCount [
+PCMorphBenchmarker >> frameCount [
 
 	^ morph frameCount
 ]
 
 { #category : #printing }
-PCAthensBenchmarker >> label [
+PCMorphBenchmarker >> label [
 
-	^ 'Just Cairo'
+	^ 'Morph Cairo'
 ]
 
 { #category : #hook }
-PCAthensBenchmarker >> openWindow [
+PCMorphBenchmarker >> openWindow [
 	
 	morph := PCTranslatingCirclesMorph new
 		surfaceExtent: 800@500;
@@ -41,7 +41,7 @@ PCAthensBenchmarker >> openWindow [
 ]
 
 { #category : #hook }
-PCAthensBenchmarker >> realStartTimestamp [
+PCMorphBenchmarker >> realStartTimestamp [
 
 	^ morph startTimestamp
 ]

@@ -10,7 +10,7 @@ Example of use:
 	PCBlocBenchmarker new beCairo; yourself.
 	PCBlocNullRendererBenchmarker new.
 	PCBlocPCRendererBenchmarker new.
-	PCAthensBenchmarker new.
+	PCMorphBenchmarker new.
 	} do: [:each |
 		Smalltalk garbageCollect. 1 second wait.
 		each
