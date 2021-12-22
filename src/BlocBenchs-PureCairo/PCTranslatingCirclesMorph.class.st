@@ -14,45 +14,40 @@ Class {
 }
 
 { #category : #drawing }
-PCTranslatingCirclesMorph >> drawOnAthensCanvas: aCanvas [
+PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 
 	"Prepare on first draw (when nil)"
 	circleColors
 		ifNil: [
 			deltaY := 0.
 			circleColors := (1 to: numberOfCircles)
-				collect: [ :each | Color random: random ].
-			"transform := AthensCairoTransform for: aCanvas." ]
+				collect: [ :each | Color random: random ] ]
 		ifNotNil: [
 			deltaY := deltaY + (0.04 * (Time millisecondClockValue - lastMS)) ].
 	lastMS := Time millisecondClockValue.
 
 	"Clear background (https://www.cairographics.org/FAQ/#clear_a_surface)"
-	aCanvas
+	cairoCanvas
 		primSetSourceR: 1.0 g: 1.0 b: 1.0;
 		primPaint.
 
 	circleColors withIndexDo: [ :aColor :index |
 		| center |
-		aCanvas primSaveState.
-
-		"transform translateBy: "
 		center := radius + (index * 2 @ deltaY).
-		aCanvas
+		cairoCanvas
 			primSetSourceR: aColor red
 				g: aColor green
 				b: aColor blue;
 			primArcCenterX: center x
 				centerY: center y
-				radius: radius x "todo: ellipse"
+				radius: radius x "TODO: ellipse"
 				startAngle: 0.0
 				endAngle: Float twoPi.
 
-		aCanvas fill.
-		"aCanvas stroke."
-		"aCanvas fillPreserve; stroke."
-
-		aCanvas primRestoreState ]
+		cairoCanvas fill.
+		"cairoCanvas stroke."
+		"cairoCanvas fillPreserve; stroke."
+		]
 ]
 
 { #category : #drawing }

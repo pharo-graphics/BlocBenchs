@@ -13,7 +13,9 @@ Class {
 		'startTimestamp',
 		'surfaceExtent',
 		'surfaceForm',
-		'surfaceRectangle'
+		'surfaceRectangle',
+		'cairoCanvas',
+		'session'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
@@ -21,18 +23,40 @@ Class {
 { #category : #drawing }
 PCMorph >> drawOn: aFormCanvas [
 
-	"TODO: check session"
-	startTimestamp ifNil: [
-		self initializeSurface.
-		startTimestamp := DateAndTime now ].
+	self ensureReadyToDrawOnCairoCanvas.
+	
+	"Based on #drawDuring:"
+	self drawOnCairoCanvas.
 
-	surface drawDuring: [ :aCanvas | self drawOnAthensCanvas: aCanvas ].
-
+	"Based on #displayOnMorphicCanvas:at:"
 	aFormCanvas
 		image: surfaceForm
 		at: bounds origin
 		sourceRect: surfaceRectangle
 		rule: 34.
+
+]
+
+{ #category : #drawing }
+PCMorph >> drawOnCairoCanvas [
+	"Draw on cairoCanvas. Assume #ensureReadyToDrawOnCairoCanvas was executed just before."
+
+	self subclassResponsibility
+]
+
+{ #category : #initialization }
+PCMorph >> ensureReadyToDrawOnCairoCanvas [
+
+	session == Smalltalk session ifTrue: [ ^ self ].
+	session := Smalltalk session.
+
+	"Remember when was the first time a frame is going to be drawn."
+	startTimestamp ifNil: [
+		startTimestamp := DateAndTime now ].
+
+	"This happens on the first draw but also, for example, 
+	when I was open on save and quit, and then reopen."
+	self initializeSurface.
 
 ]
 
@@ -55,6 +79,7 @@ PCMorph >> initialize [
 PCMorph >> initializeSurface [
 
 	surface := AthensCairoSurface extent: surfaceExtent.
+	cairoCanvas := surface privContext.
 	surfaceForm := surface pureCairoAsFormExtent: surfaceExtent.
 	surfaceRectangle := 0@0 extent: surfaceExtent.
 
