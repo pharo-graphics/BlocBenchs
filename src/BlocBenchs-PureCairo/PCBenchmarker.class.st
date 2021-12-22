@@ -14,6 +14,7 @@ Example of use:
 	} do: [:each |
 		Smalltalk garbageCollect. 1 second wait.
 		each
+			""enableFFILogging;""
 			run;
 			shortReportOnStdout;
 			reportOnTranscript ]
@@ -108,27 +109,27 @@ PCBenchmarker >> reportOn: aStream [
 
 	aStream << '# '; <<  self label; lf; lf.
 
-	aStream << 'Speed: '.
-	(loggedFrameCount / numberOfSeconds) printOn: aStream showingDecimalPlaces: 2.
-	aStream << 'fps'; lf.
+	includesFFILogging
+		ifFalse: [ 
+			aStream << 'Speed: '.
+			(loggedFrameCount / numberOfSeconds) printOn: aStream showingDecimalPlaces: 2.
+			aStream << 'fps'; lf.
 
-	aStream << 'Real Duration: '.
-	loggedDuration totalSeconds printOn: aStream showingDecimalPlaces: 3.
-	aStream << 's'; lf.
-	
-	includesFFILogging ifTrue: [ 
-		aStream << 'Top FFI Calls:'; lf; lf.
-		DataFrameMarkdownPrinter new
-			stringBlockClosure: [ :o :r :c |
-				(o isNumber
-					ifTrue: [ o printShowingDecimalPlaces: 1 ]
-					ifFalse: [ o ]) asString ];
-			dataFrame: (loggedCallsRanking head: 15);
-			stream: aStream;
-			write.
-		].
+			aStream << 'Real Duration: '.
+			loggedDuration totalSeconds printOn: aStream showingDecimalPlaces: 3.
+			aStream << 's'; lf ] 
+		ifTrue: [ 
+			aStream << 'Top FFI Calls:'; lf; lf.
+			DataFrameMarkdownPrinter new
+				stringBlockClosure: [ :o :r :c |
+					(o isNumber
+						ifTrue: [ o printShowingDecimalPlaces: 1 ]
+						ifFalse: [ o ]) asString ];
+				dataFrame: (loggedCallsRanking head: 15);
+				stream: aStream;
+				write.
+			aStream lf ].
 
-	aStream lf; lf.
 
 ]
 
@@ -152,8 +153,10 @@ PCBenchmarker >> run [
 	numberOfSeconds seconds wait.
 
 	loggedFrameCount := self frameCount.
-	loggedDuration := DateAndTime now - self realStartTimestamp.
-	includesFFILogging ifTrue: [ self stopLogging ].
+	"Zero frames indicates an error, e.g. drawing."
+	loggedFrameCount > 0 ifTrue: [
+		loggedDuration := DateAndTime now - self realStartTimestamp.
+		includesFFILogging ifTrue: [ self stopLogging ] ].
 
 	self closeWindow.
 
@@ -170,7 +173,7 @@ PCBenchmarker >> shortReportOn: aStream [
 
 	aStream << self label; << ': '.
 	(loggedFrameCount / numberOfSeconds) printOn: aStream showingDecimalPlaces: 1.
-	aStream << 'fps'; lf; lf.
+	aStream << 'fps'; lf.
 
 ]
 
