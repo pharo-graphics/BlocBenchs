@@ -36,20 +36,18 @@ PCRenderer >> createFormSpaceRenderer [
 	^ PCFormSpaceRenderer new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'api - drawing' }
 PCRenderer >> drawCircle: topLeftPoint radius: radiusPoint [
 
-	| pathBuilder center |
+	| center |
 	center := topLeftPoint + radiusPoint.
-	pathBuilder := AthensCairoPathBuilder new.
-	pathBuilder context: cairoCanvas.
-	pathBuilder
-		arcCenterX: center x
+	cairoCanvas
+		primArcCenterX: center x
 		centerY: center y
-		radius: radiusPoint x "TODO: elipse"
+		radius: radiusPoint x "TODO: ellipse"
 		startAngle: 0.0
-		endAngle: Float twoPi.
-	cairoCanvas fill.
+		endAngle: Float twoPi;
+		fill
 
 ]
 
@@ -105,16 +103,17 @@ PCRenderer >> physicalSize [
 { #category : #rendering }
 PCRenderer >> renderSpace: aBlSpace [
 
-	
+	"TODO use: cairoSurface privContext instead of drawDuring: to avoid redundant overhead.
+	cairoCanvas := cairoSurface privContext.
+	...
+	cairoSurface flush.
+	"
+
 	cairoSurface drawDuring: [  :aCairoCanvas |
 		cairoCanvas := aCairoCanvas.
-		
-		aBlSpace root pureCairoDrawOn: self.
-		
-		].
+		aBlSpace root pureCairoDrawOn: self ].
 
-
-	^ { (0 @ 0 extent: aBlSpace extent) }
+	^ #()
 ]
 
 { #category : #rendering }
@@ -129,7 +128,7 @@ PCRenderer >> scaleFactor [
 	^ 1.0
 ]
 
-{ #category : #asserting }
+{ #category : #testing }
 PCRenderer >> shouldUpdateEveryFrame [
 
 	^ true
