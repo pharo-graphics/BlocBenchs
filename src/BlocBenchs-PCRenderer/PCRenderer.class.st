@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'cairoSurface',
 		'hostSpace',
-		'cairoCanvas'
+		'cairoCanvas',
+		'shouldFill'
 	],
 	#category : #'BlocBenchs-PCRenderer'
 }
@@ -14,11 +15,19 @@ PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 
 	| aColor |
 	aColor := aBlPaintBackground paint color.
-	cairoCanvas
-		setSourceR: aColor red
-		g: aColor green
-		b: aColor blue
-		a: aColor alpha
+	aColor isTranslucent
+		ifTrue: [
+			cairoCanvas
+				primSetSourceR: aColor red
+				g: aColor green
+				b: aColor blue
+				a: aColor alpha ]
+		ifFalse: [
+			cairoCanvas
+				primSetSourceR: aColor red
+				g: aColor green
+				b: aColor blue ]
+
 ]
 
 { #category : #initialization }
