@@ -11,7 +11,9 @@ Class {
 		'frameCount',
 		'random',
 		'startTimestamp',
-		'surfaceExtent'
+		'surfaceExtent',
+		'surfaceForm',
+		'surfaceRectangle'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
@@ -19,13 +21,19 @@ Class {
 { #category : #drawing }
 PCMorph >> drawOn: aFormCanvas [
 
+	"TODO: check session"
 	startTimestamp ifNil: [
-		surface := AthensCairoSurface extent: surfaceExtent.
+		self initializeSurface.
 		startTimestamp := DateAndTime now ].
 
 	surface drawDuring: [ :aCanvas | self drawOnAthensCanvas: aCanvas ].
 
-	surface displayOnMorphicCanvas: aFormCanvas at: bounds origin
+	aFormCanvas
+		image: surfaceForm
+		at: bounds origin
+		sourceRect: surfaceRectangle
+		rule: 34.
+
 ]
 
 { #category : #accessing }
@@ -41,6 +49,15 @@ PCMorph >> initialize [
 	surfaceExtent := 500@500.
 	random := Random seed: 1.
 	frameCount := 0.
+]
+
+{ #category : #initialization }
+PCMorph >> initializeSurface [
+
+	surface := AthensCairoSurface extent: surfaceExtent.
+	surfaceForm := surface pureCairoAsFormExtent: surfaceExtent.
+	surfaceRectangle := 0@0 extent: surfaceExtent.
+
 ]
 
 { #category : #accessing }
@@ -75,7 +92,7 @@ PCMorph >> surfaceExtent [
 ]
 
 { #category : #accessing }
-PCMorph >> surfaceExtent: anObject [
+PCMorph >> surfaceExtent: aPoint [
 
-	surfaceExtent := anObject
+	surfaceExtent := aPoint
 ]
