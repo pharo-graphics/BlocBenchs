@@ -37,9 +37,9 @@ BlTextEditorProfileCase >> lapseToWaitBetween [
 ]
 
 { #category : #accessing }
-BlTextEditorProfileCase >> lapseToWaitBetween: anObject [
+BlTextEditorProfileCase >> lapseToWaitBetween: aDuration [
 
-	lapseToWaitBetween := anObject
+	lapseToWaitBetween := aDuration
 ]
 
 { #category : #hooks }
@@ -68,7 +68,7 @@ BlTextEditorProfileCase >> numberOfScrollDowns [
 ]
 
 { #category : #accessing }
-BlTextEditorProfileCase >> numberOfScrollDowns: anObject [
+BlTextEditorProfileCase >> numberOfScrollDowns: anInteger [
 
-	numberOfScrollDowns := anObject
+	numberOfScrollDowns := anInteger
 ]
