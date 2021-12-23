@@ -15,26 +15,37 @@ Class {
 		'surfaceForm',
 		'surfaceRectangle',
 		'cairoCanvas',
-		'session'
+		'session',
+		'bitblt'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
 
 { #category : #drawing }
-PCMorph >> drawOn: aFormCanvas [
+PCMorph >> copyCairoSurfaceTo: aFormCanvas [
+	"Based on displayOnMorphicCanvas:at:"
 
-	self ensureReadyToDrawOnCairoCanvas.
-	
-	"Based on #drawDuring:"
-	self drawOnCairoCanvas.
+	bitblt copyBitsTo: aFormCanvas form at: bounds origin clipRect: aFormCanvas privateClipRect.
 
-	"Based on #displayOnMorphicCanvas:at:"
+"	It'd be better to restore this code instead of the PCBitBlt:
+
 	aFormCanvas
 		image: surfaceForm
 		at: bounds origin
 		sourceRect: surfaceRectangle
-		rule: 34.
+		rule: 34."
+]
 
+{ #category : #drawing }
+PCMorph >> drawOn: aFormCanvas [
+
+	self ensureReadyToDrawOnCairoCanvas.
+
+	"Replaces #drawDuring:"
+	self drawOnCairoCanvas.
+
+	"Replaces #displayOnMorphicCanvas:at:"
+	self copyCairoSurfaceTo: aFormCanvas.
 ]
 
 { #category : #drawing }
@@ -82,6 +93,9 @@ PCMorph >> initializeSurface [
 	cairoCanvas := surface privContext.
 	surfaceForm := surface pureCairoAsFormExtent: surfaceExtent.
 	surfaceRectangle := 0@0 extent: surfaceExtent.
+	bitblt := PCBitBlt
+		sourceForm: surfaceForm
+		sourceRect: surfaceRectangle.
 
 ]
 
