@@ -10,14 +10,6 @@ PCBlocPCRendererBenchmarker >> host [
 	^ PCMorphicWindowHost new
 ]
 
-{ #category : #initialization }
-PCBlocPCRendererBenchmarker >> initialize [
-
-	super initialize.
-	
-	self beCairo.
-]
-
 { #category : #accessing }
 PCBlocPCRendererBenchmarker >> label [
 

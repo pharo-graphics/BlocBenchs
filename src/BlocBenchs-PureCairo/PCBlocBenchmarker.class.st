@@ -4,25 +4,10 @@ Class {
 	#instVars : [
 		'space',
 		'frames',
-		'spartaCanvasBuilderClass',
 		'realStartTimestamp'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
-
-{ #category : #accessing }
-PCBlocBenchmarker >> beCairo [
-	
-	spartaCanvasBuilderClass := BlSpartaCairoCanvasBuilder
-
-]
-
-{ #category : #accessing }
-PCBlocBenchmarker >> beSkia [
-	
-	spartaCanvasBuilderClass := BlSpartaSkiaCanvasBuilder
-
-]
 
 { #category : #hook }
 PCBlocBenchmarker >> closeWindow [
@@ -39,20 +24,11 @@ PCBlocBenchmarker >> frameCount [
 { #category : #hook }
 PCBlocBenchmarker >> host [
 
-	^ BlMorphicWindowHost new
-]
-
-{ #category : #printing }
-PCBlocBenchmarker >> label [
-
-	^ 'Bloc ', spartaCanvasBuilderClass label
+	^ self subclassResponsibility
 ]
 
 { #category : #hook }
 PCBlocBenchmarker >> newSpace [	
-
-	self flag: #todo. "Side effect (original setting is not restored)"
-	Bloc preferableSpartaCanvas: spartaCanvasBuilderClass.
 
 	^ BlSpace new
 		host: self host;
@@ -92,6 +68,7 @@ PCBlocBenchmarker >> populateSpace [
 	1 to: numberOfCircles do: [ :index |
 		space addChild: (BlElement new
 			relocate: (index * 2) @ 0;
+"			border: (BlBorder paint: (Color random: random) width: 1);"
 			background: (Color random: random);
 			size: (radius * 2) asPoint;
 			geometry: BlCircleGeometry new;

@@ -10,14 +10,6 @@ PCBlocNullRendererBenchmarker >> host [
 	^ BlMorphicWindowHostNullRenderer new
 ]
 
-{ #category : #initialization }
-PCBlocNullRendererBenchmarker >> initialize [
-
-	super initialize.
-	
-	self beCairo.
-]
-
 { #category : #accessing }
 PCBlocNullRendererBenchmarker >> label [
 

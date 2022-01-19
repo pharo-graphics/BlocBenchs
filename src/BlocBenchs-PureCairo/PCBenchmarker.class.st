@@ -6,8 +6,8 @@ Example of use:
 ~~~
 [
 	{
-	PCBlocBenchmarker new beSkia; yourself.
-	PCBlocBenchmarker new beCairo; yourself.
+	PCBlocMorphicRendererBenchmarker new beSkia; yourself.
+	PCBlocMorphicRendererBenchmarker new beCairo; yourself.
 	PCBlocNullRendererBenchmarker new.
 	PCBlocPCRendererBenchmarker new.
 	PCMorphBenchmarker new.
