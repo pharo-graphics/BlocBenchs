@@ -1,3 +1,7 @@
+"
+I'm a benchmarker for Bloc renderers, always in a Morphic Window host.
+
+"
 Class {
 	#name : #PCBlocBenchmarker,
 	#superclass : #PCBenchmarker,

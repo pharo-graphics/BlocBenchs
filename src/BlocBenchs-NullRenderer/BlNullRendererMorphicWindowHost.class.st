@@ -1,16 +1,19 @@
+"
+I'm a hacky way to set the NullRenderer ini a MorphicWindow host.
+"
 Class {
-	#name : #BlMorphicWindowHostNullRenderer,
+	#name : #BlNullRendererMorphicWindowHost,
 	#superclass : #BlMorphicWindowHost,
 	#category : #'BlocBenchs-NullRenderer'
 }
 
 { #category : #'driver selection' }
-BlMorphicWindowHostNullRenderer class >> label [
+BlNullRendererMorphicWindowHost class >> label [
 	^ 'Morphic NullRenderer'
 ]
 
 { #category : #'host - api' }
-BlMorphicWindowHostNullRenderer >> createHostSpaceFor: aSpace [
+BlNullRendererMorphicWindowHost >> createHostSpaceFor: aSpace [
 	"Create and assign a new morphic host space for given bloc space"
 	| aWindow aHostSpace|
 

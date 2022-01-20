@@ -1,5 +1,8 @@
+"
+I'm a benchmarker for Cairo and Skia renderers, i.e. the regular or traditional ones.
+"
 Class {
-	#name : #PCBlocMorphicRendererBenchmarker,
+	#name : #PCBlocRegularRendererBenchmarker,
 	#superclass : #PCBlocBenchmarker,
 	#instVars : [
 		'spartaCanvasBuilderClass'
@@ -8,27 +11,27 @@ Class {
 }
 
 { #category : #accessing }
-PCBlocMorphicRendererBenchmarker >> beCairo [
+PCBlocRegularRendererBenchmarker >> beCairo [
 	
 	spartaCanvasBuilderClass := BlSpartaCairoCanvasBuilder
 
 ]
 
 { #category : #accessing }
-PCBlocMorphicRendererBenchmarker >> beSkia [
+PCBlocRegularRendererBenchmarker >> beSkia [
 	
 	spartaCanvasBuilderClass := BlSpartaSkiaCanvasBuilder
 
 ]
 
 { #category : #accessing }
-PCBlocMorphicRendererBenchmarker >> host [
+PCBlocRegularRendererBenchmarker >> host [
 
 	^ BlMorphicWindowHost new
 ]
 
 { #category : #initialization }
-PCBlocMorphicRendererBenchmarker >> initialize [
+PCBlocRegularRendererBenchmarker >> initialize [
 
 	super initialize.
 	
@@ -36,13 +39,13 @@ PCBlocMorphicRendererBenchmarker >> initialize [
 ]
 
 { #category : #accessing }
-PCBlocMorphicRendererBenchmarker >> label [
+PCBlocRegularRendererBenchmarker >> label [
 
 	^ 'Bloc ', spartaCanvasBuilderClass label
 ]
 
 { #category : #accessing }
-PCBlocMorphicRendererBenchmarker >> newSpace [	
+PCBlocRegularRendererBenchmarker >> newSpace [	
 
 	self flag: #todo. "Side effect (original setting is not restored)"
 	Bloc preferableSpartaCanvas: spartaCanvasBuilderClass.

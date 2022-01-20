@@ -6,8 +6,6 @@ Class {
 		'numberOfCircles',
 		'deltaY',
 		'circleColors',
-		'transform',
-		'pathBuilder',
 		'radius'
 	],
 	#category : #'BlocBenchs-PureCairo'

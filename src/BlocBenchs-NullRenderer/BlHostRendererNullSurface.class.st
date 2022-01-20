@@ -12,7 +12,7 @@ BlHostRendererNullSurface class >> supportedBy: aHost [
 	"Return true if a given object supports this surface, false otherwise"
 	<return: #Boolean>
 	
-	^ aHost isKindOf: BlMorphicWindowHostNullRenderer
+	^ aHost isKindOf: BlNullRendererMorphicWindowHost
 ]
 
 { #category : #initialization }

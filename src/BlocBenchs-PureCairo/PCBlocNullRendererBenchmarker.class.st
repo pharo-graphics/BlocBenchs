@@ -1,3 +1,6 @@
+"
+I'm a benchmarker for the Null renderer.
+"
 Class {
 	#name : #PCBlocNullRendererBenchmarker,
 	#superclass : #PCBlocBenchmarker,
@@ -7,7 +10,7 @@ Class {
 { #category : #accessing }
 PCBlocNullRendererBenchmarker >> host [
 
-	^ BlMorphicWindowHostNullRenderer new
+	^ BlNullRendererMorphicWindowHost new
 ]
 
 { #category : #accessing }

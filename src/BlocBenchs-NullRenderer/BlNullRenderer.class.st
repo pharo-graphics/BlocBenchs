@@ -1,3 +1,7 @@
+"
+I'm a BlHostRenderer that does nothing for rendering.
+
+"
 Class {
 	#name : #BlNullRenderer,
 	#superclass : #BlHostRenderer,

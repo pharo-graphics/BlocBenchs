@@ -1,3 +1,6 @@
+"
+I'm a benchmarker for raw Morphic window rendering using Cairo.
+"
 Class {
 	#name : #PCMorphBenchmarker,
 	#superclass : #PCBenchmarker,
