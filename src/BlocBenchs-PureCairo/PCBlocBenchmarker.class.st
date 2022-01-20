@@ -20,6 +20,12 @@ PCBlocBenchmarker >> closeWindow [
 ]
 
 { #category : #hook }
+PCBlocBenchmarker >> elapsedTimeSinceFirstDraw [
+
+	^ DateAndTime now - realStartTimestamp
+]
+
+{ #category : #hook }
 PCBlocBenchmarker >> frameCount [
 	
 	^ frames
@@ -81,10 +87,4 @@ PCBlocBenchmarker >> populateSpace [
 			  yourself);
 			yourself) ].
 
-]
-
-{ #category : #hook }
-PCBlocBenchmarker >> realStartTimestamp [
-
-	^ realStartTimestamp
 ]

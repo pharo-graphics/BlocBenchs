@@ -2,9 +2,7 @@ Class {
 	#name : #PCTranslatingCirclesMorph,
 	#superclass : #PCMorph,
 	#instVars : [
-		'lastMS',
 		'numberOfCircles',
-		'deltaY',
 		'circleColors',
 		'radius'
 	],
@@ -14,6 +12,8 @@ Class {
 { #category : #drawing }
 PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 
+	| deltaY |
+
 	"Prepare on first draw (when nil)"
 	circleColors
 		ifNil: [
@@ -21,8 +21,7 @@ PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 			circleColors := (1 to: numberOfCircles)
 				collect: [ :each | Color random: random ] ]
 		ifNotNil: [
-			deltaY := deltaY + (0.04 * (Time millisecondClockValue - lastMS)) ].
-	lastMS := Time millisecondClockValue.
+			deltaY := 0.04 * (lastMS - startMS) ].
 
 	"Clear background (https://www.cairographics.org/FAQ/#clear_a_surface)"
 	cairoCanvas

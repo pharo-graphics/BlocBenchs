@@ -10,13 +10,15 @@ Class {
 		'surface',
 		'frameCount',
 		'random',
-		'startTimestamp',
 		'surfaceExtent',
 		'surfaceForm',
 		'surfaceRectangle',
 		'cairoCanvas',
 		'session',
-		'bitblt'
+		'bitblt',
+		'lastMS',
+		'deltaMS',
+		'startMS'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
@@ -39,7 +41,15 @@ PCMorph >> copyCairoSurfaceTo: aFormCanvas [
 { #category : #drawing }
 PCMorph >> drawOn: aFormCanvas [
 
+	| currentMS |
 	self ensureReadyToDrawOnCairoCanvas.
+
+	"Remember when was the first time a frame is going to be drawn."
+	currentMS := Time millisecondClockValue.
+	startMS
+		ifNil: [ startMS := currentMS ]
+		ifNotNil: [ deltaMS := currentMS - lastMS ].
+	lastMS := currentMS.
 
 	"Replaces #drawDuring:"
 	self drawOnCairoCanvas.
@@ -55,15 +65,17 @@ PCMorph >> drawOnCairoCanvas [
 	self subclassResponsibility
 ]
 
+{ #category : #accessing }
+PCMorph >> elapsedTimeSinceFirstDraw [
+
+	^ (lastMS - startMS) milliSeconds
+]
+
 { #category : #initialization }
 PCMorph >> ensureReadyToDrawOnCairoCanvas [
 
 	session == Smalltalk session ifTrue: [ ^ self ].
 	session := Smalltalk session.
-
-	"Remember when was the first time a frame is going to be drawn."
-	startTimestamp ifNil: [
-		startTimestamp := DateAndTime now ].
 
 	"This happens on the first draw but also, for example, 
 	when I was open on save and quit, and then reopen."
@@ -97,12 +109,6 @@ PCMorph >> initializeSurface [
 		sourceForm: surfaceForm
 		sourceRect: surfaceRectangle.
 
-]
-
-{ #category : #accessing }
-PCMorph >> startTimestamp [
-
-	^ startTimestamp
 ]
 
 { #category : #stepping }

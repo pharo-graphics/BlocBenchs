@@ -38,8 +38,8 @@ Class {
 		'numberOfSeconds',
 		'loggedStartTime',
 		'loggedDuration',
-		'includesFFILogging',
-		'loggedFrameCount'
+		'loggedFrameCount',
+		'mustLogFFI'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
@@ -52,10 +52,16 @@ PCBenchmarker >> closeWindow [
 
 ]
 
+{ #category : #hook }
+PCBenchmarker >> elapsedTimeSinceFirstDraw [
+
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 PCBenchmarker >> enableFFILogging [
 
-	includesFFILogging := true
+	mustLogFFI := true
 ]
 
 { #category : #hook }
@@ -70,7 +76,7 @@ PCBenchmarker >> initialize [
 	super initialize.
 	
 	numberOfSeconds := 5.
-	includesFFILogging := false.
+	mustLogFFI := false.
 ]
 
 { #category : #printing }
@@ -84,12 +90,6 @@ PCBenchmarker >> openWindow [
 	
 	self subclassResponsibility
 
-]
-
-{ #category : #hook }
-PCBenchmarker >> realStartTimestamp [
-
-	^ self subclassResponsibility
 ]
 
 { #category : #printing }
@@ -109,7 +109,7 @@ PCBenchmarker >> reportOn: aStream [
 
 	aStream << '# '; <<  self label; lf; lf.
 
-	includesFFILogging
+	mustLogFFI
 		ifFalse: [ 
 			aStream << 'Speed: '.
 			(loggedFrameCount / numberOfSeconds) printOn: aStream showingDecimalPlaces: 2.
@@ -148,15 +148,19 @@ PCBenchmarker >> reportOnTranscript [
 { #category : #running }
 PCBenchmarker >> run [
 
-	includesFFILogging ifTrue: [ self startLogging ].
+	"Start log"
+	mustLogFFI ifTrue: [ self startFFILogging ].
+	
+	"Main sentences under benchmark"
 	self openWindow.
 	numberOfSeconds seconds wait.
 
+	"End log"
 	loggedFrameCount := self frameCount.
-	"Zero frames indicates an error, e.g. drawing."
+	"(Zero frames indicate an error, e.g. drawing)"
 	loggedFrameCount > 0 ifTrue: [
-		loggedDuration := DateAndTime now - self realStartTimestamp.
-		includesFFILogging ifTrue: [ self stopLogging ] ].
+		loggedDuration := self elapsedTimeSinceFirstDraw.
+		mustLogFFI ifTrue: [ self stopFFILogging ] ].
 
 	self closeWindow.
 
@@ -184,7 +188,7 @@ PCBenchmarker >> shortReportOnStdout [
 ]
 
 { #category : #private }
-PCBenchmarker >> startLogging [
+PCBenchmarker >> startFFILogging [
 
 	"Ensure prepared"
 	TFLCallLogger
@@ -200,15 +204,16 @@ PCBenchmarker >> startLogging [
 ]
 
 { #category : #private }
-PCBenchmarker >> stopLogging [
+PCBenchmarker >> stopFFILogging [
 
 	| functionNamesSeries callsPerFrameSeries |
 
+	"circular log"
 
 	loggedCalls := TFLCallLogger instance copy.
 	TFLCallLogger stop; resetInstance.
 
-
+	"counter"
 
 	loggedCallsRanking := TFLFunctionCounter instance functionNamesAndCounts.
 	functionNamesSeries := loggedCallsRanking keys asDataSeries

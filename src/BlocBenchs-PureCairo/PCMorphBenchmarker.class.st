@@ -19,6 +19,12 @@ PCMorphBenchmarker >> closeWindow [
 ]
 
 { #category : #hook }
+PCMorphBenchmarker >> elapsedTimeSinceFirstDraw [
+
+	^ morph elapsedTimeSinceFirstDraw
+]
+
+{ #category : #hook }
 PCMorphBenchmarker >> frameCount [
 
 	^ morph frameCount
@@ -41,10 +47,4 @@ PCMorphBenchmarker >> openWindow [
 	window := morph openInWindowLabeled: self label.
 	window extent: 800@500.
 
-]
-
-{ #category : #hook }
-PCMorphBenchmarker >> realStartTimestamp [
-
-	^ morph startTimestamp
 ]
