@@ -35,14 +35,26 @@ Class {
 	#instVars : [
 		'loggedCalls',
 		'loggedCallsRanking',
-		'numberOfSeconds',
 		'loggedStartTime',
 		'loggedDuration',
 		'loggedFrameCount',
-		'mustLogFFI'
+		'mustLogFFI',
+		'case'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
+
+{ #category : #accessing }
+PCBenchmarker >> case [
+
+	^ case
+]
+
+{ #category : #accessing }
+PCBenchmarker >> case: aPCBenchCase [
+
+	case := aPCBenchCase
+]
 
 { #category : #hook }
 PCBenchmarker >> closeWindow [
@@ -75,7 +87,6 @@ PCBenchmarker >> initialize [
 
 	super initialize.
 	
-	numberOfSeconds := 5.
 	mustLogFFI := false.
 ]
 
@@ -112,7 +123,7 @@ PCBenchmarker >> reportOn: aStream [
 	mustLogFFI
 		ifFalse: [ 
 			aStream << 'Speed: '.
-			(loggedFrameCount / numberOfSeconds) printOn: aStream showingDecimalPlaces: 2.
+			(loggedFrameCount / case numberOfSeconds) printOn: aStream showingDecimalPlaces: 2.
 			aStream << 'fps'; lf.
 
 			aStream << 'Real Duration: '.
@@ -153,7 +164,7 @@ PCBenchmarker >> run [
 	
 	"Main sentences under benchmark"
 	self openWindow.
-	numberOfSeconds seconds wait.
+	case numberOfSeconds seconds wait.
 
 	"End log"
 	loggedFrameCount := self frameCount.
@@ -176,7 +187,7 @@ PCBenchmarker >> runInFork [
 PCBenchmarker >> shortReportOn: aStream [
 
 	aStream << self label; << ': '.
-	(loggedFrameCount / numberOfSeconds) printOn: aStream showingDecimalPlaces: 1.
+	(loggedFrameCount / case numberOfSeconds) printOn: aStream showingDecimalPlaces: 1.
 	aStream << 'fps'; lf.
 
 ]

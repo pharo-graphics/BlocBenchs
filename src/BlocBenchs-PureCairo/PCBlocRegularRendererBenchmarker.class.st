@@ -45,10 +45,10 @@ PCBlocRegularRendererBenchmarker >> label [
 ]
 
 { #category : #accessing }
-PCBlocRegularRendererBenchmarker >> newSpace [	
+PCBlocRegularRendererBenchmarker >> run [
 
 	self flag: #todo. "Side effect (original setting is not restored)"
 	Bloc preferableSpartaCanvas: spartaCanvasBuilderClass.
 
-	^ super newSpace
+	^ super run
 ]

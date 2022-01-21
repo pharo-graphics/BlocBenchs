@@ -38,22 +38,15 @@ PCBlocBenchmarker >> host [
 ]
 
 { #category : #hook }
-PCBlocBenchmarker >> newSpace [	
-
-	^ BlSpace new
-		host: self host;
-		title: self label;
-		extent: 800@500;
-		yourself
-
-]
-
-{ #category : #hook }
 PCBlocBenchmarker >> openWindow [
 
-	space := self newSpace.
+	space := BlSpace new
+		host: self host;
+		title: self label, ' - ', case label;
+		extent: case surfaceExtent;
+		yourself.
 
-	self populateSpace.
+	space addChild: case newElement.
 
 	"Counting frames"
 	frames := 0.
@@ -65,26 +58,5 @@ PCBlocBenchmarker >> openWindow [
 		realStartTimestamp := DateAndTime now ].
 
 	space show.
-
-]
-
-{ #category : #hook }
-PCBlocBenchmarker >> populateSpace [
-
-	| random numberOfCircles radius |
-	random := Random seed: 1.
-	numberOfCircles := 300.
-	radius := 50.0.
-	1 to: numberOfCircles do: [ :index |
-		space addChild: (BlElement new
-			relocate: (index * 2) @ 0;
-"			border: (BlBorder paint: (Color random: random) width: 1);"
-			background: (Color random: random);
-			size: (radius * 2) asPoint;
-			geometry: BlCircleGeometry new;
-			addAnimation: ((BlTransformAnimation translate: 0@200)
-			  duration: numberOfSeconds seconds;
-			  yourself);
-			yourself) ].
 
 ]

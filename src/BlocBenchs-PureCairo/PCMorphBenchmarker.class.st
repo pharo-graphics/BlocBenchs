@@ -39,12 +39,8 @@ PCMorphBenchmarker >> label [
 { #category : #hook }
 PCMorphBenchmarker >> openWindow [
 	
-	morph := PCTranslatingCirclesMorph new
-		surfaceExtent: 800@500;
-		numberOfCircles: 300;
-		radius: 50.0 asPoint;
-		yourself.
-	window := morph openInWindowLabeled: self label.
-	window extent: 800@500.
+	morph := case newMorph.
+	window := morph openInWindowLabeled: self label, ' - ', case label.
+	window extent: case surfaceExtent.
 
 ]

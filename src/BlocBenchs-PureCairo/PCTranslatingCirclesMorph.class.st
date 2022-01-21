@@ -47,15 +47,6 @@ PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 		]
 ]
 
-{ #category : #drawing }
-PCTranslatingCirclesMorph >> initialize [
-
-	super initialize.
-	
-	numberOfCircles := 50.
-	radius := 50.0 asPoint.
-]
-
 { #category : #accessing }
 PCTranslatingCirclesMorph >> numberOfCircles [
 
