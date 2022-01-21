@@ -5,35 +5,69 @@ Class {
 		'cairoSurface',
 		'hostSpace',
 		'cairoCanvas',
-		'shouldFill'
+		'shouldFill',
+		'hasBackground',
+		'hasBorder',
+		'borderColor',
+		'borderWidth',
+		'backgroundColor'
 	],
 	#category : #'BlocBenchs-PCRenderer'
 }
 
 { #category : #visiting }
+PCRenderer >> acceptBlElementCachedExplicitTransformationAfter: aBlElementCachedExplicitTransformation [ 
+
+	cairoCanvas primRestoreState
+]
+
+{ #category : #visiting }
+PCRenderer >> acceptBlElementCachedExplicitTransformationBefore: aBlElementCachedExplicitTransformation [
+
+	cairoCanvas primSaveState.
+	cairoCanvas primApplyTransform: (AthensCairoMatrix fromSpartaMatrix:
+			 aBlElementCachedExplicitTransformation matrix)
+]
+
+{ #category : #visiting }
+PCRenderer >> acceptBlElementCachedIdentityTransformationAfter: aBlElementCachedIdentityTransformation [ 
+	
+	"Nothing"
+]
+
+{ #category : #visiting }
+PCRenderer >> acceptBlElementCachedIdentityTransformationBefore: aBlElementCachedIdentityTransformation [ 
+	
+	"Nothing"
+]
+
+{ #category : #visiting }
 PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 
-	| aColor |
-	aColor := aBlPaintBackground paint color.
-	aColor isTranslucent
-		ifTrue: [
-			cairoCanvas
-				primSetSourceR: aColor red
-				g: aColor green
-				b: aColor blue
-				a: aColor alpha ]
-		ifFalse: [
-			cairoCanvas
-				primSetSourceR: aColor red
-				g: aColor green
-				b: aColor blue ]
+	hasBackground := true.
+	backgroundColor := aBlPaintBackground paint color.
 
 ]
 
 { #category : #visiting }
 PCRenderer >> acceptBlTransparentBackground: aBlTransparentBackground [ 
 
-	"Nothing to do"
+	hasBackground := false.
+]
+
+{ #category : #visiting }
+PCRenderer >> acceptColorPaintBorder: aBlColorPaint border: aBlBorder [
+
+	hasBorder := true.
+	borderColor := aBlColorPaint color.
+	borderWidth := aBlBorder width.
+
+]
+
+{ #category : #visiting }
+PCRenderer >> acceptTransparentPaintBorder: aBlElement [ 
+	
+	hasBorder := false.
 ]
 
 { #category : #initialization }
@@ -43,29 +77,59 @@ PCRenderer >> createFormSpaceRenderer [
 ]
 
 { #category : #'api - drawing' }
+PCRenderer >> drawBackgroundAndOrStrokeWith: aBlock [
+
+	(hasBackground or: [ hasBorder ]) ifFalse: [ ^self ].
+
+	aBlock value.
+
+	(hasBackground and: [ hasBorder not ]) ifTrue: [
+		self setSourceColor: backgroundColor.
+		cairoCanvas fill.
+		^ self	].
+
+	(hasBackground and: [ hasBorder ]) ifTrue: [
+		self setSourceColor: backgroundColor.
+		cairoCanvas fillPreserve.
+
+		self setSourceColor: borderColor.
+		cairoCanvas primSetLineWidthOn: borderWidth.
+		cairoCanvas stroke.
+		^ self ].
+
+	"hasBorder and hasBackground not"
+	self setSourceColor: borderColor.
+	cairoCanvas primSetLineWidthOn: borderWidth.
+	cairoCanvas stroke.
+
+]
+
+{ #category : #'api - drawing' }
 PCRenderer >> drawCircle: topLeftPoint radius: radiusPoint [
 
-	| center |
-	center := topLeftPoint + radiusPoint.
-	cairoCanvas
-		primArcCenterX: center x
-		centerY: center y
-		radius: radiusPoint x "TODO: ellipse"
-		startAngle: 0.0
-		endAngle: Float twoPi;
-		fill
+	self drawBackgroundAndOrStrokeWith: [
+		| center |
+		center := topLeftPoint + radiusPoint.
+
+		cairoCanvas
+			primArcCenterX: center x
+			centerY: center y
+			radius: radiusPoint x "TODO: ellipse"
+			startAngle: 0.0
+			endAngle: Float twoPi ]
 
 ]
 
 { #category : #'api - drawing' }
 PCRenderer >> drawRectangle: aRectangle [
 
-	cairoCanvas
-		rectangleX: aRectangle left
-		y: aRectangle top
-		width: aRectangle width
-		height: aRectangle height;
-		fill
+	self drawBackgroundAndOrStrokeWith: [
+		cairoCanvas
+			rectangleX: aRectangle left
+			y: aRectangle top
+			width: aRectangle width
+			height: aRectangle height ]
+
 ]
 
 { #category : #initialization }
@@ -132,6 +196,24 @@ PCRenderer >> renderSurface: aPCRenderer damaged: aCollection [
 PCRenderer >> scaleFactor [
 
 	^ 1.0
+]
+
+{ #category : #visiting }
+PCRenderer >> setSourceColor: aColor [
+
+	aColor isTranslucent
+		ifTrue: [
+			cairoCanvas
+				primSetSourceR: aColor red
+				g: aColor green
+				b: aColor blue
+				a: aColor alpha ]
+		ifFalse: [
+			cairoCanvas
+				primSetSourceR: aColor red
+				g: aColor green
+				b: aColor blue ]
+
 ]
 
 { #category : #testing }

@@ -1,6 +1,14 @@
 Extension { #name : #AthensCairoCanvas }
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primApplyTransform: aCairoMatrix [
+
+	^ self ffiCall: #( void cairo_transform (
+		AthensCairoCanvas self,
+		AthensCairoMatrix *aCairoMatrix) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primArcCenterX: centerX centerY: centerY radius: aRadius startAngle: aStartAngle endAngle: anEndAngle [ 
 
 	self ffiCall: #(void cairo_arc (
@@ -10,6 +18,14 @@ AthensCairoCanvas >> primArcCenterX: centerX centerY: centerY radius: aRadius st
 			double aRadius,
 			double aStartAngle,
 			double anEndAngle) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primSetLineWidthOn: anInteger [ 
+
+	^ self ffiCall: #(void cairo_set_line_width (
+				AthensCairoCanvas self,
+				double anInteger) )
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }

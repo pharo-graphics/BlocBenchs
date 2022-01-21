@@ -48,15 +48,15 @@ PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 ]
 
 { #category : #accessing }
-PCTranslatingCirclesMorph >> numberOfCircles [
-
-	^ numberOfCircles
-]
-
-{ #category : #accessing }
 PCTranslatingCirclesMorph >> numberOfCircles: anInteger [
 
 	numberOfCircles := anInteger
+]
+
+{ #category : #accessing }
+PCTranslatingCirclesMorph >> numberOfFigures [
+
+	^ numberOfCircles
 ]
 
 { #category : #accessing }

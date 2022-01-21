@@ -4,8 +4,7 @@ Benchmarks to compare Sparta andd Athens-Cairo.
 
 Example of use:
 ~~~
-[
-	{
+[  {
 	PCBlocRegularRendererBenchmarker new beSkia; yourself.
 	PCBlocRegularRendererBenchmarker new beCairo; yourself.
 	PCBlocNullRendererBenchmarker new.
@@ -15,16 +14,19 @@ Example of use:
 		Smalltalk garbageCollect. 1 second wait.
 		each
 			""enableFFILogging;""
+			case: PCSolidCirclesBenchCase new;
 			run;
 			shortReportOnStdout;
 			reportOnTranscript ]
 ] fork
 ~~~
 
-It was also interesting to see:
+It was also interesting to profile with:
 ~~~
 WorldState MinCycleLapse: 1. ""By default, 16""
-[ PCBlocNullRendererBenchmarker new run ] fork.
+[ PCBlocNullRendererBenchmarker new
+	case: PCSolidCirclesBenchCase new;
+	run ] fork.
 AndreasSystemProfiler spyOnWorldFor: 5.
 ~~~
 

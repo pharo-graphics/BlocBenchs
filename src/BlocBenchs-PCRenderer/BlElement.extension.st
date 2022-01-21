@@ -4,9 +4,14 @@ Extension { #name : #BlElement }
 BlElement >> pureCairoDrawOn: aPCRenderer [ 
 
 	self background pureCairoApplyTo: aPCRenderer.
-	self geometry pureCairoDraw: self on: aPCRenderer.
+	self border pureCairoApplyTo: aPCRenderer.
 
-	self childrenDo:[:each |
-		each pureCairoDrawOn: aPCRenderer ]
+	self transformation pureCairoApplyBeforeDrawingTo: aPCRenderer.
+	
+	self geometry pureCairoDraw: self on: aPCRenderer.
+	self childrenDo: [:each |
+		each pureCairoDrawOn: aPCRenderer ].
+
+	self transformation pureCairoApplyAfterDrawingTo: aPCRenderer.
 
 ]

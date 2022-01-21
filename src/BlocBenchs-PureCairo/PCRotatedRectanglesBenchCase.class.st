@@ -1,17 +1,23 @@
 Class {
-	#name : #PCSolidCirclesBenchCase,
+	#name : #PCRotatedRectanglesBenchCase,
 	#superclass : #PCBenchCase,
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #accessing }
-PCSolidCirclesBenchCase >> label [
+{ #category : #hook }
+PCRotatedRectanglesBenchCase >> figureExtent [
 
-	^ 'Solid circles translating'
+	^ 100.0 asPoint
+]
+
+{ #category : #accessing }
+PCRotatedRectanglesBenchCase >> label [
+
+	^ 'Bordered rectangles translating'
 ]
 
 { #category : #hook }
-PCSolidCirclesBenchCase >> newElement [
+PCRotatedRectanglesBenchCase >> newElement [
 
 	| random container |
 	random := self newRandom.
@@ -24,32 +30,24 @@ PCSolidCirclesBenchCase >> newElement [
 	1 to: self numberOfFigures do: [ :index |
 		container addChild: (BlElement new
 			relocate: (index * 2) @ 0;
+			transformDo: [ :aBuilder | aBuilder rotateBy: 30 ];
+			border: (BlBorder paint: (Color random: random) width: 5);
 			background: (Color random: random);
-			size: self radius * 2;
-			geometry: BlCircleGeometry new;
+			size: self figureExtent;
+			geometry: BlRectangleGeometry new;
 			yourself) ].
 
 	^ container	
 ]
 
 { #category : #hook }
-PCSolidCirclesBenchCase >> newMorph [
+PCRotatedRectanglesBenchCase >> newMorph [
 
-	^ PCTranslatingCirclesMorph new
-		  surfaceExtent: self surfaceExtent;
-		  numberOfCircles: self numberOfFigures;
-		  radius: self radius;
-		  yourself
+	^ self notYetImplemented
 ]
 
 { #category : #hook }
-PCSolidCirclesBenchCase >> numberOfFigures [
+PCRotatedRectanglesBenchCase >> numberOfFigures [
 
 	^ 300
-]
-
-{ #category : #hook }
-PCSolidCirclesBenchCase >> radius [
-
-	^ 50.0 asPoint
 ]
