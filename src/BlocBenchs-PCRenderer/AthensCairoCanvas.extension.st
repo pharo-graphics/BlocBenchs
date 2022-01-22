@@ -4,8 +4,8 @@ Extension { #name : #AthensCairoCanvas }
 AthensCairoCanvas >> primApplyTransform: aCairoMatrix [
 
 	^ self ffiCall: #( void cairo_transform (
-		AthensCairoCanvas self,
-		AthensCairoMatrix *aCairoMatrix) )
+		self, AthensCairoMatrix *aCairoMatrix) )
+
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
@@ -35,4 +35,11 @@ AthensCairoCanvas >> primSetSourceR: red g: green b: blue [
 			double red,
 			double green,
 			double blue) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primTranslateX: px y: py [
+	
+	^ self ffiCall: #(void cairo_translate (self, double px, double py))
+
 ]

@@ -16,32 +16,6 @@ Class {
 }
 
 { #category : #visiting }
-PCRenderer >> acceptBlElementCachedExplicitTransformationAfter: aBlElementCachedExplicitTransformation [ 
-
-	cairoCanvas primRestoreState
-]
-
-{ #category : #visiting }
-PCRenderer >> acceptBlElementCachedExplicitTransformationBefore: aBlElementCachedExplicitTransformation [
-
-	cairoCanvas primSaveState.
-	cairoCanvas primApplyTransform: (AthensCairoMatrix fromSpartaMatrix:
-			 aBlElementCachedExplicitTransformation matrix)
-]
-
-{ #category : #visiting }
-PCRenderer >> acceptBlElementCachedIdentityTransformationAfter: aBlElementCachedIdentityTransformation [ 
-	
-	"Nothing"
-]
-
-{ #category : #visiting }
-PCRenderer >> acceptBlElementCachedIdentityTransformationBefore: aBlElementCachedIdentityTransformation [ 
-	
-	"Nothing"
-]
-
-{ #category : #visiting }
 PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 
 	hasBackground := true.
@@ -168,6 +142,28 @@ PCRenderer >> performUpdates [
 PCRenderer >> physicalSize [
 
 	^ cairoSurface extent asPhysicalSize
+]
+
+{ #category : #visiting }
+PCRenderer >> position: aPoint transformation: aMatrix applyDuring: aBlock [
+
+	| needsTransformation needsTranslation |
+	needsTranslation := aPoint isZero not.
+	needsTransformation := aMatrix isIdentity not.
+	
+	"Evaluate without touching the canvas transformation."
+	(needsTransformation or: [ needsTranslation ])
+		ifFalse: [ ^ aBlock value ].
+	
+	"Evaluate saving and restoring the transformation state."
+	cairoCanvas primSaveState.
+	needsTranslation ifTrue: [
+		cairoCanvas primTranslateX: aPoint x y: aPoint y ].
+	needsTransformation ifTrue: [
+		cairoCanvas primApplyTransform: (AthensCairoMatrix fromSpartaMatrix: aMatrix) ].
+	aBlock value.
+	cairoCanvas primRestoreState.
+
 ]
 
 { #category : #rendering }

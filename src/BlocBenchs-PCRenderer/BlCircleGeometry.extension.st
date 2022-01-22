@@ -4,7 +4,7 @@ Extension { #name : #BlCircleGeometry }
 BlCircleGeometry >> pureCairoDraw: aBlElement on: aPCRenderer [
 
 	aPCRenderer
-		drawCircle: aBlElement positionInSpace
+		drawCircle: origin
 		radius: radius asPoint
 
 ]
