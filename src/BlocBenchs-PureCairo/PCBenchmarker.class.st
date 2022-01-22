@@ -21,6 +21,25 @@ Example of use:
 ] fork
 ~~~
 
+Also:
+~~~
+| p b w |
+p := [
+	PCBenchCase allSubclasses 
+		do: [ :caseClass |
+			b := PCBlocPCRendererBenchmarker new.
+			b 	case: caseClass new;
+				run;
+				reportOnTranscript ].
+	w close.
+] fork.
+
+w := SpButtonPresenter new 
+	label: 'Stop now';
+	action: [ p terminate. b closeWindow ];
+	openWithSpec.
+~~~
+
 It was also interesting to profile with:
 ~~~
 WorldState MinCycleLapse: 1. ""By default, 16""
@@ -98,6 +117,12 @@ PCBenchmarker >> label [
 	^ self subclassResponsibility
 ]
 
+{ #category : #printing }
+PCBenchmarker >> labelWithCase [
+
+	^ self label, ' - ', case label
+]
+
 { #category : #hook }
 PCBenchmarker >> openWindow [
 	
@@ -120,7 +145,7 @@ PCBenchmarker >> reportAsString [
 { #category : #printing }
 PCBenchmarker >> reportOn: aStream [
 
-	aStream << '# '; <<  self label; lf; lf.
+	aStream << '# '; <<  self labelWithCase; lf; lf.
 
 	mustLogFFI
 		ifFalse: [ 
@@ -188,7 +213,7 @@ PCBenchmarker >> runInFork [
 { #category : #printing }
 PCBenchmarker >> shortReportOn: aStream [
 
-	aStream << self label; << ': '.
+	aStream << self labelWithCase; << ': '.
 	(loggedFrameCount / case numberOfSeconds) printOn: aStream showingDecimalPlaces: 1.
 	aStream << 'fps'; lf.
 

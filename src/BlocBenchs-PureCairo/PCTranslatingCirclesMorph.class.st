@@ -41,9 +41,9 @@ PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 				startAngle: 0.0
 				endAngle: Float twoPi.
 
-		cairoCanvas fill.
+"		cairoCanvas fill."
 		"cairoCanvas stroke."
-		"cairoCanvas fillPreserve; stroke."
+		cairoCanvas fillPreserve; stroke.
 		]
 ]
 

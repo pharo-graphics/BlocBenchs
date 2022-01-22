@@ -40,7 +40,7 @@ PCMorphBenchmarker >> label [
 PCMorphBenchmarker >> openWindow [
 	
 	morph := case newMorph.
-	window := morph openInWindowLabeled: self label, ' - ', case label.
+	window := morph openInWindowLabeled: self labelWithCase.
 	window extent: case surfaceExtent.
 
 ]

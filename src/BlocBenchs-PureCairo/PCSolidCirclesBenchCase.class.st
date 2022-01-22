@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 PCSolidCirclesBenchCase >> label [
 
-	^ 'Solid circles translating'
+	^ 'Solid circles'
 ]
 
 { #category : #hook }

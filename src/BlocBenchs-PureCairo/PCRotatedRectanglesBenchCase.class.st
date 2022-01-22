@@ -13,7 +13,7 @@ PCRotatedRectanglesBenchCase >> figureExtent [
 { #category : #accessing }
 PCRotatedRectanglesBenchCase >> label [
 
-	^ 'Bordered rectangles translating'
+	^ 'Bordered rectangles'
 ]
 
 { #category : #hook }
@@ -30,7 +30,7 @@ PCRotatedRectanglesBenchCase >> newElement [
 	1 to: self numberOfFigures do: [ :index |
 		container addChild: (BlElement new
 			relocate: (index * 2) @ 0;
-			transformDo: [ :aBuilder | aBuilder rotateBy: 30 ];
+			transformDo: [ :aBuilder | aBuilder rotateBy: 10 ];
 			border: (BlBorder paint: (Color random: random) width: 5);
 			background: (Color random: random);
 			size: self figureExtent;

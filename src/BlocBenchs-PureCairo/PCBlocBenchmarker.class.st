@@ -42,7 +42,7 @@ PCBlocBenchmarker >> openWindow [
 
 	space := BlSpace new
 		host: self host;
-		title: self label, ' - ', case label;
+		title: self labelWithCase;
 		extent: case surfaceExtent;
 		yourself.
 

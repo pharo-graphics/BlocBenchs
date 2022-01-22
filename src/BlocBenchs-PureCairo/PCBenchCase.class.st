@@ -1,3 +1,7 @@
+"
+I define a case to be benchmarked by a PCBenchmarker.
+
+"
 Class {
 	#name : #PCBenchCase,
 	#superclass : #Object,
