@@ -17,6 +17,12 @@ PCBenchCase class >> allBenchCases [
 	^ self allSubclasses reject: [ :each | each hasAbstractMethods ]
 ]
 
+{ #category : #accessing }
+PCBenchCase >> duration [
+
+	^ numberOfSeconds seconds
+]
+
 { #category : #initialization }
 PCBenchCase >> initialize [
 
@@ -59,9 +65,9 @@ PCBenchCase >> numberOfSeconds [
 ]
 
 { #category : #accessing }
-PCBenchCase >> numberOfSeconds: anObject [
+PCBenchCase >> numberOfSeconds: aNumber [
 
-	numberOfSeconds := anObject
+	numberOfSeconds := aNumber
 ]
 
 { #category : #hook }

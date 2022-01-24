@@ -13,7 +13,7 @@ PCRotatedRectanglesBenchCase >> figureExtent [
 { #category : #accessing }
 PCRotatedRectanglesBenchCase >> label [
 
-	^ 'Bordered rectangles'
+	^ 'Rotated rectangles'
 ]
 
 { #category : #hook }

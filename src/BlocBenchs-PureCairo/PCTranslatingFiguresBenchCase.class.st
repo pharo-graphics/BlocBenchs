@@ -18,7 +18,7 @@ PCTranslatingFiguresBenchCase >> newElement [
 	container := BlElement new
 		size: self surfaceExtent;
 		addAnimation: ((BlTransformAnimation translate: 0 @ 200)
-		  duration: numberOfSeconds seconds;
+		  duration: self duration;
 		  yourself).
 
 	1 to: self numberOfFigures do: [ :index |

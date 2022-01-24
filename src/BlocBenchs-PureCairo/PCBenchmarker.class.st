@@ -191,7 +191,7 @@ PCBenchmarker >> run [
 	
 	"Main sentences under benchmark"
 	self openWindow.
-	case numberOfSeconds seconds wait.
+	case duration wait.
 
 	"End log"
 	loggedFrameCount := self frameCount.
