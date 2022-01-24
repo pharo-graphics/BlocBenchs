@@ -35,7 +35,11 @@ PCBenchCase >> initialize [
 { #category : #hook }
 PCBenchCase >> label [
 
-	^ self subclassResponsibility
+	| prefix suffix |
+	prefix := 'PC'.
+	suffix := 'BenchCase'.
+
+	^ ' ' join: ((self className allButFirst: prefix size) allButLast: suffix size) splitCamelCase
 ]
 
 { #category : #hook }

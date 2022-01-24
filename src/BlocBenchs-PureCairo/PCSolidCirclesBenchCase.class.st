@@ -4,12 +4,6 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #accessing }
-PCSolidCirclesBenchCase >> label [
-
-	^ 'Solid circles'
-]
-
 { #category : #'instance creation' }
 PCSolidCirclesBenchCase >> newFigureWith: random [
 	

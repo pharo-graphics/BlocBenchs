@@ -10,12 +10,6 @@ PCScaledRectanglesBenchCase >> figureExtent [
 	^ 100.0 asPoint
 ]
 
-{ #category : #accessing }
-PCScaledRectanglesBenchCase >> label [
-
-	^ 'Scaled rectangles'
-]
-
 { #category : #hook }
 PCScaledRectanglesBenchCase >> newFigureWith: random [
 

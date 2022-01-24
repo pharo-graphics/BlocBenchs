@@ -10,12 +10,6 @@ PCNestedTransformationsBenchCase >> figureExtent [
 	^ 600.0 asPoint
 ]
 
-{ #category : #accessing }
-PCNestedTransformationsBenchCase >> label [
-
-	^ 'Nested transformations'
-]
-
 { #category : #hook }
 PCNestedTransformationsBenchCase >> newElement [
 

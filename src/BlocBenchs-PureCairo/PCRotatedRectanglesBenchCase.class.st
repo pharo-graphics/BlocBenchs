@@ -10,12 +10,6 @@ PCRotatedRectanglesBenchCase >> figureExtent [
 	^ 100.0 asPoint
 ]
 
-{ #category : #accessing }
-PCRotatedRectanglesBenchCase >> label [
-
-	^ 'Rotated rectangles'
-]
-
 { #category : #hook }
 PCRotatedRectanglesBenchCase >> newFigureWith: random [
 

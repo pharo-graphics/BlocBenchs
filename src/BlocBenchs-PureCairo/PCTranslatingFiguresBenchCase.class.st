@@ -4,12 +4,6 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #accessing }
-PCTranslatingFiguresBenchCase >> label [
-
-	^ 'Solid circles'
-]
-
 { #category : #hook }
 PCTranslatingFiguresBenchCase >> newElement [
 

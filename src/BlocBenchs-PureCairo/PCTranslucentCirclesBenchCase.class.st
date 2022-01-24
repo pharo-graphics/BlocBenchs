@@ -4,12 +4,6 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #accessing }
-PCTranslucentCirclesBenchCase >> label [
-
-	^ 'Translucent circles'
-]
-
 { #category : #'instance creation' }
 PCTranslucentCirclesBenchCase >> newFigureWith: random [
 	

@@ -10,12 +10,6 @@ PCEmptyCirclesBenchCase >> borderWidth [
 	^ 5
 ]
 
-{ #category : #accessing }
-PCEmptyCirclesBenchCase >> label [
-
-	^ 'Empty circles'
-]
-
 { #category : #hook }
 PCEmptyCirclesBenchCase >> newFigureWith: random [
 
