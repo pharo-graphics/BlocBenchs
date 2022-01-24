@@ -25,7 +25,7 @@ Also:
 ~~~
 | p b w |
 p := [
-	PCBenchCase allSubclasses 
+	PCBenchCase allBenchCases 
 		do: [ :caseClass |
 			b := PCBlocPCRendererBenchmarker new.
 			b 	case: caseClass new;
@@ -36,7 +36,7 @@ p := [
 
 w := SpButtonPresenter new 
 	label: 'Stop now';
-	action: [ p terminate. b closeWindow ];
+	action: [ p terminate. b closeWindow. w close ];
 	openWithSpec.
 ~~~
 

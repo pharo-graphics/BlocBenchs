@@ -11,6 +11,12 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
+{ #category : #convenience }
+PCBenchCase class >> allBenchCases [
+
+	^ self allSubclasses reject: [ :each | each hasAbstractMethods ]
+]
+
 { #category : #initialization }
 PCBenchCase >> initialize [
 
