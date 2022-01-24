@@ -2,9 +2,10 @@ Class {
 	#name : #PCTranslatingCirclesMorph,
 	#superclass : #PCMorph,
 	#instVars : [
-		'numberOfCircles',
-		'circleColors',
-		'radius'
+		'radius',
+		'numberOfFigures',
+		'backgroundColors',
+		'figureOffset'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
@@ -15,10 +16,10 @@ PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 	| deltaY |
 
 	"Prepare on first draw (when nil)"
-	circleColors
+	backgroundColors
 		ifNil: [
 			deltaY := 0.
-			circleColors := (1 to: numberOfCircles)
+			backgroundColors := (1 to: numberOfFigures)
 				collect: [ :each | Color random: random ] ]
 		ifNotNil: [
 			deltaY := 0.04 * (lastMS - startMS) ].
@@ -28,35 +29,41 @@ PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 		primSetSourceR: 1.0 g: 1.0 b: 1.0;
 		primPaint.
 
-	circleColors withIndexDo: [ :aColor :index |
-		| center |
-		center := radius + (index * 2 @ deltaY).
+	backgroundColors withIndexDo: [ :aColor :index |
+		self setBackgroundPathOnCairoCanvasIndex: index deltaY: deltaY.
+
 		cairoCanvas
 			primSetSourceR: aColor red
 				g: aColor green
-				b: aColor blue;
-			primArcCenterX: center x
-				centerY: center y
-				radius: radius x "TODO: ellipse"
-				startAngle: 0.0
-				endAngle: Float twoPi.
-
-"		cairoCanvas fill."
+				b: aColor blue.
+		cairoCanvas fill.
 		"cairoCanvas stroke."
-		cairoCanvas fillPreserve; stroke.
+"		cairoCanvas fillPreserve; stroke."
 		]
 ]
 
 { #category : #accessing }
-PCTranslatingCirclesMorph >> numberOfCircles: anInteger [
+PCTranslatingCirclesMorph >> figureOffset [
 
-	numberOfCircles := anInteger
+	^ figureOffset
+]
+
+{ #category : #accessing }
+PCTranslatingCirclesMorph >> figureOffset: anObject [
+
+	figureOffset := anObject
 ]
 
 { #category : #accessing }
 PCTranslatingCirclesMorph >> numberOfFigures [
 
-	^ numberOfCircles
+	^ numberOfFigures
+]
+
+{ #category : #accessing }
+PCTranslatingCirclesMorph >> numberOfFigures: anInteger [
+
+	numberOfFigures := anInteger
 ]
 
 { #category : #accessing }
@@ -69,4 +76,18 @@ PCTranslatingCirclesMorph >> radius [
 PCTranslatingCirclesMorph >> radius: aPoint [
 
 	radius := aPoint
+]
+
+{ #category : #drawing }
+PCTranslatingCirclesMorph >> setBackgroundPathOnCairoCanvasIndex: index deltaY: deltaY [
+
+		| center |
+		center := figureOffset + radius + (index * 2 @ deltaY).
+		cairoCanvas
+			primArcCenterX: center x
+				centerY: center y
+				radius: radius x "TODO: non-circular ellipse"
+				startAngle: 0.0
+				endAngle: Float twoPi.
+
 ]

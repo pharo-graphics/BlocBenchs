@@ -33,7 +33,7 @@ PCMorphBenchmarker >> frameCount [
 { #category : #printing }
 PCMorphBenchmarker >> label [
 
-	^ 'Morph Cairo'
+	^ 'Raw Cairo'
 ]
 
 { #category : #hook }

@@ -15,16 +15,6 @@ PCTranslucentCirclesBenchCase >> newFigureWith: random [
 ]
 
 { #category : #hook }
-PCTranslucentCirclesBenchCase >> newMorph [
-
-	^ PCTranslatingCirclesMorph new
-		  surfaceExtent: self surfaceExtent;
-		  numberOfCircles: self numberOfFigures;
-		  radius: self radius;
-		  yourself
-]
-
-{ #category : #hook }
 PCTranslucentCirclesBenchCase >> radius [
 
 	^ 50.0 asPoint

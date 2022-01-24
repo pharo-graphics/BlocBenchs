@@ -93,8 +93,6 @@ PCMorph >> frameCount [
 PCMorph >> initialize [
 
 	super initialize.
-	surfaceExtent := 500@500.
-	random := Random seed: 1.
 	frameCount := 0.
 ]
 
@@ -109,6 +107,18 @@ PCMorph >> initializeSurface [
 		sourceForm: surfaceForm
 		sourceRect: surfaceRectangle.
 
+]
+
+{ #category : #accessing }
+PCMorph >> random [
+
+	^ random
+]
+
+{ #category : #accessing }
+PCMorph >> random: anObject [
+
+	random := anObject
 ]
 
 { #category : #stepping }

@@ -77,5 +77,5 @@ PCBenchCase >> numberOfSeconds: aNumber [
 { #category : #hook }
 PCBenchCase >> surfaceExtent [
 
-	^ 800 @ 500
+	^ self subclassResponsibility
 ]
