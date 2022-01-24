@@ -1,27 +1,27 @@
 Class {
-	#name : #PCSolidCirclesBenchCase,
+	#name : #PCTranslucentCirclesBenchCase,
 	#superclass : #PCTranslatingFiguresBenchCase,
 	#category : #'BlocBenchs-PureCairo'
 }
 
 { #category : #accessing }
-PCSolidCirclesBenchCase >> label [
+PCTranslucentCirclesBenchCase >> label [
 
-	^ 'Solid circles'
+	^ 'Translucent circles'
 ]
 
 { #category : #'instance creation' }
-PCSolidCirclesBenchCase >> newFigureWith: random [
+PCTranslucentCirclesBenchCase >> newFigureWith: random [
 	
 	^ BlElement new
 		geometry: BlCircleGeometry new;
 		size: self radius * 2;
-		background: (Color random: random);
+		background: ((Color random: random) alpha: 0.1);
 		yourself
 ]
 
 { #category : #hook }
-PCSolidCirclesBenchCase >> newMorph [
+PCTranslucentCirclesBenchCase >> newMorph [
 
 	^ PCTranslatingCirclesMorph new
 		  surfaceExtent: self surfaceExtent;
@@ -31,7 +31,7 @@ PCSolidCirclesBenchCase >> newMorph [
 ]
 
 { #category : #hook }
-PCSolidCirclesBenchCase >> radius [
+PCTranslucentCirclesBenchCase >> radius [
 
 	^ 50.0 asPoint
 ]

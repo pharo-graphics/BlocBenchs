@@ -1,6 +1,6 @@
 Class {
 	#name : #PCRotatedRectanglesBenchCase,
-	#superclass : #PCBenchCase,
+	#superclass : #PCTranslatingFiguresBenchCase,
 	#category : #'BlocBenchs-PureCairo'
 }
 
@@ -17,37 +17,18 @@ PCRotatedRectanglesBenchCase >> label [
 ]
 
 { #category : #hook }
-PCRotatedRectanglesBenchCase >> newElement [
+PCRotatedRectanglesBenchCase >> newFigureWith: random [
 
-	| random container |
-	random := self newRandom.
-	container := BlElement new
-		size: self surfaceExtent;
-		addAnimation: ((BlTransformAnimation translate: 0 @ 200)
-		  duration: numberOfSeconds seconds;
-		  yourself).
-
-	1 to: self numberOfFigures do: [ :index |
-		container addChild: (BlElement new
-			relocate: (index * 2) @ 0;
-			transformDo: [ :aBuilder | aBuilder rotateBy: 10 ];
-			border: (BlBorder paint: (Color random: random) width: 5);
-			background: (Color random: random);
-			size: self figureExtent;
-			geometry: BlRectangleGeometry new;
-			yourself) ].
-
-	^ container	
+	^ BlElement new
+		  background: (Color random: random);
+		  geometry: BlRectangleGeometry new;
+		  size: self figureExtent;
+		  transformDo: [ :aBuilder | aBuilder rotateBy: self rotation ];
+		  yourself
 ]
 
 { #category : #hook }
-PCRotatedRectanglesBenchCase >> newMorph [
+PCRotatedRectanglesBenchCase >> rotation [
 
-	^ self notYetImplemented
-]
-
-{ #category : #hook }
-PCRotatedRectanglesBenchCase >> numberOfFigures [
-
-	^ 300
+	^ 10
 ]

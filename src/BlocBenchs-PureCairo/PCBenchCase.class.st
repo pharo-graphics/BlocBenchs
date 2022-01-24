@@ -28,14 +28,16 @@ PCBenchCase >> label [
 
 { #category : #hook }
 PCBenchCase >> newElement [
+	"Answer the Bloc element to be added to the root of the space to setup the benchmark scenario."
 
 	^ self subclassResponsibility
 ]
 
 { #category : #hook }
 PCBenchCase >> newMorph [
+	"Answer the Morphic instance that will be wrapped in a Window to setup the benchmark scenario."
 
-	^ self subclassResponsibility
+	^ self notYetImplemented
 ]
 
 { #category : #'instance creation' }

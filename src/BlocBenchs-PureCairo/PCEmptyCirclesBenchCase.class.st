@@ -1,8 +1,14 @@
 Class {
 	#name : #PCEmptyCirclesBenchCase,
-	#superclass : #PCBenchCase,
+	#superclass : #PCTranslatingFiguresBenchCase,
 	#category : #'BlocBenchs-PureCairo'
 }
+
+{ #category : #hook }
+PCEmptyCirclesBenchCase >> borderWidth [
+
+	^ 5
+]
 
 { #category : #accessing }
 PCEmptyCirclesBenchCase >> label [
@@ -11,37 +17,15 @@ PCEmptyCirclesBenchCase >> label [
 ]
 
 { #category : #hook }
-PCEmptyCirclesBenchCase >> newElement [
+PCEmptyCirclesBenchCase >> newFigureWith: random [
 
-	| random container |
-	random := self newRandom.
-	container := BlElement new
-		size: self surfaceExtent;
-		addAnimation: ((BlTransformAnimation translate: 0 @ 200)
-		  duration: numberOfSeconds seconds;
-		  yourself).
-
-	1 to: self numberOfFigures do: [ :index |
-		container addChild: (BlElement new
-			relocate: (index * 2) @ 0;
-			border: (BlBorder paint: (Color random: random) width: 5);
-			size: self radius * 2;
-			geometry: BlCircleGeometry new;
-			yourself) ].
-
-	^ container	
-]
-
-{ #category : #hook }
-PCEmptyCirclesBenchCase >> newMorph [
-
-	^ self notYetImplemented
-]
-
-{ #category : #hook }
-PCEmptyCirclesBenchCase >> numberOfFigures [
-
-	^ 300
+	^ BlElement new
+		  geometry: BlCircleGeometry new;
+		  size: self radius * 2;
+		  border: (BlBorder 
+				paint: (Color random: random)
+				width: self borderWidth);
+		  yourself
 ]
 
 { #category : #hook }
