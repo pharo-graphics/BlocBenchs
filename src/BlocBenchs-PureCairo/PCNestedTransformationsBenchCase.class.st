@@ -54,11 +54,11 @@ PCNestedTransformationsBenchCase >> surfaceExtent [
 { #category : #hook }
 PCNestedTransformationsBenchCase >> targetRelativeRotation [
 
-	^ 1.0
+	^ 5.0
 ]
 
 { #category : #hook }
 PCNestedTransformationsBenchCase >> targetRelativeScale [
 
-	^ 0.95
+	^ 0.9
 ]

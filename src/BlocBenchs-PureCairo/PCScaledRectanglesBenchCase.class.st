@@ -24,5 +24,5 @@ PCScaledRectanglesBenchCase >> newFigureWith: random [
 { #category : #hook }
 PCScaledRectanglesBenchCase >> scale [
 
-	^ 0.5 @ 2
+	^ 0.75 @ 1.5
 ]
