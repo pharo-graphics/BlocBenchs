@@ -3,7 +3,7 @@ I'm useful to run micro benchmarks on a SpartaCanvas.
 
 "
 Class {
-	#name : #BlCanvasBenchmarkRunner,
+	#name : #SpartaBenchmarkRunner,
 	#superclass : #Object,
 	#instVars : [
 		'canvasClass',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #examples }
-BlCanvasBenchmarkRunner class >> exampleInspect [
+SpartaBenchmarkRunner class >> exampleInspect [
 
 	^ self new
 		selector: #benchmarkClipRectangle;
@@ -25,20 +25,20 @@ BlCanvasBenchmarkRunner class >> exampleInspect [
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner class >> prefixOfBenchmarkSelectors [
+SpartaBenchmarkRunner class >> prefixOfBenchmarkSelectors [
 
 	^ 'benchmark'
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner class >> selectorsForBenchmarks [
+SpartaBenchmarkRunner class >> selectorsForBenchmarks [
 
 	^ self selectors select: [ :each | 
 		  each beginsWith: self prefixOfBenchmarkSelectors ]
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkClipRectangle [
+SpartaBenchmarkRunner >> benchmarkClipRectangle [
 
 	| aRectangle |
 
@@ -58,7 +58,7 @@ BlCanvasBenchmarkRunner >> benchmarkClipRectangle [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkClipSubRectangle [
+SpartaBenchmarkRunner >> benchmarkClipSubRectangle [
 
 	| aRectangle aSubRectangle |
 
@@ -82,7 +82,7 @@ BlCanvasBenchmarkRunner >> benchmarkClipSubRectangle [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkDrawTextAtRandomLocations [
+SpartaBenchmarkRunner >> benchmarkDrawTextAtRandomLocations [
 
 	| extent amount points words font |
 
@@ -110,7 +110,7 @@ BlCanvasBenchmarkRunner >> benchmarkDrawTextAtRandomLocations [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkDrawTextWithBlackColor [
+SpartaBenchmarkRunner >> benchmarkDrawTextWithBlackColor [
 
 	| aFont aText |
 
@@ -138,7 +138,7 @@ BlCanvasBenchmarkRunner >> benchmarkDrawTextWithBlackColor [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkDrawTextWithOpaqueColor [
+SpartaBenchmarkRunner >> benchmarkDrawTextWithOpaqueColor [
 
 	| aFont aText |
 
@@ -166,7 +166,7 @@ BlCanvasBenchmarkRunner >> benchmarkDrawTextWithOpaqueColor [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkDrawTextWithSemiTransparentColor [
+SpartaBenchmarkRunner >> benchmarkDrawTextWithSemiTransparentColor [
 
 	| aFont aText |
 
@@ -194,7 +194,7 @@ BlCanvasBenchmarkRunner >> benchmarkDrawTextWithSemiTransparentColor [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkFillRectangleWithBlackColor [
+SpartaBenchmarkRunner >> benchmarkFillRectangleWithBlackColor [
 
 	| aRectangle aColor |
 
@@ -216,7 +216,7 @@ BlCanvasBenchmarkRunner >> benchmarkFillRectangleWithBlackColor [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkFillRectangleWithForm [
+SpartaBenchmarkRunner >> benchmarkFillRectangleWithForm [
 
 	| aRectangle aForm |
 	
@@ -241,7 +241,7 @@ BlCanvasBenchmarkRunner >> benchmarkFillRectangleWithForm [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkFillRectangleWithOpaqueColor [
+SpartaBenchmarkRunner >> benchmarkFillRectangleWithOpaqueColor [
 
 	| aRectangle aColor |
 
@@ -263,7 +263,7 @@ BlCanvasBenchmarkRunner >> benchmarkFillRectangleWithOpaqueColor [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkFillRectangleWithWhiteColor [
+SpartaBenchmarkRunner >> benchmarkFillRectangleWithWhiteColor [
 
 	| aRectangle aColor |
 
@@ -285,7 +285,7 @@ BlCanvasBenchmarkRunner >> benchmarkFillRectangleWithWhiteColor [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkFillRoundedRectangleWithOpaqueColorNoPathCache [
+SpartaBenchmarkRunner >> benchmarkFillRoundedRectangleWithOpaqueColorNoPathCache [
 
 	| aRectangle aColor |
 
@@ -307,7 +307,7 @@ BlCanvasBenchmarkRunner >> benchmarkFillRoundedRectangleWithOpaqueColorNoPathCac
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkFillSimpleRoundedRectangleWithOpaqueColor [
+SpartaBenchmarkRunner >> benchmarkFillSimpleRoundedRectangleWithOpaqueColor [
 
 	| aRectangle aColor |
 
@@ -329,7 +329,7 @@ BlCanvasBenchmarkRunner >> benchmarkFillSimpleRoundedRectangleWithOpaqueColor [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkFillSimpleRoundedRectangleWithOpaqueColorNoPathCache [
+SpartaBenchmarkRunner >> benchmarkFillSimpleRoundedRectangleWithOpaqueColorNoPathCache [
 
 	| aRectangle aColor |
 
@@ -351,7 +351,7 @@ BlCanvasBenchmarkRunner >> benchmarkFillSimpleRoundedRectangleWithOpaqueColorNoP
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkRectangleFigureWithoutBorder [
+SpartaBenchmarkRunner >> benchmarkRectangleFigureWithoutBorder [
 
 	| aRectangle aColor |
 
@@ -377,7 +377,7 @@ BlCanvasBenchmarkRunner >> benchmarkRectangleFigureWithoutBorder [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkTextRunWithMetrics [
+SpartaBenchmarkRunner >> benchmarkTextRunWithMetrics [
 
 	| aFont aString |
 
@@ -393,7 +393,7 @@ BlCanvasBenchmarkRunner >> benchmarkTextRunWithMetrics [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkTransformCurrentMatrix [
+SpartaBenchmarkRunner >> benchmarkTransformCurrentMatrix [
 
 	canvas := canvasClass extent: 300@200.
 
@@ -402,7 +402,7 @@ BlCanvasBenchmarkRunner >> benchmarkTransformCurrentMatrix [
 ]
 
 { #category : #benchmarks }
-BlCanvasBenchmarkRunner >> benchmarkTransformTranslateBy [
+SpartaBenchmarkRunner >> benchmarkTransformTranslateBy [
 
 	| aDelta |
 
@@ -422,37 +422,37 @@ BlCanvasBenchmarkRunner >> benchmarkTransformTranslateBy [
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> canvas [
+SpartaBenchmarkRunner >> canvas [
 
 	^ canvas
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> canvasClass [
+SpartaBenchmarkRunner >> canvasClass [
 
 	^ canvasClass
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> canvasClass: aSpartaCanvasClass [
+SpartaBenchmarkRunner >> canvasClass: aSpartaCanvasClass [
 
 	canvasClass := aSpartaCanvasClass
 ]
 
 { #category : #private }
-BlCanvasBenchmarkRunner >> doBenchmark: aBlockClosure [
+SpartaBenchmarkRunner >> doBenchmark: aBlockClosure [
 
 	result := aBlockClosure benchFor: self duration
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> duration [
+SpartaBenchmarkRunner >> duration [
 
 	^ 2 seconds
 ]
 
 { #category : #newtools }
-BlCanvasBenchmarkRunner >> inspectorForCanvas: aBuilder [
+SpartaBenchmarkRunner >> inspectorForCanvas: aBuilder [
 	<inspectorPresentationOrder: 2 title: 'Canvas'>
 
 	^ aBuilder newMorph
@@ -461,13 +461,13 @@ BlCanvasBenchmarkRunner >> inspectorForCanvas: aBuilder [
 ]
 
 { #category : #newtools }
-BlCanvasBenchmarkRunner >> inspectorForCanvasContext: aContext [
+SpartaBenchmarkRunner >> inspectorForCanvasContext: aContext [
 
 	aContext active: canvas notNil
 ]
 
 { #category : #newtools }
-BlCanvasBenchmarkRunner >> inspectorForResultIn: aContext [
+SpartaBenchmarkRunner >> inspectorForResultIn: aContext [
 	<inspectorPresentationOrder: 10 title: 'Result'>
 
 "	aContext active: result notNil.
@@ -478,20 +478,20 @@ BlCanvasBenchmarkRunner >> inspectorForResultIn: aContext [
 ]
 
 { #category : #printing }
-BlCanvasBenchmarkRunner >> label [ 
+SpartaBenchmarkRunner >> label [ 
 
 	^ self selectorAsLabel, ': ', self resultAsLabel, ' @ ', self canvasClass name
 
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> prefixOfBenchmarkSelectors [
+SpartaBenchmarkRunner >> prefixOfBenchmarkSelectors [
 
 	^ 'benchmark'
 ]
 
 { #category : #printing }
-BlCanvasBenchmarkRunner >> printOn: aStream [
+SpartaBenchmarkRunner >> printOn: aStream [
 	"Append a sequence of characters to aStream that identify the receiver."
 
 	super printOn: aStream.
@@ -503,37 +503,37 @@ BlCanvasBenchmarkRunner >> printOn: aStream [
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> result [
+SpartaBenchmarkRunner >> result [
 
 	^ result
 ]
 
 { #category : #printing }
-BlCanvasBenchmarkRunner >> resultAsLabel [
+SpartaBenchmarkRunner >> resultAsLabel [
 
 	^ result frequency printShowingDecimalPlaces: 2
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> run [
+SpartaBenchmarkRunner >> run [
 
 	self perform: selector
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> selector [
+SpartaBenchmarkRunner >> selector [
 	^ selector
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkRunner >> selector: aSymbol [
+SpartaBenchmarkRunner >> selector: aSymbol [
 
 	selector := aSymbol
 ]
 
 { #category : #printing }
-BlCanvasBenchmarkRunner >> selectorAsLabel [
+SpartaBenchmarkRunner >> selectorAsLabel [
 
 	^ selector allButFirst:
-		  BlCanvasBenchmarkRunner prefixOfBenchmarkSelectors size
+		  SpartaBenchmarkRunner prefixOfBenchmarkSelectors size
 ]

@@ -1,10 +1,10 @@
 "
-I'm useful to run and report as String a collection of micro benchmarks defined in `BlCanvasBenchmarkRunner`.
+I'm useful to run and report as String a collection of micro benchmarks defined in `SpartaBenchmarkRunner`.
 
 See examples in class-side.
 "
 Class {
-	#name : #BlCanvasBenchmarkComparison,
+	#name : #SpartaBenchmarkComparison,
 	#superclass : #Object,
 	#instVars : [
 		'benchSelectors',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #examples }
-BlCanvasBenchmarkComparison class >> exampleInspect [
+SpartaBenchmarkComparison class >> exampleInspect [
 
 	self new
 		 run;
@@ -23,7 +23,7 @@ BlCanvasBenchmarkComparison class >> exampleInspect [
 ]
 
 { #category : #examples }
-BlCanvasBenchmarkComparison class >> exampleToStdout [
+SpartaBenchmarkComparison class >> exampleToStdout [
 
 	DataFrameMarkdownPrinter new
 		stream: Stdio stdout;
@@ -33,7 +33,7 @@ BlCanvasBenchmarkComparison class >> exampleToStdout [
 ]
 
 { #category : #converting }
-BlCanvasBenchmarkComparison >> asDataFrame [
+SpartaBenchmarkComparison >> asDataFrame [
 
 	| df benchLabels |
 	benchLabels := benchSelectors collect: [ :each |
@@ -59,20 +59,20 @@ BlCanvasBenchmarkComparison >> asDataFrame [
 ]
 
 { #category : #initialization }
-BlCanvasBenchmarkComparison >> initialize [
+SpartaBenchmarkComparison >> initialize [
 
 	super initialize.
 	
 	canvasClasses := { SkiaCanvas. SpartaCairoCanvas }.
 
-	benchSelectors := BlCanvasBenchmarkRunner selectorsForBenchmarks sorted.
+	benchSelectors := SpartaBenchmarkRunner selectorsForBenchmarks sorted.
 	"But avoid error in Cairo"
 	benchSelectors := benchSelectors copyWithout: #benchmarkFillRectangleWithForm.
 
 ]
 
 { #category : #newtools }
-BlCanvasBenchmarkComparison >> inspectorForRunners: aBuilder [
+SpartaBenchmarkComparison >> inspectorForRunners: aBuilder [
 	<inspectorPresentationOrder: 1 title: 'Runners'>
 
 	^ aBuilder newList
@@ -82,19 +82,19 @@ BlCanvasBenchmarkComparison >> inspectorForRunners: aBuilder [
 ]
 
 { #category : #newtools }
-BlCanvasBenchmarkComparison >> inspectorForRunnersContext: aContext [
+SpartaBenchmarkComparison >> inspectorForRunnersContext: aContext [
 
 	aContext active: runners notNil
 ]
 
 { #category : #running }
-BlCanvasBenchmarkComparison >> run [
+SpartaBenchmarkComparison >> run [
 
 	runners := Array streamContents: [ :stream |
 		canvasClasses do: [ :canvasClass |
 			benchSelectors do: [ :selector |
 				stream nextPut: 
-					(BlCanvasBenchmarkRunner new
+					(SpartaBenchmarkRunner new
 						canvasClass: canvasClass;
 						selector: selector;
 						run;
@@ -102,7 +102,7 @@ BlCanvasBenchmarkComparison >> run [
 ]
 
 { #category : #accessing }
-BlCanvasBenchmarkComparison >> runnerForCanvas: aSpartaCanvasClass selector: aSymbol [
+SpartaBenchmarkComparison >> runnerForCanvas: aSpartaCanvasClass selector: aSymbol [
 
 	^ runners detect: [ :eachRunner | 
 		  eachRunner canvasClass = aSpartaCanvasClass and: [ 
