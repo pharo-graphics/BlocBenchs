@@ -41,6 +41,8 @@ PCMorphBenchmarker >> openWindow [
 	
 	morph := case newMorph.
 	window := morph openInWindowLabeled: self labelWithCase.
-	window extent: case surfaceExtent.
+	window
+		position: 30 asPoint;
+		extent: case surfaceExtent.
 
 ]
