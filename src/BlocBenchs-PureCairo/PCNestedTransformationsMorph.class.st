@@ -8,7 +8,8 @@ Class {
 		'rotationPerMS',
 		'scalePerMS',
 		'rotationCenter',
-		'rotationCenterNegated'
+		'rotationCenterNegated',
+		'windowColor'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
@@ -34,6 +35,7 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 	"Prepare on first draw"
 	backgroundColors
 		ifNil: [
+			windowColor := PCFloatColor newFrom: Color white.
 			backgroundColors := (1 to: case numberOfFigures)
 				collect: [ :each | PCFloatColor newRandom: random ].
 			figureMatrices := (1 to: case numberOfFigures)
@@ -43,10 +45,7 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 			rotationPerMS := case targetRelativeRotation degreesToRadians / 
 				(case numberOfSeconds * 1000.0).
 			rotationCenter := case figureExtent / 2.0.
-			rotationCenterNegated := rotationCenter negated.
-
-			"Set white as window background"
-			cairoCanvas primSetSourceR: 1.0 g: 1.0 b: 1.0 ]
+			rotationCenterNegated := rotationCenter negated ]
 		ifNotNil: [ 
 			figureMatrices withIndexDo: [ :each :index |
 				each
@@ -54,8 +53,10 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 					rotateByRadians: deltaMS * rotationPerMS * index.
 				 ] ].
 
-	"We know source is color white"
-	cairoCanvas primPaint.
+	"Clear surface"
+	cairoCanvas
+		primSetSourceRGBColor: windowColor;
+		primPaint.
 
 	"Draw each figure"	
 	1 to: case numberOfFigures do: [ :index |
@@ -66,7 +67,7 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 { #category : #drawing }
 PCNestedTransformationsMorph >> drawOnCairoCanvasFigureAt: index [
 
-	cairoCanvas 	primSaveState.
+	cairoCanvas 	primLoadIdentity.
 
 	"Translate to figure's position"
 	cairoCanvas primTranslate: case figureOffset.
@@ -77,7 +78,7 @@ PCNestedTransformationsMorph >> drawOnCairoCanvasFigureAt: index [
 		primApplyTransform: (figureMatrices at: index);
 		primTranslate: rotationCenterNegated.
 
-	"Draw rectangle path"		
+	"Draw rectangle path"
 	cairoCanvas
 		primRectangleX: 0.0
 			y: 0.0
@@ -86,6 +87,5 @@ PCNestedTransformationsMorph >> drawOnCairoCanvasFigureAt: index [
 		primSetSourceRGBColor: (backgroundColors at: index);
 		fill.
 	
-	cairoCanvas 	primRestoreState
 
 ]

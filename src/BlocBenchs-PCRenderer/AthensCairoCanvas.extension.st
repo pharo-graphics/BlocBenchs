@@ -21,6 +21,13 @@ AthensCairoCanvas >> primArcCenterX: centerX centerY: centerY radius: aRadius st
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primLoadIdentity [
+
+	^ self ffiCall: #(
+		void cairo_identity_matrix (self) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primSetLineWidthOn: anInteger [ 
 
 	^ self ffiCall: #(void cairo_set_line_width (
