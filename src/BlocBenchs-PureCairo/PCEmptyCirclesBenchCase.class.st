@@ -4,7 +4,7 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #hook }
+{ #category : #accessing }
 PCEmptyCirclesBenchCase >> borderWidth [
 
 	^ 5
@@ -22,7 +22,7 @@ PCEmptyCirclesBenchCase >> newFigureWith: random [
 		  yourself
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCEmptyCirclesBenchCase >> radius [
 
 	^ 50.0 asPoint

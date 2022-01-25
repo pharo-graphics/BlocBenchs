@@ -4,7 +4,7 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #hook }
+{ #category : #accessing }
 PCNestedTransformationsBenchCase >> figureExtent [
 
 	^ 600.0 asPoint
@@ -39,25 +39,25 @@ PCNestedTransformationsBenchCase >> newElement [
 		yourself
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCNestedTransformationsBenchCase >> numberOfFigures [
 
 	^ 50
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCNestedTransformationsBenchCase >> surfaceExtent [
 
-	^ 800 @ 800
+	^ 750 @ 750
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCNestedTransformationsBenchCase >> targetRelativeRotation [
 
 	^ 5.0
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCNestedTransformationsBenchCase >> targetRelativeScale [
 
 	^ 0.9

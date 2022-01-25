@@ -4,7 +4,7 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #'instance creation' }
+{ #category : #hook }
 PCSolidCirclesBenchCase >> newFigureWith: random [
 	
 	^ BlElement new
@@ -26,7 +26,7 @@ PCSolidCirclesBenchCase >> newMorph [
 		  yourself
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCSolidCirclesBenchCase >> radius [
 
 	^ 50.0 asPoint

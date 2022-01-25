@@ -4,7 +4,7 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #hook }
+{ #category : #accessing }
 PCRotatedRectanglesBenchCase >> figureExtent [
 
 	^ 100.0 asPoint
@@ -21,7 +21,7 @@ PCRotatedRectanglesBenchCase >> newFigureWith: random [
 		  yourself
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCRotatedRectanglesBenchCase >> rotation [
 
 	^ 10

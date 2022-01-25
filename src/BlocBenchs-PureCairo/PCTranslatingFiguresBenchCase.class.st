@@ -4,7 +4,7 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #hook }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> figureOffset [
 
 	^ 20 @ 20
@@ -36,19 +36,19 @@ PCTranslatingFiguresBenchCase >> newFigureWith: random [
 	^ self subclassResponsibility
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> numberOfFigures [
 
 	^ 300
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> surfaceExtent [
 
 	^ 750 @ 350
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> targetTranslation [
 
 	^ 0 @ 200

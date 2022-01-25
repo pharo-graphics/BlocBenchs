@@ -32,7 +32,7 @@ PCBenchCase >> initialize [
 
 ]
 
-{ #category : #hook }
+{ #category : #printing }
 PCBenchCase >> label [
 
 	| prefix suffix |
@@ -56,7 +56,7 @@ PCBenchCase >> newMorph [
 	^ self notYetImplemented
 ]
 
-{ #category : #'instance creation' }
+{ #category : #private }
 PCBenchCase >> newRandom [
 
 	^ Random seed: 1
@@ -74,7 +74,7 @@ PCBenchCase >> numberOfSeconds: aNumber [
 	numberOfSeconds := aNumber
 ]
 
-{ #category : #hook }
+{ #category : #accessing }
 PCBenchCase >> surfaceExtent [
 
 	^ self subclassResponsibility
