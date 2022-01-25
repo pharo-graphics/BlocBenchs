@@ -6,7 +6,7 @@ Class {
 
 { #category : #'driver selection' }
 PCMorphicWindowHost class >> label [
-	^ 'Morphic NullRenderer'
+	^ 'Morphic PureCairo'
 ]
 
 { #category : #'host - api' }

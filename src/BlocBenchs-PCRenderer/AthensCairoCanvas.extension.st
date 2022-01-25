@@ -1,6 +1,18 @@
 Extension { #name : #AthensCairoCanvas }
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> lineTo: aPoint [
+
+	^ self primLineToX: aPoint x asFloat Y: aPoint y asFloat
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> moveTo: aPoint [
+
+	self primMoveToX: aPoint x asFloat Y: aPoint y asFloat
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primApplyTransform: aCairoMatrix [
 
 	^ self ffiCall: #( void cairo_transform (
@@ -18,6 +30,15 @@ AthensCairoCanvas >> primArcCenterX: centerX centerY: centerY radius: aRadius st
 			double aRadius,
 			double aStartAngle,
 			double anEndAngle) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primLineToX: aX Y: aY [
+	
+	^ self ffiCall: #(void cairo_line_to (
+		self, 
+		double aX,
+		double aY ) )
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }

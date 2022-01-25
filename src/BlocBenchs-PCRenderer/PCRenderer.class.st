@@ -106,6 +106,16 @@ PCRenderer >> drawRectangle: aRectangle [
 
 ]
 
+{ #category : #visiting }
+PCRenderer >> drawTriangle: thePoints [ 
+
+	self drawBackgroundAndOrStrokeWith: [
+		cairoCanvas moveTo: thePoints first.
+		cairoCanvas lineTo: thePoints second.
+		cairoCanvas lineTo: thePoints third ]
+
+]
+
 { #category : #initialization }
 PCRenderer >> initializeForHostSpace: aBlHostSpace [
 	"Initialize this renderer for a given host space.
