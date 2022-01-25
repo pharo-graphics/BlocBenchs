@@ -5,7 +5,8 @@ Class {
 		'radius',
 		'numberOfFigures',
 		'backgroundColors',
-		'figureOffset'
+		'figureOffset',
+		'windowColor'
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
@@ -13,32 +14,25 @@ Class {
 { #category : #drawing }
 PCTranslatingCirclesMorph >> drawOnCairoCanvas [
 
-	| deltaY |
 
 	"Prepare on first draw (when nil)"
-	backgroundColors
-		ifNil: [
-			deltaY := 0.
-			backgroundColors := (1 to: numberOfFigures)
-				collect: [ :each | Color random: random ] ]
-		ifNotNil: [
-			deltaY := 0.04 * (lastMS - startMS) ].
+	backgroundColors ifNil: [
+		windowColor := PCFloatColor newFrom: Color white.
+		backgroundColors := (1 to: numberOfFigures)
+			collect: [ :each | PCFloatColor newRandom: random ] ].
+
 
 	"Clear background (https://www.cairographics.org/FAQ/#clear_a_surface)"
 	cairoCanvas
-		primSetSourceR: 1.0 g: 1.0 b: 1.0;
+		primSetSourceRGBColor: windowColor;
 		primPaint.
 
 	backgroundColors withIndexDo: [ :aColor :index |
-		self setBackgroundPathOnCairoCanvasIndex: index deltaY: deltaY.
+		self setBackgroundPathOnCairoCanvasIndex: index.
 
 		cairoCanvas
-			primSetSourceR: aColor red
-				g: aColor green
-				b: aColor blue.
-		cairoCanvas fill.
-		"cairoCanvas stroke."
-"		cairoCanvas fillPreserve; stroke."
+			primSetSourceRGBColor: aColor;
+			fill
 		]
 ]
 
@@ -79,15 +73,17 @@ PCTranslatingCirclesMorph >> radius: aPoint [
 ]
 
 { #category : #drawing }
-PCTranslatingCirclesMorph >> setBackgroundPathOnCairoCanvasIndex: index deltaY: deltaY [
+PCTranslatingCirclesMorph >> setBackgroundPathOnCairoCanvasIndex: index [
 
-		| center |
-		center := figureOffset + radius + (index * 2 @ deltaY).
-		cairoCanvas
-			primArcCenterX: center x
-				centerY: center y
-				radius: radius x "TODO: non-circular ellipse"
-				startAngle: 0.0
-				endAngle: Float twoPi.
+	| center deltaY |
+	deltaY := 0.04 * (lastMS - startMS).
+	center := figureOffset + radius + (index * 2 @ deltaY).
+
+	cairoCanvas
+		primArcCenterX: center x
+			centerY: center y
+			radius: radius x "TODO: non-circular ellipse"
+			startAngle: 0.0
+			endAngle: Float twoPi.
 
 ]

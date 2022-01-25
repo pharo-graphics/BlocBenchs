@@ -38,6 +38,18 @@ AthensCairoCanvas >> primSetSourceR: red g: green b: blue [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primSetSourceRGBAColor: aColor [
+
+	^ self primSetSourceR: aColor red g: aColor green b: aColor blue a: aColor alpha
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primSetSourceRGBColor: aColor [
+
+	^ self primSetSourceR: aColor red g: aColor green b: aColor blue
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primTranslateX: px y: py [
 	
 	^ self ffiCall: #(void cairo_translate (self, double px, double py))

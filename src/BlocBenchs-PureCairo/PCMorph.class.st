@@ -47,7 +47,7 @@ PCMorph >> drawOn: aFormCanvas [
 	"Remember when was the first time a frame is going to be drawn."
 	currentMS := Time millisecondClockValue.
 	startMS
-		ifNil: [ startMS := currentMS ]
+		ifNil: [ deltaMS := 0.0. startMS := currentMS ]
 		ifNotNil: [ deltaMS := currentMS - lastMS ].
 	lastMS := currentMS.
 
