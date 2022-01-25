@@ -11,6 +11,12 @@ PCNestedTransformationsBenchCase >> figureExtent [
 ]
 
 { #category : #hook }
+PCNestedTransformationsBenchCase >> figureOffset [
+
+	^ 50.0 asPoint
+]
+
+{ #category : #hook }
 PCNestedTransformationsBenchCase >> newElement [
 
 	| elements random |
@@ -35,8 +41,16 @@ PCNestedTransformationsBenchCase >> newElement [
 
 	"Only the first figure element needs to be added to the root of the space."
 	^ elements first
-		relocate: 100 asPoint;
+		relocate: self figureOffset;
 		yourself
+]
+
+{ #category : #hook }
+PCNestedTransformationsBenchCase >> newMorph [
+
+	^ PCNestedTransformationsMorph new
+		  case: self;
+		  yourself
 ]
 
 { #category : #accessing }
