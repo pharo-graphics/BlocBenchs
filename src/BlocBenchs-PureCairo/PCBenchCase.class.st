@@ -63,6 +63,12 @@ PCBenchCase >> newRandom [
 ]
 
 { #category : #accessing }
+PCBenchCase >> numberOfMilliseconds [
+
+	^ numberOfSeconds * 1000
+]
+
+{ #category : #accessing }
 PCBenchCase >> numberOfSeconds [
 
 	^ numberOfSeconds

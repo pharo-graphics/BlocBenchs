@@ -63,7 +63,7 @@ PCMorph >> drawOn: aFormCanvas [
 	"Remember when was the first time a frame is going to be drawn."
 	currentMS := Time millisecondClockValue.
 	startMS
-		ifNil: [ deltaMS := 0.0. startMS := currentMS ]
+		ifNil: [ deltaMS := 0.0. startMS := currentMS. self prepareFirstDraw ]
 		ifNotNil: [ deltaMS := currentMS - lastMS ].
 	lastMS := currentMS.
 
@@ -122,6 +122,11 @@ PCMorph >> initializeSurface [
 	bitblt := PCBitBlt
 		sourceForm: surfaceForm
 		sourceRect: surfaceRectangle.
+
+]
+
+{ #category : #drawing }
+PCMorph >> prepareFirstDraw [
 
 ]
 

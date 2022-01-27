@@ -25,9 +25,9 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 			figureMatrices := (1 to: case numberOfFigures)
 				collect: [:each | AthensCairoMatrix new ].
 			scalePerMS := case targetRelativeScale / 
-				(case numberOfSeconds * 10000.0). "Why 10x more?"
+				(case numberOfMilliseconds * 10.0). "Why 10x more?"
 			rotationPerMS := case targetRelativeRotation degreesToRadians / 
-				(case numberOfSeconds * 1000.0).
+				case numberOfMilliseconds.
 			rotationCenter := case figureExtent / 2.0.
 			rotationCenterNegated := rotationCenter negated ]
 		ifNotNil: [ 
