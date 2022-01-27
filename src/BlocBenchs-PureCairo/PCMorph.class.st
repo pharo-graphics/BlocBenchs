@@ -7,6 +7,7 @@ Class {
 	#name : #PCMorph,
 	#superclass : #Morph,
 	#instVars : [
+		'case',
 		'surface',
 		'frameCount',
 		'random',
@@ -22,6 +23,21 @@ Class {
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
+
+{ #category : #accessing }
+PCMorph >> case [
+
+	^ case
+]
+
+{ #category : #accessing }
+PCMorph >> case: aPCNestedTransformationsBenchCase [
+
+	case := aPCNestedTransformationsBenchCase.
+	self surfaceExtent: aPCNestedTransformationsBenchCase surfaceExtent.
+	self random: aPCNestedTransformationsBenchCase newRandom.
+
+]
 
 { #category : #drawing }
 PCMorph >> copyCairoSurfaceTo: aFormCanvas [

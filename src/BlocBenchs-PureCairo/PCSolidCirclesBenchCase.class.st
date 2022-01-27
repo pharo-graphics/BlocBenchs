@@ -18,11 +18,7 @@ PCSolidCirclesBenchCase >> newFigureWith: random [
 PCSolidCirclesBenchCase >> newMorph [
 
 	^ PCTranslatingCirclesMorph new
-		  surfaceExtent: self surfaceExtent;
-		  random: self newRandom;
-		  numberOfFigures: self numberOfFigures;
-		  figureOffset: self figureOffset;
-		  radius: self radius;
+		  case: self;
 		  yourself
 ]
 

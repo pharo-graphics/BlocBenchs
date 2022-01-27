@@ -2,7 +2,6 @@ Class {
 	#name : #PCNestedTransformationsMorph,
 	#superclass : #PCMorph,
 	#instVars : [
-		'case',
 		'backgroundColors',
 		'figureMatrices',
 		'rotationPerMS',
@@ -13,21 +12,6 @@ Class {
 	],
 	#category : #'BlocBenchs-PureCairo'
 }
-
-{ #category : #accessing }
-PCNestedTransformationsMorph >> case [
-
-	^ case
-]
-
-{ #category : #accessing }
-PCNestedTransformationsMorph >> case: aPCNestedTransformationsBenchCase [
-
-	case := aPCNestedTransformationsBenchCase.
-	self surfaceExtent: aPCNestedTransformationsBenchCase surfaceExtent.
-	self random: aPCNestedTransformationsBenchCase newRandom.
-
-]
 
 { #category : #drawing }
 PCNestedTransformationsMorph >> drawOnCairoCanvas [
