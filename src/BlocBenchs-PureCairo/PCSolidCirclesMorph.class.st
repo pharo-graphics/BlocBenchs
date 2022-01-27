@@ -8,6 +8,19 @@ Class {
 }
 
 { #category : #drawing }
+PCSolidCirclesMorph >> drawOnCairoCanvas [
+
+	self clearCairoCanvas.
+
+	1 to: case numberOfFigures do: [ :index |
+		self setBackgroundPathAt: index.
+		self setBackgroundSourceAt: index.
+
+		cairoCanvas fill ]
+
+]
+
+{ #category : #drawing }
 PCSolidCirclesMorph >> prepareFirstDraw [
 
 	super prepareFirstDraw.

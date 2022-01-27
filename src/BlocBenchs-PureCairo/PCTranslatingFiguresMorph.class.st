@@ -14,20 +14,7 @@ PCTranslatingFiguresMorph >> clearCairoCanvas [
 
 	cairoCanvas
 		primSetSourceRGBColor: canvasClearColor;
-		primPaint.
-
-]
-
-{ #category : #drawing }
-PCTranslatingFiguresMorph >> drawOnCairoCanvas [
-
-	self clearCairoCanvas.
-
-	1 to: case numberOfFigures do: [ :index |
-		self setBackgroundPathAt: index.
-		self setBackgroundSourceAt: index.
-
-		cairoCanvas fill ]
+		primPaint
 
 ]
 
@@ -37,16 +24,4 @@ PCTranslatingFiguresMorph >> prepareFirstDraw [
 	super prepareFirstDraw.
 	canvasClearColor := PCFloatColor newFrom: Color white.
 	deltaYPerMS := case targetTranslation y / case numberOfMilliseconds
-]
-
-{ #category : #drawing }
-PCTranslatingFiguresMorph >> setBackgroundPathAt: index [
-
-	self subclassResponsibility
-]
-
-{ #category : #drawing }
-PCTranslatingFiguresMorph >> setBackgroundSourceAt: index [
-
-	self subclassResponsibility
 ]

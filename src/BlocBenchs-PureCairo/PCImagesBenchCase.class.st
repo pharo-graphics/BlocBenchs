@@ -20,7 +20,7 @@ PCImagesBenchCase >> newFigureWith: random [
 	
 	1 to: self numberOfRows do:[ :index |
 		| randomIcon |
-		randomIcon := Smalltalk ui icons icons atRandom: random.
+		randomIcon := self newFormWith: random.
 		
 		container addChild: (BlElement new
 "		  geometry: BlCircleGeometry new; --> doesn't work on Skia"
@@ -30,6 +30,20 @@ PCImagesBenchCase >> newFigureWith: random [
 		  yourself) ].
 
 	^ container
+]
+
+{ #category : #hook }
+PCImagesBenchCase >> newFormWith: random [
+
+	^ Smalltalk ui icons icons atRandom: random
+]
+
+{ #category : #'instance creation' }
+PCImagesBenchCase >> newMorph [
+
+	^ PCImagesMorph new
+		  case: self;
+		  yourself
 ]
 
 { #category : #accessing }
