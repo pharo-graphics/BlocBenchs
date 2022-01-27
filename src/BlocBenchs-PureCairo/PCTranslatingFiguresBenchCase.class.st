@@ -11,6 +11,12 @@ PCTranslatingFiguresBenchCase >> figureOffset [
 ]
 
 { #category : #hook }
+PCTranslatingFiguresBenchCase >> horizontalSeparation [
+
+	^ 2
+]
+
+{ #category : #hook }
 PCTranslatingFiguresBenchCase >> newElement [
 
 	| random container |
@@ -24,7 +30,7 @@ PCTranslatingFiguresBenchCase >> newElement [
 	1 to: self numberOfFigures do: [ :index |
 		| aFigure |
 		aFigure := self newFigureWith: random.
-		aFigure relocate: self figureOffset + ((index * 2) @ 0).
+		aFigure relocate: self figureOffset + ((index * self horizontalSeparation) @ 0).
 		container addChild: aFigure ].
 
 	^ container

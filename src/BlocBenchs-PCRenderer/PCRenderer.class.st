@@ -5,21 +5,47 @@ Class {
 		'cairoSurface',
 		'hostSpace',
 		'cairoCanvas',
-		'shouldFill',
 		'hasBackground',
 		'hasBorder',
 		'borderColor',
 		'borderWidth',
-		'backgroundColor'
+		'backgroundBlock',
+		'formToCairoSurfaceCache'
 	],
 	#category : #'BlocBenchs-PCRenderer'
 }
 
 { #category : #visiting }
+PCRenderer >> acceptBlImageBackground: aBlImageBackground [ 
+
+	hasBackground := true.
+
+	"TODO: reset on new session"	
+	formToCairoSurfaceCache ifNil: [
+		formToCairoSurfaceCache := LRUCache new
+			maximumWeight: 400;
+			factory: [ :aForm |
+				AthensCairoSurface fromForm: aForm ];
+			yourself].
+	
+	backgroundBlock := [ 
+		| aForm aCairoSurface |
+		aForm := aBlImageBackground image.
+		"aCairoSurface := AthensCairoSurface fromForm: aForm."
+		aCairoSurface := formToCairoSurfaceCache at: aForm.
+		cairoCanvas
+			primSetSourceSurface: aCairoSurface x: 0.0 y: 0.0;
+			"primRectangleX: 0.0 y: 0.0 width: aForm width height: aForm height"
+			primPaint ]
+
+]
+
+{ #category : #visiting }
 PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 
 	hasBackground := true.
-	backgroundColor := aBlPaintBackground paint color.
+	backgroundBlock := [
+		self setSourceColor: aBlPaintBackground paint color ]
 
 ]
 
@@ -27,6 +53,7 @@ PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 PCRenderer >> acceptBlTransparentBackground: aBlTransparentBackground [ 
 
 	hasBackground := false.
+	backgroundBlock := nil.
 ]
 
 { #category : #visiting }
@@ -57,21 +84,14 @@ PCRenderer >> drawBackgroundAndOrStrokeWith: aBlock [
 
 	aBlock value.
 
-	(hasBackground and: [ hasBorder not ]) ifTrue: [
-		self setSourceColor: backgroundColor.
-		cairoCanvas fill.
-		^ self	].
+	hasBackground ifTrue: [
+		backgroundBlock value.
+		
+		hasBorder 
+			ifFalse: [ cairoCanvas fill. ^ self ]
+			ifTrue: [ cairoCanvas fillPreserve ] ].
 
-	(hasBackground and: [ hasBorder ]) ifTrue: [
-		self setSourceColor: backgroundColor.
-		cairoCanvas fillPreserve.
-
-		self setSourceColor: borderColor.
-		cairoCanvas primSetLineWidthOn: borderWidth.
-		cairoCanvas stroke.
-		^ self ].
-
-	"hasBorder and hasBackground not"
+	"hasBorder is true (maybe hasBackground, too)"
 	self setSourceColor: borderColor.
 	cairoCanvas primSetLineWidthOn: borderWidth.
 	cairoCanvas stroke.

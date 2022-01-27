@@ -78,6 +78,16 @@ AthensCairoCanvas >> primSetSourceRGBColor: aColor [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primSetSourceSurface: aCairoSurface x: aX y: aY [
+
+	^ self ffiCall: #( void cairo_set_source_surface (
+			self,
+			AthensCairoSurface aCairoSurface,
+			double aX,
+			double aY) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primTranslate: aPoint [
 
 	self primTranslateX: aPoint x y: aPoint y
