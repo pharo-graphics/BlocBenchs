@@ -17,7 +17,7 @@ PCSolidCirclesBenchCase >> newFigureWith: random [
 { #category : #hook }
 PCSolidCirclesBenchCase >> newMorph [
 
-	^ PCTranslatingCirclesMorph new
+	^ PCSolidCirclesMorph new
 		  case: self;
 		  yourself
 ]

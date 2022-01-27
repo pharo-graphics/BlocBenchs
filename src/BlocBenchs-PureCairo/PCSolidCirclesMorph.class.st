@@ -1,5 +1,5 @@
 Class {
-	#name : #PCTranslatingCirclesMorph,
+	#name : #PCSolidCirclesMorph,
 	#superclass : #PCTranslatingFiguresMorph,
 	#instVars : [
 		'backgroundColors'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #drawing }
-PCTranslatingCirclesMorph >> prepareFirstDraw [
+PCSolidCirclesMorph >> prepareFirstDraw [
 
 	super prepareFirstDraw.
 	backgroundColors := (1 to: case numberOfFigures)
@@ -17,7 +17,7 @@ PCTranslatingCirclesMorph >> prepareFirstDraw [
 ]
 
 { #category : #drawing }
-PCTranslatingCirclesMorph >> setBackgroundPathAt: index [
+PCSolidCirclesMorph >> setBackgroundPathAt: index [
 
 	| center deltaY |
 	deltaY := deltaYPerMS * (lastMS - startMS).
@@ -33,7 +33,7 @@ PCTranslatingCirclesMorph >> setBackgroundPathAt: index [
 ]
 
 { #category : #drawing }
-PCTranslatingCirclesMorph >> setBackgroundSourceAt: index [
+PCSolidCirclesMorph >> setBackgroundSourceAt: index [
 
 	cairoCanvas primSetSourceRGBColor: (backgroundColors at: index)
 ]
