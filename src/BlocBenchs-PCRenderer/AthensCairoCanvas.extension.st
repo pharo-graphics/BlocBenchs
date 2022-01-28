@@ -49,6 +49,14 @@ AthensCairoCanvas >> primLoadIdentity [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primPaintAlpha: aNumber [
+
+	^ self ffiCall: #(void cairo_paint_with_alpha (
+			self,
+			double aNumber ) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primSetLineWidthOn: anInteger [ 
 
 	^ self ffiCall: #(void cairo_set_line_width (

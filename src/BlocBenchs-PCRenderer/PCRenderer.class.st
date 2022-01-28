@@ -10,7 +10,8 @@ Class {
 		'borderColor',
 		'borderWidth',
 		'backgroundBlock',
-		'formToCairoSurfaceCache'
+		'formToCairoSurfaceCache',
+		'backgroundAlpha'
 	],
 	#category : #'BlocBenchs-PCRenderer'
 }
@@ -30,9 +31,14 @@ PCRenderer >> acceptBlImageBackground: aBlImageBackground [
 	backgroundBlock := [ 
 		| aForm aCairoSurface |
 		aForm := aBlImageBackground image.
+
 		aCairoSurface := formToCairoSurfaceCache at: aForm.
 		cairoCanvas
-			primSetSourceSurface: aCairoSurface x: 0.0 y: 0.0 ]
+			primSetSourceSurface: aCairoSurface x: 0.0 y: 0.0.
+		
+		backgroundAlpha := aBlImageBackground opacity ].
+		
+	
 
 ]
 
@@ -40,6 +46,7 @@ PCRenderer >> acceptBlImageBackground: aBlImageBackground [
 PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 
 	hasBackground := true.
+	backgroundAlpha := 1.0.
 	backgroundBlock := [
 		self setSourceColor: aBlPaintBackground paint color ]
 
@@ -49,6 +56,7 @@ PCRenderer >> acceptBlPaintBackground: aBlPaintBackground [
 PCRenderer >> acceptBlTransparentBackground: aBlTransparentBackground [ 
 
 	hasBackground := false.
+	backgroundAlpha := 0.0.
 	backgroundBlock := nil.
 ]
 
@@ -84,8 +92,15 @@ PCRenderer >> drawBackgroundAndOrStrokeWith: aBlock [
 		backgroundBlock value.
 		
 		hasBorder 
-			ifFalse: [ cairoCanvas fill. ^ self ]
-			ifTrue: [ cairoCanvas fillPreserve ] ].
+			ifFalse: [
+				cairoCanvas
+					primClip;
+					primPaintAlpha: backgroundAlpha.
+				^ self ]
+			ifTrue: [
+				cairoCanvas
+					primClipPreserve;
+					primPaintAlpha: backgroundAlpha ] ].
 
 	"hasBorder is true (maybe hasBackground, too)"
 	self setSourceColor: borderColor.
