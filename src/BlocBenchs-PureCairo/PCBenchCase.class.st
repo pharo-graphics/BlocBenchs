@@ -14,7 +14,9 @@ Class {
 { #category : #convenience }
 PCBenchCase class >> allBenchCases [
 
-	^ self allSubclasses reject: [ :each | each hasAbstractMethods ]
+	^ self allSubclasses
+		  reject: [ :each | each hasAbstractMethods ]
+		  thenCollect: [ :each | each new ]
 ]
 
 { #category : #accessing }

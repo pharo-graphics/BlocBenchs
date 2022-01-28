@@ -4,6 +4,23 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
+{ #category : #examples }
+PCTranslatingFiguresBenchCase class >> exampleOpenFigureSamples [
+
+	self allBenchCases do: [ :each |
+		| sampleElement |
+		sampleElement := each newSampleFigure.
+
+		BlSpace new
+			addChild: (sampleElement
+				relocate: 50 asPoint;
+				yourself);
+			title: 'Sample: ', each label;
+			extent: 400 asPoint;
+			show ]
+
+]
+
 { #category : #accessing }
 PCTranslatingFiguresBenchCase >> figureOffset [
 
@@ -40,6 +57,12 @@ PCTranslatingFiguresBenchCase >> newElement [
 PCTranslatingFiguresBenchCase >> newFigureWith: random [
 	
 	^ self subclassResponsibility
+]
+
+{ #category : #examples }
+PCTranslatingFiguresBenchCase >> newSampleFigure [
+
+	^ self newFigureWith: self newRandom
 ]
 
 { #category : #accessing }
