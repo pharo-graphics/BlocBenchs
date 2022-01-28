@@ -4,6 +4,12 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
+{ #category : #hook }
+PCRotatedRectanglesBenchCase >> angleInDegreesWith: random [
+		
+	^ random nextInteger: 360
+]
+
 { #category : #accessing }
 PCRotatedRectanglesBenchCase >> figureExtent [
 
@@ -17,12 +23,6 @@ PCRotatedRectanglesBenchCase >> newFigureWith: random [
 		  background: (Color random: random);
 		  geometry: BlRectangleGeometry new;
 		  size: self figureExtent;
-		  transformDo: [ :aBuilder | aBuilder rotateBy: self rotation ];
+		  transformDo: [ :t | t rotateBy: (self angleInDegreesWith: random) ];
 		  yourself
-]
-
-{ #category : #accessing }
-PCRotatedRectanglesBenchCase >> rotation [
-
-	^ 10
 ]

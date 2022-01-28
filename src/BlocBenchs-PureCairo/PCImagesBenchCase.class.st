@@ -24,6 +24,7 @@ PCImagesBenchCase >> newFigureWith: random [
 		
 		container addChild: (BlElement new
 "		  geometry: BlCircleGeometry new; --> doesn't work on Skia"
+"		  transformDo: [ :t | t rotateBy: 15 ]; --> wiith this, Skia is faster than PC"
 		  size: randomIcon extent;
 		  background: randomIcon;
 		  relocate: (0 @ index * verticalSeparation);
