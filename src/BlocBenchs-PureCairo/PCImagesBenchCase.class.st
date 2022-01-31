@@ -19,16 +19,10 @@ PCImagesBenchCase >> newFigureWith: random [
 	container clipChildren: false.
 	
 	1 to: self numberOfRows do:[ :index |
-		| randomIcon |
-		randomIcon := self newFormWith: random.
-		
-		container addChild: (BlElement new
-"		  geometry: BlCircleGeometry new; --> doesn't work on Skia"
-"		  transformDo: [ :t | t rotateBy: 15 ]; --> wiith this, Skia is faster than PC"
-		  size: randomIcon extent;
-		  background: randomIcon;
-		  relocate: (0 @ index * verticalSeparation);
-		  yourself) ].
+		container addChild: 
+			((self newImageElementWith: random)
+				relocate: (0 @ index * verticalSeparation);
+				yourself) ].
 
 	^ container
 ]
@@ -39,12 +33,10 @@ PCImagesBenchCase >> newFormWith: random [
 	^ Smalltalk ui icons icons atRandom: random
 ]
 
-{ #category : #'instance creation' }
-PCImagesBenchCase >> newMorph [
+{ #category : #hook }
+PCImagesBenchCase >> newImageElementWith: random [
 
-	^ PCImagesMorph new
-		  case: self;
-		  yourself
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }

@@ -19,6 +19,12 @@ PCBenchCase class >> allBenchCases [
 		  thenCollect: [ :each | each new ]
 ]
 
+{ #category : #hook }
+PCBenchCase >> angleInDegreesWith: random [
+		
+	^ random nextInteger: 360
+]
+
 { #category : #accessing }
 PCBenchCase >> duration [
 

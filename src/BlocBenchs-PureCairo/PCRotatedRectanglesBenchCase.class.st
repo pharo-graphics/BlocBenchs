@@ -4,12 +4,6 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #hook }
-PCRotatedRectanglesBenchCase >> angleInDegreesWith: random [
-		
-	^ random nextInteger: 360
-]
-
 { #category : #accessing }
 PCRotatedRectanglesBenchCase >> figureExtent [
 

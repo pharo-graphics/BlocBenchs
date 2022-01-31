@@ -1,5 +1,5 @@
 Class {
-	#name : #PCImagesMorph,
+	#name : #PCSolidImagesMorph,
 	#superclass : #PCTranslatingFiguresMorph,
 	#instVars : [
 		'surfaces',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #drawing }
-PCImagesMorph >> drawOnCairoCanvas [
+PCSolidImagesMorph >> drawOnCairoCanvas [
 
 	| index deltaY |
 	self clearCairoCanvas.
@@ -42,7 +42,7 @@ PCImagesMorph >> drawOnCairoCanvas [
 ]
 
 { #category : #drawing }
-PCImagesMorph >> prepareFirstDraw [
+PCSolidImagesMorph >> prepareFirstDraw [
 
 	super prepareFirstDraw.
 
