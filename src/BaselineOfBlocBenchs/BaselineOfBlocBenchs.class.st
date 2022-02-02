@@ -36,7 +36,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 BaselineOfBlocBenchs >> declareDataFrameOn: spec [
 	spec
 		baseline: 'DataFrame'
-		with: [ spec repository: 'github://PolyMathOrg/DataFrame:014fed4c/src' ]
+		with: [ spec repository: 'github://PolyMathOrg/DataFrame/src' ]
 ]
 
 { #category : #'external projects' }
