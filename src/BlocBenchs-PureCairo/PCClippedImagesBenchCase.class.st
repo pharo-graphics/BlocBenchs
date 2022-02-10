@@ -11,6 +11,7 @@ PCClippedImagesBenchCase >> newImageElementWith: random [
 	randomIcon := self newFormWith: random.
 	
 	^ BlElement new
+		clipChildren: true;
 		geometry: BlRectangleGeometry new;
 		size: randomIcon extent // 2;
 		background: randomIcon;
