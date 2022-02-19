@@ -141,9 +141,11 @@ PCRenderer >> drawRectangle: aRectangle [
 PCRenderer >> drawTriangle: thePoints [ 
 
 	self drawBackgroundAndOrStrokeWith: [
-		cairoCanvas moveTo: thePoints first.
-		cairoCanvas lineTo: thePoints second.
-		cairoCanvas lineTo: thePoints third ]
+		cairoCanvas
+			moveTo: thePoints first;
+			lineTo: thePoints second;
+			lineTo: thePoints third;
+			primClosePath ]
 
 ]
 

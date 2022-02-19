@@ -33,6 +33,12 @@ AthensCairoCanvas >> primArcCenterX: centerX centerY: centerY radius: aRadius st
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primClosePath [
+
+	^ self ffiCall: #(void cairo_close_path (self))
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primLineToX: aX Y: aY [
 	
 	^ self ffiCall: #(void cairo_line_to (
