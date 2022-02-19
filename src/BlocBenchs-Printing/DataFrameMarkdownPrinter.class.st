@@ -10,7 +10,8 @@ Class {
 		'stream',
 		'horizontalMargin',
 		'columnWidths',
-		'stringBlockClosure'
+		'stringBlockClosure',
+		'newLineString'
 	],
 	#category : #'BlocBenchs-Printing'
 }
@@ -51,14 +52,26 @@ DataFrameMarkdownPrinter >> initialize [
 	super initialize.
 	
 	horizontalMargin := 1.
-	stringBlockClosure := [ :anObject | anObject asString ]
-
+	stringBlockClosure := [ :anObject | anObject asString ].
+	newLineString := String crlf.
 ]
 
 { #category : #private }
 DataFrameMarkdownPrinter >> isColumnIndexLeftAligned: columnIndex [
 
 	^ columnIndex = 1
+]
+
+{ #category : #accessing }
+DataFrameMarkdownPrinter >> newLineString [
+
+	^ newLineString
+]
+
+{ #category : #accessing }
+DataFrameMarkdownPrinter >> newLineString: aString [
+
+	newLineString := aString
 ]
 
 { #category : #accessing }
@@ -150,7 +163,7 @@ DataFrameMarkdownPrinter >> writeHorizontalLine [
 			self writeVerticalTick.
 			(each + (horizontalMargin * 2)) timesRepeat: [ self writeHoritontalTick ] ].
 	self writeVerticalTick.
-	stream lf.
+	self writeNewLine.
 
 ]
 
@@ -161,19 +174,25 @@ DataFrameMarkdownPrinter >> writeMargin [
 ]
 
 { #category : #private }
+DataFrameMarkdownPrinter >> writeNewLine [
+
+	stream nextPutAll: newLineString
+]
+
+{ #category : #private }
 DataFrameMarkdownPrinter >> writeRow: aCollectionOfStrings [
 
 	| columnIndex |
 	columnIndex := 1.
-	aCollectionOfStrings
-		do: [ :each |
-			self writeVerticalTick.
-			self writeMargin.
-			self writeCell: each columnIndex: columnIndex.
-			columnIndex := columnIndex + 1.
-			self writeMargin ].
-	self writeVerticalTick.
-	stream lf.
+	aCollectionOfStrings do: [ :each |
+		self writeVerticalTick.
+		self writeMargin.
+		self writeCell: each columnIndex: columnIndex.
+		columnIndex := columnIndex + 1.
+		self writeMargin ].
+	self
+		writeVerticalTick;
+		writeNewLine.
 
 ]
 
