@@ -33,6 +33,13 @@ AthensCairoCanvas >> primArcCenterX: centerX centerY: centerY radius: aRadius st
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primClipPreserve [
+
+	^ self ffiCall:
+		  #( void cairo_clip_preserve #( self ) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primClosePath [
 
 	^ self ffiCall: #(void cairo_close_path (self))
