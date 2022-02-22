@@ -46,6 +46,15 @@ AthensCairoCanvas >> primClosePath [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primInFillX: x Y: y [ 
+
+	^ self ffiCall: #(bool cairo_in_fill (
+		self,
+		double x,
+		double y))
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primLineToX: aX Y: aY [
 	
 	^ self ffiCall: #(void cairo_line_to (
