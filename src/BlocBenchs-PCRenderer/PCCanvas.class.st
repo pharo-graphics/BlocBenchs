@@ -23,6 +23,12 @@ PCCanvas class >> extent: aPoint [
 		  yourself
 ]
 
+{ #category : #accessing }
+PCCanvas class >> new [
+
+	^ self shouldNotImplement
+]
+
 { #category : #visiting }
 PCCanvas >> acceptBlImageBackground: aBlImageBackground [ 
 

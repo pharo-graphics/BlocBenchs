@@ -4,7 +4,7 @@ Extension { #name : #BlElement }
 BlElement >> pureCairoAsForm [
 
 	| aCanvas |
-	aCanvas := PCCanvas new.
+	aCanvas := PCCanvas extent: self extent.
 	aCanvas fullDraw: self.
 	^ aCanvas asForm
 
