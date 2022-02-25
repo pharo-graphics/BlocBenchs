@@ -1,9 +1,9 @@
 Extension { #name : #BlCircleGeometry }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlCircleGeometry >> pureCairoDraw: aBlElement on: aPCRenderer [
+BlCircleGeometry >> pureCairoDraw: aBlElement on: aPCCanvas [
 
-	aPCRenderer
+	aPCCanvas
 		drawCircle: origin
 		radius: radius asPoint
 

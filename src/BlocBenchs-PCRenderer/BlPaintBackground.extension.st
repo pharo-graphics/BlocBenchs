@@ -1,7 +1,7 @@
 Extension { #name : #BlPaintBackground }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlPaintBackground >> pureCairoApplyTo: aPCRenderer [
+BlPaintBackground >> pureCairoApplyTo: aPCCanvas [
 
-	^ aPCRenderer acceptBlPaintBackground: self
+	^ aPCCanvas acceptBlPaintBackground: self
 ]

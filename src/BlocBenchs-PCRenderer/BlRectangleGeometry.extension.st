@@ -1,7 +1,7 @@
 Extension { #name : #BlRectangleGeometry }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlRectangleGeometry >> pureCairoDraw: aBlElement on: aPCRenderer [
+BlRectangleGeometry >> pureCairoDraw: aBlElement on: aPCCanvas [
 
-	aPCRenderer drawRectangle: aBlElement boundsInLocal
+	aPCCanvas drawRectangle: aBlElement boundsInLocal
 ]

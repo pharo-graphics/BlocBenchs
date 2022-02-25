@@ -1,8 +1,8 @@
 Extension { #name : #BlTransparentBackground }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlTransparentBackground >> pureCairoApplyTo: aPCRenderer [ 
+BlTransparentBackground >> pureCairoApplyTo: aPCCanvas [ 
 
-	^ aPCRenderer acceptBlTransparentBackground: self
+	^ aPCCanvas acceptBlTransparentBackground: self
 
 ]

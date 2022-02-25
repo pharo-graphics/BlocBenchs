@@ -80,7 +80,7 @@ BlSpaceBuilder >> initialize [
 	super initialize.
 	
 	space := BlSpace new.
-	spaceExtent := 500 asPoint.
+	spaceExtent := 100 asPoint.
 	host := BlMorphicWindowHost new.
 
 	random := Random seed: 7.

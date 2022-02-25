@@ -1,7 +1,7 @@
 Extension { #name : #BlImageBackground }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlImageBackground >> pureCairoApplyTo: aPCRenderer [ 
+BlImageBackground >> pureCairoApplyTo: aPCCanvas [ 
 	
-	^ aPCRenderer acceptBlImageBackground: self
+	^ aPCCanvas acceptBlImageBackground: self
 ]

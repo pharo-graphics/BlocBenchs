@@ -1,19 +1,29 @@
 Extension { #name : #BlElement }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlElement >> pureCairoDrawOn: aPCRenderer [ 
+BlElement >> pureCairoAsForm [
 
-	self background pureCairoApplyTo: aPCRenderer.
-	self border pureCairoApplyTo: aPCRenderer.
+	| aCanvas |
+	aCanvas := PCCanvas new.
+	aCanvas fullDraw: self.
+	^ aCanvas asForm
 
-	aPCRenderer
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+BlElement >> pureCairoDrawOn: aPCCanvas [ 
+
+	self background pureCairoApplyTo: aPCCanvas.
+	self border pureCairoApplyTo: aPCCanvas.
+
+	aPCCanvas
 		position: self position
 		transformation: self transformation matrix
 		applyDuring: [
 			self geometry
 				pureCairoDraw: self
-				on: aPCRenderer.
+				on: aPCCanvas.
 			self childrenDo: [:each |
-				each pureCairoDrawOn: aPCRenderer ] ]
+				each pureCairoDrawOn: aPCCanvas ] ]
 
 ]

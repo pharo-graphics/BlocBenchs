@@ -1,7 +1,7 @@
 Extension { #name : #BlBorder }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlBorder >> pureCairoApplyTo: aPCRenderer [
+BlBorder >> pureCairoApplyTo: aPCCanvas [
 
-	^ paint pureCairoApplyTo: aPCRenderer border: self
+	^ paint pureCairoApplyTo: aPCCanvas border: self
 ]

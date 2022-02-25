@@ -1,7 +1,7 @@
 Extension { #name : #BlTransparentPaint }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlTransparentPaint >> pureCairoApplyTo: aPCRenderer border: aBlBorder [
+BlTransparentPaint >> pureCairoApplyTo: aPCCanvas border: aBlBorder [
 
-	^ aPCRenderer acceptTransparentPaintBorder: aBlBorder
+	^ aPCCanvas acceptTransparentPaintBorder: aBlBorder
 ]
