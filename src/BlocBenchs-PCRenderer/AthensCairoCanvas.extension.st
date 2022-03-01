@@ -79,14 +79,6 @@ AthensCairoCanvas >> primPaintAlpha: aNumber [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
-AthensCairoCanvas >> primSetLineWidthOn: anInteger [ 
-
-	^ self ffiCall: #(void cairo_set_line_width (
-				AthensCairoCanvas self,
-				double anInteger) )
-]
-
-{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primSetSourceR: red g: green b: blue [
 	^ self ffiCall: #( 
 		void cairo_set_source_rgb ( self ,

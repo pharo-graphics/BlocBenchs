@@ -7,10 +7,12 @@ Class {
 		'hasBorder',
 		'borderColor',
 		'borderWidth',
-		'backgroundBlock',
 		'formToCairoSurfaceCache',
 		'backgroundAlpha',
-		'cairoSurface'
+		'cairoSurface',
+		'backgroundSourceBlock',
+		'arrayToDashesBuf',
+		'borderStyle'
 	],
 	#category : #'BlocBenchs-PCRenderer-Core'
 }
@@ -41,7 +43,7 @@ PCCanvas >> acceptBlImageBackground: aBlImageBackground [
 			factory: [ :aForm | AthensCairoSurface fromForm: aForm ];
 			yourself ].
 	
-	backgroundBlock := [ 
+	backgroundSourceBlock := [ 
 		| aForm aCairoSurface |
 		aForm := aBlImageBackground image.
 
@@ -60,7 +62,7 @@ PCCanvas >> acceptBlPaintBackground: aBlPaintBackground [
 
 	hasBackground := true.
 	backgroundAlpha := 1.0.
-	backgroundBlock := [
+	backgroundSourceBlock := [
 		self setSourceColor: aBlPaintBackground paint color ]
 
 ]
@@ -70,15 +72,20 @@ PCCanvas >> acceptBlTransparentBackground: aBlTransparentBackground [
 
 	hasBackground := false.
 	backgroundAlpha := 0.0.
-	backgroundBlock := nil.
+	backgroundSourceBlock := nil.
 ]
 
 { #category : #visiting }
 PCCanvas >> acceptColorPaintBorder: aBlColorPaint border: aBlBorder [
 
-	hasBorder := true.
 	borderColor := aBlColorPaint color.
 	borderWidth := aBlBorder width.
+
+	"Try to save time if border will not be visible"
+	hasBorder := (borderColor isTransparent not and: [ borderWidth isZero not ]).
+	hasBorder ifFalse: [ ^self ].
+
+	borderStyle := aBlBorder style.
 
 ]
 
@@ -102,7 +109,7 @@ PCCanvas >> drawBackgroundAndOrStrokeWith: aBlock [
 	aBlock value.
 
 	hasBackground ifTrue: [
-		backgroundBlock value.
+		backgroundSourceBlock value.
 		
 		hasBorder 
 			ifFalse: [
@@ -115,9 +122,8 @@ PCCanvas >> drawBackgroundAndOrStrokeWith: aBlock [
 					primClipPreserve;
 					primPaintAlpha: backgroundAlpha ] ].
 
-	"hasBorder is true (maybe hasBackground, too)"
-	self setSourceColor: borderColor.
-	cairoCanvas primSetLineWidthOn: borderWidth.
+	"hasBorder is true"
+	self setStrokeParameters.
 	cairoCanvas stroke.
 
 ]
@@ -217,6 +223,9 @@ PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 { #category : #'api - drawing' }
 PCCanvas >> setSourceColor: aColor [
 
+	"TODO: The default source pattern is opaque black, (that is, it is equivalent to cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 1.0))."
+"	aColor isBlack ifTrue: [ ^ self ]."
+
 	aColor isTranslucent
 		ifTrue: [ self setSourceTranslucentColor: aColor ]
 		ifFalse: [ self setSourceSolidColor: aColor ]
@@ -236,4 +245,42 @@ PCCanvas >> setSourceTranslucentColor: aColor [
 		g: aColor green
 		b: aColor blue
 		a: aColor alpha
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> setStrokeDashes [
+
+	"TODO: do not initialize here, and reset on new session"	
+	| dashArray |
+	
+	arrayToDashesBuf ifNil: [
+		arrayToDashesBuf := LRUCache new
+			maximumWeight: 400;
+			factory: [ :anArray |
+				| buf |
+				buf := ByteArray new: 8 * anArray size.
+				anArray withIndexDo: [ :len :i |
+					buf doubleAt: (i-1) * 8 + 1 put: len asFloat ].
+				buf ];
+			yourself ].
+
+	dashArray := borderStyle dashArray.
+
+	cairoCanvas
+		primSetDashesLengths: (arrayToDashesBuf at: dashArray)
+		count: dashArray size
+		offset: borderStyle dashOffset
+
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> setStrokeParameters [
+
+	self setSourceColor: borderColor.
+	
+	"TODO: In cairo, the default line width value is 2.0. Place a if?"
+	cairoCanvas primSetLineWidth: borderWidth.
+
+	borderStyle dashArray ifNotEmpty: [ self setStrokeDashes ].
+
 ]
