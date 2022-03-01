@@ -79,7 +79,7 @@ PCCanvas >> acceptBlTransparentBackground: aBlTransparentBackground [
 PCCanvas >> acceptColorPaintBorder: aBlColorPaint border: aBlBorder [
 
 	borderColor := aBlColorPaint color.
-	borderWidth := aBlBorder width.
+	borderWidth := aBlBorder width * 2. "Imitate BlOutskirtsOutside>>#drawBorder:onSpartaCanvas:of:"
 
 	"Try to save time if border will not be visible"
 	hasBorder := (borderColor isTransparent not and: [ borderWidth isZero not ]).
