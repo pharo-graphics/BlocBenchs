@@ -168,10 +168,16 @@ PCCanvas >> extent [
 ]
 
 { #category : #rendering }
+PCCanvas >> flush [
+
+	cairoSurface flush
+]
+
+{ #category : #rendering }
 PCCanvas >> fullDraw: anElement [
 
 	anElement pureCairoDrawOn: self.
-	cairoSurface flush.
+	self flush.
 	
 	^ #()
 ]
