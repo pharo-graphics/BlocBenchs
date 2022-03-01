@@ -1,18 +1,8 @@
 Class {
 	#name : #PCSolidCirclesBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
+	#superclass : #PCCirclesBenchCase,
 	#category : #'BlocBenchs-PureCairo'
 }
-
-{ #category : #hook }
-PCSolidCirclesBenchCase >> newFigureWith: random [
-	
-	^ BlElement new
-		geometry: BlCircleGeometry new;
-		size: self radius * 2;
-		background: (Color random: random);
-		yourself
-]
 
 { #category : #hook }
 PCSolidCirclesBenchCase >> newMorph [
@@ -22,8 +12,8 @@ PCSolidCirclesBenchCase >> newMorph [
 		  yourself
 ]
 
-{ #category : #accessing }
-PCSolidCirclesBenchCase >> radius [
+{ #category : #hook }
+PCSolidCirclesBenchCase >> prepare: anElement with: random [
 
-	^ 50.0 asPoint
+	anElement background: (Color random: random)
 ]
