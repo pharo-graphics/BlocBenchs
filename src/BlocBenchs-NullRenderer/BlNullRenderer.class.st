@@ -31,10 +31,5 @@ BlNullRenderer >> initializeForHostSpace: aBlHostSpace [
 	spaceRenderer initializeForSurface: surface.
 
 	textMeasurer := BlMockedTextMeasurer new
-		ascent: -10;
-		descent: 5;
-		glyphWidth: 10;
-		height: 15;
-		yourself
 
 ]
