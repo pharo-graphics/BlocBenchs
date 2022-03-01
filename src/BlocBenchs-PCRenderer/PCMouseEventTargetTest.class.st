@@ -8,97 +8,70 @@ Class {
 }
 
 { #category : #tests }
-PCMouseEventTargetTest >> assertMouseEventTargetAt: aPoint equals: anElement [
+PCMouseEventTargetTest >> assertMouseEventTargetAt: aPoint hasId: expectedId [
 
 	self
-		assert: (space root findMouseEventTargetAt: aPoint)
-		equals: anElement
+		assert: (space root findMouseEventTargetAt: aPoint) id asSymbol
+		equals: expectedId asSymbol
 ]
 
 { #category : #tests }
 PCMouseEventTargetTest >> assertNoMouseEventTargetAt: aPoint [
 	"Assert that the target at aPoint is the root, which means there are no elements there."
 
-	self assertMouseEventTargetAt: aPoint equals: space root
+	self assertMouseEventTargetAt: aPoint hasId: space root id asSymbol
 ]
 
 { #category : #running }
 PCMouseEventTargetTest >> setUp [
 	super setUp.
 	
-"
 	Bloc hasSparta: false.
-	"
+
+]
+
+{ #category : #running }
+PCMouseEventTargetTest >> tearDown [
+	
+	Bloc hasSparta: true.
+	super tearDown.
+
 ]
 
 { #category : #tests }
 PCMouseEventTargetTest >> testCircles [
 
-	| elementA elementB |
-	space := BlSpaceBuilder newSpaceWith: [ :builder |
-	
-		elementA := builder addCircle
-			relocate: 10 asPoint;
-			size: 10 asPoint;
-			yourself.
-
-		elementB := builder addCircle
-			relocate: 15 asPoint;
-			size: 10 asPoint;
-			yourself.
-		].	
+	space := BlSpaceFixture new spaceWithCircles.	
 
 	self
 		assertNoMouseEventTargetAt: 10 asPoint.
 
 	self
 		assertMouseEventTargetAt: 15 asPoint
-		equals: elementA.
+		hasId: #A.
 
 	self
 		assertMouseEventTargetAt: 20 asPoint
-		equals: elementB.
+		hasId: #B.
 
 ]
 
 { #category : #tests }
 PCMouseEventTargetTest >> testNesting [
 
-	| elementA elementB elementC |
-	space := BlSpaceBuilder newSpaceWith: [ :builder |
-	
-		elementA := builder addToRoot
-			geometry: BlRectangleGeometry new;
-			relocate: 10 asPoint;
-			size: 10 asPoint;
-			clipChildren: false;
-			yourself.
-
-		elementB := (builder addTo: elementA)
-			geometry: BlRectangleGeometry new;
-			relocate: 5 asPoint;
-			size: 10 asPoint;
-			clipChildren: true;
-			yourself.
-			
-		elementC := (builder addTo: elementB)
-			geometry: BlRectangleGeometry new;
-			relocate: 5 asPoint;
-			size: 10 asPoint;
-			yourself.
-		].
+	space := BlSpaceFixture new spaceWithNesting.
 	
 	self
 		assertMouseEventTargetAt: 10 asPoint
-		equals: elementA.
+		hasId: #A.
 
 	self
 		assertMouseEventTargetAt: 15 asPoint
-		equals: elementB.
+		hasId: #B.
 
 	self
 		assertMouseEventTargetAt: 20 asPoint
-		equals: elementC. "elementA doesn't clip"
+		hasId: #C. "elementA doesn't clip"
 
 	"elementB DOES clip, then elementC is not found"
 	self
@@ -109,21 +82,7 @@ PCMouseEventTargetTest >> testNesting [
 { #category : #tests }
 PCMouseEventTargetTest >> testRectangles [
 
-	| elementA elementB |
-	space := BlSpaceBuilder newSpaceWith: [ :builder |
-	
-		elementA := builder addToRoot
-			geometry: BlRectangleGeometry new;
-			relocate: 10 asPoint;
-			size: 10 asPoint;
-			yourself.
-
-		elementB := builder addToRoot
-			geometry: BlRectangleGeometry new;
-			relocate: 15 asPoint;
-			size: 10 asPoint;
-			yourself.
-		].
+	space := BlSpaceFixture new spaceWithRectangles.
 	
 	"No element theer, only background."
 	self
@@ -131,134 +90,68 @@ PCMouseEventTargetTest >> testRectangles [
 
 	self
 		assertMouseEventTargetAt: 10 asPoint
-		equals: elementA.
+		hasId: #A.
 
 	self
 		assertMouseEventTargetAt: 15 asPoint
-		equals: elementB.
+		hasId: #B.
 
 ]
 
 { #category : #tests }
 PCMouseEventTargetTest >> testTransformRotate [
 
-	| elementA elementB elementC |
-	space := BlSpaceBuilder newSpaceWith: [ :builder |
-	
-		elementA := builder addToRoot
-			geometry: BlTriangleGeometry new;
-			relocate: 0 asPoint;
-			size: 25 asPoint;
-			transformDo: [ :t | t rotateBy: -135 ];
-			yourself.
-
-		elementB := builder addToRoot
-			geometry: BlRectangleGeometry new;
-			relocate: 20 asPoint;
-			size: 20 asPoint;
-			transformDo: [ :t | t rotateBy: 45 ];
-			yourself.
-			
-		elementC := (builder addTo: elementB)
-			geometry: BlRectangleGeometry new;
-			transformDo: [ :t | t rotateBy: 180 ];
-			relocate: 5 asPoint;
-			size: 10 asPoint;
-			yourself ].
+	space := BlSpaceFixture new spaceWithTransformRotate.
 	 
-	{	 0 -> space root. 	
-		 5 -> elementA.
-		10 -> elementA.
-		15 -> elementA.
-		20 -> elementA.
-		25 -> elementB.
-		30 -> elementC.
-		35 -> elementB.
-		40 -> space root } do: [ :each |
+	{	 0 -> space root id.
+		 5 -> #A.
+		10 -> #A.
+		15 -> #A.
+		20 -> #A.
+		25 -> #B.
+		30 -> #C.
+		35 -> #B.
+		40 -> space root id } do: [ :each |
 			self
 				assertMouseEventTargetAt: each key asPoint
-				equals: each value ]
+				hasId: each value ]
 
 ]
 
 { #category : #tests }
 PCMouseEventTargetTest >> testTransformScale [
 
-	| elementA elementB elementC |
-	space := BlSpaceBuilder newSpaceWith: [ :builder |
+	space := BlSpaceFixture new spaceWithTransformScale.
 
-		"Center is at 10@10"
-		elementA := builder addToRoot
-			geometry: BlCircleGeometry new;
-			relocate: 0 asPoint;
-			size: 20 asPoint;
-			transformDo: [ :t | t scaleBy: 1/2 ];
-			yourself.
-
-		"Center is 25@25 (10/2 + 20)"
-		elementB := builder addToRoot
-			geometry: BlCircleGeometry new;
-			relocate: 20 asPoint;
-			size: 10 asPoint;
-			transformDo: [ :t | t scaleBy: 2 ];
-			yourself.
-
-		"C is in the center of it's parent, as they have the same size."
-		elementC := (builder addTo: elementB)
-			geometry: BlCircleGeometry new;
-			relocate: 0 asPoint;
-			size: 10 asPoint;
-			transformDo: [ :t | t scaleBy: 0.5 ];
-			yourself ].
-
-	{ 	 5 -> space root.
-		10 -> elementA.
-		15 -> space root.
-		20 -> elementB.
-		25 -> elementC.
-		30 -> elementB.
-		35 -> space root } do: [ :each |
+	{ 	 5 -> space root id.
+		10 -> #A.
+		15 -> space root id.
+		20 -> #B.
+		25 -> #C.
+		30 -> #B.
+		35 -> space root id } do: [ :each |
 			self
 				assertMouseEventTargetAt: each key asPoint
-				equals: each value ]
+				hasId: each value ]
 
 ]
 
 { #category : #tests }
 PCMouseEventTargetTest >> testTransformTranslate [
 
-	| elementA elementB elementC |
-	space := BlSpaceBuilder newSpaceWith: [ :builder |
-	
-		elementA := builder addToRoot
-			geometry: BlRectangleGeometry new;
-			transformDo: [ :t | t translateBy: 10 ];
-			size: 10 asPoint;
-			yourself.
-
-		elementB := builder addToRoot
-			geometry: BlRectangleGeometry new;
-			transformDo: [ :t | t translateBy: 15 ];
-			size: 10 asPoint;
-			yourself.
-			
-		elementC := (builder addTo: elementB)
-			geometry: BlRectangleGeometry new;
-			transformDo: [ :t | t translateBy: 5 ];
-			size: 5 asPoint;
-			yourself ].
+	space := BlSpaceFixture new spaceWithTransformTranslate.
 	
 	self
 		assertMouseEventTargetAt: 10 asPoint
-		equals: elementA.
+		hasId: #A.
 
 	self
 		assertMouseEventTargetAt: 15 asPoint
-		equals: elementB.
+		hasId: #B.
 
 	self
 		assertMouseEventTargetAt: 20 asPoint
-		equals: elementC.
+		hasId: #C.
 
 	self
 		assertNoMouseEventTargetAt: 25 asPoint. 
@@ -268,29 +161,17 @@ PCMouseEventTargetTest >> testTransformTranslate [
 { #category : #tests }
 PCMouseEventTargetTest >> testTriangles [
 
-	| elementA elementB |
-	space := BlSpaceBuilder newSpaceWith: [ :builder |
-	
-		elementA := builder addTriangle
-			relocate: 10 asPoint;
-			size: 10 asPoint;
-			yourself.
-
-		elementB := builder addTriangle
-			relocate: 15 asPoint;
-			size: 10 asPoint;
-			yourself.
-		].	
+	space := BlSpaceFixture new spaceWithTriangles.
 
 	self
 		assertMouseEventTargetAt: 10 asPoint
-		equals: elementA.
+		hasId: #A.
 
 	self
 		assertNoMouseEventTargetAt: 11@10.
 
 	self
 		assertMouseEventTargetAt: 15 asPoint
-		equals: elementB.
+		hasId: #B.
 
 ]
