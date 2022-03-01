@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'BlocBenchs-PCRenderer'
+	#category : #'BlocBenchs-PCRenderer-Core'
 }
 
 { #category : #accessing }
