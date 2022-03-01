@@ -11,8 +11,8 @@ Class {
 		'backgroundAlpha',
 		'cairoSurface',
 		'backgroundSourceBlock',
-		'arrayToDashesBuf',
-		'borderStyle'
+		'borderStyle',
+		'dashesArrayToFloatArray'
 	],
 	#category : #'BlocBenchs-PCRenderer-Core'
 }
@@ -142,6 +142,23 @@ PCCanvas >> drawCircle: topLeftPoint radius: radiusPoint [
 			startAngle: 0.0
 			endAngle: Float twoPi ]
 
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> drawPolygon: thePoints [
+
+	self drawBackgroundAndOrStrokeWith: [ 
+		thePoints do: [ :each | cairoCanvas lineTo: each ].
+		cairoCanvas primClosePath ]
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> drawPolyline: thePoints [
+
+	self drawBackgroundAndOrStrokeWith: [ 
+		thePoints do: [ :each | cairoCanvas lineTo: each ]
+		"TODO: only set line cap in cases like this, when path is open"
+		 ]
 ]
 
 { #category : #'api - drawing' }
