@@ -10,6 +10,14 @@ PCSolidBorderCirclesBenchCase >> borderWidth [
 	^ 5
 ]
 
+{ #category : #'instance creation' }
+PCSolidBorderCirclesBenchCase >> newMorph [
+
+	^ PCSolidBorderCirclesMorph new
+		  case: self;
+		  yourself
+]
+
 { #category : #hook }
 PCSolidBorderCirclesBenchCase >> prepare: anElement with: random [
 
