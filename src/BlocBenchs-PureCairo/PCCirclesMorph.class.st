@@ -1,5 +1,5 @@
 Class {
-	#name : #PCCirclesMoph,
+	#name : #PCCirclesMorph,
 	#superclass : #PCTranslatingFiguresMorph,
 	#instVars : [
 		'circleColors'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #drawing }
-PCCirclesMoph >> drawOnCairoCanvas [
+PCCirclesMorph >> drawOnCairoCanvas [
 
 	self clearCairoCanvas.
 
@@ -20,13 +20,13 @@ PCCirclesMoph >> drawOnCairoCanvas [
 ]
 
 { #category : #drawing }
-PCCirclesMoph >> drawPath [
+PCCirclesMorph >> drawPath [
 
 	self subclassResponsibility
 ]
 
 { #category : #drawing }
-PCCirclesMoph >> prepareFirstDraw [
+PCCirclesMorph >> prepareFirstDraw [
 
 	super prepareFirstDraw.
 	circleColors := (1 to: case numberOfFigures)
@@ -35,7 +35,7 @@ PCCirclesMoph >> prepareFirstDraw [
 ]
 
 { #category : #drawing }
-PCCirclesMoph >> setPathFor: index [
+PCCirclesMorph >> setPathFor: index [
 
 	| center deltaY |
 	deltaY := deltaYPerMS * (lastMS - startMS).
@@ -51,7 +51,7 @@ PCCirclesMoph >> setPathFor: index [
 ]
 
 { #category : #drawing }
-PCCirclesMoph >> setSourceFor: index [
+PCCirclesMorph >> setSourceFor: index [
 
 	cairoCanvas primSetSourceRGBColor: (circleColors at: index)
 ]

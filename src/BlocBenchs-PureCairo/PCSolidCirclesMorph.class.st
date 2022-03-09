@@ -1,6 +1,6 @@
 Class {
 	#name : #PCSolidCirclesMorph,
-	#superclass : #PCCirclesMoph,
+	#superclass : #PCCirclesMorph,
 	#category : #'BlocBenchs-PureCairo'
 }
 
