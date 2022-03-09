@@ -12,6 +12,14 @@ PCSolidCirclesBenchCase >> newMorph [
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+PCSolidCirclesBenchCase >> newRoassalWrapperMorph [
+	
+	^ PCRoassalSolidCirclesMorph new
+		  case: self;
+		  yourself
+]
+
 { #category : #hook }
 PCSolidCirclesBenchCase >> prepare: anElement with: random [
 
