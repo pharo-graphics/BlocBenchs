@@ -8,9 +8,8 @@ Class {
 PCRoassalSolidBorderCirclesMorph >> prepareCircle: aCircleShape [
 
 	aCircleShape
-		color: Color transparent;
-		border:
-		(RSBorder new
+		noPaint;
+		border: (RSBorder new
 			 color: (Color random: random);
 			 width: case borderWidth)
 

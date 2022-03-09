@@ -5,17 +5,23 @@ Class {
 }
 
 { #category : #hook }
+PCPolylineBenchCase >> borderWidth [
+
+	^ 1
+]
+
+{ #category : #hook }
 PCPolylineBenchCase >> newFigureWith: random [
 
 	^ BlElement new
-		  border: (BlBorder paint: (Color random: random) width: 1);
+		  geometry: (BlPolylineGeometry vertices: self vertices);
+		  border: (BlBorder paint: (Color random: random) width: self borderWidth);
 		  background: Color transparent;
-		  in: [ :me | self preparePolyline: me ];
 		  yourself
 ]
 
 { #category : #hook }
-PCPolylineBenchCase >> preparePolyline: anElement [
+PCPolylineBenchCase >> vertices [
 
 	self subclassResponsibility
 ]

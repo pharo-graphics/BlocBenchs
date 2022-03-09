@@ -10,7 +10,7 @@ PCRoassalCirclesMorph >> newShape: index [
 	^ RSCircle new
 		position: case figureOffset + ((index * case horizontalSeparation) @ 0);
 		radius: case radius;
-		in:[ :me | self prepareCircle: me ];
+		in: [ :me | self prepareCircle: me ];
 		yourself
 
 ]

@@ -19,7 +19,7 @@ PCSolidImagesMorph >> drawOnCairoCanvas [
 
 	1 to: case numberOfColumns do: [ :col |
 		| positionX |
-		positionX := case figureOffset x + col * case horizontalSeparation - 380. "WHY?"
+		positionX := case figureOffset x + col * case horizontalSeparation - 380.0. "WHY?"
 
 		1 to: case numberOfRows do: [ :row |
 

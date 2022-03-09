@@ -4,16 +4,22 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
+{ #category : #'instance creation' }
+PCHexagonBenchCase >> newRoassalWrapperMorph [
+
+	^ PCRoassalHexagonMorph new
+		  case: self;
+		  yourself
+]
+
 { #category : #hook }
-PCHexagonBenchCase >> preparePolyline: anElement [
+PCHexagonBenchCase >> vertices [ 
 
-	anElement geometry:
-		(BlPolylineGeometry vertices: { 
-			 60 @  0.
-			 20 @  0.
-			  0 @ 36.
-			 20 @ 70.
-			 60 @ 70.
-			 80 @ 36 })
-
+	^ { 
+		 60 @  0.
+		 20 @  0.
+		  0 @ 36.
+		 20 @ 70.
+		 60 @ 70.
+		 80 @ 36 }
 ]
