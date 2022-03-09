@@ -31,11 +31,11 @@ PCMorph >> case [
 ]
 
 { #category : #accessing }
-PCMorph >> case: aPCNestedTransformationsBenchCase [
+PCMorph >> case: aPCBenchCase [
 
-	case := aPCNestedTransformationsBenchCase.
-	self surfaceExtent: aPCNestedTransformationsBenchCase surfaceExtent.
-	self random: aPCNestedTransformationsBenchCase newRandom.
+	case := aPCBenchCase.
+	self surfaceExtent: aPCBenchCase surfaceExtent.
+	self random: aPCBenchCase newRandom.
 
 ]
 
