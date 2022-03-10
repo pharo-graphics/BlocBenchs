@@ -12,7 +12,8 @@ Class {
 		'cairoSurface',
 		'backgroundSourceBlock',
 		'borderStyle',
-		'dashesArrayToFloatArray'
+		'dashesArrayToFloatArray',
+		'pathCache'
 	],
 	#category : #'BlocBenchs-PCRenderer-Core'
 }
@@ -102,6 +103,81 @@ PCCanvas >> asForm [
 ]
 
 { #category : #'api - drawing' }
+PCCanvas >> draw: key backgroundAndOrStrokeWith: aBlock [
+
+	self drawBackgroundAndOrStrokeWith: aBlock.
+
+"	self drawBackgroundAndOrStrokeWith: [
+		pathCache ifNil: [ pathCache := IdentityDictionary new ].
+		pathCache
+			at: key
+			ifPresent: [:path | 
+				cairoCanvas primAppendPath: path ]
+			ifAbsentPut: [
+				aBlock value.
+				cairoCanvas primCopyPath initialize ] ]
+"
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement circle: aGeometry [
+
+	self draw: aGeometry backgroundAndOrStrokeWith: [
+		cairoCanvas
+			primArcCenterX: aGeometry origin x + aGeometry radius
+			centerY: aGeometry origin y + aGeometry radius
+			radius: aGeometry radius
+			startAngle: 0.0
+			endAngle: Float twoPi ]
+
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement polygon: aGeometry [
+
+	self draw: aGeometry backgroundAndOrStrokeWith: [ 
+		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ].
+		cairoCanvas primClosePath ]
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement polyline: aGeometry [
+
+	self draw: aGeometry backgroundAndOrStrokeWith: [ 
+		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ].
+		"TODO: only set line cap in cases like this, when path is open"
+		 ]
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement rectangle: aGeometry [
+
+	self draw: aGeometry backgroundAndOrStrokeWith: [
+		| aRectangle |
+		aRectangle := aBlElement boundsInLocal.
+		cairoCanvas
+			rectangleX: aRectangle left
+			y: aRectangle top
+			width: aRectangle width
+			height: aRectangle height ]
+
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement triangle: aGeometry [
+
+	self draw: aGeometry backgroundAndOrStrokeWith: [
+		| thePoints |
+		thePoints := aGeometry computeVertices.
+		cairoCanvas
+			moveTo: thePoints first;
+			lineTo: thePoints second;
+			lineTo: thePoints third;
+			primClosePath ]
+
+]
+
+{ #category : #'api - drawing' }
 PCCanvas >> drawBackgroundAndOrStrokeWith: aBlock [
 
 	(hasBackground or: [ hasBorder ]) ifFalse: [ ^self ].
@@ -125,63 +201,6 @@ PCCanvas >> drawBackgroundAndOrStrokeWith: aBlock [
 	"hasBorder is true"
 	self setStrokeParameters.
 	cairoCanvas stroke.
-
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> drawCircle: topLeftPoint radius: radiusPoint [
-
-	self drawBackgroundAndOrStrokeWith: [
-		| center |
-		center := topLeftPoint + radiusPoint.
-
-		cairoCanvas
-			primArcCenterX: center x
-			centerY: center y
-			radius: radiusPoint x "TODO: ellipse"
-			startAngle: 0.0
-			endAngle: Float twoPi ]
-
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> drawPolygon: thePoints [
-
-	self drawBackgroundAndOrStrokeWith: [ 
-		thePoints do: [ :each | cairoCanvas lineTo: each ].
-		cairoCanvas primClosePath ]
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> drawPolyline: thePoints [
-
-	self drawBackgroundAndOrStrokeWith: [ 
-		thePoints do: [ :each | cairoCanvas lineTo: each ]
-		"TODO: only set line cap in cases like this, when path is open"
-		 ]
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> drawRectangle: aRectangle [
-
-	self drawBackgroundAndOrStrokeWith: [
-		cairoCanvas
-			rectangleX: aRectangle left
-			y: aRectangle top
-			width: aRectangle width
-			height: aRectangle height ]
-
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> drawTriangle: thePoints [ 
-
-	self drawBackgroundAndOrStrokeWith: [
-		cairoCanvas
-			moveTo: thePoints first;
-			lineTo: thePoints second;
-			lineTo: thePoints third;
-			primClosePath ]
 
 ]
 

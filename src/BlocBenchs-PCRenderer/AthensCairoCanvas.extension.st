@@ -13,6 +13,11 @@ AthensCairoCanvas >> moveTo: aPoint [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primAppendPath: aPath [
+	^ self ffiCall: #( void cairo_append_path (self , AthensCairoPath aPath))
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primApplyTransform: aCairoMatrix [
 
 	^ self ffiCall: #( void cairo_transform (
@@ -46,6 +51,12 @@ AthensCairoCanvas >> primClosePath [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primCopyPath [ 
+
+	^ self ffiCall: #( AthensCairoPath cairo_copy_path (self) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primInFillX: x Y: y [ 
 
 	^ self ffiCall: #(bool cairo_in_fill (
@@ -68,6 +79,12 @@ AthensCairoCanvas >> primLoadIdentity [
 
 	^ self ffiCall: #(
 		void cairo_identity_matrix (self) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primNewPath [
+
+	^ self ffiCall: #( void cairo_new_path ( self ) )
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }

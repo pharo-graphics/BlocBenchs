@@ -11,5 +11,5 @@ BlTriangleGeometry >> pureCairoContainsPoint: aPoint in: aBlElement [
 { #category : #'*BlocBenchs-PCRenderer' }
 BlTriangleGeometry >> pureCairoDraw: aBlElement on: aPCCanvas [
 
-	^ aPCCanvas drawTriangle: self computeVertices
+	^ aPCCanvas draw: aBlElement triangle: self
 ]
