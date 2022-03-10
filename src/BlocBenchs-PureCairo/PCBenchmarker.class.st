@@ -211,6 +211,12 @@ PCBenchmarker >> runInFork [
 ]
 
 { #category : #printing }
+PCBenchmarker >> shortReportAsString [
+
+	^ String streamContents: [ :stream | self shortReportOn: stream ]
+]
+
+{ #category : #printing }
 PCBenchmarker >> shortReportOn: aStream [
 
 	aStream << self labelWithCase; << ': '.
@@ -223,6 +229,12 @@ PCBenchmarker >> shortReportOn: aStream [
 PCBenchmarker >> shortReportOnStdout [
 
 	self shortReportOn: Stdio stdout
+]
+
+{ #category : #printing }
+PCBenchmarker >> shortReportOnTranscript [
+
+	self shortReportAsString withInternalLineEndings traceCr
 ]
 
 { #category : #private }
