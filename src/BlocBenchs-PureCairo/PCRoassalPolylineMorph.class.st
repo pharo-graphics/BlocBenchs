@@ -1,11 +1,11 @@
 Class {
-	#name : #PCRoassalHexagonMorph,
+	#name : #PCRoassalPolylineMorph,
 	#superclass : #PCRoassalTranslatingFiguresMorph,
 	#category : #'BlocBenchs-PureCairo'
 }
 
 { #category : #'instance creation' }
-PCRoassalHexagonMorph >> newShape: index [
+PCRoassalPolylineMorph >> newShape: index [
 
 	| offset translatedPoints |
 	offset := case figureOffset + ((index * case horizontalSeparation) @ 0).

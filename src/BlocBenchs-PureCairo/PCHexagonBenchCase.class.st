@@ -4,14 +4,6 @@ Class {
 	#category : #'BlocBenchs-PureCairo'
 }
 
-{ #category : #'instance creation' }
-PCHexagonBenchCase >> newRoassalWrapperMorph [
-
-	^ PCRoassalHexagonMorph new
-		  case: self;
-		  yourself
-]
-
 { #category : #hook }
 PCHexagonBenchCase >> vertices [ 
 

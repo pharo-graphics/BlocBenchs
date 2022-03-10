@@ -20,6 +20,22 @@ PCPolylineBenchCase >> newFigureWith: random [
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+PCPolylineBenchCase >> newMorph [
+
+	^ PCPolylinesMorph2 new
+		  case: self;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+PCPolylineBenchCase >> newRoassalWrapperMorph [
+
+	^ PCRoassalPolylineMorph new
+		  case: self;
+		  yourself
+]
+
 { #category : #hook }
 PCPolylineBenchCase >> vertices [
 

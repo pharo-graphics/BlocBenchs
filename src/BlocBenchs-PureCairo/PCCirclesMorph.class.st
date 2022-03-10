@@ -1,44 +1,13 @@
 Class {
 	#name : #PCCirclesMorph,
-	#superclass : #PCTranslatingFiguresMorph,
-	#instVars : [
-		'circleColors'
-	],
+	#superclass : #PCTranslatingPathsMorph,
 	#category : #'BlocBenchs-PureCairo'
 }
 
 { #category : #drawing }
-PCCirclesMorph >> drawOnCairoCanvas [
+PCCirclesMorph >> setPathFor: index deltaY: deltaY [
 
-	self clearCairoCanvas.
-
-	1 to: case numberOfFigures do: [ :index |
-		self setPathFor: index.
-		self setSourceFor: index.
-		self drawPath ]
-
-]
-
-{ #category : #drawing }
-PCCirclesMorph >> drawPath [
-
-	self subclassResponsibility
-]
-
-{ #category : #drawing }
-PCCirclesMorph >> prepareFirstDraw [
-
-	super prepareFirstDraw.
-	circleColors := (1 to: case numberOfFigures)
-		collect: [ :each | PCFloatColor newRandom: random ].
-
-]
-
-{ #category : #drawing }
-PCCirclesMorph >> setPathFor: index [
-
-	| center deltaY |
-	deltaY := deltaYPerMS * (lastMS - startMS).
+	| center |
 	center := case figureOffset + case radius + (index * case horizontalSeparation @ deltaY).
 
 	cairoCanvas
@@ -48,10 +17,4 @@ PCCirclesMorph >> setPathFor: index [
 			startAngle: 0.0
 			endAngle: Float twoPi.
 
-]
-
-{ #category : #drawing }
-PCCirclesMorph >> setSourceFor: index [
-
-	cairoCanvas primSetSourceRGBColor: (circleColors at: index)
 ]

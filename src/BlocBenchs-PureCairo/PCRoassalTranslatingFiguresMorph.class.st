@@ -15,7 +15,7 @@ PCRoassalTranslatingFiguresMorph >> prepareFirstDraw [
 
 	| canvas aContainer offset |
 	canvas := RSCanvas new.
-	offset := -1 * surfaceExtent // 2 + 50 asPoint. "TODO: why 50?"
+	offset := -1 * surfaceExtent // 2.
 
 	aContainer := RSComposite new.
 	canvas addShape: aContainer.
