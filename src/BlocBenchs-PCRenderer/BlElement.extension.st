@@ -4,6 +4,9 @@ Extension { #name : #BlElement }
 BlElement >> pureCairoAsForm [
 
 	| aCanvas |
+	self isLayoutRequested
+		ifTrue: [ self forceLayout ].
+
 	aCanvas := PCCanvas extent: self extent.
 	aCanvas fullDraw: self.
 	^ aCanvas asForm
