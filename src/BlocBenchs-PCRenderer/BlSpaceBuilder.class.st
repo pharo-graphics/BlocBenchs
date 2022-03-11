@@ -39,7 +39,7 @@ BlSpaceBuilder >> addTo: parentElement [
 	| anElement |
 	anElement := BlElement new
 		id: alphabetGenerator next;
-		background: (Color random: random);
+		background: self nextColor;
 		yourself.
 	parentElement addChild: anElement.
 	^ anElement
@@ -105,6 +105,12 @@ BlSpaceBuilder >> newSpaceWith: aUnaryBlockClosure [
 	^ self
 		  buildSpace;
 		  space
+]
+
+{ #category : #accessing }
+BlSpaceBuilder >> nextColor [
+
+	^ Color random: random
 ]
 
 { #category : #accessing }

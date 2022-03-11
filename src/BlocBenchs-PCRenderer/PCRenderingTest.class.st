@@ -73,8 +73,9 @@ PCRenderingTest >> testAllFixtures [
 
 	mismatchingResults := results reject: [:each | each isMatch ].
 
-	mismatchingResults ifNotEmpty: [ 
-		mismatchingResults do: #inspectActualVsExpectedMergedForm ].
+	mismatchingResults keysAndValuesDo: [ :selector :result |
+		result actualVsExpectedMergedForm 
+			inspectWithLabel: selector, ' - Actual vs. Expected' ].
 
 	self assertEmpty: mismatchingResults
 ]

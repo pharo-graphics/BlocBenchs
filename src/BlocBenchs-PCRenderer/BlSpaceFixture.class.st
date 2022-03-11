@@ -16,6 +16,79 @@ BlSpaceFixture >> allFixtureSpaces [
 	^ self allFixtureSelectors collect: [ :each | self perform: each ]
 ]
 
+{ #category : #private }
+BlSpaceFixture >> hexagonVertices [
+	
+	^ { 
+		 60 @  0.
+		 20 @  0.
+		  0 @ 36.
+		 20 @ 70.
+		 60 @ 70.
+		 80 @ 36 }
+]
+
+{ #category : #fixtures }
+BlSpaceFixture >> spaceWithBorderedCircles [
+	
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+
+		builder addCircle
+			border: (BlBorder paint: builder nextColor width: 8);
+			outskirts: BlOutskirts outside;
+			relocate: 10 asPoint;
+			size: 30 asPoint;
+			yourself.
+
+		builder addCircle
+			border: (BlBorder paint: builder nextColor width: 8);
+			outskirts: BlOutskirts centered;
+			relocate: 40 asPoint;
+			size: 30 asPoint;
+			yourself.
+
+		builder addCircle
+			border: (BlBorder paint: builder nextColor width: 8);
+			outskirts: BlOutskirts inside;
+			relocate: 70 asPoint;
+			size: 30 asPoint;
+			yourself.
+
+		].
+]
+
+{ #category : #fixtures }
+BlSpaceFixture >> spaceWithBorderedPolygons [
+	
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+
+		builder addToRoot
+			geometry: (BlPolygonGeometry vertices: self hexagonVertices);
+			border: (BlBorder paint: builder nextColor width: 7);
+			outskirts: BlOutskirts outside;
+			relocate: 0 asPoint;
+			transformDo: [ :t | t scaleBy: 0.5 ];
+			yourself.
+
+		builder addCircle
+			geometry: (BlPolygonGeometry vertices: self hexagonVertices);
+			border: (BlBorder paint: builder nextColor width: 7);
+			outskirts: BlOutskirts centered;
+			relocate: 20 asPoint;
+			transformDo: [ :t | t scaleBy: 0.5 ];
+			yourself.
+
+		builder addCircle
+			geometry: (BlPolygonGeometry vertices: self hexagonVertices);
+			border: (BlBorder paint: builder nextColor width: 7);
+			outskirts: BlOutskirts inside;
+			relocate: 40 asPoint;
+			transformDo: [ :t | t scaleBy: 0.5 ];
+			yourself.
+
+		].
+]
+
 { #category : #fixtures }
 BlSpaceFixture >> spaceWithCircles [
 	
@@ -60,6 +133,32 @@ BlSpaceFixture >> spaceWithNesting [
 			size: 10 asPoint;
 			yourself ]
 
+]
+
+{ #category : #fixtures }
+BlSpaceFixture >> spaceWithPolygon [
+
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+		
+		builder addToRoot
+			geometry: (BlPolygonGeometry vertices: self hexagonVertices);
+			relocate: 10 asPoint;
+			yourself.
+
+		]
+]
+
+{ #category : #fixtures }
+BlSpaceFixture >> spaceWithPolyline [
+
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+		
+		builder addToRoot
+			geometry: (BlPolylineGeometry vertices: self hexagonVertices);
+			relocate: 10 asPoint;
+			yourself.
+
+		]
 ]
 
 { #category : #fixtures }
