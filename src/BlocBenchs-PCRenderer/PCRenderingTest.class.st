@@ -59,19 +59,19 @@ PCRenderingTest >> testAllFixtures [
 	spaceFixture := BlSpaceFixture new.
 
 	results := spaceFixture allFixtureSelectors
-		collect: [ :each |
+		collect: [ :selector |
 			| aSpace expectedForm actualForm |
-			aSpace := spaceFixture perform: each.
-			expectedForm := Form fromFileNamed: (self fileNameFor: each).
+			aSpace := spaceFixture perform: selector.
+			expectedForm := Form fromFileNamed: (self fileNameFor: selector).
 			actualForm := aSpace root pureCairoAsForm.
 	
-			each -> (PCPixelComparison new
+			selector -> (PCPixelComparison new
 				expectedForm: expectedForm;
 				actualForm: actualForm;
 				yourself) ]
 		as: OrderedDictionary.
 
-	mismatchingResults := results reject: [:each | each isMatch ].
+	mismatchingResults := results reject: [ :each | each isMatch ].
 
 	mismatchingResults keysAndValuesDo: [ :selector :result |
 		result actualVsExpectedMergedForm 

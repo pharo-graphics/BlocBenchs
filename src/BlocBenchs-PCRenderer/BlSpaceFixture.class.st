@@ -29,67 +29,6 @@ BlSpaceFixture >> hexagonVertices [
 ]
 
 { #category : #fixtures }
-BlSpaceFixture >> spaceWithBorderedCircles [
-	
-	^ BlSpaceBuilder newSpaceWith: [ :builder |
-
-		builder addCircle
-			border: (BlBorder paint: builder nextColor width: 8);
-			outskirts: BlOutskirts outside;
-			relocate: 10 asPoint;
-			size: 30 asPoint;
-			yourself.
-
-		builder addCircle
-			border: (BlBorder paint: builder nextColor width: 8);
-			outskirts: BlOutskirts centered;
-			relocate: 40 asPoint;
-			size: 30 asPoint;
-			yourself.
-
-		builder addCircle
-			border: (BlBorder paint: builder nextColor width: 8);
-			outskirts: BlOutskirts inside;
-			relocate: 70 asPoint;
-			size: 30 asPoint;
-			yourself.
-
-		].
-]
-
-{ #category : #fixtures }
-BlSpaceFixture >> spaceWithBorderedPolygons [
-	
-	^ BlSpaceBuilder newSpaceWith: [ :builder |
-
-		builder addToRoot
-			geometry: (BlPolygonGeometry vertices: self hexagonVertices);
-			border: (BlBorder paint: builder nextColor width: 7);
-			outskirts: BlOutskirts outside;
-			relocate: 0 asPoint;
-			transformDo: [ :t | t scaleBy: 0.5 ];
-			yourself.
-
-		builder addCircle
-			geometry: (BlPolygonGeometry vertices: self hexagonVertices);
-			border: (BlBorder paint: builder nextColor width: 7);
-			outskirts: BlOutskirts centered;
-			relocate: 20 asPoint;
-			transformDo: [ :t | t scaleBy: 0.5 ];
-			yourself.
-
-		builder addCircle
-			geometry: (BlPolygonGeometry vertices: self hexagonVertices);
-			border: (BlBorder paint: builder nextColor width: 7);
-			outskirts: BlOutskirts inside;
-			relocate: 40 asPoint;
-			transformDo: [ :t | t scaleBy: 0.5 ];
-			yourself.
-
-		].
-]
-
-{ #category : #fixtures }
 BlSpaceFixture >> spaceWithCircles [
 	
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
@@ -133,6 +72,95 @@ BlSpaceFixture >> spaceWithNesting [
 			size: 10 asPoint;
 			yourself ]
 
+]
+
+{ #category : #fixtures }
+BlSpaceFixture >> spaceWithOutskirtsOfCircles [
+	
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+
+		"Row of filled"
+		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
+			withIndexDo: [ :eachOutskirt :index |
+
+				builder addCircle
+					border: (BlBorder paint: builder nextColor width: 6);
+					outskirts: eachOutskirt;
+					relocate: (((index - 1) * 25) + 10) @ 10;
+					size: 30 asPoint;
+					yourself ].
+
+		"Row of translucent"
+		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
+			withIndexDo: [ :eachOutskirt :index |
+
+				builder addCircle
+					border: (BlBorder paint: builder nextColor width: 6);
+					background: builder nextColor translucent;
+					outskirts: eachOutskirt;
+					relocate: (((index - 1) * 25) + 10) @ 35;
+					size: 30 asPoint;
+					yourself ].
+
+		"Row of unfilled"
+		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
+			withIndexDo: [ :eachOutskirt :index |
+
+				builder addCircle
+					border: (BlBorder paint: builder nextColor width: 6);
+					background: Color transparent;
+					outskirts: eachOutskirt;
+					relocate: (((index - 1) * 25) + 10) @ 65;
+					size: 30 asPoint;
+					yourself ].
+
+		].
+]
+
+{ #category : #fixtures }
+BlSpaceFixture >> spaceWithOutskirtsOfPolygons [
+	
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+
+		"Row of filled"
+		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
+			withIndexDo: [ :eachOutskirt :index |
+
+				builder addToRoot
+					relocate: (((index - 1) * 20)) @ 0;
+					geometry: (BlPolygonGeometry vertices: self hexagonVertices);
+					border: (BlBorder paint: builder nextColor width: 7);
+					outskirts: eachOutskirt;
+					transformDo: [ :t | t scaleBy: 0.5 ];
+					yourself ].
+
+		"Row of translucent"
+		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
+			withIndexDo: [ :eachOutskirt :index |
+
+				builder addToRoot
+					relocate: (((index - 1) * 20)) @ 20;
+					background: builder nextColor translucent;
+					geometry: (BlPolygonGeometry vertices: self hexagonVertices);
+					border: (BlBorder paint: builder nextColor width: 7);
+					outskirts: eachOutskirt;
+					transformDo: [ :t | t scaleBy: 0.5 ];
+					yourself ].
+
+		"Row of unfilled"
+		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
+			withIndexDo: [ :eachOutskirt :index |
+
+				builder addToRoot
+					relocate: (((index - 1) * 20)) @ 40;
+					background: Color transparent;
+					geometry: (BlPolygonGeometry vertices: self hexagonVertices);
+					border: (BlBorder paint: builder nextColor width: 7);
+					outskirts: eachOutskirt;
+					transformDo: [ :t | t scaleBy: 0.5 ];
+					yourself ].
+
+		].
 ]
 
 { #category : #fixtures }
