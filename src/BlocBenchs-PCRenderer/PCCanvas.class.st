@@ -12,8 +12,8 @@ Class {
 		'cairoSurface',
 		'backgroundSourceBlock',
 		'borderStyle',
-		'dashesArrayToFloatArray',
-		'pathCache'
+		'arrayToDashesBuf',
+		'drawBackgroundAndOrStrokeBlock'
 	],
 	#category : #'BlocBenchs-PCRenderer-Core'
 }
@@ -107,7 +107,9 @@ PCCanvas >> draw: key backgroundAndOrStrokeWith: aBlock [
 
 	self drawBackgroundAndOrStrokeWith: aBlock.
 
-"	self drawBackgroundAndOrStrokeWith: [
+"	UNCOMMENT TO TEST PATH CACHING:
+
+	self drawBackgroundAndOrStrokeWith: [
 		pathCache ifNil: [ pathCache := IdentityDictionary new ].
 		pathCache
 			at: key
