@@ -26,6 +26,35 @@ BlSpaceBuilder >> addCircle [
 ]
 
 { #category : #'adding elements' }
+BlSpaceBuilder >> addHexagonalPolygon [
+	"Answer an hexagon polygon."
+
+	| hexagonVertices |
+	hexagonVertices := { 
+		 60 @  0.
+		 20 @  0.
+		  0 @ 36.
+		 20 @ 70.
+		 60 @ 70.
+		 80 @ 36 }.
+		
+	^ self addToRoot
+		geometry: (BlPolygon vertices: hexagonVertices);
+		yourself
+]
+
+{ #category : #'adding elements' }
+BlSpaceBuilder >> addPolyline [
+	"Answer a simple polyline of 3 vertices. Polylines are open, then don't look good with other outskirts than centered."
+
+	^ self addToRoot
+		background: Color transparent;
+		geometry: (BlPolyline vertices: { 20@4. 0@0. 4@20 });
+		outskirts: BlOutskirts centered;	
+		yourself
+]
+
+{ #category : #'adding elements' }
 BlSpaceBuilder >> addRectangle [
 
 	^ self addToRoot

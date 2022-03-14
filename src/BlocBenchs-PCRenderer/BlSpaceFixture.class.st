@@ -17,15 +17,13 @@ BlSpaceFixture >> allFixtureSpaces [
 ]
 
 { #category : #private }
-BlSpaceFixture >> hexagonVertices [
+BlSpaceFixture >> diagonalPositionGeneratorStartingAt: aPoint by: by [
 	
-	^ { 
-		 60 @  0.
-		 20 @  0.
-		  0 @ 36.
-		 20 @ 70.
-		 60 @ 70.
-		 80 @ 36 }
+	^ Generator on: [ :g | 
+		| index |
+		index := 0.
+		[ 	g yield: aPoint + index asPoint.
+			index := index + by ] repeat ]
 ]
 
 { #category : #fixtures }
@@ -126,9 +124,8 @@ BlSpaceFixture >> spaceWithOutskirtsOfPolygons [
 		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
 			withIndexDo: [ :eachOutskirt :index |
 
-				builder addToRoot
+				builder addHexagonalPolygon
 					relocate: (((index - 1) * 20)) @ 0;
-					geometry: (BlPolygonGeometry vertices: self hexagonVertices);
 					border: (BlBorder paint: builder nextColor width: 7);
 					outskirts: eachOutskirt;
 					transformDo: [ :t | t scaleBy: 0.5 ];
@@ -138,10 +135,9 @@ BlSpaceFixture >> spaceWithOutskirtsOfPolygons [
 		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
 			withIndexDo: [ :eachOutskirt :index |
 
-				builder addToRoot
+				builder addHexagonalPolygon
 					relocate: (((index - 1) * 20)) @ 20;
 					background: builder nextColor translucent;
-					geometry: (BlPolygonGeometry vertices: self hexagonVertices);
 					border: (BlBorder paint: builder nextColor width: 7);
 					outskirts: eachOutskirt;
 					transformDo: [ :t | t scaleBy: 0.5 ];
@@ -151,42 +147,15 @@ BlSpaceFixture >> spaceWithOutskirtsOfPolygons [
 		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
 			withIndexDo: [ :eachOutskirt :index |
 
-				builder addToRoot
+				builder addHexagonalPolygon
 					relocate: (((index - 1) * 20)) @ 40;
 					background: Color transparent;
-					geometry: (BlPolygonGeometry vertices: self hexagonVertices);
 					border: (BlBorder paint: builder nextColor width: 7);
 					outskirts: eachOutskirt;
 					transformDo: [ :t | t scaleBy: 0.5 ];
 					yourself ].
 
 		].
-]
-
-{ #category : #fixtures }
-BlSpaceFixture >> spaceWithPolygon [
-
-	^ BlSpaceBuilder newSpaceWith: [ :builder |
-		
-		builder addToRoot
-			geometry: (BlPolygonGeometry vertices: self hexagonVertices);
-			relocate: 10 asPoint;
-			yourself.
-
-		]
-]
-
-{ #category : #fixtures }
-BlSpaceFixture >> spaceWithPolyline [
-
-	^ BlSpaceBuilder newSpaceWith: [ :builder |
-		
-		builder addToRoot
-			geometry: (BlPolylineGeometry vertices: self hexagonVertices);
-			relocate: 10 asPoint;
-			yourself.
-
-		]
 ]
 
 { #category : #fixtures }
@@ -207,6 +176,72 @@ BlSpaceFixture >> spaceWithRectangles [
 			size: 10 asPoint;
 			yourself.
 		]
+]
+
+{ #category : #fixtures }
+BlSpaceFixture >> spaceWithStrokeStyles [
+	
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+
+			| positionGenerator width |
+			width := 9.
+			positionGenerator := self diagonalPositionGeneratorStartingAt: 8 by: 16.
+
+			builder addPolyline
+				relocate: positionGenerator next;
+				border: (BlBorder builder
+					width: width;
+					capButt;
+					joinRound;
+					paint: builder nextColor;
+					build);
+				yourself.
+
+			builder addPolyline
+				relocate: positionGenerator next;
+				border: (BlBorder builder
+					width: width;
+					capSquare;
+					joinBevel;
+					paint: builder nextColor;
+					build);
+				yourself.
+
+			builder addPolyline
+				relocate: positionGenerator next;
+				border: (BlBorder builder
+					width: width;
+					capRound;
+					joinMiter;
+					miterLimit: 10;
+					paint: builder nextColor;
+					build);
+				yourself.
+
+			builder addPolyline
+				relocate: positionGenerator next;
+				border: (BlBorder builder
+					dashArray: #(0 5);
+					capRound;
+					joinRound;
+					paint: builder nextColor;
+					width: 4;
+					build);
+				yourself.
+
+			builder addPolyline
+				relocate: positionGenerator next;
+				border: (BlBorder builder
+					dashArray: #(3 5);
+					dashOffset: 5;
+					paint: builder nextColor;
+					capSquare;
+					joinBevel;
+					width: 3;
+					build);
+				yourself.
+
+		].
 ]
 
 { #category : #fixtures }
