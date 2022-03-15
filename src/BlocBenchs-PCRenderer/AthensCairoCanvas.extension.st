@@ -13,6 +13,22 @@ AthensCairoCanvas >> moveTo: aPoint [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> paintGroupWith: aBlock [
+
+	self primPushGroup.
+	aBlock value.
+	self
+		primPopGroupToSource;
+		primPaint
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> popGroup [
+
+	^ self primPopGroup initialize "(autoRelease)"
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primAppendPath: aPath [
 	^ self ffiCall: #( void cairo_append_path (self , AthensCairoPath aPath))
 ]
@@ -82,6 +98,12 @@ AthensCairoCanvas >> primLoadIdentity [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primMask: aPattern [
+
+	^ self ffiCall: #(void cairo_mask ( self, AthensCairoPatternPaint aPattern))
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primNewPath [
 
 	^ self ffiCall: #( void cairo_new_path ( self ) )
@@ -93,6 +115,24 @@ AthensCairoCanvas >> primPaintAlpha: aNumber [
 	^ self ffiCall: #(void cairo_paint_with_alpha (
 			self,
 			double aNumber ) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primPopGroup [
+
+	^ self ffiCall: #(AthensCairoPatternPaint cairo_pop_group ( self ) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primPopGroupToSource [
+
+	^ self ffiCall: #(void cairo_pop_group_to_source ( self ) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primPushGroup [
+
+	^ self ffiCall: #(void cairo_push_group ( self ) )
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
@@ -124,6 +164,12 @@ AthensCairoCanvas >> primSetSourceSurface: aCairoSurface x: aX y: aY [
 			AthensCairoSurface aCairoSurface,
 			double aX,
 			double aY) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primStrokePreserve [
+
+	^ self ffiCall: #(void cairo_stroke_preserve (self))
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }

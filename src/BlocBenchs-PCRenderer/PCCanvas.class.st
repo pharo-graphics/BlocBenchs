@@ -13,7 +13,9 @@ Class {
 		'backgroundSourceBlock',
 		'borderStyle',
 		'arrayToDashesBuf',
-		'drawBackgroundAndOrStrokeBlock'
+		'drawFillAndStrokeBlock',
+		'cairoPaintMode',
+		'hasOpaqueBackground'
 	],
 	#category : #'BlocBenchs-PCRenderer-Core'
 }
@@ -35,7 +37,11 @@ PCCanvas class >> new [
 { #category : #visiting }
 PCCanvas >> acceptBlImageBackground: aBlImageBackground [ 
 
+	| image |
 	hasBackground := true.
+	backgroundAlpha := aBlImageBackground opacity.
+	image := aBlImageBackground image.
+	hasOpaqueBackground := image isTranslucent not.
 
 	"TODO: do not initialize here, and reset on new session"	
 	formToCairoSurfaceCache ifNil: [
@@ -45,24 +51,37 @@ PCCanvas >> acceptBlImageBackground: aBlImageBackground [
 			yourself ].
 	
 	backgroundSourceBlock := [ 
-		| aForm aCairoSurface |
-		aForm := aBlImageBackground image.
+		| aCairoSurface |
+		aCairoSurface := formToCairoSurfaceCache at: image.
+		cairoCanvas primSetSourceSurface: aCairoSurface x: 0.0 y: 0.0.
+		].
 
-		aCairoSurface := formToCairoSurfaceCache at: aForm.
-		cairoCanvas
-			primSetSourceSurface: aCairoSurface x: 0.0 y: 0.0.
-		
-		backgroundAlpha := aBlImageBackground opacity ].
-		
+]
+
+{ #category : #visiting }
+PCCanvas >> acceptBlOutskirtsCentered: aBlOutskirtsCentered [
 	
+	self setWithCenteredBorder
+]
 
+{ #category : #visiting }
+PCCanvas >> acceptBlOutskirtsInside: aBlOutskirtsInside [ 
+
+	self setWithInsideBorder
+]
+
+{ #category : #visiting }
+PCCanvas >> acceptBlOutskirtsOutside: aBlOutskirtsOutside [ 
+	
+	self setWithOutsideBorder
 ]
 
 { #category : #visiting }
 PCCanvas >> acceptBlPaintBackground: aBlPaintBackground [
 
 	hasBackground := true.
-	backgroundAlpha := 1.0.
+	backgroundAlpha := aBlPaintBackground opacity.
+	hasOpaqueBackground := aBlPaintBackground isOpaque.
 	backgroundSourceBlock := [
 		self setSourceColor: aBlPaintBackground paint color ]
 
@@ -73,6 +92,7 @@ PCCanvas >> acceptBlTransparentBackground: aBlTransparentBackground [
 
 	hasBackground := false.
 	backgroundAlpha := 0.0.
+	hasOpaqueBackground := false.
 	backgroundSourceBlock := nil.
 ]
 
@@ -80,20 +100,19 @@ PCCanvas >> acceptBlTransparentBackground: aBlTransparentBackground [
 PCCanvas >> acceptColorPaintBorder: aBlColorPaint border: aBlBorder [
 
 	borderColor := aBlColorPaint color.
-	borderWidth := aBlBorder width * 2. "Imitate BlOutskirtsOutside>>#drawBorder:onSpartaCanvas:of:"
-
-	"Try to save time if border will not be visible"
-	hasBorder := (borderColor isTransparent not and: [ borderWidth isZero not ]).
-	hasBorder ifFalse: [ ^self ].
-
+	borderWidth := aBlBorder width.
 	borderStyle := aBlBorder style.
+
+	(borderColor isTransparent or: [ borderWidth isZero ]) ifTrue: [
+		self setWithoutBorder ].
+
 
 ]
 
 { #category : #visiting }
 PCCanvas >> acceptTransparentPaintBorder: aBlElement [ 
 	
-	hasBorder := false.
+	self setWithoutBorder.
 ]
 
 { #category : #converting }
@@ -103,9 +122,69 @@ PCCanvas >> asForm [
 ]
 
 { #category : #'api - drawing' }
-PCCanvas >> draw: key backgroundAndOrStrokeWith: aBlock [
+PCCanvas >> draw: aBlElement circle: aGeometry [
 
-	self drawBackgroundAndOrStrokeWith: aBlock.
+	self drawFillAndStroke: aGeometry with: [
+		cairoCanvas
+			primArcCenterX: aGeometry origin x + aGeometry radius
+			centerY: aGeometry origin y + aGeometry radius
+			radius: aGeometry radius
+			startAngle: 0.0
+			endAngle: Float twoPi ]
+
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement polygon: aGeometry [
+
+	self drawFillAndStroke: aGeometry with: [ 
+		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ].
+		cairoCanvas primClosePath ]
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement polyline: aGeometry [
+
+	self drawFillAndStroke: aGeometry with: [ 
+		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ].
+		"TODO: only set line cap in cases like this, when path is open"
+		 ]
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement rectangle: aGeometry [
+
+	self drawFillAndStroke: aGeometry with: [
+		| aRectangle |
+		aRectangle := aBlElement boundsInLocal.
+		
+		cairoCanvas
+			rectangleX: aRectangle left
+			y: aRectangle top
+			width: aRectangle width
+			height: aRectangle height ]
+
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> draw: aBlElement triangle: aGeometry [
+
+	self drawFillAndStroke: aGeometry with: [
+		| thePoints |
+		thePoints := aGeometry computeVertices.
+
+		cairoCanvas
+			moveTo: thePoints first;
+			lineTo: thePoints second;
+			lineTo: thePoints third;
+			primClosePath ]
+
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> drawFillAndStroke: key with: aBlock [
+
+	self drawFillAndStrokeWith: aBlock.
 
 "	UNCOMMENT TO TEST PATH CACHING:
 
@@ -122,92 +201,15 @@ PCCanvas >> draw: key backgroundAndOrStrokeWith: aBlock [
 ]
 
 { #category : #'api - drawing' }
-PCCanvas >> draw: aBlElement circle: aGeometry [
+PCCanvas >> drawFillAndStrokeWith: aBlock [
 
-	self draw: aGeometry backgroundAndOrStrokeWith: [
-		cairoCanvas
-			primArcCenterX: aGeometry origin x + aGeometry radius
-			centerY: aGeometry origin y + aGeometry radius
-			radius: aGeometry radius
-			startAngle: 0.0
-			endAngle: Float twoPi ]
-
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> draw: aBlElement polygon: aGeometry [
-
-	self draw: aGeometry backgroundAndOrStrokeWith: [ 
-		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ].
-		cairoCanvas primClosePath ]
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> draw: aBlElement polyline: aGeometry [
-
-	self draw: aGeometry backgroundAndOrStrokeWith: [ 
-		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ].
-		"TODO: only set line cap in cases like this, when path is open"
-		 ]
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> draw: aBlElement rectangle: aGeometry [
-
-	self draw: aGeometry backgroundAndOrStrokeWith: [
-		| aRectangle |
-		aRectangle := aBlElement boundsInLocal.
-		cairoCanvas
-			rectangleX: aRectangle left
-			y: aRectangle top
-			width: aRectangle width
-			height: aRectangle height ]
-
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> draw: aBlElement triangle: aGeometry [
-
-	self draw: aGeometry backgroundAndOrStrokeWith: [
-		| thePoints |
-		thePoints := aGeometry computeVertices.
-		cairoCanvas
-			moveTo: thePoints first;
-			lineTo: thePoints second;
-			lineTo: thePoints third;
-			primClosePath ]
-
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> drawBackgroundAndOrStrokeWith: aBlock [
-
-	(hasBackground or: [ hasBorder ]) ifFalse: [ ^self ].
-
-	aBlock value.
-
-	hasBackground ifTrue: [
-		backgroundSourceBlock value.
-		
-		hasBorder 
-			ifFalse: [
-				cairoCanvas
-					primClip;
-					primPaintAlpha: backgroundAlpha.
-				^ self ]
-			ifTrue: [
-				cairoCanvas
-					primClipPreserve;
-					primPaintAlpha: backgroundAlpha ] ].
-
-	"hasBorder is true"
-	self setStrokeParameters.
-	cairoCanvas stroke.
+	drawFillAndStrokeBlock value: aBlock
 
 ]
 
 { #category : #accessing }
-PCCanvas >> extent [ 
+PCCanvas >> extent [
+
 	^ cairoSurface extent
 ]
 
@@ -233,7 +235,7 @@ PCCanvas >> initializeExtent: aPoint [
 
 	cairoSurface := AthensCairoSurface extent: aPoint.
 	cairoCanvas := cairoSurface privContext.
-
+	cairoPaintMode := AthensCairoPaintMode new canvas: cairoCanvas; yourself.
 ]
 
 { #category : #'api - drawing' }
@@ -316,9 +318,122 @@ PCCanvas >> setStrokeParameters [
 
 	self setSourceColor: borderColor.
 	
-	"TODO: In cairo, the default line width value is 2.0. Place a if?"
 	cairoCanvas primSetLineWidth: borderWidth.
 
 	borderStyle dashArray ifNotEmpty: [ self setStrokeDashes ].
+
+]
+
+{ #category : #visiting }
+PCCanvas >> setWithCenteredBorder [
+
+	drawFillAndStrokeBlock := [ :pathBlock |
+
+		pathBlock value.
+
+		hasBackground ifTrue: [
+			backgroundSourceBlock value.
+			cairoCanvas
+				primClipPreserve;
+				primPaintAlpha: backgroundAlpha;
+				resetClip ].
+
+		self setStrokeParameters.
+		cairoCanvas stroke ]
+
+]
+
+{ #category : #visiting }
+PCCanvas >> setWithInsideBorder [
+
+	drawFillAndStrokeBlock := [ :pathBlock |
+
+		pathBlock value.
+
+		hasBackground ifTrue: [
+			backgroundSourceBlock value.
+			cairoCanvas
+				primClipPreserve;
+				primPaintAlpha: backgroundAlpha ].
+
+		borderWidth := borderWidth * 2.0.
+		self setStrokeParameters.
+		cairoCanvas 
+			primClipPreserve;
+			stroke.
+
+		 ]
+
+]
+
+{ #category : #visiting }
+PCCanvas >> setWithOutsideBorder [
+	"Assume that background was visited before outskirt.
+	When background is opaque, we can forward to a more performant code."
+
+	hasOpaqueBackground
+		ifTrue: [ self setWithOutsideBorderAndOpaqueBackground ]
+		ifFalse: [ self setWithOutsideBorderAndTranslucentBackground ]
+
+]
+
+{ #category : #visiting }
+PCCanvas >> setWithOutsideBorderAndOpaqueBackground [
+
+	drawFillAndStrokeBlock := [ :pathBlock |
+
+		pathBlock value.
+
+		borderWidth := borderWidth * 2.0.
+		self setStrokeParameters.
+		cairoCanvas primStrokePreserve.
+
+		hasBackground ifTrue: [
+			backgroundSourceBlock value.
+			cairoCanvas
+				primClip;
+				primPaint ].
+		 ]
+
+]
+
+{ #category : #visiting }
+PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
+
+	drawFillAndStrokeBlock := [ :pathBlock |
+
+		pathBlock value.
+
+		cairoCanvas paintGroupWith: [ 
+			"Draw doubled border"
+			borderWidth := borderWidth * 2.0.
+			self setStrokeParameters.
+			cairoCanvas primStrokePreserve.
+			"Clear inside"
+			cairoPaintMode clear.
+			cairoCanvas fillPreserve ].
+
+		hasBackground ifTrue: [
+			backgroundSourceBlock value.
+			cairoCanvas
+				primClip;
+				primPaintAlpha: backgroundAlpha ].
+
+		 ]
+
+]
+
+{ #category : #visiting }
+PCCanvas >> setWithoutBorder [ 
+	
+	drawFillAndStrokeBlock := [ :pathBlock |
+
+		hasBackground ifTrue: [ 
+			pathBlock value.
+			backgroundSourceBlock value.
+	
+			cairoCanvas
+				primClip;
+				primPaintAlpha: backgroundAlpha ] ]
 
 ]
