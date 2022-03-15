@@ -17,6 +17,9 @@ Class {
 		'cairoPaintMode',
 		'hasOpaqueBackground'
 	],
+	#pools : [
+		'AthensCairoDefinitions'
+	],
 	#category : #'BlocBenchs-PCRenderer-Core'
 }
 
@@ -261,6 +264,44 @@ PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 ]
 
 { #category : #'api - drawing' }
+PCCanvas >> setCapButt [
+
+	"Do nothing as it's the default in Cairo"
+	"https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-line-cap"
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> setCapRound [
+	
+	cairoCanvas primSetLineCap: CAIRO_LINE_CAP_ROUND
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> setCapSquare [
+	
+	cairoCanvas primSetLineCap: CAIRO_LINE_CAP_SQUARE
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> setJoinBevel [
+
+	cairoCanvas primSetLineJoin: CAIRO_LINE_JOIN_BEVEL
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> setJoinMiter [
+	
+	"Do nothing as it's the default in Cairo"
+	"https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-line-join"
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> setJoinRound [
+
+	cairoCanvas primSetLineJoin: CAIRO_LINE_JOIN_ROUND
+]
+
+{ #category : #'api - drawing' }
 PCCanvas >> setSourceColor: aColor [
 
 	"TODO: The default source pattern is opaque black, (that is, it is equivalent to cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 1.0))."
@@ -321,6 +362,8 @@ PCCanvas >> setStrokeParameters [
 	cairoCanvas primSetLineWidth: borderWidth.
 
 	borderStyle dashArray ifNotEmpty: [ self setStrokeDashes ].
+	borderStyle lineJoin pureCairoApplyTo: self.
+	borderStyle lineCap pureCairoApplyTo: self.
 
 ]
 
