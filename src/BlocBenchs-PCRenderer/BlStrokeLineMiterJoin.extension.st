@@ -1,7 +1,7 @@
 Extension { #name : #BlStrokeLineMiterJoin }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlStrokeLineMiterJoin >> pureCairoApplyTo: aPCCanvas [ 
+BlStrokeLineMiterJoin >> pureCairoApplyTo: aPCCanvas style: aBorderStyle [
 
-	aPCCanvas setJoinMiter
+	aPCCanvas setJoinMiter: aBorderStyle miterLimit
 ]

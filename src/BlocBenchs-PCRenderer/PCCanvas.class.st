@@ -15,7 +15,8 @@ Class {
 		'arrayToDashesBuf',
 		'drawFillAndStrokeBlock',
 		'cairoPaintMode',
-		'hasOpaqueBackground'
+		'hasOpaqueBackground',
+		'isClosedGeometry'
 	],
 	#pools : [
 		'AthensCairoDefinitions'
@@ -148,10 +149,8 @@ PCCanvas >> draw: aBlElement polygon: aGeometry [
 { #category : #'api - drawing' }
 PCCanvas >> draw: aBlElement polyline: aGeometry [
 
-	self drawFillAndStroke: aGeometry with: [ 
-		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ].
-		"TODO: only set line cap in cases like this, when path is open"
-		 ]
+	self drawOpenFillAndStroke: aGeometry with: [ 
+		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ] ]
 ]
 
 { #category : #'api - drawing' }
@@ -187,6 +186,8 @@ PCCanvas >> draw: aBlElement triangle: aGeometry [
 { #category : #'api - drawing' }
 PCCanvas >> drawFillAndStroke: key with: aBlock [
 
+	isClosedGeometry := true.
+
 	self drawFillAndStrokeWith: aBlock.
 
 "	UNCOMMENT TO TEST PATH CACHING:
@@ -207,6 +208,15 @@ PCCanvas >> drawFillAndStroke: key with: aBlock [
 PCCanvas >> drawFillAndStrokeWith: aBlock [
 
 	drawFillAndStrokeBlock value: aBlock
+
+]
+
+{ #category : #'api - drawing' }
+PCCanvas >> drawOpenFillAndStroke: key with: aBlock [
+
+	isClosedGeometry := false.
+	
+	self drawFillAndStrokeWith: aBlock.
 
 ]
 
@@ -289,10 +299,16 @@ PCCanvas >> setJoinBevel [
 ]
 
 { #category : #'api - drawing' }
-PCCanvas >> setJoinMiter [
+PCCanvas >> setJoinMiter: limit [
 	
-	"Do nothing as it's the default in Cairo"
+	"No need to set miter join as it's the default in Cairo"
 	"https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-line-join"
+	
+	"But we might need to set the miter limit if it's not the default"
+	"https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-miter-limit"
+	limit = 10.0 ifFalse: [ 
+		cairoCanvas primSetMiterLimit: limit ]
+
 ]
 
 { #category : #'api - drawing' }
@@ -362,8 +378,13 @@ PCCanvas >> setStrokeParameters [
 	cairoCanvas primSetLineWidth: borderWidth.
 
 	borderStyle dashArray ifNotEmpty: [ self setStrokeDashes ].
-	borderStyle lineJoin pureCairoApplyTo: self.
-	borderStyle lineCap pureCairoApplyTo: self.
+
+	borderStyle lineJoin
+		pureCairoApplyTo: self
+		style: borderStyle.
+
+	isClosedGeometry ifFalse: [
+		borderStyle lineCap pureCairoApplyTo: self ].
 
 ]
 

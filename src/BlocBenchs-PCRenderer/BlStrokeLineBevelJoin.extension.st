@@ -1,7 +1,7 @@
 Extension { #name : #BlStrokeLineBevelJoin }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlStrokeLineBevelJoin >> pureCairoApplyTo: aPCCanvas [ 
+BlStrokeLineBevelJoin >> pureCairoApplyTo: aPCCanvas style: aBorderStyle [
 
 	aPCCanvas setJoinBevel
 ]

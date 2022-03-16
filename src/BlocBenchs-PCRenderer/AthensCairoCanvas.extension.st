@@ -136,6 +136,14 @@ AthensCairoCanvas >> primPushGroup [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
+AthensCairoCanvas >> primSetMiterLimit: aNumber [
+
+	^ self ffiCall: #( void cairo_set_miter_limit (
+		self,
+      double aNumber ) )
+]
+
+{ #category : #'*BlocBenchs-PCRenderer' }
 AthensCairoCanvas >> primSetSourceR: red g: green b: blue [
 	^ self ffiCall: #( 
 		void cairo_set_source_rgb ( self ,
