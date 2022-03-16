@@ -91,7 +91,8 @@ PCPixelComparison >> inspectionActualVsExpected: aBuilder [
 	<inspectorPresentationOrder: 1 title: 'Actual/Expected'>
 
 	^ aBuilder newMorph
-		morph: self actualVsExpectedMergedForm asMorph;
+		morph: (self actualVsExpectedMergedForm  magnifyBy:
+			self inspectionMagnification) asMorph;
 		yourself
 ]
 
@@ -100,8 +101,15 @@ PCPixelComparison >> inspectionActualVsExpectedDiff: aBuilder [
 	<inspectorPresentationOrder: 2 title: 'Actual/Expected Diff'>
 
 	^ aBuilder newMorph
-		morph: self actualVsExpectedMergedDiffForm asMorph;
-		yourself
+		  morph: (self actualVsExpectedMergedDiffForm magnifyBy:
+				self inspectionMagnification) asMorph;
+		  yourself
+]
+
+{ #category : #spec }
+PCPixelComparison >> inspectionMagnification [
+
+	^ 3
 ]
 
 { #category : #testing }
