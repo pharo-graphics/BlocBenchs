@@ -115,7 +115,7 @@ PCCanvas >> acceptColorPaintBorder: aBlColorPaint border: aBlBorder [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #visiting }
 PCCanvas >> acceptGeometryCircle: aGeometry element: aBlElement [
 
 	self setPathKey: aGeometry closedWith: [
@@ -128,7 +128,7 @@ PCCanvas >> acceptGeometryCircle: aGeometry element: aBlElement [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #visiting }
 PCCanvas >> acceptGeometryPolygon: aGeometry element: aBlElement [
 
 	self setPathKey: aGeometry closedWith: [ 
@@ -136,14 +136,14 @@ PCCanvas >> acceptGeometryPolygon: aGeometry element: aBlElement [
 		cairoCanvas primClosePath ]
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #visiting }
 PCCanvas >> acceptGeometryPolyline: aGeometry element: aBlElement [
 
 	self setPathKey: aGeometry openWith: [ 
 		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ] ]
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #visiting }
 PCCanvas >> acceptGeometryRectangle: aGeometry element: aBlElement [
 
 	self setPathKey: aGeometry closedWith: [
@@ -158,7 +158,7 @@ PCCanvas >> acceptGeometryRectangle: aGeometry element: aBlElement [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #visiting }
 PCCanvas >> acceptGeometryTriangle: aGeometry element: aBlElement [
 
 	self setPathKey: aGeometry closedWith: [
@@ -223,6 +223,12 @@ PCCanvas >> initializeExtent: aPoint [
 ]
 
 { #category : #'api - drawing' }
+PCCanvas >> paintLayerWith: aBlock [
+
+	cairoCanvas paintGroupWith: aBlock
+]
+
+{ #category : #'api - drawing' }
 PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 
 	| needsTransformation needsTranslation |
@@ -233,14 +239,16 @@ PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 	(needsTransformation or: [ needsTranslation ])
 		ifFalse: [ ^ aBlock value ].
 	
+
 	"Evaluate saving and restoring the transformation state."
-	cairoCanvas primSaveState.
-	needsTranslation ifTrue: [
-		cairoCanvas primTranslateX: aPoint x y: aPoint y ].
-	needsTransformation ifTrue: [
-		cairoCanvas primApplyTransform: (AthensCairoMatrix fromSpartaMatrix: aMatrix) ].
-	aBlock value.
-	cairoCanvas primRestoreState.
+	self paintLayerWith: [
+		needsTranslation ifTrue: [
+			cairoCanvas primTranslateX: aPoint x y: aPoint y ].
+		needsTransformation ifTrue: [
+			cairoCanvas primApplyTransform: (AthensCairoMatrix fromSpartaMatrix: aMatrix) ].
+
+"		cairoCanvas resetClip."
+		aBlock value ]
 
 ]
 
@@ -263,18 +271,21 @@ PCCanvas >> setCapSquare [
 	cairoCanvas primSetLineCap: CAIRO_LINE_CAP_SQUARE
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setClipChildrenDisabled [
 
-	isPathSetAsClip ifTrue: [ cairoCanvas resetClip ]
+	isPathSetAsClip ifTrue: [
+		cairoCanvas resetClip.
+		isPathSetAsClip := false ]
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setClipChildrenEnabled [
 
 	isPathSetAsClip ifFalse: [ 
 		pathBlock value.
-		cairoCanvas primClip ]
+		cairoCanvas primClipPreserve.
+		isPathSetAsClip := true ]
 ]
 
 { #category : #'api - drawing' }
@@ -391,7 +402,7 @@ PCCanvas >> setStrokeParameters [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithCenteredBorder [
 
 	drawFillAndStrokeBlock := [
@@ -410,7 +421,7 @@ PCCanvas >> setWithCenteredBorder [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithInsideBorder [
 
 	hasBackground
@@ -418,7 +429,7 @@ PCCanvas >> setWithInsideBorder [
 		ifFalse: [ self setWithInsideBorderAndNoBackground ]
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithInsideBorderAndBackground [
 
 	drawFillAndStrokeBlock := [
@@ -439,7 +450,7 @@ PCCanvas >> setWithInsideBorderAndBackground [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithInsideBorderAndNoBackground [
 
 	drawFillAndStrokeBlock := [
@@ -457,7 +468,7 @@ PCCanvas >> setWithInsideBorderAndNoBackground [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithOutsideBorder [
 
 	hasBackground
@@ -470,7 +481,7 @@ PCCanvas >> setWithOutsideBorder [
 	
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithOutsideBorderAndNoBackground [
 
 	drawFillAndStrokeBlock := [
@@ -490,7 +501,7 @@ PCCanvas >> setWithOutsideBorderAndNoBackground [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithOutsideBorderAndOpaqueBackground [
 
 	drawFillAndStrokeBlock := [
@@ -511,7 +522,7 @@ PCCanvas >> setWithOutsideBorderAndOpaqueBackground [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
 
 	drawFillAndStrokeBlock := [
@@ -537,7 +548,7 @@ PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithoutBorder [
 
 	hasBackground
@@ -545,7 +556,7 @@ PCCanvas >> setWithoutBorder [
 		ifFalse: [ self setWithoutBorderAndNoBackground ]
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithoutBorderAndBackground [
 	
 	drawFillAndStrokeBlock := [
@@ -562,7 +573,7 @@ PCCanvas >> setWithoutBorderAndBackground [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'api - drawing' }
 PCCanvas >> setWithoutBorderAndNoBackground [
 	
 	drawFillAndStrokeBlock := [ ]
