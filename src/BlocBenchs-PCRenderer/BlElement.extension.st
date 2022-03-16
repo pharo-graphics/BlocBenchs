@@ -14,21 +14,24 @@ BlElement >> pureCairoAsForm [
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlElement >> pureCairoDrawOn: aPCCanvas [ 
+BlElement >> pureCairoDrawOn: aPCCanvas [
 
 	aPCCanvas
 		position: self position
 		transformation: self transformation matrix
-		applyDuring: [
+		applyDuring: [ 
 			
+			"Note the canvas assumes this visit order."
 			self background pureCairoApplyTo: aPCCanvas.
 			self outskirts pureCairoApplyTo: aPCCanvas.
 			self border pureCairoApplyTo: aPCCanvas.
-			self geometry
-				pureCairoDraw: self
-				on: aPCCanvas.
-			
-			self childrenDo: [:each |
-				each pureCairoDrawOn: aPCCanvas ] ]
+			self geometry pureCairoApplyTo: aPCCanvas element: self.
 
+			aPCCanvas drawFillAndStroke.
+
+			self clipChildren
+				ifTrue: [ aPCCanvas setClipChildrenEnabled ]
+				ifFalse: [ aPCCanvas setClipChildrenDisabled ].
+
+			self childrenDo: [ :each | each pureCairoDrawOn: aPCCanvas ] ]
 ]

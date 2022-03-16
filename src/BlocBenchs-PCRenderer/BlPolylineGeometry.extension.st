@@ -1,7 +1,7 @@
 Extension { #name : #BlPolylineGeometry }
 
 { #category : #'*BlocBenchs-PCRenderer' }
-BlPolylineGeometry >> pureCairoDraw: aBlElement on: aPCCanvas [
+BlPolylineGeometry >> pureCairoApplyTo: aPCCanvas element: aBlElement [
 
-	^ aPCCanvas draw: aBlElement polyline: self
+	^ aPCCanvas acceptGeometryPolyline: self element: aBlElement
 ]
