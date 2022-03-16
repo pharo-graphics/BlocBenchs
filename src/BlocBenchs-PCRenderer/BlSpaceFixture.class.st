@@ -7,7 +7,8 @@ Class {
 { #category : #accessing }
 BlSpaceFixture >> allFixtureSelectors [
 
-	^ self class allSelectors select: [ :each | each beginsWith: #space ]
+	^ self class allSelectors select: [ :each | 
+		  (each beginsWith: #space) and: each isUnary ]
 ]
 
 { #category : #accessing }
@@ -51,25 +52,61 @@ BlSpaceFixture >> gridPositionGeneratorStartingAt: offset by: by columns: number
 ]
 
 { #category : #fixtures }
-BlSpaceFixture >> spaceWithCircles [
+BlSpaceFixture >> spaceClippingOutskirts [
 	
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
-		| elementA elementB |
-	
-		elementA := builder addCircle
-			relocate: 10 asPoint;
-			size: 10 asPoint;
-			yourself.
 
-		elementB := builder addCircle
-			relocate: 15 asPoint;
-			size: 10 asPoint;
-			yourself.
+		| outskirts width positionGenerator addElementsBlock |
+		outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
+		width := 5.
+		positionGenerator := self 
+			gridPositionGeneratorStartingAt: 8 asPoint
+			by: 25
+			columns: 3.
+		addElementsBlock := [ :anOutskirt :aColor |
+			| element child |
+			element := builder addCircle
+				background: aColor;
+				border: (BlBorder paint: builder nextColor width: width);
+				outskirts: anOutskirt;
+				relocate: positionGenerator next;
+				size: 35 asPoint;
+				yourself.
+			child := (builder addTo: element)
+				size: 20 asPoint;
+				relocate: -2 asPoint;
+				border: (BlBorder paint: Color yellow width: 1);
+				yourself.
+			(builder addTo: child)
+				size: 20 asPoint;
+				relocate: 10 asPoint;
+				geometry: BlCircleGeometry new;
+				border: (BlBorder paint: Color red width: 1);
+				yourself ].
+
+		"Opaques"
+		outskirts do: [ :eachOutskirt |
+			addElementsBlock
+				value: eachOutskirt
+				value: builder nextColor ].
+
+		"Translucents"
+		outskirts do: [ :eachOutskirt |
+			addElementsBlock
+				value: eachOutskirt
+				value: builder nextColor translucent ].
+
+		"Transparents"
+		outskirts do: [ :eachOutskirt |
+			addElementsBlock
+				value: eachOutskirt
+				value: Color transparent ].
+
 		].
 ]
 
 { #category : #fixtures }
-BlSpaceFixture >> spaceWithNesting [
+BlSpaceFixture >> spaceClippingWithoutBorders [
 
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
 		| elementA elementB elementC |
@@ -97,100 +134,116 @@ BlSpaceFixture >> spaceWithNesting [
 ]
 
 { #category : #fixtures }
-BlSpaceFixture >> spaceWithNestingOutskirtsAndOpacity [
+BlSpaceFixture >> spaceWithCircles [
 	
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
+		| elementA elementB |
+	
+		elementA := builder addCircle
+			relocate: 10 asPoint;
+			size: 10 asPoint;
+			yourself.
 
-		| outskirts width positionGenerator addElementBlock |
-		outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
-		width := 5.
-		positionGenerator := self 
-			gridPositionGeneratorStartingAt: 8 asPoint
-			by: 25
-			columns: 3.
-		addElementBlock := [ :anOutskirt :borderColor |
-			| element |
-			element := builder addCircle
-				border: (BlBorder paint: borderColor width: width);
-				outskirts: anOutskirt;
-				relocate: positionGenerator next;
-				size: 35 asPoint;
-				yourself.
-			(builder addTo: element)
-				size: 20 asPoint;
-				relocate: -5 asPoint;
-				border: (BlBorder paint: Color black width: 2).
-
+		elementB := builder addCircle
+			relocate: 15 asPoint;
+			size: 10 asPoint;
+			yourself.
 		].
+]
 
+{ #category : #fixtures }
+BlSpaceFixture >> spaceWithOutskirtsAndOpaqueBorders [
+	
+	^ BlSpaceBuilder new
+		newSpaceWith: [ :builder |
+
+			| outskirts positionGenerator addElementBlock |
+			outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
+			positionGenerator := self 
+				gridPositionGeneratorStartingAt: 8 asPoint
+				by: 25
+				columns: 3.
+			addElementBlock := [ :backgroundColor :borderColor :aBlOutskirt |
+				builder addCircle
+					background: backgroundColor;
+					border: (BlBorder paint: borderColor width: 5);
+					outskirts: aBlOutskirt;
+					relocate: positionGenerator next;
+					size: 35 asPoint;
+					yourself ].
+			
 		"Opaques"
 		outskirts do: [ :eachOutskirt |
 			addElementBlock
-				value: eachOutskirt
-				value: builder nextColor ].
+				value: builder nextColor
+				value: builder nextColor
+				value: eachOutskirt ].
 
 		"Translucents"
 		outskirts do: [ :eachOutskirt |
 			addElementBlock
-				value: eachOutskirt
-				value: builder nextColor translucent ].
+				value: builder nextColor translucent
+				value: builder nextColor
+				value: eachOutskirt ].
 
 		"Transparents"
 		outskirts do: [ :eachOutskirt |
 			addElementBlock
-				value: eachOutskirt
-				value: Color transparent ].
+				value: Color transparent
+				value: builder nextColor
+				value: eachOutskirt ].
 
 		].
 ]
 
 { #category : #fixtures }
-BlSpaceFixture >> spaceWithOutskirtsOfCircles [
+BlSpaceFixture >> spaceWithOutskirtsAndTranslucentBorders [
 	
-	^ BlSpaceBuilder newSpaceWith: [ :builder |
+	^ BlSpaceBuilder new
+		newSpaceWith: [ :builder |
 
-		| outskirts width positionGenerator |
-		outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
-		width := 5.
-		positionGenerator := self 
-			gridPositionGeneratorStartingAt: 8 asPoint
-			by: 25
-			columns: 3.
-
-		"Opaques"
-		outskirts do: [ :eachOutskirt |
+			| outskirts positionGenerator addElementBlock |
+			outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
+			positionGenerator := self 
+				gridPositionGeneratorStartingAt: 8 asPoint
+				by: 25
+				columns: 3.
+			addElementBlock := [ :backgroundColor :borderColor :aBlOutskirt |
 				builder addCircle
-					border: (BlBorder paint: builder nextColor width: width);
-					outskirts: eachOutskirt;
+					background: backgroundColor;
+					border: (BlBorder paint: borderColor width: 5);
+					outskirts: aBlOutskirt;
 					relocate: positionGenerator next;
 					size: 35 asPoint;
 					yourself ].
-
-		"Translucents"
+			
+		"Opaques + translucent border"
 		outskirts do: [ :eachOutskirt |
-				builder addCircle
-					border: (BlBorder paint: builder nextColor width: width);
-					background: builder nextColor translucent;
-					outskirts: eachOutskirt;
-					relocate: positionGenerator next;
-					size: 35 asPoint;
-					yourself ].
+			addElementBlock
+				value: builder nextColor
+				value: builder nextColor translucent
+				value: eachOutskirt ].
 
-		"Transparents"
+		"Translucents + translucent border"
 		outskirts do: [ :eachOutskirt |
-				builder addCircle
-					border: (BlBorder paint: builder nextColor width: width);
-					background: Color transparent;
-					outskirts: eachOutskirt;
-					relocate: positionGenerator next;
-					size: 35 asPoint;
-					yourself ].
+			addElementBlock
+				value: builder nextColor translucent
+				value: builder nextColor translucent
+				value: eachOutskirt ].
+
+		"Transparents + translucent border"
+		outskirts do: [ :eachOutskirt |
+			addElementBlock
+				value: Color transparent
+				value: builder nextColor translucent
+				value: eachOutskirt ].
 
 		].
 ]
 
 { #category : #fixtures }
 BlSpaceFixture >> spaceWithOutskirtsOfPolygons [
+	"In Sparta, they are painted in a different way (the generic)."
 	
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
 
@@ -262,7 +315,9 @@ BlSpaceFixture >> spaceWithStrokeStyles [
 
 			| positionGenerator width |
 			width := 9.
-			positionGenerator := self diagonalPositionGeneratorStartingAt: 7 by: 14.
+			positionGenerator := self
+				diagonalPositionGeneratorStartingAt: 7
+				by: 14.
 
 			builder addPolyline
 				relocate: positionGenerator next;

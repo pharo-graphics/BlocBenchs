@@ -57,9 +57,9 @@ PCMouseEventTargetTest >> testCircles [
 ]
 
 { #category : #tests }
-PCMouseEventTargetTest >> testNesting [
+PCMouseEventTargetTest >> testClippingWithoutBorders [
 
-	space := BlSpaceFixture new spaceWithNesting.
+	space := BlSpaceFixture new spaceClippingWithoutBorders.
 	
 	self
 		assertMouseEventTargetAt: 10 asPoint
