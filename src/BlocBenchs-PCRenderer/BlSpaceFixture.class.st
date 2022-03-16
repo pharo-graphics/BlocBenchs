@@ -26,6 +26,30 @@ BlSpaceFixture >> diagonalPositionGeneratorStartingAt: aPoint by: by [
 			index := index + by ] repeat ]
 ]
 
+{ #category : #private }
+BlSpaceFixture >> gridPositionGeneratorStartingAt: offset by: by columns: numberOfColumns [
+	
+	^ Generator on: [ :g | 
+		| column next |
+		column := 0.
+		next := offset.
+		
+		[	[	"Put next position"
+				g yield: next.
+
+				"Advance to next column in same row"
+				next := next + (by @ 0).
+				column := column + 1.
+
+			] doWhileTrue: [ column < numberOfColumns ].
+
+			"Start a new row"
+			next := offset x @ (next y + by).
+			column := 0 
+
+		] repeat ]
+]
+
 { #category : #fixtures }
 BlSpaceFixture >> spaceWithCircles [
 	
@@ -77,39 +101,41 @@ BlSpaceFixture >> spaceWithOutskirtsOfCircles [
 	
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
 
-		"Row of filled"
-		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
-			withIndexDo: [ :eachOutskirt :index |
+		| outskirts width positionGenerator |
+		outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
+		width := 5.
+		positionGenerator := self 
+			gridPositionGeneratorStartingAt: 8 asPoint
+			by: 25
+			columns: 3.
 
+		"Opaques"
+		outskirts do: [ :eachOutskirt |
 				builder addCircle
-					border: (BlBorder paint: builder nextColor width: 6);
+					border: (BlBorder paint: builder nextColor width: width);
 					outskirts: eachOutskirt;
-					relocate: (((index - 1) * 25) + 10) @ 10;
-					size: 30 asPoint;
+					relocate: positionGenerator next;
+					size: 35 asPoint;
 					yourself ].
 
-		"Row of translucent"
-		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
-			withIndexDo: [ :eachOutskirt :index |
-
+		"Translucents"
+		outskirts do: [ :eachOutskirt |
 				builder addCircle
-					border: (BlBorder paint: builder nextColor width: 6);
+					border: (BlBorder paint: builder nextColor width: width);
 					background: builder nextColor translucent;
 					outskirts: eachOutskirt;
-					relocate: (((index - 1) * 25) + 10) @ 35;
-					size: 30 asPoint;
+					relocate: positionGenerator next;
+					size: 35 asPoint;
 					yourself ].
 
-		"Row of unfilled"
-		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
-			withIndexDo: [ :eachOutskirt :index |
-
+		"Transparents"
+		outskirts do: [ :eachOutskirt |
 				builder addCircle
-					border: (BlBorder paint: builder nextColor width: 6);
+					border: (BlBorder paint: builder nextColor width: width);
 					background: Color transparent;
 					outskirts: eachOutskirt;
-					relocate: (((index - 1) * 25) + 10) @ 65;
-					size: 30 asPoint;
+					relocate: positionGenerator next;
+					size: 35 asPoint;
 					yourself ].
 
 		].
@@ -120,39 +146,42 @@ BlSpaceFixture >> spaceWithOutskirtsOfPolygons [
 	
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
 
-		"Row of filled"
-		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
-			withIndexDo: [ :eachOutskirt :index |
+		| outskirts width scale positionGenerator |
+		outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
+		width := 7.
+		scale := 0.5.
+		positionGenerator := self 
+			gridPositionGeneratorStartingAt: 0 asPoint
+			by: 20
+			columns: 3.
 
+		"Opaques"
+		outskirts do: [ :eachOutskirt |
 				builder addHexagonalPolygon
-					relocate: (((index - 1) * 20)) @ 0;
-					border: (BlBorder paint: builder nextColor width: 7);
+					relocate: positionGenerator next;
+					border: (BlBorder paint: builder nextColor width: width);
 					outskirts: eachOutskirt;
-					transformDo: [ :t | t scaleBy: 0.5 ];
+					transformDo: [ :t | t scaleBy: scale ];
 					yourself ].
 
-		"Row of translucent"
-		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
-			withIndexDo: [ :eachOutskirt :index |
-
+		"Translucents"
+		outskirts do: [ :eachOutskirt |
 				builder addHexagonalPolygon
-					relocate: (((index - 1) * 20)) @ 20;
+					relocate: positionGenerator next;
 					background: builder nextColor translucent;
-					border: (BlBorder paint: builder nextColor width: 7);
+					border: (BlBorder paint: builder nextColor width: width);
 					outskirts: eachOutskirt;
-					transformDo: [ :t | t scaleBy: 0.5 ];
+					transformDo: [ :t | t scaleBy: scale ];
 					yourself ].
 
-		"Row of unfilled"
-		{ BlOutskirts outside. BlOutskirts inside. BlOutskirts centered }
-			withIndexDo: [ :eachOutskirt :index |
-
+		"Transparents"
+		outskirts do: [ :eachOutskirt |
 				builder addHexagonalPolygon
-					relocate: (((index - 1) * 20)) @ 40;
+					relocate: positionGenerator next;
 					background: Color transparent;
-					border: (BlBorder paint: builder nextColor width: 7);
+					border: (BlBorder paint: builder nextColor width: width);
 					outskirts: eachOutskirt;
-					transformDo: [ :t | t scaleBy: 0.5 ];
+					transformDo: [ :t | t scaleBy: scale ];
 					yourself ].
 
 		].
