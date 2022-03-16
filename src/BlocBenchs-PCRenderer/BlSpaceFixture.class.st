@@ -97,6 +97,51 @@ BlSpaceFixture >> spaceWithNesting [
 ]
 
 { #category : #fixtures }
+BlSpaceFixture >> spaceWithNestingOutskirtsAndOpacity [
+	
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+
+		| outskirts width positionGenerator addElementBlock |
+		outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
+		width := 5.
+		positionGenerator := self 
+			gridPositionGeneratorStartingAt: 8 asPoint
+			by: 25
+			columns: 3.
+		addElementBlock := [ :anOutskirt :borderColor |
+			| element |
+			element := builder addCircle
+				border: (BlBorder paint: borderColor width: width);
+				outskirts: anOutskirt;
+				relocate: positionGenerator next;
+				size: 35 asPoint;
+				yourself.
+			(builder addTo: element)
+				relocate: 15 asPoint
+		].
+
+		"Opaques"
+		outskirts do: [ :eachOutskirt |
+			addElementBlock
+				value: eachOutskirt
+				value: builder nextColor ].
+
+		"Translucents"
+		outskirts do: [ :eachOutskirt |
+			addElementBlock
+				value: eachOutskirt
+				value: builder nextColor translucent ].
+
+		"Transparents"
+		outskirts do: [ :eachOutskirt |
+			addElementBlock
+				value: eachOutskirt
+				value: Color transparent ].
+
+		].
+]
+
+{ #category : #fixtures }
 BlSpaceFixture >> spaceWithOutskirtsOfCircles [
 	
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
