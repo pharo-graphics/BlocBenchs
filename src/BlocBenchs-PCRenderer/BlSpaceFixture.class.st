@@ -185,7 +185,7 @@ BlSpaceFixture >> spaceWithStrokeStyles [
 
 			| positionGenerator width |
 			width := 9.
-			positionGenerator := self diagonalPositionGeneratorStartingAt: 8 by: 16.
+			positionGenerator := self diagonalPositionGeneratorStartingAt: 7 by: 14.
 
 			builder addPolyline
 				relocate: positionGenerator next;
@@ -239,6 +239,20 @@ BlSpaceFixture >> spaceWithStrokeStyles [
 					joinBevel;
 					width: 3;
 					build);
+				yourself.
+
+			builder addPolyline
+				relocate: positionGenerator next;
+				border: (BlBorder builder
+					paint: builder nextColor;
+					capSquare;
+					joinMiter;
+					miterLimit: 1; "This will make it render as bevel join"
+					width: 12;
+					build);
+				transformDo: [ :t |
+					t translateBy: -10 asPoint.
+					t scaleBy: 0.8. ];
 				yourself.
 
 		].
