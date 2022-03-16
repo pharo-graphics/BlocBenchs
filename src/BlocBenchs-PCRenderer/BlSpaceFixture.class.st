@@ -152,6 +152,84 @@ BlSpaceFixture >> spaceWithCircles [
 ]
 
 { #category : #fixtures }
+BlSpaceFixture >> spaceWithImagesAndTransformations [
+	
+	^ BlSpaceBuilder new
+		spaceExtent: 120@350;
+		newSpaceWith: [ :builder |
+
+			| outskirts positionGenerator addElementBlock |
+			outskirts := { BlOutskirts inside. BlOutskirts centered. BlOutskirts outside }.
+			positionGenerator := self 
+				gridPositionGeneratorStartingAt: 5 asPoint
+				by: 26
+				columns: 4.
+			addElementBlock := [ | aForm |
+				aForm := Smalltalk ui icons iconNamed: #warning.
+				builder addCircle
+					background: aForm;
+					relocate: positionGenerator next;
+					size: aForm extent;
+					yourself ].
+
+
+		"Translate"
+		1 to: 4 do: [ :each |
+			addElementBlock value transformDo: [ :t |
+				t translateBy: (each * 2 - 4) asPoint ] ].
+
+		"Rotate"
+		1 to: 4 do: [ :each |
+			addElementBlock value transformDo: [ :t |
+				t centerOrigin. "default"
+				t rotateBy: each * 45 ] ].
+
+		1 to: 4 do: [ :each |
+			addElementBlock value transformDo: [ :t |
+				t topLeftOrigin.
+				t rotateBy: each * 45 ] ].
+
+		1 to: 4 do: [ :each |
+			addElementBlock value transformDo: [ :t |
+				t rightCenterOrigin.
+				t rotateBy: each * 45 ] ].
+
+
+		"Scale"			
+		1 to: 4 do: [ :each |
+			addElementBlock value transformDo: [ :t |
+				t centerOrigin. "default"
+				t scaleBy: each * 0.25 ] ].
+
+		1 to: 4 do: [ :each |
+			addElementBlock value transformDo: [ :t |
+				t topLeftOrigin.
+				t scaleBy: each * 0.25 ] ].
+
+		1 to: 4 do: [ :each |
+			addElementBlock value transformDo: [ :t |
+				t rightCenterOrigin.
+				t scaleBy: each * 0.25 ] ].
+
+		"Some combinations"
+		1 to: 4 do: [ :each |
+			addElementBlock value transformDo: [ :t |
+				t scaleBy: each * 0.2.
+				t translateBy: (each * 2 - 4) asPoint.
+				t rotateBy: each * 45.
+				t translateBy: (each * 2 - 4) negated asPoint ] ].
+
+		"Others"
+		addElementBlock value transformDo: [ :t |
+			t flipX ].
+		addElementBlock value transformDo: [ :t |
+			t flipY ].
+
+
+		].
+]
+
+{ #category : #fixtures }
 BlSpaceFixture >> spaceWithOutskirtsAndOpaqueBorders [
 	
 	^ BlSpaceBuilder new
