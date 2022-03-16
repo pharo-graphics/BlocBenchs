@@ -223,12 +223,6 @@ PCCanvas >> initializeExtent: aPoint [
 ]
 
 { #category : #'api - drawing' }
-PCCanvas >> paintLayerWith: aBlock [
-
-	cairoCanvas paintGroupWith: aBlock
-]
-
-{ #category : #'api - drawing' }
 PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 
 	| needsTransformation needsTranslation |
@@ -239,16 +233,14 @@ PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 	(needsTransformation or: [ needsTranslation ])
 		ifFalse: [ ^ aBlock value ].
 	
-
 	"Evaluate saving and restoring the transformation state."
-	self paintLayerWith: [
-		needsTranslation ifTrue: [
-			cairoCanvas primTranslateX: aPoint x y: aPoint y ].
-		needsTransformation ifTrue: [
-			cairoCanvas primApplyTransform: (AthensCairoMatrix fromSpartaMatrix: aMatrix) ].
-
-"		cairoCanvas resetClip."
-		aBlock value ]
+	cairoCanvas primSaveState.
+	needsTranslation ifTrue: [
+		cairoCanvas primTranslate: aPoint ].
+	needsTransformation ifTrue: [
+		cairoCanvas primApplyTransform: (AthensCairoMatrix fromSpartaMatrix: aMatrix) ].
+	aBlock value.
+	cairoCanvas primRestoreState.
 
 ]
 
@@ -284,7 +276,7 @@ PCCanvas >> setClipChildrenEnabled [
 
 	isPathSetAsClip ifFalse: [ 
 		pathBlock value.
-		cairoCanvas primClipPreserve.
+		cairoCanvas primClip.
 		isPathSetAsClip := true ]
 ]
 
