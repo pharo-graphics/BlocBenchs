@@ -152,6 +152,60 @@ BlSpaceFixture >> spaceWithCircles [
 ]
 
 { #category : #fixtures }
+BlSpaceFixture >> spaceWithElevation [
+
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+		| elementA elementB elementC childD childE childF |
+	
+		"A and children are on top"
+		elementA := builder addCircle
+			elevation: (BlRelativeElevation elevation: 101);
+			relocate: 10@10;
+			clipChildren: false;
+			yourself.
+
+		"B is below A"
+		elementB := builder addCircle
+			elevation: (BlGlobalElevation elevation: 90);
+			relocate: 25@10;
+			yourself.
+
+		"C is below A"
+		elementC := builder addCircle
+			elevation: (BlGlobalElevation elevation: 100);
+			relocate: 50@10;
+			yourself.
+
+
+		"D is below E, since 'relative' means relative to 0. 
+		--> Bug? If it would be relative to its parent, it would
+		be 101+5 => D would overlap E"
+		childD := (builder addTo: elementA)
+			elevation: (BlRelativeElevation elevation: 5);
+			relocate: 10 @ 10;
+			size: 30 asPoint;
+			yourself.
+
+		"Large elevation of a child doesn't mean it will overlap other
+		elements than siblings"
+		childE := (builder addTo: elementA)
+			elevation: (BlGlobalElevation elevation: 102);
+			relocate: 20 @ 20;
+			size: 30 asPoint;
+			yourself.
+
+		"F goes below all siblings"
+		childF := (builder addTo: elementA)
+			elevation: (BlRelativeElevation elevation: -10);
+			relocate: 30 @ 30;
+			size: 30 asPoint;
+			yourself.
+			
+		]
+
+]
+
+{ #category : #fixtures }
 BlSpaceFixture >> spaceWithImagesAndTransformations [
 	
 	^ BlSpaceBuilder new

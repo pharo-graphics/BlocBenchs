@@ -33,5 +33,5 @@ BlElement >> pureCairoDrawOn: aPCCanvas [
 				ifTrue: [ aPCCanvas setClipChildrenEnabled ]
 				ifFalse: [ aPCCanvas setClipChildrenDisabled ].
 
-			self childrenDo: [ :each | each pureCairoDrawOn: aPCCanvas ] ]
+			self children sortedByElevation do: [ :each | each pureCairoDrawOn: aPCCanvas ] ]
 ]
