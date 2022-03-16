@@ -117,7 +117,10 @@ BlSpaceFixture >> spaceWithNestingOutskirtsAndOpacity [
 				size: 35 asPoint;
 				yourself.
 			(builder addTo: element)
-				relocate: 15 asPoint
+				size: 20 asPoint;
+				relocate: -5 asPoint;
+				border: (BlBorder paint: Color black width: 2).
+
 		].
 
 		"Opaques"
