@@ -115,7 +115,7 @@ PCMorph >> initialize [
 { #category : #initialization }
 PCMorph >> initializeSurface [
 
-	surface := AthensCairoSurface extent: surfaceExtent.
+	surface := PCCairoSurface extent: surfaceExtent.
 	cairoCanvas := surface privContext.
 	surfaceForm := surface pureCairoAsFormExtent: surfaceExtent.
 	surfaceRectangle := 0@0 extent: surfaceExtent.

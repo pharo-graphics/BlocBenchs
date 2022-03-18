@@ -29,7 +29,7 @@ PCContainsPointCalc >> ensureReady [
 	session == Smalltalk session ifTrue: [ ^ self ].
 	session := Smalltalk session.
 
-	surface := AthensCairoSurface extent: 1@1.
+	surface := PCCairoSurface extent: 1@1.
 	cairoCanvas := surface privContext.
 
 ]

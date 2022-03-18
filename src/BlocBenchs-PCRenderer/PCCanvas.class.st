@@ -53,7 +53,7 @@ PCCanvas >> acceptBlImageBackground: aBlImageBackground [
 	formToCairoSurfaceCache ifNil: [
 		formToCairoSurfaceCache := LRUCache new
 			maximumWeight: 400;
-			factory: [ :aForm | AthensCairoSurface fromForm: aForm ];
+			factory: [ :aForm | PCCairoSurface fromForm: aForm ];
 			yourself ].
 	
 	backgroundSourceBlock := [ 
@@ -217,7 +217,7 @@ PCCanvas >> initializeExtent: aPoint [
 
 	self initialize.
 
-	cairoSurface := AthensCairoSurface extent: aPoint.
+	cairoSurface := PCCairoSurface extent: aPoint.
 	cairoCanvas := cairoSurface privContext.
 	cairoPaintMode := AthensCairoPaintMode new canvas: cairoCanvas; yourself.
 ]
@@ -238,7 +238,7 @@ PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 	needsTranslation ifTrue: [
 		cairoCanvas primTranslate: aPoint ].
 	needsTransformation ifTrue: [
-		cairoCanvas primApplyTransform: (AthensCairoMatrix fromSpartaMatrix: aMatrix) ].
+		cairoCanvas primApplyTransform: (PCCairoMatrix fromSpartaMatrix: aMatrix) ].
 	aBlock value.
 	cairoCanvas primRestoreState.
 
