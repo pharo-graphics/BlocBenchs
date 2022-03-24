@@ -403,6 +403,12 @@ PCCairoContext >> primSetSourceSurface: aCairoSurface x: aX y: aY [
 			double aY) )
 ]
 
+{ #category : #private }
+PCCairoContext >> primSetTolerance: aFloat [
+
+	^ self ffiCall: #( void cairo_set_tolerance ( self, double aFloat ))
+]
+
 { #category : #'as yet unclassified' }
 PCCairoContext >> primStrokePreserve [
 

@@ -218,6 +218,9 @@ PCCanvas >> initializeExtent: aPoint [
 	cairoSurface := PCCairoSurface extent: aPoint.
 	cairoCanvas := cairoSurface privContext.
 
+	cairoCanvas
+		primSetTolerance: 0.5;
+		setAA: CAIRO_ANTIALIAS_GOOD.
 ]
 
 { #category : #'api - drawing' }
