@@ -2,7 +2,6 @@ Class {
 	#name : #PCCanvas,
 	#superclass : #Object,
 	#instVars : [
-		'cairoCanvas',
 		'hasBackground',
 		'borderColor',
 		'borderWidth',
@@ -16,7 +15,9 @@ Class {
 		'hasOpaqueBackground',
 		'isClosedGeometry',
 		'pathBlock',
-		'isPathSetAsClip'
+		'isPathSetAsClip',
+		'cairoContext',
+		'pathCache'
 	],
 	#pools : [
 		'AthensCairoDefinitions'
@@ -57,7 +58,7 @@ PCCanvas >> acceptBlImageBackground: aBlImageBackground [
 	backgroundSourceBlock := [ 
 		| aCairoSurface |
 		aCairoSurface := formToCairoSurfaceCache at: image.
-		cairoCanvas primSetSourceSurface: aCairoSurface x: 0.0 y: 0.0.
+		cairoContext primSetSourceSurface: aCairoSurface x: 0.0 y: 0.0.
 		].
 
 ]
@@ -117,7 +118,7 @@ PCCanvas >> acceptColorPaintBorder: aBlColorPaint border: aBlBorder [
 PCCanvas >> acceptGeometryCircle: aGeometry element: aBlElement [
 
 	self setPathKey: aGeometry closedWith: [
-		cairoCanvas
+		cairoContext
 			primArcCenterX: aGeometry origin x + aGeometry radius
 			centerY: aGeometry origin y + aGeometry radius
 			radius: aGeometry radius
@@ -130,15 +131,15 @@ PCCanvas >> acceptGeometryCircle: aGeometry element: aBlElement [
 PCCanvas >> acceptGeometryPolygon: aGeometry element: aBlElement [
 
 	self setPathKey: aGeometry closedWith: [ 
-		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ].
-		cairoCanvas primClosePath ]
+		aGeometry vertices do: [ :each | cairoContext lineTo: each ].
+		cairoContext primClosePath ]
 ]
 
 { #category : #visiting }
 PCCanvas >> acceptGeometryPolyline: aGeometry element: aBlElement [
 
 	self setPathKey: aGeometry openWith: [ 
-		aGeometry vertices do: [ :each | cairoCanvas lineTo: each ] ]
+		aGeometry vertices do: [ :each | cairoContext lineTo: each ] ]
 ]
 
 { #category : #visiting }
@@ -148,7 +149,7 @@ PCCanvas >> acceptGeometryRectangle: aGeometry element: aBlElement [
 		| aRectangle |
 		aRectangle := aBlElement boundsInLocal.
 		
-		cairoCanvas
+		cairoContext
 			rectangleX: aRectangle left
 			y: aRectangle top
 			width: aRectangle width
@@ -163,7 +164,7 @@ PCCanvas >> acceptGeometryTriangle: aGeometry element: aBlElement [
 		| thePoints |
 		thePoints := aGeometry computeVertices.
 
-		cairoCanvas
+		cairoContext
 			moveTo: thePoints first;
 			lineTo: thePoints second;
 			lineTo: thePoints third;
@@ -216,9 +217,9 @@ PCCanvas >> initializeExtent: aPoint [
 	self initialize.
 
 	cairoSurface := PCCairoSurface extent: aPoint.
-	cairoCanvas := cairoSurface privContext.
+	cairoContext := cairoSurface cairoContext.
 
-	cairoCanvas
+	cairoContext
 		primSetTolerance: 0.5;
 		setAA: CAIRO_ANTIALIAS_GOOD.
 ]
@@ -235,13 +236,13 @@ PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 		ifFalse: [ ^ aBlock value ].
 	
 	"Evaluate saving and restoring the transformation state."
-	cairoCanvas primSaveState.
+	cairoContext primSaveState.
 	needsTranslation ifTrue: [
-		cairoCanvas primTranslate: aPoint ].
+		cairoContext primTranslate: aPoint ].
 	needsTransformation ifTrue: [
-		cairoCanvas primApplyTransform: (PCCairoMatrix fromSpartaMatrix: aMatrix) ].
+		cairoContext primApplyTransform: (PCCairoMatrix fromSpartaMatrix: aMatrix) ].
 	aBlock value.
-	cairoCanvas primRestoreState.
+	cairoContext primRestoreState.
 
 ]
 
@@ -255,20 +256,20 @@ PCCanvas >> setCapButt [
 { #category : #'api - drawing' }
 PCCanvas >> setCapRound [
 	
-	cairoCanvas primSetLineCap: CAIRO_LINE_CAP_ROUND
+	cairoContext primSetLineCap: CAIRO_LINE_CAP_ROUND
 ]
 
 { #category : #'api - drawing' }
 PCCanvas >> setCapSquare [
 	
-	cairoCanvas primSetLineCap: CAIRO_LINE_CAP_SQUARE
+	cairoContext primSetLineCap: CAIRO_LINE_CAP_SQUARE
 ]
 
 { #category : #'api - drawing' }
 PCCanvas >> setClipChildrenDisabled [
 
 	isPathSetAsClip ifTrue: [
-		cairoCanvas resetClip.
+		cairoContext resetClip.
 		isPathSetAsClip := false ]
 ]
 
@@ -277,14 +278,14 @@ PCCanvas >> setClipChildrenEnabled [
 
 	isPathSetAsClip ifFalse: [ 
 		pathBlock value.
-		cairoCanvas primClip.
+		cairoContext primClip.
 		isPathSetAsClip := true ]
 ]
 
 { #category : #'api - drawing' }
 PCCanvas >> setJoinBevel [
 
-	cairoCanvas primSetLineJoin: CAIRO_LINE_JOIN_BEVEL
+	cairoContext primSetLineJoin: CAIRO_LINE_JOIN_BEVEL
 ]
 
 { #category : #'api - drawing' }
@@ -296,14 +297,14 @@ PCCanvas >> setJoinMiter: limit [
 	"But we might need to set the miter limit if it's not the default"
 	"https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-miter-limit"
 	limit = 10.0 ifFalse: [ 
-		cairoCanvas primSetMiterLimit: limit ]
+		cairoContext primSetMiterLimit: limit ]
 
 ]
 
 { #category : #'api - drawing' }
 PCCanvas >> setJoinRound [
 
-	cairoCanvas primSetLineJoin: CAIRO_LINE_JOIN_ROUND
+	cairoContext primSetLineJoin: CAIRO_LINE_JOIN_ROUND
 ]
 
 { #category : #'api - drawing' }
@@ -338,13 +339,13 @@ PCCanvas >> setSourceColor: aColor [
 { #category : #'api - drawing' }
 PCCanvas >> setSourceSolidColor: aColor [
 
-	cairoCanvas primSetSourceR: aColor red g: aColor green b: aColor blue
+	cairoContext primSetSourceR: aColor red g: aColor green b: aColor blue
 ]
 
 { #category : #'api - drawing' }
 PCCanvas >> setSourceTranslucentColor: aColor [
 
-	cairoCanvas
+	cairoContext
 		primSetSourceR: aColor red
 		g: aColor green
 		b: aColor blue
@@ -370,7 +371,7 @@ PCCanvas >> setStrokeDashes [
 
 	dashArray := borderStyle dashArray.
 
-	cairoCanvas
+	cairoContext
 		primSetDashesLengths: (arrayToDashesBuf at: dashArray)
 		count: dashArray size
 		offset: borderStyle dashOffset
@@ -382,7 +383,7 @@ PCCanvas >> setStrokeParameters [
 
 	self setSourceColor: borderColor.
 	
-	cairoCanvas primSetLineWidth: borderWidth.
+	cairoContext primSetLineWidth: borderWidth.
 
 	borderStyle dashArray ifNotEmpty: [ self setStrokeDashes ].
 
@@ -404,13 +405,13 @@ PCCanvas >> setWithCenteredBorder [
 
 		hasBackground ifTrue: [
 			backgroundSourceBlock value.
-			cairoCanvas
+			cairoContext
 				primClipPreserve;
 				primPaintAlpha: backgroundAlpha;
 				resetClip ].
 
 		self setStrokeParameters.
-		cairoCanvas stroke ]
+		cairoContext stroke ]
 
 ]
 
@@ -430,14 +431,14 @@ PCCanvas >> setWithInsideBorderAndBackground [
 		pathBlock value.
 
 		backgroundSourceBlock value.
-		cairoCanvas
+		cairoContext
 			primClipPreserve;
 			primPaintAlpha: backgroundAlpha.
 		isPathSetAsClip := true.
 
 		borderWidth := borderWidth * 2.0.
 		self setStrokeParameters.
-		cairoCanvas stroke.
+		cairoContext stroke.
 
 		]
 
@@ -452,7 +453,7 @@ PCCanvas >> setWithInsideBorderAndNoBackground [
 
 		borderWidth := borderWidth * 2.0.
 		self setStrokeParameters.
-		cairoCanvas 
+		cairoContext 
 			primClipPreserve;
 			stroke.
 		isPathSetAsClip := true.
@@ -481,13 +482,13 @@ PCCanvas >> setWithOutsideBorderAndNoBackground [
 
 		pathBlock value.
 
-		cairoCanvas paintGroupWith: [ 
+		cairoContext paintGroupWith: [ 
 			"Draw doubled border"
 			borderWidth := borderWidth * 2.0.
 			self setStrokeParameters.
-			cairoCanvas primStrokePreserve.
+			cairoContext primStrokePreserve.
 			"Clear inside"
-			cairoCanvas
+			cairoContext
 				setOperatorClear;
 				fill ].
 
@@ -504,10 +505,10 @@ PCCanvas >> setWithOutsideBorderAndOpaqueBackground [
 
 		borderWidth := borderWidth * 2.0.
 		self setStrokeParameters.
-		cairoCanvas primStrokePreserve.
+		cairoContext primStrokePreserve.
 
 		backgroundSourceBlock value.
-		cairoCanvas
+		cairoContext
 			primClip;
 			primPaint.
 		isPathSetAsClip := true.
@@ -523,18 +524,18 @@ PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
 
 		pathBlock value.
 
-		cairoCanvas paintGroupWith: [ 
+		cairoContext paintGroupWith: [ 
 			"Draw doubled border"
 			borderWidth := borderWidth * 2.0.
 			self setStrokeParameters.
-			cairoCanvas primStrokePreserve.
+			cairoContext primStrokePreserve.
 			"Clear inside"
-			cairoCanvas
+			cairoContext
 				setOperatorClear;
 				fillPreserve ].
 
 		backgroundSourceBlock value.
-		cairoCanvas
+		cairoContext
 			primClip;
 			primPaintAlpha: backgroundAlpha.
 		isPathSetAsClip := true.
@@ -559,7 +560,7 @@ PCCanvas >> setWithoutBorderAndBackground [
 		pathBlock value.
 		backgroundSourceBlock value.
 
-		cairoCanvas
+		cairoContext
 			primClip;
 			primPaintAlpha: backgroundAlpha.
 		isPathSetAsClip := true.

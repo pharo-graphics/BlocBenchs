@@ -116,7 +116,7 @@ PCMorph >> initialize [
 PCMorph >> initializeSurface [
 
 	surface := PCCairoSurface extent: surfaceExtent.
-	cairoCanvas := surface privContext.
+	cairoCanvas := surface cairoContext.
 	surfaceForm := surface pureCairoAsFormExtent: surfaceExtent.
 	surfaceRectangle := 0@0 extent: surfaceExtent.
 	bitblt := PCBitBlt

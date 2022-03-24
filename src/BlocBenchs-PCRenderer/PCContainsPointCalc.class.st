@@ -30,7 +30,7 @@ PCContainsPointCalc >> ensureReady [
 	session := Smalltalk session.
 
 	surface := PCCairoSurface extent: 1@1.
-	cairoCanvas := surface privContext.
+	cairoCanvas := surface cairoContext.
 
 ]
 

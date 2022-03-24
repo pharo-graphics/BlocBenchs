@@ -358,6 +358,13 @@ PCCairoSurface >> asForm [
 		yourself
 ]
 
+{ #category : #accessing }
+PCCairoSurface >> cairoContext [
+	"Answer the cairo context for this surface (often named canvas in Athens)."
+
+	^ context
+]
+
 { #category : #private }
 PCCairoSurface >> checkSession [
 	session == Smalltalk session ifFalse: [ 
@@ -445,13 +452,6 @@ PCCairoSurface >> markDirty [
 { #category : #private }
 PCCairoSurface >> primCreateContext [
 	^ self ffiCall: #( PCCairoContext cairo_create (self) )
-]
-
-{ #category : #accessing }
-PCCairoSurface >> privContext [
-	"Answer the cairo context for this surface (often named canvas in Athens)."
-
-	^ context
 ]
 
 { #category : #private }
