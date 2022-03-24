@@ -351,6 +351,12 @@ PCCairoContext >> primSetMiterLimit: aNumber [
       double aNumber ) )
 ]
 
+{ #category : #initialization }
+PCCairoContext >> primSetOperator: aCairoOperator [
+
+	^ self ffiCall: #(void cairo_set_operator (self, cairo_operator_t aCairoOperator) )
+]
+
 { #category : #private }
 PCCairoContext >> primSetSource: aPattern [
 	^ self ffiCall: #(void cairo_set_source ( self, AthensCairoPatternPaint aPattern))
@@ -487,6 +493,24 @@ void                cairo_set_font_matrix               (cairo_t *cr,
 PCCairoContext >> setFontSize: aSize [
 	
 	^ self primSetFontSize: aSize asFloat
+]
+
+{ #category : #initialization }
+PCCairoContext >> setOperatorClear [
+	"Set 'clear' drawing mode.
+	
+	Drawing under this mode will clear the surface under the shape boundaries"
+	
+	^ self primSetOperator: CAIRO_OPERATOR_CLEAR
+]
+
+{ #category : #initialization }
+PCCairoContext >> setOperatorOver [
+	"Set 'over' drawing mode. This is default paint mode.
+	
+	Drawing under this mode will blend source with destination color using source alpha component"
+			
+	^ self primSetOperator: CAIRO_OPERATOR_OVER
 ]
 
 { #category : #private }

@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'cairoCanvas',
 		'hasBackground',
-		'hasBorder',
 		'borderColor',
 		'borderWidth',
 		'formToCairoSurfaceCache',
@@ -14,7 +13,6 @@ Class {
 		'borderStyle',
 		'arrayToDashesBuf',
 		'drawFillAndStrokeBlock',
-		'cairoPaintMode',
 		'hasOpaqueBackground',
 		'isClosedGeometry',
 		'pathBlock',
@@ -219,7 +217,7 @@ PCCanvas >> initializeExtent: aPoint [
 
 	cairoSurface := PCCairoSurface extent: aPoint.
 	cairoCanvas := cairoSurface privContext.
-	cairoPaintMode := AthensCairoPaintMode new canvas: cairoCanvas; yourself.
+
 ]
 
 { #category : #'api - drawing' }
@@ -486,8 +484,9 @@ PCCanvas >> setWithOutsideBorderAndNoBackground [
 			self setStrokeParameters.
 			cairoCanvas primStrokePreserve.
 			"Clear inside"
-			cairoPaintMode clear.
-			cairoCanvas fill ].
+			cairoCanvas
+				setOperatorClear;
+				fill ].
 
 		 ]
 
@@ -527,8 +526,9 @@ PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
 			self setStrokeParameters.
 			cairoCanvas primStrokePreserve.
 			"Clear inside"
-			cairoPaintMode clear.
-			cairoCanvas fillPreserve ].
+			cairoCanvas
+				setOperatorClear;
+				fillPreserve ].
 
 		backgroundSourceBlock value.
 		cairoCanvas
