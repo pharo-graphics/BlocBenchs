@@ -1,5 +1,5 @@
 "
-I'm a hacky way to set the NullRenderer ini a MorphicWindow host.
+I'm a hacky way to set the NullRenderer in a MorphicWindow host.
 "
 Class {
 	#name : #BlNullRendererMorphicWindowHost,
@@ -15,18 +15,17 @@ BlNullRendererMorphicWindowHost class >> label [
 { #category : #'host - api' }
 BlNullRendererMorphicWindowHost >> createHostSpaceFor: aSpace [
 	"Create and assign a new morphic host space for given bloc space"
-	| aWindow aHostSpace|
 
-	self
-		assert: [ aSpace hasHostSpace not ]
-		description: [ 'Space must not have a host!' ].
-
+	| aWindow aHostSpace |
 	aWindow := self createMorphicWindowFor: aSpace.
-	aHostSpace := BlMorphicWindowHostSpace new morphicWindow: aWindow.
-	aHostSpace host: self.
-	aHostSpace universe: self universe.
-	aHostSpace space: aSpace.
-	aHostSpace withNullRenderer.
+
+	aHostSpace := BlMorphicWindowHostSpace new
+		morphicWindow: aWindow;
+		host: self;
+		universe: self universe;
+		space: aSpace;
+		withNullRenderer;
+		yourself.
 
 	aSpace hostSpace: aHostSpace
 ]
