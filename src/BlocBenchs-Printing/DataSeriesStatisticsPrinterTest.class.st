@@ -4,22 +4,15 @@ A DataSeriesStatisticsPrinterTest is a test class for testing the behavior of Da
 Class {
 	#name : #DataSeriesStatisticsPrinterTest,
 	#superclass : #TestCase,
-	#instVars : [
-		'printer'
-	],
 	#category : #'BlocBenchs-Printing'
 }
-
-{ #category : #running }
-DataSeriesStatisticsPrinterTest >> setUp [
-	super setUp.
-	
-	printer := DataSeriesStatisticsPrinter new.
-]
 
 { #category : #tests }
 DataSeriesStatisticsPrinterTest >> testPrintMultipleExamples [
 
+	| printer |
+	printer := DataSeriesStatisticsPrinter new.
+	
 	self assert: (printer print: (Array new: 1 withAll: 5)) equals: '5.00 +/-0.00'.
 	self assert: (printer print: (Array new: 10 withAll: 5)) equals: '5.00 +/-0.00'.
 	self assert: (printer print: (Array new: 30 withAll: 5)) equals: '5.00 +/-0.00'.
