@@ -1,11 +1,11 @@
 "
-I'm capable of summarizing statistical information from a aollection of numbers.
+I print a simple statistical description from a collection of numbers: the mean and confidence interval.
 
 Based on SMarkSimpleStatisticsReporter from SMark benchmark project.
 
 "
 Class {
-	#name : #DataSeriesStatisticsPrinter,
+	#name : #PCMeanConfidenceIntervalPrinter,
 	#superclass : #Object,
 	#instVars : [
 		'fixedDecimalPlaces'
@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : #examples }
-DataSeriesStatisticsPrinter class >> example [
+PCMeanConfidenceIntervalPrinter class >> example [
 
 	| hosts canvases cases runners printer df |
 	hosts := { BlOSWindowSDL2Host. BlMorphicWindowHost }.
@@ -38,7 +38,7 @@ DataSeriesStatisticsPrinter class >> example [
 	[
 	runners do: #run.
 
-	printer := DataSeriesStatisticsPrinter new
+	printer := PCMeanConfidenceIntervalPrinter new
 		fixedDecimalPlaces: 1;
 		yourself.
 	df := DataFrame
@@ -70,7 +70,7 @@ DataSeriesStatisticsPrinter class >> example [
 ]
 
 { #category : #statistics }
-DataSeriesStatisticsPrinter >> confidenceVariance: aCollectionOfNumbers [
+PCMeanConfidenceIntervalPrinter >> confidenceVariance: aCollectionOfNumbers [
 
 	| size |
 	size := aCollectionOfNumbers size.
@@ -87,19 +87,19 @@ DataSeriesStatisticsPrinter >> confidenceVariance: aCollectionOfNumbers [
 ]
 
 { #category : #accessing }
-DataSeriesStatisticsPrinter >> fixedDecimalPlaces [
+PCMeanConfidenceIntervalPrinter >> fixedDecimalPlaces [
 
 	^ fixedDecimalPlaces
 ]
 
 { #category : #accessing }
-DataSeriesStatisticsPrinter >> fixedDecimalPlaces: aPositiveInteger [
+PCMeanConfidenceIntervalPrinter >> fixedDecimalPlaces: aPositiveInteger [
 
 	fixedDecimalPlaces := aPositiveInteger
 ]
 
 { #category : #statistics }
-DataSeriesStatisticsPrinter >> gaussianConfidenceFactor [
+PCMeanConfidenceIntervalPrinter >> gaussianConfidenceFactor [
 	"Used when size >= 30."
 	"1 ~ 68.27%"
 	"1.644853626951 ~ 90%"
@@ -109,14 +109,14 @@ DataSeriesStatisticsPrinter >> gaussianConfidenceFactor [
 ]
 
 { #category : #printing }
-DataSeriesStatisticsPrinter >> print: aCollectionOfNumbers [
+PCMeanConfidenceIntervalPrinter >> print: aCollectionOfNumbers [
 
 	^ String streamContents: [ :aStream | 
 		  self print: aCollectionOfNumbers on: aStream ]
 ]
 
 { #category : #reporting }
-DataSeriesStatisticsPrinter >> print: aCollectionOfNumbers on: aStream [
+PCMeanConfidenceIntervalPrinter >> print: aCollectionOfNumbers on: aStream [
 	"Print average +/- confidence variance. The colleciton must be not empty."
 
 	| confidenceVariance significantDigits |
@@ -131,14 +131,14 @@ DataSeriesStatisticsPrinter >> print: aCollectionOfNumbers on: aStream [
 		printOn: aStream
 		showingDecimalPlaces: significantDigits.
 
-	aStream << ' +/-'.
+	aStream << ' ±'.
 	confidenceVariance
 		printOn: aStream
 		showingDecimalPlaces: significantDigits
 ]
 
 { #category : #statistics }
-DataSeriesStatisticsPrinter >> significantDigits: confidenceVariance [
+PCMeanConfidenceIntervalPrinter >> significantDigits: confidenceVariance [
 
 	confidenceVariance = 0 ifTrue: [ ^ 2 ].
 	confidenceVariance >= 10 ifTrue: [ ^ 0 ].
@@ -146,7 +146,7 @@ DataSeriesStatisticsPrinter >> significantDigits: confidenceVariance [
 ]
 
 { #category : #statistics }
-DataSeriesStatisticsPrinter >> studentsTConfidenceFactorFor: size [
+PCMeanConfidenceIntervalPrinter >> studentsTConfidenceFactorFor: size [
 	"Answer a pre-calculated value for a confidence interval of ~90%."
 	"Supported for 1 <= size <= 30."
 	"The students T distribution sucks to calculate since the value depends on the size."
