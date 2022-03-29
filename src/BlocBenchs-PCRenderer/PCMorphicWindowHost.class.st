@@ -21,7 +21,7 @@ PCMorphicWindowHost >> createHostSpaceFor: aSpace [
 		host: self;
 		universe: self universe;
 		space: aSpace;
-		withPureCairoRenderer;
+		renderer: PCRenderer new;
 		yourself.
 
 	aSpace hostSpace: aHostSpace

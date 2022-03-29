@@ -24,7 +24,7 @@ BlNullRendererMorphicWindowHost >> createHostSpaceFor: aSpace [
 		host: self;
 		universe: self universe;
 		space: aSpace;
-		withNullRenderer;
+		renderer: BlNullRenderer new;
 		yourself.
 
 	aSpace hostSpace: aHostSpace
