@@ -586,3 +586,11 @@ PCCanvas >> setWithoutBorderAndNoBackground [
 	drawFillAndStrokeBlock := [ ]
 
 ]
+
+{ #category : #'as yet unclassified' }
+PCCanvas >> withOpacity: aNumber draw: aBlock [
+
+	aNumber = 1.0
+		ifTrue: aBlock
+		ifFalse: [ cairoContext paintGroupWith: aBlock alpha: aNumber ]
+]

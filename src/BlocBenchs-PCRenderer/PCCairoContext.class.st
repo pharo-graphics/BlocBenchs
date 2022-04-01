@@ -127,6 +127,16 @@ PCCairoContext >> paintGroupWith: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
+PCCairoContext >> paintGroupWith: aBlock alpha: aNumber [
+
+	self primPushGroup.
+	aBlock value.
+	self
+		primPopGroupToSource;
+		primPaintAlpha: aNumber
+]
+
+{ #category : #'as yet unclassified' }
 PCCairoContext >> popGroup [
 
 	^ self primPopGroup initialize "(autoRelease)"

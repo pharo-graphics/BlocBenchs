@@ -27,11 +27,12 @@ BlElement >> pureCairoDrawOn: aPCCanvas [
 			self border pureCairoApplyTo: aPCCanvas.
 			self geometry pureCairoApplyTo: aPCCanvas element: self.
 
-			aPCCanvas drawFillAndStroke.
+			aPCCanvas withOpacity: self opacity draw: [
+				aPCCanvas drawFillAndStroke.
 
-			self clipChildren
-				ifTrue: [ aPCCanvas setClipChildrenEnabled ]
-				ifFalse: [ aPCCanvas setClipChildrenDisabled ].
+				self clipChildren
+					ifTrue: [ aPCCanvas setClipChildrenEnabled ]
+					ifFalse: [ aPCCanvas setClipChildrenDisabled ].
 
-			self children sortedByElevation do: [ :each | each pureCairoDrawOn: aPCCanvas ] ]
+				self children sortedByElevation do: [ :each | each pureCairoDrawOn: aPCCanvas ] ] ]
 ]

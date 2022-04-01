@@ -284,6 +284,53 @@ BlSpaceFixture >> spaceWithImagesAndTransformations [
 ]
 
 { #category : #fixtures }
+BlSpaceFixture >> spaceWithOpacities [
+
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+		| size fillColor borderColor |
+		size := 50 asPoint.
+		fillColor := builder nextColor.
+		borderColor := builder nextColor.
+		
+		builder addToRoot
+			background: ((BlPaintBackground paint: fillColor asBlPaint) opacity: 0.75; yourself);
+			opacity: 0.5;
+			relocate: 10 @ 10;
+			size: size;
+			yourself.
+
+		builder addToRoot
+			background: ((BlPaintBackground paint: fillColor) opacity: 0.5; yourself);
+			opacity: 0.75;
+			relocate: 40 @ 10;
+			size: size;
+			yourself.
+
+		builder addToRoot
+			background: fillColor;
+			border: (BlBorder builder
+				paint: (borderColor alpha: 0.75) asBlPaint;
+				width: 10;
+				opacity: 0.5;
+				build);
+			relocate: 10 @ 40;
+			size: size;
+			yourself.
+
+		builder addToRoot
+			background: fillColor;
+			border: (BlBorder builder
+				paint: (borderColor alpha: 0.5) asBlPaint;
+				width: 10;
+				opacity: 0.75;
+				build);
+			relocate: 40 @ 40;
+			size: size;
+			yourself.
+		]
+]
+
+{ #category : #fixtures }
 BlSpaceFixture >> spaceWithOutskirtsAndOpaqueBorders [
 	
 	^ BlSpaceBuilder new
