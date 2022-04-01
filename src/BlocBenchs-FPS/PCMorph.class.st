@@ -14,12 +14,12 @@ Class {
 		'surfaceExtent',
 		'surfaceForm',
 		'surfaceRectangle',
-		'cairoCanvas',
 		'session',
 		'bitblt',
 		'lastMS',
 		'deltaMS',
-		'startMS'
+		'startMS',
+		'cairoContext'
 	],
 	#category : #'BlocBenchs-FPS-RawMorph'
 }
@@ -116,7 +116,7 @@ PCMorph >> initialize [
 PCMorph >> initializeSurface [
 
 	surface := PCCairoSurface extent: surfaceExtent.
-	cairoCanvas := surface cairoContext.
+	cairoContext := surface cairoContext.
 	surfaceForm := surface pureCairoAsFormExtent: surfaceExtent.
 	surfaceRectangle := 0@0 extent: surfaceExtent.
 	bitblt := PCBitBlt

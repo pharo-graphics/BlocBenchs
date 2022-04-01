@@ -7,7 +7,7 @@ Class {
 { #category : #drawing }
 PCSolidBorderCirclesMorph >> drawPath [
 
-	cairoCanvas
+	cairoContext
 		primSetLineWidth: case borderWidth;
 		stroke
 ]

@@ -38,7 +38,7 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 				 ] ].
 
 	"Clear surface"
-	cairoCanvas
+	cairoContext
 		primSetSourceRGBColor: windowColor;
 		primPaint.
 
@@ -51,19 +51,19 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 { #category : #drawing }
 PCNestedTransformationsMorph >> drawOnCairoCanvasFigureAt: index [
 
-	cairoCanvas 	primLoadIdentity.
+	cairoContext 	primLoadIdentity.
 
 	"Translate to figure's position"
-	cairoCanvas primTranslate: case figureOffset.
+	cairoContext primTranslate: case figureOffset.
 
 	"Apply figure's transformation using the right origin"
-	cairoCanvas
+	cairoContext
 		primTranslate: rotationCenter;
 		primApplyTransform: (figureMatrices at: index);
 		primTranslate: rotationCenterNegated.
 
 	"Draw rectangle path"
-	cairoCanvas
+	cairoContext
 		primRectangleX: 0.0
 			y: 0.0
 			width: case figureExtent x

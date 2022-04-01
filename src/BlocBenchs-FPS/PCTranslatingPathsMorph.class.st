@@ -11,7 +11,7 @@ Class {
 PCTranslatingPathsMorph >> drawOnCairoCanvas [
 
 	| deltaY |
-	self clearCairoCanvas.
+	super drawOnCairoCanvas.
 	deltaY := deltaYPerMS * (lastMS - startMS).
 
 	1 to: case numberOfFigures do: [ :index |
@@ -45,5 +45,5 @@ PCTranslatingPathsMorph >> setPathFor: index deltaY: deltaY [
 { #category : #drawing }
 PCTranslatingPathsMorph >> setSourceFor: index [
 
-	cairoCanvas primSetSourceRGBColor: (colors at: index)
+	cairoContext primSetSourceRGBColor: (colors at: index)
 ]

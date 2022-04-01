@@ -12,7 +12,7 @@ Class {
 PCSolidImagesMorph >> drawOnCairoCanvas [
 
 	| index deltaY |
-	self clearCairoCanvas.
+	super drawOnCairoCanvas.
 
 	deltaY := deltaYPerMS * (lastMS - startMS).
 	index := 1.
@@ -27,7 +27,7 @@ PCSolidImagesMorph >> drawOnCairoCanvas [
 			positionY := case figureOffset y + (row * case horizontalSeparation) + deltaY.
 			extent := extents at: index.
 
-			cairoCanvas
+			cairoContext
 				primSetSourceSurface: (surfaces at: index)
 					x: positionX
 					y: positionY;

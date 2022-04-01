@@ -7,7 +7,7 @@ Class {
 { #category : #drawing }
 PCPolylinesMorph >> drawPath [
 
-	cairoCanvas stroke
+	cairoContext stroke
 ]
 
 { #category : #drawing }
@@ -15,7 +15,7 @@ PCPolylinesMorph >> prepareFirstDraw [
 
 	super prepareFirstDraw.
 
-	cairoCanvas primSetLineWidth: case borderWidth
+	cairoContext primSetLineWidth: case borderWidth
 
 ]
 
@@ -26,6 +26,6 @@ PCPolylinesMorph >> setPathFor: index deltaY: deltaY [
 	offset := case figureOffset + (index * case horizontalSeparation @ deltaY).
 
 	case vertices do: [:aPoint |
-		cairoCanvas lineTo: aPoint + offset ].
+		cairoContext lineTo: aPoint + offset ].
 
 ]

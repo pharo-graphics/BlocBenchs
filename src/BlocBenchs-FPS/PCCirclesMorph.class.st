@@ -10,7 +10,7 @@ PCCirclesMorph >> setPathFor: index deltaY: deltaY [
 	| center |
 	center := case figureOffset + case radius + (index * case horizontalSeparation @ deltaY).
 
-	cairoCanvas
+	cairoContext
 		primArcCenterX: center x
 			centerY: center y
 			radius: case radius x

@@ -14,19 +14,19 @@ PCPolylinesMorph2 >> drawOnCairoCanvas [
 	self clearCairoCanvas.
 	deltaY := deltaYPerMS * (lastMS - startMS).
 
-	cairoCanvas
+	cairoContext
 		primSaveState;
 		primTranslateX: 0.0 y: deltaY;
 		primTranslate: case figureOffset.
 	
 	1 to: case numberOfFigures do: [ :index |
-		cairoCanvas
+		cairoContext
 			primTranslateX: case horizontalSeparation y: 0;
 			primAppendPath: path;
 			primSetSourceRGBColor: (colors at: index);
 			stroke ].
 
-	cairoCanvas
+	cairoContext
 		primRestoreState.
 
 ]
@@ -34,7 +34,7 @@ PCPolylinesMorph2 >> drawOnCairoCanvas [
 { #category : #drawing }
 PCPolylinesMorph2 >> drawPath [
 
-	cairoCanvas stroke
+	cairoContext stroke
 ]
 
 { #category : #drawing }
@@ -42,19 +42,19 @@ PCPolylinesMorph2 >> prepareFirstDraw [
 
 	super prepareFirstDraw.
 
-	cairoCanvas primSaveState.
+	cairoContext primSaveState.
 
 	case vertices do: [:aPoint |
-		cairoCanvas lineTo: aPoint ].
+		cairoContext lineTo: aPoint ].
 	
-	path := cairoCanvas primCopyPath initialize.
+	path := cairoContext primCopyPath initialize.
 	
-	cairoCanvas primRestoreState.
+	cairoContext primRestoreState.
 ]
 
 { #category : #initialization }
 PCPolylinesMorph2 >> setPathFor: index [
 
-	cairoCanvas
+	cairoContext
 		primAppendPath: path
 ]

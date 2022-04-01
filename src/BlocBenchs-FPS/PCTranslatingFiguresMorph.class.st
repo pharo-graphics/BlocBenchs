@@ -1,27 +1,15 @@
 Class {
 	#name : #PCTranslatingFiguresMorph,
-	#superclass : #PCMorph,
+	#superclass : #PCCleanCanvasMorph,
 	#instVars : [
-		'deltaYPerMS',
-		'canvasClearColor'
+		'deltaYPerMS'
 	],
 	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #drawing }
-PCTranslatingFiguresMorph >> clearCairoCanvas [
-	"Clear background (https://www.cairographics.org/FAQ/#clear_a_surface)"
-
-	cairoCanvas
-		primSetSourceRGBColor: canvasClearColor;
-		primPaint
-
-]
-
-{ #category : #drawing }
 PCTranslatingFiguresMorph >> prepareFirstDraw [
 
 	super prepareFirstDraw.
-	canvasClearColor := PCFloatColor newFrom: Color white.
 	deltaYPerMS := case targetTranslation y / case numberOfMilliseconds
 ]
