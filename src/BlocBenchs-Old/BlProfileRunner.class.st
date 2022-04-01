@@ -15,7 +15,7 @@ Class {
 		'case',
 		'meters'
 	],
-	#category : #'BlocBenchs-MeteringCases'
+	#category : #'BlocBenchs-Old'
 }
 
 { #category : #examples }

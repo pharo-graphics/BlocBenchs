@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'duration'
 	],
-	#category : #'BlocBenchs-MeteringCases'
+	#category : #'BlocBenchs-Old'
 }
 
 { #category : #accessing }

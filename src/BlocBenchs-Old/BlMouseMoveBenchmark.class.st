@@ -15,7 +15,7 @@ Class {
 		'extent',
 		'nestingLevel'
 	],
-	#category : #'BlocBenchs-MeteringCases'
+	#category : #'BlocBenchs-Old'
 }
 
 { #category : #examples }

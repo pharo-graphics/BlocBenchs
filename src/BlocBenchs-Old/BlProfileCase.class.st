@@ -16,7 +16,7 @@ Class {
 		'spartaCanvasClass',
 		'hostClass'
 	],
-	#category : #'BlocBenchs-MeteringCases'
+	#category : #'BlocBenchs-Old'
 }
 
 { #category : #API }

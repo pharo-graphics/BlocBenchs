@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'case'
 	],
-	#category : #'BlocBenchs-MeteringCases'
+	#category : #'BlocBenchs-Old'
 }
 
 { #category : #accessing }

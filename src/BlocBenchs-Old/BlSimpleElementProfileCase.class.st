@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'element'
 	],
-	#category : #'BlocBenchs-MeteringCases'
+	#category : #'BlocBenchs-Old'
 }
 
 { #category : #'instance creation' }

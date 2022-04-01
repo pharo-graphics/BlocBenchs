@@ -1,6 +1,6 @@
 Extension { #name : #Duration }
 
-{ #category : #'*BlocBenchs-MeteringCases' }
+{ #category : #'*BlocBenchs-Old' }
 Duration class >> microSeconds: aNumber [
 	"A microsecond is equal to 1000 nanoseconds."
 

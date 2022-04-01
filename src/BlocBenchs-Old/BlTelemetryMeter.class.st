@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'loggerCopy'
 	],
-	#category : #'BlocBenchs-MeteringCases'
+	#category : #'BlocBenchs-Old'
 }
 
 { #category : #API }

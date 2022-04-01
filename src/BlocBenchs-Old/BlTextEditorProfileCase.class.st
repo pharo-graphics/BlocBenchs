@@ -9,7 +9,7 @@ Class {
 		'numberOfScrollDowns',
 		'lapseToWaitBetween'
 	],
-	#category : #'BlocBenchs-MeteringCases'
+	#category : #'BlocBenchs-Old'
 }
 
 { #category : #hooks }
