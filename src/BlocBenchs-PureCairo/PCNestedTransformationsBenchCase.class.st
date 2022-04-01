@@ -19,21 +19,38 @@ PCNestedTransformationsBenchCase >> figureOffset [
 { #category : #hook }
 PCNestedTransformationsBenchCase >> newElement [
 
-	| elements random |
+	| elements random anAnimation |
 	random := self newRandom.
 
 	"Create each figure with a transform animation."
 	elements := (1 to: self numberOfFigures) collect: [ :each |
-		BlElement new
-			background: (Color random: random);
-			size: self figureExtent;
-			addAnimation: (BlTransformAnimation new 
+		
+	anAnimation := BlSequentialAnimation new.
+	anAnimation add:
+		(BlTransformAnimation new 
+				absolute;
 				transformDo: [ :builder |
 					builder
 						scaleBy: self targetRelativeScale;
 						rotateBy: self targetRelativeRotation ];
 				duration: self duration;
-				yourself);
+				yourself).
+	anAnimation add:
+		(BlTransformAnimation new 
+				absolute;
+				transformDo: [ :builder |
+					builder
+						scaleBy: 1.0;
+						rotateBy: 0.0 ];
+				duration: self duration;
+				yourself).
+	anAnimation beInfinite.
+		
+		
+		BlElement new
+			background: (Color random: random);
+			size: self figureExtent;
+			addAnimation: (anAnimation);
 			yourself ].
 
 	"Nest the figures"
