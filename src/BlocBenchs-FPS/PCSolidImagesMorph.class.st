@@ -51,7 +51,7 @@ PCSolidImagesMorph >> prepareFirstDraw [
 	1 to: case numberOfColumns * case numberOfRows do: [ :each | 
 		| aForm |
 		aForm := case newFormWith: random.
-		surfaces add: (AthensCairoSurface fromForm: aForm).
+		surfaces add: (PCCairoSurface fromForm: aForm).
 		extents add: aForm extent ].
 	surfaces := surfaces asArray.
 	extents := extents asArray.
