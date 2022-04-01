@@ -16,16 +16,14 @@ BaselineOfBlocBenchs >> baseline: spec [
 				declareSaucoPerfMeterOn: spec;
 				declareSpecBrickOn: spec.
 			spec
-				package: 'BlocBenchs-Old'
-					with: [ spec requires: #('SpecBrick' 'SaucoPerfMeter' 'FFICallLogger') ];
 				package: 'BlocBenchs-Printing'
 					with: [ spec requires: #('SpecBrick' 'BlocBenchs-Old' 'DataFrame') ];
 				package: 'BlocBenchs-PCRenderer'
 					with: [ spec requires: #('SpecBrick') ];
 				package: 'BlocBenchs-FPS'
 					with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame' 'FFICallLogger' 'BlocBenchs-PCRenderer') ];
-				package: 'BlocBenchs-Sparta'
-					with: [ spec requires: #('SpecBrick' 'BlocBenchs-Printing' 'DataFrame') ].
+				package: 'BlocBenchs-Old'
+					with: [ spec requires: #('SpecBrick' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ].
  ]
 ]
 

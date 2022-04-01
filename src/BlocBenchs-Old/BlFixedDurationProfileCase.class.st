@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'duration'
 	],
-	#category : #'BlocBenchs-Old'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #accessing }

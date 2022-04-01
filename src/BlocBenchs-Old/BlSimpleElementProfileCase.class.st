@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'element'
 	],
-	#category : #'BlocBenchs-Old'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #'instance creation' }

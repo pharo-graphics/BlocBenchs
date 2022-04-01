@@ -9,7 +9,7 @@ Class {
 		'numberOfScrollDowns',
 		'lapseToWaitBetween'
 	],
-	#category : #'BlocBenchs-Old'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #hooks }

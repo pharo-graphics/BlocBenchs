@@ -11,7 +11,7 @@ Class {
 		'canvasClasses',
 		'runners'
 	],
-	#category : #'BlocBenchs-Sparta'
+	#category : #'BlocBenchs-Old-SpartaMicroBenchs'
 }
 
 { #category : #examples }

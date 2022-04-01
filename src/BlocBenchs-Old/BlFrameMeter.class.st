@@ -5,7 +5,7 @@ Class {
 		'process',
 		'framesAndMicrosendTimestamps'
 	],
-	#category : #'BlocBenchs-Old'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #private }

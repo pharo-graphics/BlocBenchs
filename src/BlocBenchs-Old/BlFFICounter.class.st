@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'functionNamesAndCounts'
 	],
-	#category : #'BlocBenchs-Old'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #API }

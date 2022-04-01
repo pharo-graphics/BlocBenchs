@@ -15,7 +15,7 @@ Class {
 		'extent',
 		'nestingLevel'
 	],
-	#category : #'BlocBenchs-Old'
+	#category : #'BlocBenchs-Old-MouseMove'
 }
 
 { #category : #examples }

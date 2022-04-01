@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'boidsSkyElementClass'
 	],
-	#category : #'BlocBenchs-Old'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #accessing }
