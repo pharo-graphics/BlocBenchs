@@ -283,6 +283,12 @@ PCCanvas >> setClipChildrenEnabled [
 ]
 
 { #category : #'api - drawing' }
+PCCanvas >> setDoubleWidth [
+
+	borderWidth := borderWidth * 2.0
+]
+
+{ #category : #'api - drawing' }
 PCCanvas >> setJoinBevel [
 
 	cairoContext primSetLineJoin: CAIRO_LINE_JOIN_BEVEL
@@ -436,8 +442,9 @@ PCCanvas >> setWithInsideBorderAndBackground [
 			primPaintAlpha: backgroundAlpha.
 		isPathSetAsClip := true.
 
-		borderWidth := borderWidth * 2.0.
-		self setStrokeParameters.
+		self
+			setDoubleWidth;
+			setStrokeParameters.
 		cairoContext stroke.
 
 		]
@@ -451,8 +458,9 @@ PCCanvas >> setWithInsideBorderAndNoBackground [
 
 		pathBlock value.
 
-		borderWidth := borderWidth * 2.0.
-		self setStrokeParameters.
+		self
+			setDoubleWidth;
+			setStrokeParameters.
 		cairoContext 
 			primClipPreserve;
 			stroke.
@@ -484,8 +492,9 @@ PCCanvas >> setWithOutsideBorderAndNoBackground [
 
 		cairoContext paintGroupWith: [ 
 			"Draw doubled border"
-			borderWidth := borderWidth * 2.0.
-			self setStrokeParameters.
+			self
+				setDoubleWidth;
+				setStrokeParameters.
 			cairoContext primStrokePreserve.
 			"Clear inside"
 			cairoContext
@@ -503,8 +512,9 @@ PCCanvas >> setWithOutsideBorderAndOpaqueBackground [
 
 		pathBlock value.
 
-		borderWidth := borderWidth * 2.0.
-		self setStrokeParameters.
+		self
+			setDoubleWidth;
+			setStrokeParameters.
 		cairoContext primStrokePreserve.
 
 		backgroundSourceBlock value.
@@ -526,8 +536,9 @@ PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
 
 		cairoContext paintGroupWith: [ 
 			"Draw doubled border"
-			borderWidth := borderWidth * 2.0.
-			self setStrokeParameters.
+			self
+				setDoubleWidth;
+				setStrokeParameters.
 			cairoContext primStrokePreserve.
 			"Clear inside"
 			cairoContext
