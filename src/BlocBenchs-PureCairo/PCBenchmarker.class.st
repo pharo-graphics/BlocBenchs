@@ -188,19 +188,20 @@ PCBenchmarker >> run [
 
 	"Start log"
 	mustLogFFI ifTrue: [ self startFFILogging ].
-	
-	"Main sentences under benchmark"
-	self openWindow.
-	case duration wait.
 
-	"End log"
-	loggedFrameCount := self frameCount.
-	"(Zero frames indicate an error, e.g. drawing)"
-	loggedFrameCount > 0 ifTrue: [
-		loggedDuration := self elapsedTimeSinceFirstDraw.
-		mustLogFFI ifTrue: [ self stopFFILogging ] ].
+	[
+		"Main sentences under benchmark"
+		self openWindow.
+		case duration wait.
 
-	self closeWindow.
+		"End log"
+		loggedFrameCount := self frameCount.
+		"(Zero frames indicate an error, e.g. drawing)"
+		loggedFrameCount > 0 ifTrue: [
+			loggedDuration := self elapsedTimeSinceFirstDraw.
+			mustLogFFI ifTrue: [ self stopFFILogging ] ].
+
+		] ensure: [ self closeWindow ]
 
 ]
 
