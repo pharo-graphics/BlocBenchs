@@ -221,7 +221,7 @@ PCCanvas >> initializeExtent: aPoint [
 
 	cairoContext
 		primSetTolerance: 0.5;
-		setAA: CAIRO_ANTIALIAS_GOOD.
+		setAA: CAIRO_ANTIALIAS_FAST.
 ]
 
 { #category : #'api - drawing' }
