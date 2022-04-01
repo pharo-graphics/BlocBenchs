@@ -13,7 +13,7 @@ PCLayerCompositionBenchCase >> borderWidth [
 { #category : #hook }
 PCLayerCompositionBenchCase >> indexOfElementToRefresh [
 
-	^ self subclassResponsibility 
+	^ self numberOfFigures - 5
 ]
 
 { #category : #accessing }
@@ -52,9 +52,7 @@ PCLayerCompositionBenchCase >> newElement [
 	1 to: self numberOfFigures do: [ :index |
 		container addChild: (self newFigure: random) ].
 	
-	self
-		prepareToRefresh: (container children at: self indexOfElementToRefresh)
-		random: random.
+	self prepareToRefresh: (container children at: self indexOfElementToRefresh).
 
 	^ container
 ]
@@ -66,7 +64,6 @@ PCLayerCompositionBenchCase >> newFigure: random [
 			background: self theForm;
 			size: self theForm extent;
 			relocate: (self nextLocation: random);
-			border: (BlBorder paint: Color black width: self borderWidth);
 			yourself
 ]
 
@@ -84,18 +81,16 @@ PCLayerCompositionBenchCase >> numberOfFigures [
 ]
 
 { #category : #hook }
-PCLayerCompositionBenchCase >> prepareToRefresh: anElement random: aRandom [
+PCLayerCompositionBenchCase >> prepareToRefresh: anElement [
 
 	| colorGenerator |
 	colorGenerator := self newColorGenerator.
 
-	anElement
-		beInSeparateCompositionLayer;
-		addAnimation: (BlBasicAnimation new
-				 onStepDo: [ 
-					 anElement border:
-							 (BlBorder paint: colorGenerator next width: self borderWidth) ];
-				 yourself)
+	anElement addAnimation: (BlBasicAnimation new
+			 onStepDo: [ 
+				 anElement border:
+						 (BlBorder paint: colorGenerator next width: self borderWidth) ];
+			 yourself)
 ]
 
 { #category : #accessing }
