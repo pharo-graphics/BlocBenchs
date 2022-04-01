@@ -1,7 +1,7 @@
 Class {
 	#name : #PCTranslucentImagesBenchCase,
 	#superclass : #PCImagesBenchCase,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #'instance creation' }

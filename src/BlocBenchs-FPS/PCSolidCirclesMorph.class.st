@@ -1,7 +1,7 @@
 Class {
 	#name : #PCSolidCirclesMorph,
 	#superclass : #PCCirclesMorph,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #drawing }

@@ -9,7 +9,7 @@ Class {
 		'roassalCanvas',
 		'window'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #hook }

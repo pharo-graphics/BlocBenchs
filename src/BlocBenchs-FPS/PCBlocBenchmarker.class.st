@@ -10,7 +10,7 @@ Class {
 		'frames',
 		'realStartTimestamp'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #hook }

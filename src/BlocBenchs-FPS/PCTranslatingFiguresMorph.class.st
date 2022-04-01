@@ -5,7 +5,7 @@ Class {
 		'deltaYPerMS',
 		'canvasClearColor'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #drawing }

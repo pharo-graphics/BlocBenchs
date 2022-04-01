@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'spartaCanvasBuilderClass'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #accessing }

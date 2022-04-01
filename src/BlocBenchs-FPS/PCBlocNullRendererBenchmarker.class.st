@@ -4,7 +4,7 @@ I'm a benchmarker for the Null renderer.
 Class {
 	#name : #PCBlocNullRendererBenchmarker,
 	#superclass : #PCBlocBenchmarker,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #accessing }

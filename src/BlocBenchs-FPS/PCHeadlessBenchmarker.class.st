@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'pulseProcess'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #hook }

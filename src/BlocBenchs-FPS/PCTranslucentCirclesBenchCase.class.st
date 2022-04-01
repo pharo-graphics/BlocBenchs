@@ -1,7 +1,7 @@
 Class {
 	#name : #PCTranslucentCirclesBenchCase,
 	#superclass : #PCCirclesBenchCase,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }

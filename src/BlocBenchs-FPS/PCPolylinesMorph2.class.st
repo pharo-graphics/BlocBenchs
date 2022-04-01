@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'path'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #drawing }

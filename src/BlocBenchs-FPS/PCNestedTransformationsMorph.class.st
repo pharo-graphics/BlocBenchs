@@ -10,7 +10,7 @@ Class {
 		'rotationCenterNegated',
 		'windowColor'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #drawing }

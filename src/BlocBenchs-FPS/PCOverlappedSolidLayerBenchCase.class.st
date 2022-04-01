@@ -1,7 +1,7 @@
 Class {
 	#name : #PCOverlappedSolidLayerBenchCase,
 	#superclass : #PCLayerCompositionBenchCase,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }

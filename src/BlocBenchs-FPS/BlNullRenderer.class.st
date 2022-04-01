@@ -5,7 +5,7 @@ I'm a BlHostRenderer that does nothing for rendering.
 Class {
 	#name : #BlNullRenderer,
 	#superclass : #BlHostRenderer,
-	#category : #'BlocBenchs-NullRenderer'
+	#category : #'BlocBenchs-FPS-Host-NullRenderer'
 }
 
 { #category : #initialization }

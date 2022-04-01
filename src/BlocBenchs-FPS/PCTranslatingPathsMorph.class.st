@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'colors'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #drawing }

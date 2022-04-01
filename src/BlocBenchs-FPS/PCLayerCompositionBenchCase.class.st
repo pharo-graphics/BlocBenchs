@@ -1,7 +1,7 @@
 Class {
 	#name : #PCLayerCompositionBenchCase,
 	#superclass : #PCBenchCase,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #accessing }

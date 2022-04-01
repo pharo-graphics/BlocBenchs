@@ -8,7 +8,7 @@ Class {
 		'window',
 		'morph'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #hook }

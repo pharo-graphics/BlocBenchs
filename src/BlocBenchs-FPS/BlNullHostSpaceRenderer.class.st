@@ -1,7 +1,7 @@
 Class {
 	#name : #BlNullHostSpaceRenderer,
 	#superclass : #BlHostSpaceRenderer,
-	#category : #'BlocBenchs-NullRenderer'
+	#category : #'BlocBenchs-FPS-Host-NullRenderer'
 }
 
 { #category : #initialization }

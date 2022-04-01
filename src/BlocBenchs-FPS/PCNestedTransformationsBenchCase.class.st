@@ -1,7 +1,7 @@
 Class {
 	#name : #PCNestedTransformationsBenchCase,
 	#superclass : #PCBenchCase,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #accessing }

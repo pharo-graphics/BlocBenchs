@@ -1,7 +1,7 @@
 Class {
 	#name : #PCRoassalTranslatingFiguresMorph,
 	#superclass : #PCRoassalMorph,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #accessing }

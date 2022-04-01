@@ -1,7 +1,7 @@
 Class {
 	#name : #PCPolylinesMorph,
 	#superclass : #PCTranslatingPathsMorph,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #drawing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'externalForm'
 	],
-	#category : #'BlocBenchs-NullRenderer'
+	#category : #'BlocBenchs-FPS-Host-NullRenderer'
 }
 
 { #category : #testing }

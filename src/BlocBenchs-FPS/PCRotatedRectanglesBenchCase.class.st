@@ -1,7 +1,7 @@
 Class {
 	#name : #PCRotatedRectanglesBenchCase,
 	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #accessing }

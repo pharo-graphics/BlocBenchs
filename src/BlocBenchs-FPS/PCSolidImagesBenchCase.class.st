@@ -1,7 +1,7 @@
 Class {
 	#name : #PCSolidImagesBenchCase,
 	#superclass : #PCImagesBenchCase,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }

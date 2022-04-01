@@ -4,7 +4,7 @@ I'm a hacky way to set the NullRenderer in a MorphicWindow host.
 Class {
 	#name : #BlNullRendererMorphicWindowHost,
 	#superclass : #BlMorphicWindowHost,
-	#category : #'BlocBenchs-NullRenderer'
+	#category : #'BlocBenchs-FPS-Host-NullRenderer'
 }
 
 { #category : #'driver selection' }

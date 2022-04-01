@@ -1,7 +1,7 @@
 Class {
 	#name : #PCSolidBorderCirclesBenchCase,
 	#superclass : #PCCirclesBenchCase,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #accessing }

@@ -7,7 +7,7 @@ The intention was optimizing FPS but didn't improve it.
 Class {
 	#name : #PCBitBlt,
 	#superclass : #BitBlt,
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #'instance creation' }

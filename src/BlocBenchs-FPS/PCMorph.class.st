@@ -21,7 +21,7 @@ Class {
 		'deltaMS',
 		'startMS'
 	],
-	#category : #'BlocBenchs-FPS'
+	#category : #'BlocBenchs-FPS-RawMorph'
 }
 
 { #category : #accessing }
