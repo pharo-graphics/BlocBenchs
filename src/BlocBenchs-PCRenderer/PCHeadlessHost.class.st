@@ -5,7 +5,7 @@ I'm a host that proocesses its frames normally, but doesn't open any kind of win
 Class {
 	#name : #PCHeadlessHost,
 	#superclass : #Object,
-	#category : #'BlocBenchs-PCRenderer-Headless'
+	#category : #'BlocBenchs-PCRenderer-Host-Headless'
 }
 
 { #category : #accessing }

@@ -5,7 +5,7 @@ Class {
 		'hostSpace',
 		'pureCairoCanvas'
 	],
-	#category : #'BlocBenchs-PCRenderer-Core'
+	#category : #'BlocBenchs-PCRenderer-Host-MorphicWindow'
 }
 
 { #category : #initialization }

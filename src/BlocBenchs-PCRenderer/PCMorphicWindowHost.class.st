@@ -1,7 +1,7 @@
 Class {
 	#name : #PCMorphicWindowHost,
 	#superclass : #BlMorphicWindowHost,
-	#category : #'BlocBenchs-PCRenderer-Core'
+	#category : #'BlocBenchs-PCRenderer-Host-MorphicWindow'
 }
 
 { #category : #'driver selection' }

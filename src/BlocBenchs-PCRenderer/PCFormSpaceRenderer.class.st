@@ -1,7 +1,7 @@
 Class {
 	#name : #PCFormSpaceRenderer,
 	#superclass : #Object,
-	#category : #'BlocBenchs-PCRenderer-Core'
+	#category : #'BlocBenchs-PCRenderer-Host-MorphicWindow'
 }
 
 { #category : #initialization }

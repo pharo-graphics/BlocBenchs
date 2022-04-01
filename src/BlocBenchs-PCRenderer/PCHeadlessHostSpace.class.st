@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'canvas'
 	],
-	#category : #'BlocBenchs-PCRenderer-Headless'
+	#category : #'BlocBenchs-PCRenderer-Host-Headless'
 }
 
 { #category : #converting }
