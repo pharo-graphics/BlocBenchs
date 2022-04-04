@@ -1,8 +1,8 @@
 Class {
 	#name : #PCCairoMatrix,
 	#superclass : #FFIExternalStructure,
-	#traits : 'TCairoLibrary',
-	#classTraits : 'TCairoLibrary classTrait',
+	#traits : 'PCTCairoLibrary',
+	#classTraits : 'PCTCairoLibrary classTrait',
 	#classVars : [
 		'OFFSET_SHX',
 		'OFFSET_SHY',

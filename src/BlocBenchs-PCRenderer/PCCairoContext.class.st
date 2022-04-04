@@ -1,8 +1,8 @@
 Class {
 	#name : #PCCairoContext,
 	#superclass : #Object,
-	#traits : 'TCairoLibrary',
-	#classTraits : 'TCairoLibrary classTrait',
+	#traits : 'PCTCairoLibrary',
+	#classTraits : 'PCTCairoLibrary classTrait',
 	#instVars : [
 		'handle'
 	],

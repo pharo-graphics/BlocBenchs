@@ -20,7 +20,7 @@ Class {
 		'pathCache'
 	],
 	#pools : [
-		'AthensCairoDefinitions'
+		'PCCairoDefinitions'
 	],
 	#category : #'BlocBenchs-PCRenderer-Core'
 }

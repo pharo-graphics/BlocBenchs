@@ -1,8 +1,8 @@
 Class {
 	#name : #PCCairoSurface,
 	#superclass : #Object,
-	#traits : 'TCairoLibrary',
-	#classTraits : 'TCairoLibrary classTrait',
+	#traits : 'PCTCairoLibrary',
+	#classTraits : 'PCTCairoLibrary classTrait',
 	#instVars : [
 		'handle',
 		'context',
@@ -243,7 +243,7 @@ PCCairoSurface class >> get_width: surface [
 PCCairoSurface class >> initializeForNewSession [
 	session := Smalltalk session.
 	"create a dispatch structure"
-	dispatchStruct := SQSurfaceDispatch externalNew.
+	dispatchStruct := PCSurfacePluginDispatch externalNew.
 	dispatchStruct 
 		getSurfaceFormatFn: self createGetSurfaceFormatFn;
 		lockSurfaceFn: self createLockSurfaceFn;
