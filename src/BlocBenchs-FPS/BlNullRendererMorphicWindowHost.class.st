@@ -12,6 +12,13 @@ BlNullRendererMorphicWindowHost class >> label [
 	^ 'Morphic NullRenderer'
 ]
 
+{ #category : #'driver selection' }
+BlNullRendererMorphicWindowHost class >> priority [
+	"Answer lowest value"
+
+	^ Float infinity
+]
+
 { #category : #'host - api' }
 BlNullRendererMorphicWindowHost >> createHostSpaceFor: aSpace [
 	"Create and assign a new morphic host space for given bloc space"
