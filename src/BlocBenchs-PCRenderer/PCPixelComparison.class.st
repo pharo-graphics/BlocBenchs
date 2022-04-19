@@ -1,3 +1,12 @@
+"
+I am a comparison between forms that should match.
+
+See #isMatch, my main testing method.
+
+My NewTools inspections help humans to understand what's different between two bitmaps that should be equal.
+
+My colaborators are two instances of Form (the expected and the actual bitmap) and a String that serves as label for the comparison.
+"
 Class {
 	#name : #PCPixelComparison,
 	#superclass : #Object,
