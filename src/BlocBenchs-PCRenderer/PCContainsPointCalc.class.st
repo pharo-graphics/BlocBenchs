@@ -34,7 +34,7 @@ PCContainsPointCalc >> ensureReady [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 PCContainsPointCalc >> is: aPoint inFillOfVertices: vertices [
 
 	vertices readStreamDo: [ :aStream |

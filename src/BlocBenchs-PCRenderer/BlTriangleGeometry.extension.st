@@ -3,7 +3,16 @@ Extension { #name : #BlTriangleGeometry }
 { #category : #'*BlocBenchs-PCRenderer' }
 BlTriangleGeometry >> pureCairoApplyTo: aPCCanvas element: aBlElement [
 
-	^ aPCCanvas acceptGeometryTriangle: self element: aBlElement
+	aPCCanvas setClosedPathGeometry: self with: [ :cairoContext |
+		| thePoints |
+		thePoints := self computeVertices.
+
+		cairoContext
+			moveTo: thePoints first;
+			lineTo: thePoints second;
+			lineTo: thePoints third;
+			primClosePath ]
+
 ]
 
 { #category : #'*BlocBenchs-PCRenderer' }

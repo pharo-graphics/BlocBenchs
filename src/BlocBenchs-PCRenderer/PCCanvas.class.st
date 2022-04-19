@@ -1,3 +1,7 @@
+"
+I let Bloc elements render in a Cairo surface.
+
+"
 Class {
 	#name : #PCCanvas,
 	#superclass : #Object,
@@ -64,24 +68,6 @@ PCCanvas >> acceptBlImageBackground: aBlImageBackground [
 ]
 
 { #category : #visiting }
-PCCanvas >> acceptBlOutskirtsCentered: aBlOutskirtsCentered [
-	
-	self setWithCenteredBorder
-]
-
-{ #category : #visiting }
-PCCanvas >> acceptBlOutskirtsInside: aBlOutskirtsInside [ 
-
-	self setWithInsideBorder
-]
-
-{ #category : #visiting }
-PCCanvas >> acceptBlOutskirtsOutside: aBlOutskirtsOutside [ 
-	
-	self setWithOutsideBorder
-]
-
-{ #category : #visiting }
 PCCanvas >> acceptBlPaintBackground: aBlPaintBackground [
 
 	hasBackground := true.
@@ -115,67 +101,15 @@ PCCanvas >> acceptColorPaintBorder: aBlColorPaint border: aBlBorder [
 ]
 
 { #category : #visiting }
-PCCanvas >> acceptGeometryCircle: aGeometry element: aBlElement [
-
-	self setPathKey: aGeometry closedWith: [
-		cairoContext
-			primArcCenterX: aGeometry origin x + aGeometry radius
-			centerY: aGeometry origin y + aGeometry radius
-			radius: aGeometry radius
-			startAngle: 0.0
-			endAngle: Float twoPi ]
-
-]
-
-{ #category : #visiting }
-PCCanvas >> acceptGeometryPolygon: aGeometry element: aBlElement [
-
-	self setPathKey: aGeometry closedWith: [ 
-		aGeometry vertices do: [ :each | cairoContext lineTo: each ].
-		cairoContext primClosePath ]
-]
-
-{ #category : #visiting }
-PCCanvas >> acceptGeometryPolyline: aGeometry element: aBlElement [
-
-	self setPathKey: aGeometry openWith: [ 
-		aGeometry vertices do: [ :each | cairoContext lineTo: each ] ]
-]
-
-{ #category : #visiting }
-PCCanvas >> acceptGeometryRectangle: aGeometry element: aBlElement [
-
-	self setPathKey: aGeometry closedWith: [
-		| aRectangle |
-		aRectangle := aBlElement boundsInLocal.
-		
-		cairoContext
-			rectangleX: aRectangle left
-			y: aRectangle top
-			width: aRectangle width
-			height: aRectangle height ]
-
-]
-
-{ #category : #visiting }
-PCCanvas >> acceptGeometryTriangle: aGeometry element: aBlElement [
-
-	self setPathKey: aGeometry closedWith: [
-		| thePoints |
-		thePoints := aGeometry computeVertices.
-
-		cairoContext
-			moveTo: thePoints first;
-			lineTo: thePoints second;
-			lineTo: thePoints third;
-			primClosePath ]
-
-]
-
-{ #category : #visiting }
 PCCanvas >> acceptTransparentPaintBorder: aBlElement [ 
 	
 	self setWithoutBorder.
+]
+
+{ #category : #private }
+PCCanvas >> applyPathBlock [
+
+	pathBlock value: cairoContext
 ]
 
 { #category : #converting }
@@ -184,7 +118,7 @@ PCCanvas >> asForm [
 	^ cairoSurface asForm
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> drawFillAndStroke [
 
 	drawFillAndStrokeBlock value
@@ -224,7 +158,7 @@ PCCanvas >> initializeExtent: aPoint [
 		setAA: CAIRO_ANTIALIAS_FAST.
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 
 	| needsTransformation needsTranslation |
@@ -246,26 +180,26 @@ PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> setCapButt [
 
 	"Do nothing as it's the default in Cairo"
 	"https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-line-cap"
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> setCapRound [
 	
 	cairoContext primSetLineCap: CAIRO_LINE_CAP_ROUND
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> setCapSquare [
 	
 	cairoContext primSetLineCap: CAIRO_LINE_CAP_SQUARE
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> setClipChildrenDisabled [
 
 	isPathSetAsClip ifTrue: [
@@ -273,28 +207,39 @@ PCCanvas >> setClipChildrenDisabled [
 		isPathSetAsClip := false ]
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> setClipChildrenEnabled [
 
 	isPathSetAsClip ifFalse: [ 
-		pathBlock value.
+		self applyPathBlock.
 		cairoContext primClip.
 		isPathSetAsClip := true ]
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
+PCCanvas >> setClosedPathGeometry: anObject with: aBlock [
+	"Establish how to draw the closed path of the ongoing element's geometry. 
+	The anObject arrgument might serve as a cache key."
+
+	isClosedGeometry := true.
+	isPathSetAsClip := false.
+	pathBlock := aBlock
+
+]
+
+{ #category : #private }
 PCCanvas >> setDoubleWidth [
 
 	borderWidth := borderWidth * 2.0
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> setJoinBevel [
 
 	cairoContext primSetLineJoin: CAIRO_LINE_JOIN_BEVEL
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> setJoinMiter: limit [
 	
 	"No need to set miter join as it's the default in Cairo"
@@ -307,23 +252,16 @@ PCCanvas >> setJoinMiter: limit [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
 PCCanvas >> setJoinRound [
 
 	cairoContext primSetLineJoin: CAIRO_LINE_JOIN_ROUND
 ]
 
-{ #category : #'api - drawing' }
-PCCanvas >> setPathKey: key closedWith: aBlock [
-
-	isClosedGeometry := true.
-	isPathSetAsClip := false.
-	pathBlock := aBlock
-
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> setPathKey: key openWith: aBlock [
+{ #category : #API }
+PCCanvas >> setOpenPathGeometry: anObject with: aBlock [
+	"Establish how to draw the open path of the ongoing element's geometry. 
+	The anObject arrgument might serve as a cache key."
 
 	isClosedGeometry := false.
 	isPathSetAsClip := false.
@@ -331,7 +269,47 @@ PCCanvas >> setPathKey: key openWith: aBlock [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #API }
+PCCanvas >> setOutskirtsCentered [
+
+	drawFillAndStrokeBlock := [
+
+		self applyPathBlock.
+
+		hasBackground ifTrue: [
+			backgroundSourceBlock value.
+			cairoContext
+				primClipPreserve;
+				primPaintAlpha: backgroundAlpha;
+				resetClip ].
+
+		self setStrokeParameters.
+		cairoContext stroke ]
+
+]
+
+{ #category : #API }
+PCCanvas >> setOutskirtsInside [
+
+	hasBackground
+		ifTrue: [ self setWithInsideBorderAndBackground ]
+		ifFalse: [ self setWithInsideBorderAndNoBackground ]
+]
+
+{ #category : #API }
+PCCanvas >> setOutskirtsOutside [
+
+	hasBackground
+		ifTrue: [
+			hasOpaqueBackground
+				ifTrue: [ self setWithOutsideBorderAndOpaqueBackground ]
+				ifFalse: [ self setWithOutsideBorderAndTranslucentBackground ] ]
+		ifFalse: [
+			self setWithOutsideBorderAndNoBackground ]
+	
+]
+
+{ #category : #private }
 PCCanvas >> setSourceColor: aColor [
 
 	"TODO: The default source pattern is opaque black, (that is, it is equivalent to cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 1.0))."
@@ -342,13 +320,13 @@ PCCanvas >> setSourceColor: aColor [
 		ifFalse: [ self setSourceSolidColor: aColor ]
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setSourceSolidColor: aColor [
 
 	cairoContext primSetSourceR: aColor red g: aColor green b: aColor blue
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setSourceTranslucentColor: aColor [
 
 	cairoContext
@@ -358,7 +336,7 @@ PCCanvas >> setSourceTranslucentColor: aColor [
 		a: aColor alpha
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setStrokeDashes [
 
 	"TODO: do not initialize here, and reset on new session"	
@@ -384,7 +362,7 @@ PCCanvas >> setStrokeDashes [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setStrokeParameters [
 
 	self setSourceColor: borderColor.
@@ -402,39 +380,12 @@ PCCanvas >> setStrokeParameters [
 
 ]
 
-{ #category : #'api - drawing' }
-PCCanvas >> setWithCenteredBorder [
-
-	drawFillAndStrokeBlock := [
-
-		pathBlock value.
-
-		hasBackground ifTrue: [
-			backgroundSourceBlock value.
-			cairoContext
-				primClipPreserve;
-				primPaintAlpha: backgroundAlpha;
-				resetClip ].
-
-		self setStrokeParameters.
-		cairoContext stroke ]
-
-]
-
-{ #category : #'api - drawing' }
-PCCanvas >> setWithInsideBorder [
-
-	hasBackground
-		ifTrue: [ self setWithInsideBorderAndBackground ]
-		ifFalse: [ self setWithInsideBorderAndNoBackground ]
-]
-
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setWithInsideBorderAndBackground [
 
 	drawFillAndStrokeBlock := [
 
-		pathBlock value.
+		self applyPathBlock.
 
 		backgroundSourceBlock value.
 		cairoContext
@@ -451,12 +402,12 @@ PCCanvas >> setWithInsideBorderAndBackground [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setWithInsideBorderAndNoBackground [
 
 	drawFillAndStrokeBlock := [
 
-		pathBlock value.
+		self applyPathBlock.
 
 		self
 			setDoubleWidth;
@@ -470,25 +421,12 @@ PCCanvas >> setWithInsideBorderAndNoBackground [
 
 ]
 
-{ #category : #'api - drawing' }
-PCCanvas >> setWithOutsideBorder [
-
-	hasBackground
-		ifTrue: [
-			hasOpaqueBackground
-				ifTrue: [ self setWithOutsideBorderAndOpaqueBackground ]
-				ifFalse: [ self setWithOutsideBorderAndTranslucentBackground ] ]
-		ifFalse: [
-			self setWithOutsideBorderAndNoBackground ]
-	
-]
-
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setWithOutsideBorderAndNoBackground [
 
 	drawFillAndStrokeBlock := [
 
-		pathBlock value.
+		self applyPathBlock.
 
 		cairoContext paintGroupWith: [ 
 			"Draw doubled border"
@@ -505,12 +443,12 @@ PCCanvas >> setWithOutsideBorderAndNoBackground [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setWithOutsideBorderAndOpaqueBackground [
 
 	drawFillAndStrokeBlock := [
 
-		pathBlock value.
+		self applyPathBlock.
 
 		self
 			setDoubleWidth;
@@ -527,12 +465,12 @@ PCCanvas >> setWithOutsideBorderAndOpaqueBackground [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
 
 	drawFillAndStrokeBlock := [
 
-		pathBlock value.
+		self applyPathBlock.
 
 		cairoContext paintGroupWith: [ 
 			"Draw doubled border"
@@ -555,7 +493,7 @@ PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setWithoutBorder [
 
 	hasBackground
@@ -563,12 +501,12 @@ PCCanvas >> setWithoutBorder [
 		ifFalse: [ self setWithoutBorderAndNoBackground ]
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setWithoutBorderAndBackground [
 	
 	drawFillAndStrokeBlock := [
 
-		pathBlock value.
+		self applyPathBlock.
 		backgroundSourceBlock value.
 
 		cairoContext
@@ -580,14 +518,14 @@ PCCanvas >> setWithoutBorderAndBackground [
 
 ]
 
-{ #category : #'api - drawing' }
+{ #category : #private }
 PCCanvas >> setWithoutBorderAndNoBackground [
 	
 	drawFillAndStrokeBlock := [ ]
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #API }
 PCCanvas >> withOpacity: aNumber draw: aBlock [
 
 	aNumber = 1.0
