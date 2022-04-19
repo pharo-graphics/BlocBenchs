@@ -1,6 +1,9 @@
 Class {
 	#name : #PCRenderingTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'spaceFixture'
+	],
 	#category : #'BlocBenchs-PCRenderer-Tests'
 }
 
@@ -48,30 +51,49 @@ PCRenderingTest class >> exportFileNamed: aSymbol with: aForm [
 { #category : #tests }
 PCRenderingTest >> fileNameFor: aSymbol [
 
-	^ 'expected-', aSymbol asString, '.png'
+	^ self filesystemResourcesDirectory / ('expected-', aSymbol asString, '.png')
 
+]
+
+{ #category : #tests }
+PCRenderingTest >> filesystemResourcesDirectory [
+
+	| repo |
+	repo := IceRepository registry detect: [ :each | each name = 'BlocBenchs' ].
+	^ repo location / 'tests' 
+]
+
+{ #category : #tests }
+PCRenderingTest >> pixelComparisonFor: aSymbol [
+	
+	| aSpace expectedForm actualForm |
+	aSpace := spaceFixture perform: aSymbol.
+	expectedForm := Form fromFileNamed: (self fileNameFor: aSymbol).
+	actualForm := aSpace root pureCairoAsForm.
+
+	^ PCPixelComparison
+		expectedForm: expectedForm
+		actualForm: actualForm
+		label: aSymbol
+]
+
+{ #category : #running }
+PCRenderingTest >> setUp [
+	super setUp.
+	
+	spaceFixture := BlSpaceFixture new.
 ]
 
 { #category : #tests }
 PCRenderingTest >> testAllFixtures [
 
-	| spaceFixture results mismatchingResults |
-	spaceFixture := BlSpaceFixture new.
-
-	results := spaceFixture allFixtureSelectors collect: [ :selector |
-		| aSpace expectedForm actualForm |
-		aSpace := spaceFixture perform: selector.
-		expectedForm := Form fromFileNamed: (self fileNameFor: selector).
-		actualForm := aSpace root pureCairoAsForm.
-
-		PCPixelComparison
-			expectedForm: expectedForm
-			actualForm: actualForm
-			label: selector ].
+	| results mismatchingResults |
+	results := spaceFixture allFixtureSelectors
+		collect: [ :each | self pixelComparisonFor: each ].
 
 	mismatchingResults := results reject: [ :each | each isMatch ].
 
-	mismatchingResults do: [ :each | each inspect ].
+"	DEBUG WITH: mismatchingResults do: [ :each | each inspect ]."
 
 	self assertEmpty: mismatchingResults
 ]
