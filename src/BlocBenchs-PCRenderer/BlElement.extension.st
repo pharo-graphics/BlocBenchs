@@ -16,25 +16,24 @@ BlElement >> pureCairoAsForm [
 { #category : #'*BlocBenchs-PCRenderer' }
 BlElement >> pureCairoDrawOn: aPCCanvas [
 
-	aPCCanvas
-		position: self position
-		transformation: self transformation matrix
-		applyDuring: [ 
-			
-			"Note the canvas assumes this visit order."
-			self background pureCairoApplyTo: aPCCanvas.
-			self outskirts pureCairoApplyTo: aPCCanvas.
-			self border pureCairoApplyTo: aPCCanvas.
-			self geometry pureCairoApplyTo: aPCCanvas element: self.
+	aPCCanvas drawElementAlpha: self opacity with: [
 
-			aPCCanvas withOpacity: self opacity draw: [
-				aPCCanvas drawFillAndStroke.
+		"Apply transformations"
+		aPCCanvas pathTranslate: self position.
+		self transformation pureCairoApplyTo: aPCCanvas element: self.
+		
+		"PCCanvas requires this order: background, outskirts, border."
+		self background pureCairoApplyTo: aPCCanvas.
+		self outskirts pureCairoApplyTo: aPCCanvas.
+		self border pureCairoApplyTo: aPCCanvas.
+		self geometry pureCairoApplyTo: aPCCanvas element: self.
+		aPCCanvas drawFillAndStroke.
 
-				self clipChildren
-					ifTrue: [ aPCCanvas setClipChildrenEnabled ]
-					ifFalse: [ aPCCanvas setClipChildrenDisabled ].
+		"Recursively draw children"
+		self children isEmpty ifFalse: [
+			aPCCanvas setClipChildren: self clipChildren.
+			self children sortedByElevation do: [ :each |
+				each pureCairoDrawOn: aPCCanvas ] ].
 
-				self children sortedByElevation do: [ :each |
-					each pureCairoDrawOn: aPCCanvas ] ] ]
-
+		]
 ]

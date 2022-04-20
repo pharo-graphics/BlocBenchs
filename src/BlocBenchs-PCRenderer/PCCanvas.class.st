@@ -119,6 +119,14 @@ PCCanvas >> asForm [
 ]
 
 { #category : #API }
+PCCanvas >> drawElementAlpha: aNumber with: aBlock [
+
+	aNumber = 1.0
+		ifTrue: [ cairoContext restoreAfter: aBlock ]
+		ifFalse: [ cairoContext paintGroupWith: aBlock alpha: aNumber ]
+]
+
+{ #category : #API }
 PCCanvas >> drawFillAndStroke [
 
 	drawFillAndStrokeBlock value
@@ -159,25 +167,17 @@ PCCanvas >> initializeExtent: aPoint [
 ]
 
 { #category : #API }
-PCCanvas >> position: aPoint transformation: aMatrix applyDuring: aBlock [
+PCCanvas >> pathTransform: aMatrix [
 
-	| needsTransformation needsTranslation |
-	needsTranslation := aPoint isZero not.
-	needsTransformation := aMatrix isIdentity not.
-	
-	"Evaluate without touching the canvas transformation."
-	(needsTransformation or: [ needsTranslation ])
-		ifFalse: [ ^ aBlock value ].
-	
-	"Evaluate saving and restoring the transformation state."
-	cairoContext primSaveState.
-	needsTranslation ifTrue: [
-		cairoContext primTranslate: aPoint ].
-	needsTransformation ifTrue: [
-		cairoContext primApplyTransform: (PCCairoMatrix fromSpartaMatrix: aMatrix) ].
-	aBlock value.
-	cairoContext primRestoreState.
+	aMatrix isIdentity ifTrue: [ ^self ].
+	cairoContext primApplyTransform: aMatrix
+]
 
+{ #category : #API }
+PCCanvas >> pathTranslate: aPoint [
+
+	aPoint isZero ifTrue: [ ^self ].
+	cairoContext primTranslate: aPoint
 ]
 
 { #category : #API }
@@ -200,31 +200,17 @@ PCCanvas >> setCapSquare [
 ]
 
 { #category : #API }
-PCCanvas >> setClipChildrenDisabled [
+PCCanvas >> setClipChildren: aBoolean [
 
-	isPathSetAsClip ifTrue: [
-		cairoContext resetClip.
-		isPathSetAsClip := false ]
-]
-
-{ #category : #API }
-PCCanvas >> setClipChildrenEnabled [
-
-	isPathSetAsClip ifFalse: [ 
-		self applyPathBlock.
-		cairoContext primClip.
-		isPathSetAsClip := true ]
-]
-
-{ #category : #API }
-PCCanvas >> setClosedPathGeometry: anObject with: aBlock [
-	"Establish how to draw the closed path of the ongoing element's geometry. 
-	The anObject arrgument might serve as a cache key."
-
-	isClosedGeometry := true.
-	isPathSetAsClip := false.
-	pathBlock := aBlock
-
+	aBoolean
+		ifTrue: [
+			isPathSetAsClip ifFalse: [ 
+				self applyPathBlock.
+				cairoContext primClip ] ]
+		ifFalse: [
+			isPathSetAsClip ifTrue: [
+				cairoContext resetClip ] ].
+	isPathSetAsClip := aBoolean
 ]
 
 { #category : #private }
@@ -256,17 +242,6 @@ PCCanvas >> setJoinMiter: limit [
 PCCanvas >> setJoinRound [
 
 	cairoContext primSetLineJoin: CAIRO_LINE_JOIN_ROUND
-]
-
-{ #category : #API }
-PCCanvas >> setOpenPathGeometry: anObject with: aBlock [
-	"Establish how to draw the open path of the ongoing element's geometry. 
-	The anObject arrgument might serve as a cache key."
-
-	isClosedGeometry := false.
-	isPathSetAsClip := false.
-	pathBlock := aBlock
-
 ]
 
 { #category : #API }
@@ -307,6 +282,17 @@ PCCanvas >> setOutskirtsOutside [
 		ifFalse: [
 			self setWithOutsideBorderAndNoBackground ]
 	
+]
+
+{ #category : #API }
+PCCanvas >> setPathFor: anObject isClosed: aBoolean with: aBlock [
+	"Establish how to draw the path, which can be open or closed.
+	The anObject argument might serve as a cache key."
+
+	isPathSetAsClip := false.
+	isClosedGeometry := aBoolean.
+	pathBlock := aBlock
+
 ]
 
 { #category : #private }
@@ -523,12 +509,4 @@ PCCanvas >> setWithoutBorderAndNoBackground [
 	
 	drawFillAndStrokeBlock := [ ]
 
-]
-
-{ #category : #API }
-PCCanvas >> withOpacity: aNumber draw: aBlock [
-
-	aNumber = 1.0
-		ifTrue: aBlock
-		ifFalse: [ cairoContext paintGroupWith: aBlock alpha: aNumber ]
 ]

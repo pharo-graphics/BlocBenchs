@@ -468,6 +468,14 @@ PCCairoContext >> resetDash [
 	self primResetDashes: 0.0
 ]
 
+{ #category : #'as yet unclassified' }
+PCCairoContext >> restoreAfter: aBlock [
+
+	self primSaveState.
+	aBlock value.
+	self primRestoreState
+]
+
 { #category : #private }
 PCCairoContext >> setAA: antiAlias [
 

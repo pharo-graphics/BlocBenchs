@@ -3,7 +3,7 @@ Extension { #name : #BlRectangleGeometry }
 { #category : #'*BlocBenchs-PCRenderer' }
 BlRectangleGeometry >> pureCairoApplyTo: aPCCanvas element: aBlElement [
 
-	aPCCanvas setClosedPathGeometry: self with: [ :cairoContext |
+	aPCCanvas setPathFor: self isClosed: true with: [ :cairoContext |
 		| aRectangle |
 		aRectangle := aBlElement boundsInLocal.
 		

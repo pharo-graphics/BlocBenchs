@@ -3,7 +3,7 @@ Extension { #name : #BlTriangleGeometry }
 { #category : #'*BlocBenchs-PCRenderer' }
 BlTriangleGeometry >> pureCairoApplyTo: aPCCanvas element: aBlElement [
 
-	aPCCanvas setClosedPathGeometry: self with: [ :cairoContext |
+	aPCCanvas setPathFor: self isClosed: true with: [ :cairoContext |
 		| thePoints |
 		thePoints := self computeVertices.
 
