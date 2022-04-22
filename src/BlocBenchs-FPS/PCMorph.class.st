@@ -16,7 +16,9 @@ Class {
 		'session',
 		'lastMS',
 		'deltaMS',
-		'startMS'
+		'startMS',
+		'surfaceRectangle',
+		'surfaceData'
 	],
 	#category : #'BlocBenchs-FPS-RawMorph'
 }
@@ -37,21 +39,6 @@ PCMorph >> case: aPCBenchCase [
 ]
 
 { #category : #drawing }
-PCMorph >> copyCairoSurfaceTo: aFormCanvas [
-	"Based on displayOnMorphicCanvas:at:"
-
-	bitblt copyBitsTo: aFormCanvas form at: bounds origin clipRect: aFormCanvas privateClipRect.
-
-"	It'd be better to restore this code instead of the PCBitBlt:
-
-	aFormCanvas
-		image: surfaceForm
-		at: bounds origin
-		sourceRect: surfaceRectangle
-		rule: 34."
-]
-
-{ #category : #drawing }
 PCMorph >> drawOn: aFormCanvas [
 
 	| currentMS |
@@ -68,7 +55,7 @@ PCMorph >> drawOn: aFormCanvas [
 	self drawOnCairoCanvas.
 
 	"Replaces #displayOnMorphicCanvas:at:"
-	self copyCairoSurfaceTo: aFormCanvas.
+	self updateFromCairoSurfaceToFormCanvas: aFormCanvas.
 ]
 
 { #category : #drawing }
@@ -114,6 +101,12 @@ PCMorph >> initializeSurface [
 
 	cairoSurface := AeCairoImageSurface extent: surfaceExtent.
 	cairoContext := AeCairoContext create: cairoSurface.
+	surfaceRectangle := 0@0 extent: surfaceExtent.
+
+	surfaceData := FFIExternalArray
+		fromHandle: cairoSurface primData getHandle
+		type: FFIUInt32
+		size: cairoSurface primHeight * cairoSurface primStride / 4.
 
 ]
 
@@ -163,4 +156,20 @@ PCMorph >> surfaceExtent [
 PCMorph >> surfaceExtent: aPoint [
 
 	surfaceExtent := aPoint
+]
+
+{ #category : #drawing }
+PCMorph >> updateFromCairoSurfaceToFormCanvas: aFormCanvas [
+	"Based on displayOnMorphicCanvas:at: and AeCairoImageSurface>>asForm."
+
+	| aBitmap aForm |
+	aBitmap := Bitmap newFrom: surfaceData.
+	aForm := Form extent: surfaceExtent depth: 32 bits: aBitmap.
+
+	aFormCanvas
+		image: aForm
+		at: bounds origin
+		sourceRect: surfaceRectangle
+		rule: 34
+
 ]
