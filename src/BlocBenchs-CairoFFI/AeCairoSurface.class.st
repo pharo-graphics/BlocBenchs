@@ -6,14 +6,20 @@ See: https://www.cairographics.org/manual/cairo-cairo-surface-t.html
 Class {
 	#name : #AeCairoSurface,
 	#superclass : #FFIExternalReference,
-	#traits : 'AeTCairoLibrary',
-	#classTraits : 'AeTCairoLibrary classTrait',
+	#traits : 'AeTCairoLibrary + AeTCairoDestroy',
+	#classTraits : 'AeTCairoLibrary classTrait + AeTCairoDestroy classTrait',
 	#category : #'BlocBenchs-CairoFFI-Core'
 }
 
 { #category : #converting }
 AeCairoSurface class >> asExternalTypeOn: generator [
 	^ FFIExternalObjectType objectClass: self
+]
+
+{ #category : #finalization }
+AeCairoSurface class >> primDestroy: aHandle [
+	
+	self ffiCall: #( void cairo_surface_destroy ( void * aHandle ) )
 ]
 
 { #category : #API }

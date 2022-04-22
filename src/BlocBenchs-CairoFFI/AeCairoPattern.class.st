@@ -7,7 +7,13 @@ See: https://www.cairographics.org/manual/cairo-cairo-pattern-t.html
 Class {
 	#name : #AeCairoPattern,
 	#superclass : #FFIExternalObject,
-	#traits : 'AeTCairoLibrary',
-	#classTraits : 'AeTCairoLibrary classTrait',
+	#traits : 'AeTCairoLibrary + AeTCairoDestroy',
+	#classTraits : 'AeTCairoLibrary classTrait + AeTCairoDestroy classTrait',
 	#category : #'BlocBenchs-CairoFFI-Core'
 }
+
+{ #category : #'private - ffi' }
+AeCairoPattern class >> primDestroy: aHandle [
+	
+	self ffiCall: #( void cairo_pattern_destroy ( void * aHandle ) )
+]

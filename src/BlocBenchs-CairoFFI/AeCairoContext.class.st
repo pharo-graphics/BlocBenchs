@@ -6,8 +6,8 @@ See https://www.cairographics.org/manual/cairo-cairo-t.html
 Class {
 	#name : #AeCairoContext,
 	#superclass : #FFIExternalReference,
-	#traits : 'AeTCairoLibrary',
-	#classTraits : 'AeTCairoLibrary classTrait',
+	#traits : 'AeTCairoLibrary + AeTCairoDestroy',
+	#classTraits : 'AeTCairoLibrary classTrait + AeTCairoDestroy classTrait',
 	#instVars : [
 		'surface'
 	],
@@ -32,6 +32,12 @@ AeCairoContext class >> create: aSurface [
 AeCairoContext class >> primCreate: aSurface [
 
 	^ self ffiCall: #(AeCairoContext cairo_create (AeCairoImageSurface aSurface) )
+]
+
+{ #category : #finalization }
+AeCairoContext class >> primDestroy: aHandle [
+	
+	self ffiCall: #( void cairo_destroy ( void * aHandle ) )
 ]
 
 { #category : #API }

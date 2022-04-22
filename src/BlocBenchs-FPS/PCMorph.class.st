@@ -122,9 +122,9 @@ PCMorph >> random [
 ]
 
 { #category : #accessing }
-PCMorph >> random: anObject [
+PCMorph >> random: aRandom [
 
-	random := anObject
+	random := aRandom
 ]
 
 { #category : #stepping }
