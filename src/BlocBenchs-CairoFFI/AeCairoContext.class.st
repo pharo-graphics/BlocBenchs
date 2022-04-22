@@ -151,6 +151,15 @@ AeCairoContext >> primFillPreserve [
 ]
 
 { #category : #'private - ffi' }
+AeCairoContext >> primInFillX: x y: y [ 
+
+	^ self ffiCall: #( Boolean cairo_in_fill (
+		self,
+		double x,
+		double y ) )
+]
+
+{ #category : #'private - ffi' }
 AeCairoContext >> primLineToX: aX y: aY [
 
 	self ffiCall: #(void cairo_line_to (

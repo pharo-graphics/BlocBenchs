@@ -22,13 +22,22 @@ PCContainsPointCalc class >> instance [
 			  yourself ]
 ]
 
+{ #category : #accessing }
+PCContainsPointCalc class >> resetInstance [
+	<script>
+
+	instance := nil
+]
+
 { #category : #initialization }
 PCContainsPointCalc >> ensureReady [
 
+	| cairoSurface |
 	session == Smalltalk session ifTrue: [ ^ self ].
 	session := Smalltalk session.
 
-	cairoContext := AeCairoContext extent: 1@1.
+	cairoSurface := AeCairoImageSurface extent: 1@1.
+	cairoContext := AeCairoContext create: cairoSurface.
 
 ]
 
@@ -40,5 +49,5 @@ PCContainsPointCalc >> is: aPoint inFillOfVertices: vertices [
 		[ aStream atEnd ] whileFalse: [ 
 			cairoContext lineTo: aStream next	] ].
 
-	^ cairoContext primInFillX: aPoint x Y: aPoint y
+	^ cairoContext primInFillX: aPoint x y: aPoint y
 ]
