@@ -102,12 +102,12 @@ AeCairoImageSurface class >> primStrideForWidth: aWidth format: aSurfaceFormat [
 
 { #category : #converting }
 AeCairoImageSurface >> asForm [
-
+	"Answer a Form with a copy of my current pixels.
+	Only implemented for ARGB32 format, i.e.:
+		self format = AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32
+	"
 	| theData aBitmap |
 	self flush.
-
-	self format = AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32
-		ifFalse: [ self error: 'Only ARGB32 is supported' ].
 
 	theData := FFIExternalArray
 		fromHandle: self primData getHandle
