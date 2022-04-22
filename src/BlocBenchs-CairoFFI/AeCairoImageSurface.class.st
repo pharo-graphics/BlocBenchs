@@ -139,6 +139,26 @@ AeCairoImageSurface >> height [
 ]
 
 { #category : #'private - ffi' }
+AeCairoImageSurface >> newSimilarImageFormat: aFormat width: aWidth height: aHeight [
+
+	^ self
+		  primCreateSimilarImageFormat: aFormat
+		  width: aWidth
+		  height: aHeight
+]
+
+{ #category : #'private - ffi' }
+AeCairoImageSurface >> primCreateSimilarImageFormat: aFormat width: aWidth height: aHeight [
+
+	^ self ffiCall: #(
+		AeCairoImageSurface cairo_surface_create_similar_image (
+			self,
+			AeCairoSurfaceFormat aFormat,
+			int aWidth,
+			int aHeight ) )
+]
+
+{ #category : #'private - ffi' }
 AeCairoImageSurface >> primData [
 
 	^ self ffiCall: #(uchar* cairo_image_surface_get_data ( self ) )

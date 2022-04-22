@@ -26,7 +26,7 @@ AeCairoImageSurfaceTest >> testCreateExtentFormat [
 AeCairoImageSurfaceTest >> testCreateForDataExtentFormat [
 
 	| extent format stride data |
-	extent := 2000 @ 1500.
+	extent := 200 @ 150.
 	format := AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
 	stride := AeCairoImageSurface primStrideForWidth: extent x format: format.
 
@@ -39,6 +39,23 @@ AeCairoImageSurfaceTest >> testCreateForDataExtentFormat [
 		format: format.
 
 	self assert: surface extent equals: extent
+]
+
+{ #category : #tests }
+AeCairoImageSurfaceTest >> testCreateSimilarFormatWidthHeight [
+
+	| aSimilarSurface |
+	surface := AeCairoImageSurface
+		           createExtent: 100 @ 50
+		           format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
+
+	aSimilarSurface := surface
+		                   newSimilarImageFormat:
+		                   AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32
+		                   width: 16
+		                   height: 20.
+
+	self assert: aSimilarSurface extent equals: 16 @ 20
 ]
 
 { #category : #tests }
