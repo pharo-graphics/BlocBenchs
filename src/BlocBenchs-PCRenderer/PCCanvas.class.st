@@ -23,9 +23,6 @@ Class {
 		'cairoContext',
 		'pathCache'
 	],
-	#pools : [
-		'PCCairoDefinitions'
-	],
 	#category : #'BlocBenchs-PCRenderer-Core'
 }
 
@@ -56,7 +53,7 @@ PCCanvas >> acceptBlImageBackground: aBlImageBackground [
 	formToCairoSurfaceCache ifNil: [
 		formToCairoSurfaceCache := LRUCache new
 			maximumWeight: 400;
-			factory: [ :aForm | PCCairoSurface fromForm: aForm ];
+			factory: [ :aForm | AeCairoImageSurface fromForm: aForm ];
 			yourself ].
 	
 	backgroundSourceBlock := [ 
@@ -158,12 +155,12 @@ PCCanvas >> initializeExtent: aPoint [
 
 	self initialize.
 
-	cairoSurface := PCCairoSurface extent: aPoint.
-	cairoContext := cairoSurface cairoContext.
+	cairoSurface := AeCairoImageSurface extent: aPoint.
+	cairoContext := AeCairoContext create: cairoSurface.
 
 	cairoContext
 		primSetTolerance: 0.5;
-		setAA: CAIRO_ANTIALIAS_FAST.
+		primSetAntialias: AeCairoAntialias CAIRO_ANTIALIAS_FAST.
 ]
 
 { #category : #API }
@@ -177,7 +174,7 @@ PCCanvas >> pathTransform: aMatrix [
 PCCanvas >> pathTranslate: aPoint [
 
 	aPoint isZero ifTrue: [ ^self ].
-	cairoContext primTranslate: aPoint
+	cairoContext translate: aPoint
 ]
 
 { #category : #API }
@@ -190,13 +187,13 @@ PCCanvas >> setCapButt [
 { #category : #API }
 PCCanvas >> setCapRound [
 	
-	cairoContext primSetLineCap: CAIRO_LINE_CAP_ROUND
+	cairoContext primSetLineCap: AeCairoCapStyle CAIRO_LINE_CAP_ROUND
 ]
 
 { #category : #API }
 PCCanvas >> setCapSquare [
 	
-	cairoContext primSetLineCap: CAIRO_LINE_CAP_SQUARE
+	cairoContext primSetLineCap: AeCairoCapStyle CAIRO_LINE_CAP_SQUARE
 ]
 
 { #category : #API }
@@ -222,7 +219,7 @@ PCCanvas >> setDoubleWidth [
 { #category : #API }
 PCCanvas >> setJoinBevel [
 
-	cairoContext primSetLineJoin: CAIRO_LINE_JOIN_BEVEL
+	cairoContext primSetLineJoin: AeCairoJoinStyle CAIRO_LINE_JOIN_BEVEL
 ]
 
 { #category : #API }
@@ -241,7 +238,7 @@ PCCanvas >> setJoinMiter: limit [
 { #category : #API }
 PCCanvas >> setJoinRound [
 
-	cairoContext primSetLineJoin: CAIRO_LINE_JOIN_ROUND
+	cairoContext primSetLineJoin: AeCairoJoinStyle CAIRO_LINE_JOIN_ROUND
 ]
 
 { #category : #API }
@@ -259,7 +256,7 @@ PCCanvas >> setOutskirtsCentered [
 				resetClip ].
 
 		self setStrokeParameters.
-		cairoContext stroke ]
+		cairoContext primStroke ]
 
 ]
 
@@ -342,7 +339,7 @@ PCCanvas >> setStrokeDashes [
 	dashArray := borderStyle dashArray.
 
 	cairoContext
-		primSetDashesLengths: (arrayToDashesBuf at: dashArray)
+		primSetDash: (arrayToDashesBuf at: dashArray)
 		count: dashArray size
 		offset: borderStyle dashOffset
 
@@ -382,7 +379,7 @@ PCCanvas >> setWithInsideBorderAndBackground [
 		self
 			setDoubleWidth;
 			setStrokeParameters.
-		cairoContext stroke.
+		cairoContext primStroke.
 
 		]
 
@@ -400,7 +397,7 @@ PCCanvas >> setWithInsideBorderAndNoBackground [
 			setStrokeParameters.
 		cairoContext 
 			primClipPreserve;
-			stroke.
+			primStroke.
 		isPathSetAsClip := true.
 
 		]
@@ -423,7 +420,7 @@ PCCanvas >> setWithOutsideBorderAndNoBackground [
 			"Clear inside"
 			cairoContext
 				setOperatorClear;
-				fill ].
+				primFill ].
 
 		 ]
 
@@ -467,7 +464,7 @@ PCCanvas >> setWithOutsideBorderAndTranslucentBackground [
 			"Clear inside"
 			cairoContext
 				setOperatorClear;
-				fillPreserve ].
+				primFillPreserve ].
 
 		backgroundSourceBlock value.
 		cairoContext

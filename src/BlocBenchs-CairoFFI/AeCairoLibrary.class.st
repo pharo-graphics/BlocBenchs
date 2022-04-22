@@ -1,17 +1,17 @@
 Class {
-	#name : #PCCairoLibrary,
+	#name : #AeCairoLibrary,
 	#superclass : #FFILibrary,
-	#category : #'BlocBenchs-PCRenderer-CairoFFI'
+	#category : #'BlocBenchs-CairoFFI-Library'
 }
 
 { #category : #'accessing - platform' }
-PCCairoLibrary >> macLibraryName [
+AeCairoLibrary >> macLibraryName [
 
 	^ FFIMacLibraryFinder findLibrary: 'libcairo.2.dylib'
 ]
 
 { #category : #'accessing - platform' }
-PCCairoLibrary >> unix32LibraryName [
+AeCairoLibrary >> unix32LibraryName [
 	"On different flavors of linux the path to library may differ
 	depending on OS distro or whether system is 32 or 64 bit.
 	Packages such as snapcraft can also change the path.
@@ -21,7 +21,7 @@ PCCairoLibrary >> unix32LibraryName [
 ]
 
 { #category : #'accessing - platform' }
-PCCairoLibrary >> unix64LibraryName [
+AeCairoLibrary >> unix64LibraryName [
 	"On different flavors of linux the path to library may differ
 	depending on OS distro or whether system is 32 or 64 bit.
 	Packages such as snapcraft can also change the path.
@@ -31,13 +31,13 @@ PCCairoLibrary >> unix64LibraryName [
 ]
 
 { #category : #'accessing - platform' }
-PCCairoLibrary >> unixLibraryName [
+AeCairoLibrary >> unixLibraryName [
 	"Backward compatibility"
 	^ self unix32LibraryName
 ]
 
 { #category : #versions }
-PCCairoLibrary >> versionString [
+AeCairoLibrary >> versionString [
 	"Answer the version in a String, such as '1.16.0'. 
 	
 	See https://www.cairographics.org/manual/cairo-Version-Information.html#cairo-version-string
@@ -47,7 +47,7 @@ PCCairoLibrary >> versionString [
 ]
 
 { #category : #'accessing - platform' }
-PCCairoLibrary >> win32LibraryName [ 
+AeCairoLibrary >> win32LibraryName [ 
 	
 	^ FFIWindowsLibraryFinder findAnyLibrary: #('libcairo-2.dll')
 ]

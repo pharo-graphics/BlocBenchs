@@ -28,13 +28,13 @@ PCLayerCompositionOffMorph >> drawOnCairoCanvas [
 				height: figureExtent y.
 				
 		index = indexOfElementToRefresh
-			ifFalse: [ cairoContext fill ]
+			ifFalse: [ cairoContext primFill ]
 			ifTrue: [
 				cairoContext
-					fillPreserve;
-					primSetSourceRGBColor: borderColorGenerator next;
+					primFillPreserve;
+					setSourceRGBColor: borderColorGenerator next;
 					primSetLineWidth: case borderWidth;
-					stroke ]
+					primStroke ]
 		]
 
 ]
@@ -46,7 +46,7 @@ PCLayerCompositionOffMorph >> prepareFirstDraw [
 	figurePositions := (1 to: case numberOfFigures) collect: [ :index |
 		case nextLocation: random ].
 
-	figureCairoSurface := PCCairoSurface fromForm: case theForm.
+	figureCairoSurface := AeCairoImageSurface fromForm: case theForm.
 	figureExtent := case theForm extent.
 
 	borderColorGenerator := case newColorGenerator.

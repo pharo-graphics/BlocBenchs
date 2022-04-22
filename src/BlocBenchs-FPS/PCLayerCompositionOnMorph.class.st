@@ -28,9 +28,9 @@ PCLayerCompositionOnMorph >> drawOnCairoCanvas [
 			y: refreshingFigurePosition y
 			width: figureExtent x
 			height: figureExtent y;
-		primSetSourceRGBColor: borderColorGenerator next;
+		setSourceRGBColor: borderColorGenerator next;
 		primSetLineWidth: case borderWidth;
-		stroke.
+		primStroke.
 
 	cairoContext
 		primSetSource: layer2;
@@ -52,7 +52,7 @@ PCLayerCompositionOnMorph >> newGroupForFigures: someFigurePositions [
 				y: aPoint y
 				width: figureExtent x
 				height: figureExtent y;
-			fill ].
+			primFill ].
 	
 	^ cairoContext popGroup
 ]
@@ -64,7 +64,7 @@ PCLayerCompositionOnMorph >> prepareFirstDraw [
 	figurePositions := (1 to: case numberOfFigures) collect: [ :index |
 		case nextLocation: random ].
 
-	figureCairoSurface := PCCairoSurface fromForm: case theForm.
+	figureCairoSurface := AeCairoImageSurface fromForm: case theForm.
 	figureExtent := case theForm extent.
 
 	borderColorGenerator := case newColorGenerator.

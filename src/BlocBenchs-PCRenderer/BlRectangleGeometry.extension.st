@@ -8,7 +8,7 @@ BlRectangleGeometry >> pureCairoApplyTo: aPCCanvas element: aBlElement [
 		aRectangle := aBlElement boundsInLocal.
 		
 		cairoContext
-			rectangleX: aRectangle left
+			primRectangleX: aRectangle left
 			y: aRectangle top
 			width: aRectangle width
 			height: aRectangle height ]

@@ -12,7 +12,7 @@ PCCleanCanvasMorph >> clearCairoCanvas [
 	"Clear background (https://www.cairographics.org/FAQ/#clear_a_surface)"
 
 	cairoContext
-		primSetSourceRGBColor: canvasClearColor;
+		setSourceRGBColor: canvasClearColor;
 		primPaint
 
 ]

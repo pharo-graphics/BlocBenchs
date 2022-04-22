@@ -19,6 +19,14 @@ PCBenchCase class >> allBenchCases [
 		  thenCollect: [ :each | each new ]
 ]
 
+{ #category : #convenience }
+PCBenchCase class >> allBenchCasesWithMorph [
+
+	^ self allBenchCases select: [ :each |
+		[ each newMorph. true ] onErrorDo: [ false ] ]
+
+]
+
 { #category : #hook }
 PCBenchCase >> angleInDegreesWith: random [
 		

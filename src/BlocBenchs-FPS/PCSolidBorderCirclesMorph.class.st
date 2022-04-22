@@ -9,5 +9,5 @@ PCSolidBorderCirclesMorph >> drawPath [
 
 	cairoContext
 		primSetLineWidth: case borderWidth;
-		stroke
+		primStroke
 ]

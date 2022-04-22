@@ -18,8 +18,9 @@ BaselineOfBlocBenchs >> baseline: spec [
 			spec
 				package: 'BlocBenchs-Printing'
 					with: [ spec requires: #('SpecBrick' 'DataFrame') ];
+				package: 'BlocBenchs-CairoFFI';
 				package: 'BlocBenchs-PCRenderer'
-					with: [ spec requires: #('SpecBrick') ];
+					with: [ spec requires: #('BlocBenchs-CairoFFI' 'SpecBrick') ];
 				package: 'BlocBenchs-Old'
 					with: [ spec requires: #('SpecBrick' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-FPS'

@@ -35,7 +35,7 @@ PCSolidImagesMorph >> drawOnCairoCanvas [
 					y: positionY
 					width: extent x
 					height: extent y;
-				fill.
+				primFill.
 
 			index := index + 1 ]]
 
@@ -51,7 +51,7 @@ PCSolidImagesMorph >> prepareFirstDraw [
 	1 to: case numberOfColumns * case numberOfRows do: [ :each | 
 		| aForm |
 		aForm := case newFormWith: random.
-		surfaces add: (PCCairoSurface fromForm: aForm).
+		surfaces add: (AeCairoImageSurface fromForm: aForm).
 		extents add: aForm extent ].
 	surfaces := surfaces asArray.
 	extents := extents asArray.

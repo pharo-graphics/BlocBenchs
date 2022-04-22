@@ -2,9 +2,8 @@ Class {
 	#name : #PCContainsPointCalc,
 	#superclass : #Object,
 	#instVars : [
-		'surface',
 		'session',
-		'cairoCanvas'
+		'cairoContext'
 	],
 	#classInstVars : [
 		'instance'
@@ -29,8 +28,7 @@ PCContainsPointCalc >> ensureReady [
 	session == Smalltalk session ifTrue: [ ^ self ].
 	session := Smalltalk session.
 
-	surface := PCCairoSurface extent: 1@1.
-	cairoCanvas := surface cairoContext.
+	cairoContext := AeCairoContext extent: 1@1.
 
 ]
 
@@ -38,15 +36,9 @@ PCContainsPointCalc >> ensureReady [
 PCContainsPointCalc >> is: aPoint inFillOfVertices: vertices [
 
 	vertices readStreamDo: [ :aStream |
-		cairoCanvas moveTo: aStream next.
+		cairoContext moveTo: aStream next.
 		[ aStream atEnd ] whileFalse: [ 
-			cairoCanvas lineTo: aStream next	] ].
+			cairoContext lineTo: aStream next	] ].
 
-	^ cairoCanvas primInFillX: aPoint x Y: aPoint y
-]
-
-{ #category : #accessing }
-PCContainsPointCalc >> surface [
-
-	^ surface
+	^ cairoContext primInFillX: aPoint x Y: aPoint y
 ]

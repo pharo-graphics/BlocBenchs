@@ -8,18 +8,15 @@ Class {
 	#superclass : #Morph,
 	#instVars : [
 		'case',
-		'surface',
+		'cairoContext',
+		'cairoSurface',
 		'frameCount',
 		'random',
 		'surfaceExtent',
-		'surfaceForm',
-		'surfaceRectangle',
 		'session',
-		'bitblt',
 		'lastMS',
 		'deltaMS',
-		'startMS',
-		'cairoContext'
+		'startMS'
 	],
 	#category : #'BlocBenchs-FPS-RawMorph'
 }
@@ -115,13 +112,8 @@ PCMorph >> initialize [
 { #category : #initialization }
 PCMorph >> initializeSurface [
 
-	surface := PCCairoSurface extent: surfaceExtent.
-	cairoContext := surface cairoContext.
-	surfaceForm := surface pureCairoAsFormExtent: surfaceExtent.
-	surfaceRectangle := 0@0 extent: surfaceExtent.
-	bitblt := PCBitBlt
-		sourceForm: surfaceForm
-		sourceRect: surfaceRectangle.
+	cairoSurface := AeCairoImageSurface extent: surfaceExtent.
+	cairoContext := AeCairoContext create: cairoSurface.
 
 ]
 
@@ -158,7 +150,7 @@ PCMorph >> stepTime [
 { #category : #accessing }
 PCMorph >> surface [
 
-	^ surface
+	^ cairoSurface
 ]
 
 { #category : #accessing }

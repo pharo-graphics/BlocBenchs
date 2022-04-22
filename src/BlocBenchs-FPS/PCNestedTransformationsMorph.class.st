@@ -23,7 +23,7 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 			backgroundColors := (1 to: case numberOfFigures)
 				collect: [ :each | PCFloatColor newRandom: random ].
 			figureMatrices := (1 to: case numberOfFigures)
-				collect: [:each | PCCairoMatrix new ].
+				collect: [:each | AeCairoMatrix new ].
 			scalePerMS := case targetRelativeScale / 
 				(case numberOfMilliseconds * 10.0). "Why 10x more?"
 			rotationPerMS := case targetRelativeRotation degreesToRadians / 
@@ -33,13 +33,13 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 		ifNotNil: [ 
 			figureMatrices withIndexDo: [ :each :index |
 				each
-					scaleBy: 1.0 - ((deltaMS * scalePerMS) * index);
+					scaleBy: (1.0 - ((deltaMS * scalePerMS) * index)) asPoint;
 					rotateByRadians: deltaMS * rotationPerMS * index.
 				 ] ].
 
 	"Clear surface"
 	cairoContext
-		primSetSourceRGBColor: windowColor;
+		setSourceRGBColor: windowColor;
 		primPaint.
 
 	"Draw each figure"	
@@ -51,16 +51,16 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 { #category : #drawing }
 PCNestedTransformationsMorph >> drawOnCairoCanvasFigureAt: index [
 
-	cairoContext 	primLoadIdentity.
+	cairoContext primLoadIdentity.
 
 	"Translate to figure's position"
-	cairoContext primTranslate: case figureOffset.
+	cairoContext translate: case figureOffset.
 
 	"Apply figure's transformation using the right origin"
 	cairoContext
-		primTranslate: rotationCenter;
+		translate: rotationCenter;
 		primApplyTransform: (figureMatrices at: index);
-		primTranslate: rotationCenterNegated.
+		translate: rotationCenterNegated.
 
 	"Draw rectangle path"
 	cairoContext
@@ -68,8 +68,8 @@ PCNestedTransformationsMorph >> drawOnCairoCanvasFigureAt: index [
 			y: 0.0
 			width: case figureExtent x
 			height: case figureExtent y;
-		primSetSourceRGBColor: (backgroundColors at: index);
-		fill.
+		setSourceRGBColor: (backgroundColors at: index);
+		primFill.
 	
 
 ]

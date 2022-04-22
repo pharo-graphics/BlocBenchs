@@ -45,5 +45,5 @@ PCTranslatingPathsMorph >> setPathFor: index deltaY: deltaY [
 { #category : #drawing }
 PCTranslatingPathsMorph >> setSourceFor: index [
 
-	cairoContext primSetSourceRGBColor: (colors at: index)
+	cairoContext setSourceRGBColor: (colors at: index)
 ]

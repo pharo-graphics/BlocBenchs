@@ -10,8 +10,15 @@ Class {
 { #category : #drawing }
 PCRoassalMorph >> drawOnCairoCanvas [
 
-	surface drawDuring: [ :aCairoCanvas | 
+	cairoSurface drawDuring: [ :aCairoCanvas | 
 		roassalAthensMorph
 			signalUpdate;
 			drawOnAthensCanvas: aCairoCanvas ].
+]
+
+{ #category : #drawing }
+PCRoassalMorph >> initializeSurface [ 
+
+	cairoSurface := AthensCairoSurface extent: surfaceExtent.
+	cairoContext := nil
 ]

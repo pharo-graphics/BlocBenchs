@@ -7,5 +7,5 @@ Class {
 { #category : #drawing }
 PCSolidCirclesMorph >> drawPath [
 
-	cairoContext fill
+	cairoContext primFill
 ]

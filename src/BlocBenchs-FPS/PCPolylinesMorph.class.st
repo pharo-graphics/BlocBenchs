@@ -7,7 +7,7 @@ Class {
 { #category : #drawing }
 PCPolylinesMorph >> drawPath [
 
-	cairoContext stroke
+	cairoContext primStroke
 ]
 
 { #category : #drawing }
