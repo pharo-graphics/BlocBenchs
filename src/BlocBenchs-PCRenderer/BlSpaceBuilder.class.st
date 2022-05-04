@@ -63,6 +63,26 @@ BlSpaceBuilder >> addRectangle [
 ]
 
 { #category : #'adding elements' }
+BlSpaceBuilder >> addText: aBlRopedText to: parentElement [
+
+	| anElement |
+	anElement := BlTextElement new
+		text: aBlRopedText;
+		id: alphabetGenerator next;
+		background: self nextColor;
+		yourself.
+	parentElement addChild: anElement.
+	^ anElement
+
+]
+
+{ #category : #'adding elements' }
+BlSpaceBuilder >> addTextToRoot: aBlRopedText [
+
+	^ self addText: aBlRopedText to: space root
+]
+
+{ #category : #'adding elements' }
 BlSpaceBuilder >> addTo: parentElement [
 
 	| anElement |

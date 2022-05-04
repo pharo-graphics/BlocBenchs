@@ -570,6 +570,20 @@ BlSpaceFixture >> spaceWithStrokeStyles [
 ]
 
 { #category : #fixtures }
+BlSpaceFixture >> spaceWithText0 [
+	"Draw one span with font-size attribute and padding."
+
+	^ BlSpaceBuilder newSpaceWith: [ :builder |
+	
+		(builder addTextToRoot: ('hi' asRopedText fontSize: 24; yourself))
+			padding: (BlInsets all: 2);
+			relocate: 10 asPoint;
+			size: 36 asPoint;
+			yourself.
+ ]
+]
+
+{ #category : #fixtures }
 BlSpaceFixture >> spaceWithTransformRotate [
 
 	^ BlSpaceBuilder newSpaceWith: [ :builder |
