@@ -18,13 +18,13 @@ PCHeadlessBenchmarker >> closeWindow [
 { #category : #accessing }
 PCHeadlessBenchmarker >> host [
 
-	^ PCHeadlessHost new
+	^ AeHeadlessHost new
 ]
 
 { #category : #accessing }
 PCHeadlessBenchmarker >> label [
 
-	^ 'Bloc PureCairo Headless'
+	^ 'Bloc Alexandrie Headless'
 ]
 
 { #category : #hook }

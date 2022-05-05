@@ -10,11 +10,11 @@ Class {
 { #category : #accessing }
 PCBlocPCRendererBenchmarker >> host [
 
-	^ PCMorphicWindowHost new
+	^ AeMorphicWindowHost new
 ]
 
 { #category : #accessing }
 PCBlocPCRendererBenchmarker >> label [
 
-	^ 'Bloc PureCairo'
+	^ 'Bloc Alexandrie'
 ]

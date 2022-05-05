@@ -1,10 +1,10 @@
 Extension { #name : #BlProfileRunner }
 
 { #category : #'*BlocBenchs-FPS' }
-BlProfileRunner class >> examplePureCairoFPS [
+BlProfileRunner class >> exampleAlexandrieFPS [
 
 	| hosts canvases cases runners |
-	hosts := { "BlNullRendererMorphicWindowHost." PCMorphicWindowHost. BlMorphicWindowHost }.
+	hosts := { "BlNullRendererMorphicWindowHost." AeMorphicWindowHost. BlMorphicWindowHost }.
 	canvases := { BlSpartaSkiaCanvasBuilder. BlSpartaCairoCanvasBuilder }.
 	cases := { BlBoidsProfileCase new boidsSkyElementClass: BoidsSkyUsingGeometryElement; yourself }.
 	runners := hosts flatCollect: [:eachHost |

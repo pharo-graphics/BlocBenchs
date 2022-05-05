@@ -11,6 +11,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 		for: #common
 		do: [ 
 			self
+				declareAlexandrieOn: spec;
 				declareFFICallLoggerOn: spec;
 				declareDataFrameOn: spec;
 				declareSaucoPerfMeterOn: spec;
@@ -18,14 +19,18 @@ BaselineOfBlocBenchs >> baseline: spec [
 			spec
 				package: 'BlocBenchs-Printing'
 					with: [ spec requires: #('SpecBrick' 'DataFrame') ];
-				package: 'BlocBenchs-CairoFFI';
-				package: 'BlocBenchs-PCRenderer'
-					with: [ spec requires: #('BlocBenchs-CairoFFI' 'SpecBrick') ];
 				package: 'BlocBenchs-Old'
 					with: [ spec requires: #('SpecBrick' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-FPS'
-					with: [ spec requires: #('SpecBrick' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing' 'BlocBenchs-PCRenderer') ]
+					with: [ spec requires: #('SpecBrick' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing' 'Alexandrie') ]
 			]
+]
+
+{ #category : #'external projects' }
+BaselineOfBlocBenchs >> declareAlexandrieOn: spec [
+	spec
+		baseline: 'Alexandrie'
+		with: [ spec repository: 'github://pharo-graphics/Alexandrie:master/src' ]
 ]
 
 { #category : #'external projects' }
