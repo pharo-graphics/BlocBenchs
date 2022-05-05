@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-set -e
+#set -e
 
 # Define SCRIPTS_DIR and REPO_DIR in a way this script can
 # be executed:
@@ -16,8 +16,21 @@ case "$(uname -s)" in
 esac
 REPO_DIR="$(dirname "$SCRIPTS_DIR")"
 
+
 # Get a fresh image and load code
-curl https://get.pharo.org/64/110+vmLatest | bash
-./pharo Pharo.image eval --save "EpMonitor current disable"
-./pharo Pharo.image metacello install "tonel://$REPO_DIR/src" BaselineOfBlocBenchs
-./pharo Pharo.image eval --save "EpMonitor current enable"
+curl https://get.pharo.org/64/110+vm | bash
+
+./pharo Pharo.image eval --save "EpMonitor disableDuring: [ \
+  Author useAuthor: 'Load' during: [ \
+    [	Metacello new \
+        baseline: 'BlocBenchs'; \
+        repository: 'tonel://$REPO_DIR/src'; \
+        onConflictUseIncoming; \
+        ignoreImage; \
+        load. \
+    ]	on: MCMergeOrLoadWarning \
+      do: [ :warning | warning load ] ] ]."
+
+./pharo Pharo.image eval --save $"(IceRepositoryCreator new \
+  location: '$REPO_DIR' asFileReference; \
+  createRepository) register"
