@@ -26,10 +26,11 @@ Also:
 | p b w |
 p := [
 	PCBenchCase allBenchCases 
-		do: [ :caseClass |
+		do: [ :eachCase |
 			b := PCBlocPCRendererBenchmarker new.
-			b 	case: caseClass new;
+			b 	case: eachCase;
 				run;
+				shortReportOnStdout;
 				reportOnTranscript ].
 	w close.
 ] fork.
@@ -37,7 +38,7 @@ p := [
 w := SpButtonPresenter new 
 	label: 'Stop now';
 	action: [ p terminate. b closeWindow. w close ];
-	openWithSpec.
+	open.
 ```
 
 It was also interesting to profile with:
