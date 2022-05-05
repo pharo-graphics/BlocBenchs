@@ -17,9 +17,10 @@ esac
 REPO_DIR="$(dirname "$SCRIPTS_DIR")"
 
 
-# Get a fresh image and load code
+# Get a fresh image
 curl https://get.pharo.org/64/110+vm | bash
 
+# Load code overriding image packages
 ./pharo Pharo.image eval --save "EpMonitor disableDuring: [ \
   Author useAuthor: 'Load' during: [ \
     [	Metacello new \
@@ -31,6 +32,7 @@ curl https://get.pharo.org/64/110+vm | bash
     ]	on: MCMergeOrLoadWarning \
       do: [ :warning | warning load ] ] ]."
 
+# Add this repository to Iceberg
 ./pharo Pharo.image eval --save $"(IceRepositoryCreator new \
   location: '$REPO_DIR' asFileReference; \
   createRepository) register"
