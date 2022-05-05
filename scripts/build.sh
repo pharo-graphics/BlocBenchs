@@ -21,18 +21,24 @@ REPO_DIR="$(dirname "$SCRIPTS_DIR")"
 curl https://get.pharo.org/64/110+vm | bash
 
 # Load code overriding image packages
-./pharo Pharo.image eval --save "EpMonitor disableDuring: [ \
-  Author useAuthor: 'Load' during: [ \
-    [	Metacello new \
-        baseline: 'BlocBenchs'; \
-        repository: 'tonel://$REPO_DIR/src'; \
-        onConflictUseIncoming; \
-        ignoreImage; \
-        load. \
-    ]	on: MCMergeOrLoadWarning \
-      do: [ :warning | warning load ] ] ]."
+./pharo Pharo.image eval --save $(cat <<EOF
+EpMonitor disableDuring: [ 
+  Author useAuthor: 'Load' during: [
+    [	Metacello new
+        baseline: 'BlocBenchs';
+        repository: 'tonel://$REPO_DIR/src';
+        onConflictUseIncoming;
+        ignoreImage;
+        load.
+    ]	on: MCMergeOrLoadWarning
+      do: [ :warning | warning load ] ] ].
+EOF
+)
 
 # Add this repository to Iceberg
-./pharo Pharo.image eval --save $"(IceRepositoryCreator new \
-  location: '$REPO_DIR' asFileReference; \
-  createRepository) register"
+./pharo Pharo.image eval --save $(cat <<EOF
+(IceRepositoryCreator new
+  location: '$REPO_DIR' asFileReference;
+  createRepository) register
+EOF
+)
