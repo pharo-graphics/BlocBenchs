@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 PCBlocPCRendererBenchmarker >> host [
 
-	^ AeMorphicWindowHost new
+	^ BAMorphicWindowHost new
 ]
 
 { #category : #accessing }

@@ -4,7 +4,7 @@ Extension { #name : #BlProfileRunner }
 BlProfileRunner class >> exampleAlexandrieFPS [
 
 	| hosts canvases cases runners |
-	hosts := { "BlNullRendererMorphicWindowHost." AeMorphicWindowHost. BlMorphicWindowHost }.
+	hosts := { "BlNullRendererMorphicWindowHost." BAMorphicWindowHost. BlMorphicWindowHost }.
 	canvases := { BlSpartaSkiaCanvasBuilder. BlSpartaCairoCanvasBuilder }.
 	cases := { BlBoidsProfileCase new boidsSkyElementClass: BoidsSkyUsingGeometryElement; yourself }.
 	runners := hosts flatCollect: [:eachHost |
