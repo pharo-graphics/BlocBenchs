@@ -27,3 +27,11 @@ BlHostRendererNullSurface >> createSurfaceRendererOn: aBlHostSpace [
 	
 	^ BlNullHostSurfaceRenderer new
 ]
+
+{ #category : #geometry }
+BlHostRendererNullSurface >> extent [
+	"Return an actual extent of the underlying surface.
+	Note: #extent may be different from canvas or window extents"
+
+	^ self notYetImplemented
+]
