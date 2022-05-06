@@ -18,7 +18,7 @@ PCHeadlessBenchmarker >> closeWindow [
 { #category : #accessing }
 PCHeadlessBenchmarker >> host [
 
-	^ AeHeadlessHost new
+	^ PCHeadlessHost new
 ]
 
 { #category : #accessing }
