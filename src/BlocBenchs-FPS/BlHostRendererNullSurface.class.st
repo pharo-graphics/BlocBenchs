@@ -10,9 +10,8 @@ Class {
 { #category : #testing }
 BlHostRendererNullSurface class >> supportedBy: aHost [
 	"Return true if a given object supports this surface, false otherwise"
-	<return: #Boolean>
 	
-	^ aHost isKindOf: BlNullRendererMorphicWindowHost
+	^ aHost class = BlNullRendererMorphicWindowHost
 ]
 
 { #category : #initialization }
