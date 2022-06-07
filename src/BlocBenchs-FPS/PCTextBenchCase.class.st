@@ -7,7 +7,7 @@ Class {
 { #category : #hook }
 PCTextBenchCase >> blTextFor: random [
 
-	^ (BlRopedText string: (String loremIpsum: 80))
+	^ (BlRopedText string: (String loremIpsum: 90))
 		  fontSize: 8;
 		  fontName: 'Arial';
 		  foreground: (Color random: random);
@@ -34,11 +34,11 @@ PCTextBenchCase >> newFigureWith: random [
 { #category : #accessing }
 PCTextBenchCase >> numberOfFigures [
 
-	^ 80
+	^ 100
 ]
 
 { #category : #accessing }
 PCTextBenchCase >> surfaceExtent [
 
-	^ 800 @ 800
+	^ 900 @ 500
 ]
