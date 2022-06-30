@@ -163,6 +163,8 @@ PCMorph >> updateFromCairoSurfaceToFormCanvas: aFormCanvas [
 	"Based on displayOnMorphicCanvas:at: and AeCairoImageSurface>>asForm."
 
 	| aBitmap aForm |
+	self flag: #todo. "SLOW and BUGGY since Alexandrie doesn't use the surface plugin!"
+
 	aBitmap := Bitmap newFrom: surfaceData.
 	aForm := Form extent: surfaceExtent depth: 32 bits: aBitmap.
 

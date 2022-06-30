@@ -59,6 +59,17 @@ PCBenchCase >> label [
 ]
 
 { #category : #hook }
+PCBenchCase >> newColorGenerator [ 
+
+	^ Generator on: [ :generator | 
+		| nextIndex wheel|
+		nextIndex := 1.
+		wheel := Color wheel: 20.
+		[ generator yield: (wheel at: nextIndex).
+		nextIndex := (nextIndex + 1) \\ wheel size + 1 ] repeat ]
+]
+
+{ #category : #hook }
 PCBenchCase >> newElement [
 	"Answer the Bloc element to be added to the root of the space to setup the benchmark scenario."
 
