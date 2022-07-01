@@ -33,13 +33,19 @@ PCTranslatingFiguresBenchCase >> horizontalSeparation [
 	^ 2
 ]
 
+{ #category : #accessing }
+PCTranslatingFiguresBenchCase >> logicalExtent [
+
+	^ 750 @ 350
+]
+
 { #category : #hook }
 PCTranslatingFiguresBenchCase >> newElement [
 
 	| random container |
 	random := self newRandom.
 	container := BlElement new
-		size: self surfaceExtent;
+		size: self logicalExtent;
 		addAnimation: ((BlTransformAnimation translate: self targetTranslation)
 		  duration: self duration;
 		  yourself).
@@ -69,12 +75,6 @@ PCTranslatingFiguresBenchCase >> newSampleFigure [
 PCTranslatingFiguresBenchCase >> numberOfFigures [
 
 	^ 300
-]
-
-{ #category : #accessing }
-PCTranslatingFiguresBenchCase >> surfaceExtent [
-
-	^ 750 @ 350
 ]
 
 { #category : #accessing }

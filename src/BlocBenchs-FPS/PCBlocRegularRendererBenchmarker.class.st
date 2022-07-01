@@ -27,7 +27,7 @@ PCBlocRegularRendererBenchmarker >> beSkia [
 { #category : #accessing }
 PCBlocRegularRendererBenchmarker >> host [
 
-	^ BlMorphicWindowHost new
+	^ BlOSWindowSDL2Host new
 ]
 
 { #category : #initialization }

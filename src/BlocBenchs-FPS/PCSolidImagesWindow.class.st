@@ -1,18 +1,18 @@
 Class {
-	#name : #PCSolidImagesMorph,
-	#superclass : #PCTranslatingFiguresMorph,
+	#name : #PCSolidImagesWindow,
+	#superclass : #PCTranslatingFiguresWindow,
 	#instVars : [
 		'surfaces',
 		'extents'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCSolidImagesMorph >> drawOnCairoCanvas [
+PCSolidImagesWindow >> drawOnCairoSurface [
 
 	| index deltaY |
-	super drawOnCairoCanvas.
+	super drawOnCairoSurface.
 
 	deltaY := deltaYPerMS * (lastMS - startMS).
 	index := 1.
@@ -42,9 +42,9 @@ PCSolidImagesMorph >> drawOnCairoCanvas [
 ]
 
 { #category : #drawing }
-PCSolidImagesMorph >> prepareFirstDraw [
+PCSolidImagesWindow >> resetAnimation [
 
-	super prepareFirstDraw.
+	super resetAnimation.
 
 	surfaces := OrderedCollection new.
 	extents := OrderedCollection new.

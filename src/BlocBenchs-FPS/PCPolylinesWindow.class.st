@@ -1,26 +1,26 @@
 Class {
-	#name : #PCPolylinesMorph,
-	#superclass : #PCTranslatingPathsMorph,
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#name : #PCPolylinesWindow,
+	#superclass : #PCTranslatingPathsWindow,
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCPolylinesMorph >> drawPath [
+PCPolylinesWindow >> drawPath [
 
 	cairoContext primStroke
 ]
 
 { #category : #drawing }
-PCPolylinesMorph >> prepareFirstDraw [
+PCPolylinesWindow >> resetAnimation [
 
-	super prepareFirstDraw.
+	super resetAnimation.
 
 	cairoContext primSetLineWidth: case borderWidth
 
 ]
 
 { #category : #drawing }
-PCPolylinesMorph >> setPathFor: index deltaY: deltaY [
+PCPolylinesWindow >> setPathFor: index deltaY: deltaY [
 
 	| offset |
 	offset := case figureOffset + (index * case horizontalSeparation @ deltaY).

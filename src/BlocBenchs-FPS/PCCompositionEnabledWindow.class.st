@@ -1,16 +1,16 @@
 Class {
-	#name : #PCCompositionEnabledMorph,
-	#superclass : #PCCompositionMorph,
+	#name : #PCCompositionEnabledWindow,
+	#superclass : #PCCompositionWindow,
 	#instVars : [
 		'layerCairoGroup'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCCompositionEnabledMorph >> drawOnCairoCanvas [
+PCCompositionEnabledWindow >> drawOnCairoSurface [
 
-	super drawOnCairoCanvas.
+	super drawOnCairoSurface.
 
 	cairoContext
 		primSetSource: layerCairoGroup;
@@ -19,7 +19,7 @@ PCCompositionEnabledMorph >> drawOnCairoCanvas [
 ]
 
 { #category : #drawing }
-PCCompositionEnabledMorph >> newCairoGroupWithFigures [
+PCCompositionEnabledWindow >> newCairoGroupWithFigures [
 
 	cairoContext primPushGroup.
 
@@ -29,9 +29,9 @@ PCCompositionEnabledMorph >> newCairoGroupWithFigures [
 ]
 
 { #category : #drawing }
-PCCompositionEnabledMorph >> prepareFirstDraw [
+PCCompositionEnabledWindow >> resetAnimation [
 
-	super prepareFirstDraw.
+	super resetAnimation.
 
 	layerCairoGroup := self newCairoGroupWithFigures.
 ]

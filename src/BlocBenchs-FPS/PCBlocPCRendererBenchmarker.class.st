@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 PCBlocPCRendererBenchmarker >> host [
 
-	^ BAMorphicWindowHost new
+	^ BAOSWindowSDL2Host new
 ]
 
 { #category : #accessing }

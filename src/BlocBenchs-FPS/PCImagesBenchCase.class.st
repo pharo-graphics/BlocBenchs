@@ -10,6 +10,12 @@ PCImagesBenchCase >> horizontalSeparation [
 	^ 20
 ]
 
+{ #category : #accessing }
+PCImagesBenchCase >> logicalExtent [
+
+	^ 700 @ 700
+]
+
 { #category : #hook }
 PCImagesBenchCase >> newFigureWith: random [
 
@@ -55,10 +61,4 @@ PCImagesBenchCase >> numberOfFigures [
 PCImagesBenchCase >> numberOfRows [
 
 	^ 20
-]
-
-{ #category : #accessing }
-PCImagesBenchCase >> surfaceExtent [
-
-	^ 700 @ 700
 ]

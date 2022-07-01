@@ -13,7 +13,13 @@ PCCompositionBenchCase >> figureExtent [
 { #category : #accessing }
 PCCompositionBenchCase >> layerExtent [
 
-	^ self surfaceExtent / 2
+	^ self logicalExtent / 2
+]
+
+{ #category : #accessing }
+PCCompositionBenchCase >> logicalExtent [
+
+	^ 900 @ 900
 ]
 
 { #category : #hook }
@@ -25,7 +31,7 @@ PCCompositionBenchCase >> newElement [
 
 	container :=
 		BlElement new
-			size: self surfaceExtent;
+			size: self logicalExtent;
 			addAnimation: (BlBasicAnimation new
 				onStepDo: [ :target | target background: backgroundColorGenerator next ];
 				yourself);
@@ -71,10 +77,4 @@ PCCompositionBenchCase >> numberOfFigures [
 PCCompositionBenchCase >> prepareAsStatic: anElement [
 
 	self subclassResponsibility
-]
-
-{ #category : #accessing }
-PCCompositionBenchCase >> surfaceExtent [
-
-	^ 900 @ 900
 ]

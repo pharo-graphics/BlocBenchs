@@ -11,11 +11,9 @@ PCSolidBorderCirclesBenchCase >> borderWidth [
 ]
 
 { #category : #'instance creation' }
-PCSolidBorderCirclesBenchCase >> newMorph [
+PCSolidBorderCirclesBenchCase >> newRawSDLCairoWindow [
 
-	^ PCSolidBorderCirclesMorph new
-		  case: self;
-		  yourself
+	^ PCSolidBorderCirclesWindow newWith: self
 ]
 
 { #category : #'instance creation' }

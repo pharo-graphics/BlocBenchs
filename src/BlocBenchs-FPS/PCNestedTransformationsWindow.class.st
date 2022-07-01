@@ -1,6 +1,6 @@
 Class {
-	#name : #PCNestedTransformationsMorph,
-	#superclass : #PCMorph,
+	#name : #PCNestedTransformationsWindow,
+	#superclass : #PCBenchCaseRawSDLCairoWindow,
 	#instVars : [
 		'backgroundColors',
 		'figureMatrices',
@@ -10,11 +10,37 @@ Class {
 		'rotationCenterNegated',
 		'windowColor'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCNestedTransformationsMorph >> drawOnCairoCanvas [
+PCNestedTransformationsWindow >> drawOnCairoCanvasFigureAt: index [
+
+	cairoContext primLoadIdentity.
+
+	"Translate to figure's position"
+	cairoContext translate: case figureOffset.
+
+	"Apply figure's transformation using the right origin"
+	cairoContext
+		translate: rotationCenter;
+		primApplyTransform: (figureMatrices at: index);
+		translate: rotationCenterNegated.
+
+	"Draw rectangle path"
+	cairoContext
+		primRectangleX: 0.0
+			y: 0.0
+			width: case figureExtent x
+			height: case figureExtent y;
+		setSourceRGBColor: (backgroundColors at: index);
+		primFill.
+	
+
+]
+
+{ #category : #drawing }
+PCNestedTransformationsWindow >> drawOnCairoSurface [
 
 	"Prepare on first draw"
 	backgroundColors
@@ -45,31 +71,5 @@ PCNestedTransformationsMorph >> drawOnCairoCanvas [
 	"Draw each figure"	
 	1 to: case numberOfFigures do: [ :index |
 		self drawOnCairoCanvasFigureAt: index ]
-
-]
-
-{ #category : #drawing }
-PCNestedTransformationsMorph >> drawOnCairoCanvasFigureAt: index [
-
-	cairoContext primLoadIdentity.
-
-	"Translate to figure's position"
-	cairoContext translate: case figureOffset.
-
-	"Apply figure's transformation using the right origin"
-	cairoContext
-		translate: rotationCenter;
-		primApplyTransform: (figureMatrices at: index);
-		translate: rotationCenterNegated.
-
-	"Draw rectangle path"
-	cairoContext
-		primRectangleX: 0.0
-			y: 0.0
-			width: case figureExtent x
-			height: case figureExtent y;
-		setSourceRGBColor: (backgroundColors at: index);
-		primFill.
-	
 
 ]

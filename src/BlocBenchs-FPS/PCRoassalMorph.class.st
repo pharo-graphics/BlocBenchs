@@ -4,11 +4,11 @@ Class {
 	#instVars : [
 		'roassalAthensMorph'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-RawMorph-Old'
 }
 
 { #category : #drawing }
-PCRoassalMorph >> drawOnCairoCanvas [
+PCRoassalMorph >> drawOnCairoSurface [
 
 	cairoSurface drawDuring: [ :aCairoCanvas | 
 		roassalAthensMorph

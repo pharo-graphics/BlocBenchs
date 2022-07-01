@@ -43,6 +43,6 @@ PCRoassal3Benchmarker >> openWindow [
 	window := wrapper openInWindowLabeled: self labelWithCase.
 	window
 		position: 30 asPoint;
-		extent: case surfaceExtent.
+		extent: case logicalExtent.
 
 ]

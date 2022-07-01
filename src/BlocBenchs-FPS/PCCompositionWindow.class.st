@@ -1,16 +1,16 @@
 Class {
-	#name : #PCCompositionMorph,
-	#superclass : #PCCleanCanvasMorph,
+	#name : #PCCompositionWindow,
+	#superclass : #PCCleanCanvasWindow,
 	#instVars : [
 		'figurePositions',
 		'figureColors',
 		'backgroundColorGenerator'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCCompositionMorph >> drawFigures [
+PCCompositionWindow >> drawFigures [
 	
 	1 to: case numberOfFigures do: [ :index |
 		| position |
@@ -31,24 +31,24 @@ PCCompositionMorph >> drawFigures [
 ]
 
 { #category : #drawing }
-PCCompositionMorph >> drawOnCairoCanvas [
+PCCompositionWindow >> drawOnCairoSurface [
 
 	canvasClearColor := backgroundColorGenerator next.
-	self clearCairoCanvas.
+	self clearCairoSurface.
 
 ]
 
 { #category : #drawing }
-PCCompositionMorph >> prepareFirstDraw [
+PCCompositionWindow >> resetAnimation [
 
-	super prepareFirstDraw.
+	super resetAnimation.
 
 	backgroundColorGenerator := case newColorGenerator.
 	figureColors := OrderedCollection new.
 	figurePositions := OrderedCollection new.
 
 	1 to: case numberOfFigures do: [ :index |
-		figureColors add: (Color random: random).
+		figureColors add: (PCFloatColor newRandom: random).
 		figurePositions add: (case nextLocation: random) ].
 
 ]

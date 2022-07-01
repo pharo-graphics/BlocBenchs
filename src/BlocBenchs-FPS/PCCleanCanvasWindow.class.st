@@ -1,14 +1,14 @@
 Class {
-	#name : #PCCleanCanvasMorph,
-	#superclass : #PCMorph,
+	#name : #PCCleanCanvasWindow,
+	#superclass : #PCBenchCaseRawSDLCairoWindow,
 	#instVars : [
 		'canvasClearColor'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCCleanCanvasMorph >> clearCairoCanvas [
+PCCleanCanvasWindow >> clearCairoSurface [
 	"Clear background (https://www.cairographics.org/FAQ/#clear_a_surface)"
 
 	cairoContext
@@ -18,14 +18,14 @@ PCCleanCanvasMorph >> clearCairoCanvas [
 ]
 
 { #category : #drawing }
-PCCleanCanvasMorph >> drawOnCairoCanvas [
+PCCleanCanvasWindow >> drawOnCairoSurface [
 
-	self clearCairoCanvas
+	self clearCairoSurface
 ]
 
 { #category : #drawing }
-PCCleanCanvasMorph >> prepareFirstDraw [
+PCCleanCanvasWindow >> resetAnimation [
 
-	super prepareFirstDraw.
+	super resetAnimation.
 	canvasClearColor := PCFloatColor newFrom: Color white
 ]

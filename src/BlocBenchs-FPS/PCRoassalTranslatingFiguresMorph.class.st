@@ -1,7 +1,7 @@
 Class {
 	#name : #PCRoassalTranslatingFiguresMorph,
 	#superclass : #PCRoassalMorph,
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-RawMorph-Old'
 }
 
 { #category : #accessing }
@@ -11,7 +11,7 @@ PCRoassalTranslatingFiguresMorph >> newShape: index [
 ]
 
 { #category : #drawing }
-PCRoassalTranslatingFiguresMorph >> prepareFirstDraw [
+PCRoassalTranslatingFiguresMorph >> resetAnimation [
 
 	| canvas aContainer offset |
 	canvas := RSCanvas new.
@@ -30,5 +30,5 @@ PCRoassalTranslatingFiguresMorph >> prepareFirstDraw [
 		aContainer addShape: (self newShape: index) ].
 	
 	roassalAthensMorph := canvas createMorph.
-	roassalAthensMorph extent: case surfaceExtent
+	roassalAthensMorph extent: case logicalExtent
 ]

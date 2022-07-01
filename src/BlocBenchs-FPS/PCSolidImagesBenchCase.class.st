@@ -17,9 +17,7 @@ PCSolidImagesBenchCase >> newImageElementWith: random [
 ]
 
 { #category : #'instance creation' }
-PCSolidImagesBenchCase >> newMorph [
+PCSolidImagesBenchCase >> newRawSDLCairoWindow [
 
-	^ PCSolidImagesMorph new
-		  case: self;
-		  yourself
+	^ PCSolidImagesWindow newWith: self
 ]

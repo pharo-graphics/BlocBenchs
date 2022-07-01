@@ -1,17 +1,17 @@
 Class {
-	#name : #PCTranslatingPathsMorph,
-	#superclass : #PCTranslatingFiguresMorph,
+	#name : #PCTranslatingPathsWindow,
+	#superclass : #PCTranslatingFiguresWindow,
 	#instVars : [
 		'colors'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCTranslatingPathsMorph >> drawOnCairoCanvas [
+PCTranslatingPathsWindow >> drawOnCairoSurface [
 
 	| deltaY |
-	super drawOnCairoCanvas.
+	super drawOnCairoSurface.
 	deltaY := deltaYPerMS * (lastMS - startMS).
 
 	1 to: case numberOfFigures do: [ :index |
@@ -22,28 +22,28 @@ PCTranslatingPathsMorph >> drawOnCairoCanvas [
 ]
 
 { #category : #drawing }
-PCTranslatingPathsMorph >> drawPath [
+PCTranslatingPathsWindow >> drawPath [
 
 	self subclassResponsibility
 ]
 
 { #category : #drawing }
-PCTranslatingPathsMorph >> prepareFirstDraw [
+PCTranslatingPathsWindow >> resetAnimation [
 
-	super prepareFirstDraw.
+	super resetAnimation.
 	colors := (1 to: case numberOfFigures)
 		collect: [ :each | PCFloatColor newRandom: random ].
 
 ]
 
 { #category : #drawing }
-PCTranslatingPathsMorph >> setPathFor: index deltaY: deltaY [
+PCTranslatingPathsWindow >> setPathFor: index deltaY: deltaY [
 
 	self subclassResponsibility
 ]
 
 { #category : #drawing }
-PCTranslatingPathsMorph >> setSourceFor: index [
+PCTranslatingPathsWindow >> setSourceFor: index [
 
 	cairoContext setSourceRGBColor: (colors at: index)
 ]

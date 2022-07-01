@@ -1,7 +1,7 @@
 Class {
 	#name : #PCRoassalSolidCirclesMorph,
 	#superclass : #PCRoassalCirclesMorph,
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-RawMorph-Old'
 }
 
 { #category : #'instance creation' }

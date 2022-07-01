@@ -1,7 +1,7 @@
 Class {
 	#name : #PCRoassalPolylineMorph,
 	#superclass : #PCRoassalTranslatingFiguresMorph,
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-RawMorph-Old'
 }
 
 { #category : #'instance creation' }

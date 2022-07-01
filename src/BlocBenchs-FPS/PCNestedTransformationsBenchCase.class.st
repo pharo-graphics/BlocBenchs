@@ -16,6 +16,12 @@ PCNestedTransformationsBenchCase >> figureOffset [
 	^ 50.0 asPoint
 ]
 
+{ #category : #accessing }
+PCNestedTransformationsBenchCase >> logicalExtent [
+
+	^ 750 @ 750
+]
+
 { #category : #hook }
 PCNestedTransformationsBenchCase >> newElement [
 
@@ -63,23 +69,15 @@ PCNestedTransformationsBenchCase >> newElement [
 ]
 
 { #category : #hook }
-PCNestedTransformationsBenchCase >> newMorph [
+PCNestedTransformationsBenchCase >> newRawSDLCairoWindow [
 
-	^ PCNestedTransformationsMorph new
-		  case: self;
-		  yourself
+	^ PCNestedTransformationsWindow newWith: self
 ]
 
 { #category : #accessing }
 PCNestedTransformationsBenchCase >> numberOfFigures [
 
 	^ 50
-]
-
-{ #category : #accessing }
-PCNestedTransformationsBenchCase >> surfaceExtent [
-
-	^ 750 @ 750
 ]
 
 { #category : #accessing }

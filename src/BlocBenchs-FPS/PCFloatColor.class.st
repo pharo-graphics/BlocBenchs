@@ -14,7 +14,7 @@ Class {
 		'green',
 		'alpha'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #'instance creation' }

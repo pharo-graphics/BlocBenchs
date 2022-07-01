@@ -1,11 +1,11 @@
 Class {
-	#name : #PCCirclesMorph,
-	#superclass : #PCTranslatingPathsMorph,
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#name : #PCCirclesWindow,
+	#superclass : #PCTranslatingPathsWindow,
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCCirclesMorph >> setPathFor: index deltaY: deltaY [
+PCCirclesWindow >> setPathFor: index deltaY: deltaY [
 
 	| center |
 	center := case figureOffset + case radius + (index * case horizontalSeparation @ deltaY).

@@ -5,11 +5,9 @@ Class {
 }
 
 { #category : #'instance creation' }
-PCCompositionEnabledBenchCase >> newMorph [
+PCCompositionEnabledBenchCase >> newRawSDLCairoWindow [
 
-	^ PCCompositionEnabledMorph new
-		  case: self;
-		  yourself
+	^ PCCompositionEnabledWindow newWith: self
 ]
 
 { #category : #hook }

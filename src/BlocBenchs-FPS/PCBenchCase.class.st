@@ -20,10 +20,10 @@ PCBenchCase class >> allBenchCases [
 ]
 
 { #category : #convenience }
-PCBenchCase class >> allBenchCasesWithMorph [
+PCBenchCase class >> allBenchCasesWithRaw [
 
 	^ self allBenchCases select: [ :each |
-		[ each newMorph. true ] onErrorDo: [ false ] ]
+		[ each newRawSDLCairoWindow. true ] onErrorDo: [ false ] ]
 
 ]
 
@@ -58,6 +58,12 @@ PCBenchCase >> label [
 	^ ' ' join: ((self className allButFirst: prefix size) allButLast: suffix size) splitCamelCase
 ]
 
+{ #category : #accessing }
+PCBenchCase >> logicalExtent [
+
+	^ self subclassResponsibility
+]
+
 { #category : #hook }
 PCBenchCase >> newColorGenerator [ 
 
@@ -76,17 +82,17 @@ PCBenchCase >> newElement [
 	^ self subclassResponsibility
 ]
 
-{ #category : #hook }
-PCBenchCase >> newMorph [
-	"Answer the Morphic instance that will be wrapped in a Window to setup the benchmark scenario."
-
-	^ self notYetImplemented
-]
-
 { #category : #private }
 PCBenchCase >> newRandom [
 
 	^ Random seed: 1
+]
+
+{ #category : #hook }
+PCBenchCase >> newRawSDLCairoWindow [
+	"Answer a PCBenchCaseRawSDLCairoWindow instance to benchmark this case."
+
+	^ self notYetImplemented
 ]
 
 { #category : #accessing }
@@ -105,10 +111,4 @@ PCBenchCase >> numberOfSeconds [
 PCBenchCase >> numberOfSeconds: aNumber [
 
 	numberOfSeconds := aNumber
-]
-
-{ #category : #accessing }
-PCBenchCase >> surfaceExtent [
-
-	^ self subclassResponsibility
 ]

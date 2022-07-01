@@ -5,11 +5,9 @@ Class {
 }
 
 { #category : #hook }
-PCSolidCirclesBenchCase >> newMorph [
+PCSolidCirclesBenchCase >> newRawSDLCairoWindow [
 
-	^ PCSolidCirclesMorph new
-		  case: self;
-		  yourself
+	^ PCSolidCirclesWindow newWith: self
 ]
 
 { #category : #'instance creation' }

@@ -20,7 +20,7 @@ Class {
 		'surfaceRectangle',
 		'surfaceData'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-RawMorph-Old'
 }
 
 { #category : #accessing }
@@ -33,7 +33,7 @@ PCMorph >> case [
 PCMorph >> case: aPCBenchCase [
 
 	case := aPCBenchCase.
-	self surfaceExtent: aPCBenchCase surfaceExtent.
+	self surfaceExtent: aPCBenchCase logicalExtent.
 	self random: aPCBenchCase newRandom.
 
 ]
@@ -47,19 +47,19 @@ PCMorph >> drawOn: aFormCanvas [
 	"Remember when was the first time a frame is going to be drawn."
 	currentMS := Time millisecondClockValue.
 	startMS
-		ifNil: [ deltaMS := 0.0. startMS := currentMS. self prepareFirstDraw ]
+		ifNil: [ deltaMS := 0.0. startMS := currentMS. self resetAnimation ]
 		ifNotNil: [ deltaMS := currentMS - lastMS ].
 	lastMS := currentMS.
 
 	"Replaces #drawDuring:"
-	self drawOnCairoCanvas.
+	self drawOnCairoSurface.
 
 	"Replaces #displayOnMorphicCanvas:at:"
 	self updateFromCairoSurfaceToFormCanvas: aFormCanvas.
 ]
 
 { #category : #drawing }
-PCMorph >> drawOnCairoCanvas [
+PCMorph >> drawOnCairoSurface [
 	"Draw on cairoCanvas. Assume #ensureReadyToDrawOnCairoCanvas was executed just before."
 
 	self subclassResponsibility
@@ -110,9 +110,10 @@ PCMorph >> initializeSurface [
 
 ]
 
-{ #category : #drawing }
-PCMorph >> prepareFirstDraw [
+{ #category : #accessing }
+PCMorph >> logicalExtent [
 
+	^ surfaceExtent
 ]
 
 { #category : #accessing }
@@ -125,6 +126,11 @@ PCMorph >> random [
 PCMorph >> random: aRandom [
 
 	random := aRandom
+]
+
+{ #category : #drawing }
+PCMorph >> resetAnimation [
+
 ]
 
 { #category : #stepping }
@@ -144,12 +150,6 @@ PCMorph >> stepTime [
 PCMorph >> surface [
 
 	^ cairoSurface
-]
-
-{ #category : #accessing }
-PCMorph >> surfaceExtent [
-
-	^ surfaceExtent
 ]
 
 { #category : #accessing }

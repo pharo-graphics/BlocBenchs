@@ -21,11 +21,9 @@ PCPolylineBenchCase >> newFigureWith: random [
 ]
 
 { #category : #'instance creation' }
-PCPolylineBenchCase >> newMorph [
+PCPolylineBenchCase >> newRawSDLCairoWindow [
 
-	^ PCPolylinesMorph2 new
-		  case: self;
-		  yourself
+	^ PCPolylinesCachingWindow newWith: self
 ]
 
 { #category : #'instance creation' }

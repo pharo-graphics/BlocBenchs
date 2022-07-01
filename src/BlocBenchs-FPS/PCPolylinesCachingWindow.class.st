@@ -1,17 +1,17 @@
 Class {
-	#name : #PCPolylinesMorph2,
-	#superclass : #PCTranslatingPathsMorph,
+	#name : #PCPolylinesCachingWindow,
+	#superclass : #PCTranslatingPathsWindow,
 	#instVars : [
 		'path'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
-PCPolylinesMorph2 >> drawOnCairoCanvas [
+PCPolylinesCachingWindow >> drawOnCairoSurface [
 
 	| deltaY |
-	self clearCairoCanvas.
+	self clearCairoSurface.
 	deltaY := deltaYPerMS * (lastMS - startMS).
 
 	cairoContext
@@ -32,15 +32,15 @@ PCPolylinesMorph2 >> drawOnCairoCanvas [
 ]
 
 { #category : #drawing }
-PCPolylinesMorph2 >> drawPath [
+PCPolylinesCachingWindow >> drawPath [
 
 	cairoContext primStroke
 ]
 
 { #category : #drawing }
-PCPolylinesMorph2 >> prepareFirstDraw [
+PCPolylinesCachingWindow >> resetAnimation [
 
-	super prepareFirstDraw.
+	super resetAnimation.
 
 	cairoContext primSave.
 
@@ -53,7 +53,7 @@ PCPolylinesMorph2 >> prepareFirstDraw [
 ]
 
 { #category : #initialization }
-PCPolylinesMorph2 >> setPathFor: index [
+PCPolylinesCachingWindow >> setPathFor: index [
 
 	cairoContext
 		primAppendPath: path
