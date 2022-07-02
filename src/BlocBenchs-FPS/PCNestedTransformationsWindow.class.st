@@ -49,7 +49,7 @@ PCNestedTransformationsWindow >> drawOnCairoSurface [
 			backgroundColors := (1 to: case numberOfFigures)
 				collect: [ :each | PCFloatColor newRandom: random ].
 			figureMatrices := (1 to: case numberOfFigures)
-				collect: [:each | AeCairoMatrix new ].
+				collect: [:each | AeCairoMatrix newIdentity ].
 			scalePerMS := case targetRelativeScale / 
 				(case numberOfMilliseconds * 10.0). "Why 10x more?"
 			rotationPerMS := case targetRelativeRotation degreesToRadians / 
