@@ -34,8 +34,7 @@ PCCompositionWindow >> drawFigures [
 PCCompositionWindow >> drawOnCairoSurface [
 
 	canvasClearColor := backgroundColorGenerator next.
-	self clearCairoSurface.
-
+	super drawOnCairoSurface
 ]
 
 { #category : #drawing }

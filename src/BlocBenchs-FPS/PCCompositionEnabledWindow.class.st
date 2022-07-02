@@ -14,7 +14,7 @@ PCCompositionEnabledWindow >> drawOnCairoSurface [
 
 	cairoContext
 		primSetSource: layerCairoGroup;
-		primPaint.
+		primPaint
 
 ]
 
