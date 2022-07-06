@@ -13,5 +13,5 @@ PCCompositionEnabledBenchCase >> newRawSDLCairoWindow [
 { #category : #hook }
 PCCompositionEnabledBenchCase >> prepareAsStatic: anElement [
 
-	anElement beInSeparateCompositionLayer
+	anElement beInSingleCompositionLayer
 ]
