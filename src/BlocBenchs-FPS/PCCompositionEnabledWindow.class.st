@@ -19,19 +19,11 @@ PCCompositionEnabledWindow >> drawOnCairoSurface [
 ]
 
 { #category : #drawing }
-PCCompositionEnabledWindow >> newCairoGroupWithFigures [
-
-	cairoContext primPushGroup.
-
-	self drawFigures.
-
-	^ cairoContext popGroup
-]
-
-{ #category : #drawing }
 PCCompositionEnabledWindow >> resetAnimation [
 
 	super resetAnimation.
 
-	layerCairoGroup := self newCairoGroupWithFigures.
+	cairoContext primPushGroup.
+	self drawFiguresOn: cairoContext.
+	layerCairoGroup := cairoContext popGroup
 ]
