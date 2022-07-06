@@ -63,7 +63,7 @@ PCRawSDLCairoWindow >> initializeSurfaces [
 	cairoContext := AeCairoContext create: cairoSurface.
 
 	"Apply HiDPI scale"
-	cairoSurface setDeviceScale: outputExtent / sdlWindow size.
+	cairoSurface deviceScale: outputExtent / sdlWindow size.
 
 ]
 
