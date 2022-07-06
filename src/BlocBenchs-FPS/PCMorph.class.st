@@ -100,7 +100,7 @@ PCMorph >> initialize [
 PCMorph >> initializeSurface [
 
 	cairoSurface := AeCairoImageSurface extent: surfaceExtent.
-	cairoContext := AeCairoContext create: cairoSurface.
+	cairoContext := cairoSurface newContext.
 	surfaceRectangle := 0@0 extent: surfaceExtent.
 
 	surfaceData := FFIExternalArray
