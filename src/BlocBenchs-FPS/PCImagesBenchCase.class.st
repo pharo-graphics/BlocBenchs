@@ -4,12 +4,6 @@ Class {
 	#category : #'BlocBenchs-FPS-Cases'
 }
 
-{ #category : #hook }
-PCImagesBenchCase >> horizontalSeparation [
-
-	^ 20
-]
-
 { #category : #accessing }
 PCImagesBenchCase >> logicalExtent [
 
@@ -19,15 +13,14 @@ PCImagesBenchCase >> logicalExtent [
 { #category : #hook }
 PCImagesBenchCase >> newFigureWith: random [
 
-	| container verticalSeparation |
-	verticalSeparation := self horizontalSeparation.
+	| container |
 	container := BlElement new.
 	container clipChildren: false.
 	
 	1 to: self numberOfRows do:[ :index |
-		container addChild: 
+		container addChild:
 			((self newImageElementWith: random)
-				relocate: (0 @ index * verticalSeparation);
+				relocate: 0 @ (index * self offsetBetweenFigures y);
 				yourself) ].
 
 	^ container
@@ -61,4 +54,10 @@ PCImagesBenchCase >> numberOfFigures [
 PCImagesBenchCase >> numberOfRows [
 
 	^ 20
+]
+
+{ #category : #hook }
+PCImagesBenchCase >> offsetBetweenFigures [
+
+	^ 20 @ 20
 ]

@@ -8,7 +8,7 @@ Class {
 PCRoassalPolylineMorph >> newShape: index [
 
 	| offset translatedPoints |
-	offset := case figureOffset + ((index * case horizontalSeparation) @ 0).
+	offset := case figureOffset + (index * case offsetBetweenFigures).
 	translatedPoints := case vertices collect: [ :each | each + offset ].
 	"Didn't find a better way to translate the shape"
 

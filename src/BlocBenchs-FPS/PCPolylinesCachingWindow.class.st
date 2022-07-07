@@ -21,7 +21,7 @@ PCPolylinesCachingWindow >> drawOnCairoSurface [
 	
 	1 to: case numberOfFigures do: [ :index |
 		cairoContext
-			primTranslateX: case horizontalSeparation y: 0;
+			translate: case offsetBetweenFigures;
 			primAppendPath: path;
 			setSourceRGBColor: (colors at: index);
 			primStroke ].

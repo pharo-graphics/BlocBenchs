@@ -7,23 +7,17 @@ Class {
 { #category : #hook }
 PCTextBenchCase >> blTextFor: random [
 
-	^ (BlRopedText string: (String loremIpsum: 90))
+	^ (BlRopedText string: (String loremIpsum: 170))
 		  fontSize: 8;
-		  fontName: 'Arial';
-		  foreground: (Color random: random);
+		  fontName: 'Courier New';
+		  foreground: (Color random: random) muchDarker;
 		  yourself
-]
-
-{ #category : #hook }
-PCTextBenchCase >> horizontalSeparation [
-
-	^ 7
 ]
 
 { #category : #accessing }
 PCTextBenchCase >> logicalExtent [
 
-	^ 900 @ 500
+	^ 900 @ 900
 ]
 
 { #category : #hook }
@@ -31,8 +25,6 @@ PCTextBenchCase >> newFigureWith: random [
 	
 	^ BlTextElement new
 		text: (self blTextFor: random);
-"		padding: (BlInsets all: 2);"
-		transformDo: [ :t | t topLeftOrigin; rotateBy: 60 ];
 		yourself
 
 ]
@@ -41,4 +33,16 @@ PCTextBenchCase >> newFigureWith: random [
 PCTextBenchCase >> numberOfFigures [
 
 	^ 100
+]
+
+{ #category : #hook }
+PCTextBenchCase >> offsetBetweenFigures [
+
+	^ 0 @ 9
+]
+
+{ #category : #accessing }
+PCTextBenchCase >> targetTranslation [
+
+	^ 0 @ 100
 ]

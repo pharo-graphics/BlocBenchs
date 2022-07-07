@@ -23,7 +23,7 @@ PCPolylinesWindow >> resetAnimation [
 PCPolylinesWindow >> setPathFor: index deltaY: deltaY [
 
 	| offset |
-	offset := case figureOffset + (index * case horizontalSeparation @ deltaY).
+	offset := case figureOffset + (index * case offsetBetweenFigures) + (0 @ deltaY).
 
 	case vertices do: [:aPoint |
 		cairoContext lineTo: aPoint + offset ].

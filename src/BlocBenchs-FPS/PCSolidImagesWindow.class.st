@@ -19,12 +19,12 @@ PCSolidImagesWindow >> drawOnCairoSurface [
 
 	1 to: case numberOfColumns do: [ :col |
 		| positionX |
-		positionX := case figureOffset x + col * case horizontalSeparation - 380.0. "WHY?"
+		positionX := case figureOffset x + col * case offsetBetweenFigures x - 380.0. "WHY?"
 
 		1 to: case numberOfRows do: [ :row |
 
 			| positionY extent |
-			positionY := case figureOffset y + (row * case horizontalSeparation) + deltaY.
+			positionY := case figureOffset y + (row * case offsetBetweenFigures y) + deltaY.
 			extent := extents at: index.
 
 			cairoContext

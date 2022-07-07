@@ -27,12 +27,6 @@ PCTranslatingFiguresBenchCase >> figureOffset [
 	^ 20 @ 20
 ]
 
-{ #category : #hook }
-PCTranslatingFiguresBenchCase >> horizontalSeparation [
-
-	^ 2
-]
-
 { #category : #accessing }
 PCTranslatingFiguresBenchCase >> logicalExtent [
 
@@ -53,7 +47,7 @@ PCTranslatingFiguresBenchCase >> newElement [
 	1 to: self numberOfFigures do: [ :index |
 		| aFigure |
 		aFigure := self newFigureWith: random.
-		aFigure relocate: self figureOffset + ((index * self horizontalSeparation) @ 0).
+		aFigure relocate: self figureOffset + ((index * self offsetBetweenFigures x) @ 0).
 		container addChild: aFigure ].
 
 	^ container
@@ -75,6 +69,12 @@ PCTranslatingFiguresBenchCase >> newSampleFigure [
 PCTranslatingFiguresBenchCase >> numberOfFigures [
 
 	^ 300
+]
+
+{ #category : #hook }
+PCTranslatingFiguresBenchCase >> offsetBetweenFigures [
+
+	^ 2 @ 0
 ]
 
 { #category : #accessing }

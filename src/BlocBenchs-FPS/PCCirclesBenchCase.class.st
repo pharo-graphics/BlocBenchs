@@ -4,12 +4,6 @@ Class {
 	#category : #'BlocBenchs-FPS-Cases'
 }
 
-{ #category : #accessing }
-PCCirclesBenchCase >> horizontalSeparation [
-
-	^ 6
-]
-
 { #category : #hook }
 PCCirclesBenchCase >> newFigureWith: random [
 
@@ -25,6 +19,12 @@ PCCirclesBenchCase >> newFigureWith: random [
 PCCirclesBenchCase >> numberOfFigures [
 
 	^ 100
+]
+
+{ #category : #accessing }
+PCCirclesBenchCase >> offsetBetweenFigures [
+
+	^ 6 @ 0
 ]
 
 { #category : #hook }
