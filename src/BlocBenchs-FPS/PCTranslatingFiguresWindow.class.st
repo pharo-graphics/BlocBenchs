@@ -11,5 +11,7 @@ Class {
 PCTranslatingFiguresWindow >> resetAnimation [
 
 	super resetAnimation.
-	deltaYPerMS := case targetTranslation y / case numberOfMilliseconds
+
+	"Convert from Fraction, since Fraction>>* is slow and at the end, cairo expects a Float"
+	deltaYPerMS := (case targetTranslation y / case numberOfMilliseconds) asFloat
 ]
