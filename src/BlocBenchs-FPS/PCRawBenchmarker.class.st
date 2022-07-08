@@ -13,7 +13,7 @@ Class {
 { #category : #hook }
 PCRawBenchmarker >> closeWindow [
 
-	rawWindow stopStepLoop.
+	rawWindow stopLoop.
 	rawWindow close
 
 ]
@@ -44,5 +44,5 @@ PCRawBenchmarker >> openWindow [
 		openWithTitle: self labelWithCase
 		position: 30 asPoint
 		extent: case logicalExtent.
-	rawWindow startStepLoop
+	rawWindow startLoop
 ]

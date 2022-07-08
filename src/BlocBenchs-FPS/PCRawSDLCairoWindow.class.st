@@ -6,10 +6,10 @@ Class {
 		'cairoSurface',
 		'cairoContext',
 		'sdlRenderer',
-		'sdlTexture',
-		'sdlSurface',
 		'steppingProcess',
-		'sdlWindow'
+		'sdlWindow',
+		'mainSdlTexture',
+		'mainSdlSurface'
 	],
 	#pools : [
 		'SDL2Constants'
@@ -17,10 +17,8 @@ Class {
 	#category : #'BlocBenchs-FPS-Raw'
 }
 
-{ #category : #'initialize-release' }
+{ #category : #'opening and closing' }
 PCRawSDLCairoWindow >> close [
-
-	sdlWindow ifNil: [ self error: 'Window is not open' ].
 
 	sdlRenderer destroy.
 	sdlRenderer := nil.
@@ -30,24 +28,63 @@ PCRawSDLCairoWindow >> close [
 
 ]
 
-{ #category : #'as yet unclassified' }
-PCRawSDLCairoWindow >> drawOnCairoSurface [
-	"Hook"
+{ #category : #stepping }
+PCRawSDLCairoWindow >> drawDone [
+
+	mainSdlTexture
+		updateTexturePixels: mainSdlSurface pixels
+		pitch: mainSdlSurface pitch
+
 ]
 
-{ #category : #initialization }
-PCRawSDLCairoWindow >> initializeSurfaces [
+{ #category : #stepping }
+PCRawSDLCairoWindow >> drawOnCairoSurface [
+	"Hook: subclasses can use cairoContext to draw."
+]
+
+{ #category : #stepping }
+PCRawSDLCairoWindow >> drawPrepare [
+
+	
+]
+
+{ #category : #'opening and closing' }
+PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
+
+	sdlWindow := SDL2
+						createWindow: title
+						x: position x
+						y: position y
+						width: extent x
+						height: extent y
+						flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI. "| SDL_WINDOW_OPENGL"
+
+	sdlRenderer := sdlWindow createAcceleratedRenderer.
+
+	self resetMainTexture
+]
+
+{ #category : #stepping }
+PCRawSDLCairoWindow >> presentOnWindow [
+
+	sdlRenderer
+		copy: mainSdlTexture;
+		present
+]
+
+{ #category : #'opening and closing' }
+PCRawSDLCairoWindow >> resetMainTexture [
 
 	| outputExtent |
 
 	"SDL2:"	
 
 	outputExtent := sdlRenderer outputExtent. "physical size"
-	sdlSurface := SDL2
+	mainSdlSurface := SDL2
 		createRGBSurfaceForCairoWidth: outputExtent x
 		height: outputExtent y.
 
-	sdlTexture := sdlRenderer
+	mainSdlTexture := sdlRenderer
 		createTextureFormat: SDL_PIXELFORMAT_XRGB8888
 		access: SDL_TEXTUREACCESS_STREAMING
 		width: outputExtent x
@@ -56,54 +93,23 @@ PCRawSDLCairoWindow >> initializeSurfaces [
 	"Cairo:"
 
 	cairoSurface := AeCairoImageSurface
-		createForData: sdlSurface pixels
+		createForData: mainSdlSurface pixels
 		extent: outputExtent
-		stride: sdlSurface pitch
+		stride: mainSdlSurface pitch
 		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
 	cairoContext := cairoSurface newContext.
 
-	"Apply HiDPI scale"
-	cairoSurface deviceScale: outputExtent / sdlWindow size.
+	"Reduce quality options if it's a HiDPI display"
+	outputExtent x > sdlWindow size x ifTrue: [
+		cairoContext
+			primSetTolerance: 0.5;
+			primSetAntialias: AeCairoAntialias CAIRO_ANTIALIAS_NONE.
+		cairoSurface deviceScale: outputExtent / sdlWindow size ].
 
 ]
 
-{ #category : #'as yet unclassified' }
-PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
-
-	sdlWindow ifNotNil: [ self error: 'Already open' ].
-
-	sdlWindow := SDL2 createWindow: title
-					x: position x
-					y: position y
-					width: extent x
-					height: extent y
-					flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI.
-	sdlRenderer := sdlWindow createAcceleratedRenderer "createDefaultRenderer".
-
-	self initializeSurfaces.
-	
-"	sdlRenderer drawColorR: 255 g: 255 b: 255 a: 255;
-			  clear;
-			  present.
-"
-
-]
-
-{ #category : #'as yet unclassified' }
-PCRawSDLCairoWindow >> presentCairoOnSDL [
-
-	sdlTexture
-		updateTexturePixels: sdlSurface pixels
-		pitch: sdlSurface pitch.
-
-	sdlRenderer
-		clear;
-		copy: sdlTexture;
-		present
-]
-
-{ #category : #'as yet unclassified' }
-PCRawSDLCairoWindow >> startStepLoop [
+{ #category : #stepping }
+PCRawSDLCairoWindow >> startLoop [
 
 	[
 		session := Smalltalk session.
@@ -116,27 +122,31 @@ PCRawSDLCairoWindow >> startStepLoop [
 				self step.
 				self stepWait  ] ]
 
-			forkAt: 40
+			forkAt: Processor userSchedulingPriority
 			named: 'Step Loop ', self asString
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> step [
 
+	self drawPrepare.
 	self drawOnCairoSurface.
-	self presentCairoOnSDL
+	self drawDone.
+
+	self presentOnWindow
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> stepWait [
-			
-	"1 milliSecond wait"
+
+	self flag: #todo.
+	1 milliSecond wait
 ]
 
-{ #category : #'initialize-release' }
-PCRawSDLCairoWindow >> stopStepLoop [
+{ #category : #stepping }
+PCRawSDLCairoWindow >> stopLoop [
 
 	steppingProcess terminate.
 	steppingProcess := nil.

@@ -13,13 +13,13 @@ PCCompositionBenchCase >> figureExtent [
 { #category : #accessing }
 PCCompositionBenchCase >> layerExtent [
 
-	^ self logicalExtent / 2
+	^ self logicalExtent / 1.5
 ]
 
 { #category : #accessing }
 PCCompositionBenchCase >> logicalExtent [
 
-	^ 900 @ 900
+	^ 700 @ 700
 ]
 
 { #category : #hook }

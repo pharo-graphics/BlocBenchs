@@ -10,19 +10,19 @@ Class {
 }
 
 { #category : #drawing }
-PCCompositionWindow >> drawFigures [
+PCCompositionWindow >> drawFiguresOn: aeCairoContext [
 	
 	1 to: case numberOfFigures do: [ :index |
 		| position |
 		position := figurePositions at: index.
 
-		cairoContext
+		aeCairoContext
 			primRectangleX: position x
 				y: position y
 				width: case figureExtent x
 				height: case figureExtent y.
 				
-		cairoContext
+		aeCairoContext
 			setSourceRGBColor: (figureColors at: index);
 			primFill
 

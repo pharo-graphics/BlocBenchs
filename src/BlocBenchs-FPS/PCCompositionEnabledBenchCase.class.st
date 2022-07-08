@@ -7,7 +7,7 @@ Class {
 { #category : #'instance creation' }
 PCCompositionEnabledBenchCase >> newRawSDLCairoWindow [
 
-	^ PCCompositionEnabledWindow newWith: self
+	^ PCCompositionEnabledViaSDLWindow newWith: self
 ]
 
 { #category : #hook }

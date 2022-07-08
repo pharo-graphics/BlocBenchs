@@ -9,5 +9,5 @@ PCCompositionDisabledWindow >> drawOnCairoSurface [
 
 	super drawOnCairoSurface.
 	
-	self drawFigures.
+	self drawFiguresOn: cairoContext
 ]

@@ -33,14 +33,6 @@ PCBenchCaseRawSDLCairoWindow >> frameCount [
 ]
 
 { #category : #accessing }
-PCBenchCaseRawSDLCairoWindow >> initializeSurfaces [
-
-	super initializeSurfaces.
-	
-	self resetAnimation.
-]
-
-{ #category : #accessing }
 PCBenchCaseRawSDLCairoWindow >> initializeWith: aPCBenchCase [
 
 	self initialize.
@@ -71,6 +63,14 @@ PCBenchCaseRawSDLCairoWindow >> resetAnimation [
 
 	random := case newRandom.
 
+]
+
+{ #category : #accessing }
+PCBenchCaseRawSDLCairoWindow >> resetMainTexture [
+
+	super resetMainTexture.
+	
+	self resetAnimation.
 ]
 
 { #category : #hook }

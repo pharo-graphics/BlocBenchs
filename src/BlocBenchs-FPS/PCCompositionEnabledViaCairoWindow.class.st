@@ -1,5 +1,5 @@
 Class {
-	#name : #PCCompositionEnabledWindow,
+	#name : #PCCompositionEnabledViaCairoWindow,
 	#superclass : #PCCompositionWindow,
 	#instVars : [
 		'layerCairoGroup'
@@ -8,10 +8,11 @@ Class {
 }
 
 { #category : #drawing }
-PCCompositionEnabledWindow >> drawOnCairoSurface [
+PCCompositionEnabledViaCairoWindow >> drawOnCairoSurface [
 
 	super drawOnCairoSurface.
 
+	"Figures are cached in the group"
 	cairoContext
 		primSetSource: layerCairoGroup;
 		primPaint
@@ -19,7 +20,7 @@ PCCompositionEnabledWindow >> drawOnCairoSurface [
 ]
 
 { #category : #drawing }
-PCCompositionEnabledWindow >> resetAnimation [
+PCCompositionEnabledViaCairoWindow >> resetAnimation [
 
 	super resetAnimation.
 
