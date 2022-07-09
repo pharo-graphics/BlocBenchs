@@ -3,13 +3,13 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'session',
-		'cairoSurface',
 		'cairoContext',
 		'sdlRenderer',
-		'steppingProcess',
 		'sdlWindow',
-		'mainSdlTexture',
-		'mainSdlSurface'
+		'mainTexture',
+		'isHighDPI',
+		'deviceScalePoint',
+		'steppingProcess'
 	],
 	#pools : [
 		'SDL2Constants'
@@ -31,10 +31,7 @@ PCRawSDLCairoWindow >> close [
 { #category : #stepping }
 PCRawSDLCairoWindow >> drawDone [
 
-	mainSdlTexture
-		updateTexturePixels: mainSdlSurface pixels
-		pitch: mainSdlSurface pitch
-
+	mainTexture drawDone
 ]
 
 { #category : #stepping }
@@ -45,7 +42,8 @@ PCRawSDLCairoWindow >> drawOnCairoSurface [
 { #category : #stepping }
 PCRawSDLCairoWindow >> drawPrepare [
 
-	
+	mainTexture drawPrepare.
+	cairoContext := mainTexture cairoContext.
 ]
 
 { #category : #'opening and closing' }
@@ -61,50 +59,35 @@ PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
 
 	sdlRenderer := sdlWindow createAcceleratedRenderer.
 
-	self resetMainTexture
+	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
+	isHighDPI := deviceScalePoint x > 1.0 or: [ deviceScalePoint y > 1.0 ].
+
+	self resetMainTexture.
+
 ]
 
 { #category : #stepping }
 PCRawSDLCairoWindow >> presentOnWindow [
 
 	sdlRenderer
-		copy: mainSdlTexture;
+		copy: mainTexture sdlTexture;
 		present
 ]
 
 { #category : #'opening and closing' }
 PCRawSDLCairoWindow >> resetMainTexture [
 
-	| outputExtent |
+	mainTexture := "PCStaticSDLTexture" PCStreamingSDLTexture
+		newExtent: sdlRenderer outputExtent
+		renderer: sdlRenderer
+		setupBlock: [ :aCairoContext |
 
-	"SDL2:"	
-
-	outputExtent := sdlRenderer outputExtent. "physical size"
-	mainSdlSurface := SDL2
-		createRGBSurfaceForCairoWidth: outputExtent x
-		height: outputExtent y.
-
-	mainSdlTexture := sdlRenderer
-		createTextureFormat: SDL_PIXELFORMAT_XRGB8888
-		access: SDL_TEXTUREACCESS_STREAMING
-		width: outputExtent x
-		height: outputExtent y.
-
-	"Cairo:"
-
-	cairoSurface := AeCairoImageSurface
-		createForData: mainSdlSurface pixels
-		extent: outputExtent
-		stride: mainSdlSurface pitch
-		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
-	cairoContext := cairoSurface newContext.
-
-	"Reduce quality options if it's a HiDPI display"
-	outputExtent x > sdlWindow size x ifTrue: [
-		cairoContext
-			primSetTolerance: 0.5;
-			primSetAntialias: AeCairoAntialias CAIRO_ANTIALIAS_NONE.
-		cairoSurface deviceScale: outputExtent / sdlWindow size ].
+			"Reduce quality options if it's a HiDPI display"
+			isHighDPI ifTrue: [
+				aCairoContext
+					primSetTolerance: 0.5;
+					primSetAntialias: AeCairoAntialias CAIRO_ANTIALIAS_NONE.
+				aCairoContext surface deviceScale: deviceScalePoint ] ]
 
 ]
 

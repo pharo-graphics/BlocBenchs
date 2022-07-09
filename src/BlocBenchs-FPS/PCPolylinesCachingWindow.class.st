@@ -42,14 +42,19 @@ PCPolylinesCachingWindow >> resetAnimation [
 
 	super resetAnimation.
 
-	cairoContext primSave.
+	self drawPrepare.
 
-	case vertices do: [:aPoint |
-		cairoContext lineTo: aPoint ].
+		cairoContext primSave.
+
+		case vertices do: [:aPoint |
+			cairoContext lineTo: aPoint ].
+		
+		path := cairoContext copyPath.
+		
+		cairoContext primRestore.
 	
-	path := cairoContext copyPath.
-	
-	cairoContext primRestore.
+	self drawDone.
+
 ]
 
 { #category : #initialization }

@@ -13,8 +13,7 @@ Class {
 PCCompositionEnabledViaSDLWindow >> presentOnWindow [
 
 	sdlRenderer
-"		clear;"
-		copy: mainSdlTexture;
+		copy: mainTexture sdlTexture;
 		copy: layerSdlTexture
 			srcRect: layerSdlRectangle
 			dstRect: layerSdlRectangle;
@@ -39,7 +38,7 @@ PCCompositionEnabledViaSDLWindow >> resetLayer [
 
 	"SDL2 set up"	
 
-	pixelExtent := (case layerExtent * cairoSurface deviceScale) asIntegerPoint.
+	pixelExtent := (case layerExtent * deviceScalePoint) asIntegerPoint.
 	layerSdlSurface := SDL2
 		createRGBSurfaceForCairoWidth: pixelExtent x
 		height: pixelExtent y.
@@ -59,13 +58,13 @@ PCCompositionEnabledViaSDLWindow >> resetLayer [
 
 	"Cairo set up"
 	aCairoSurface := AeCairoImageSurface
-		createForData: layerSdlSurface pixels
+		newForData: layerSdlSurface pixels
 		extent: pixelExtent
 		stride: layerSdlSurface pitch
 		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
 	aCairoContext := aCairoSurface newContext.
 	"Apply same HiDPI scale"
-	aCairoSurface deviceScale: cairoSurface deviceScale.
+	aCairoSurface deviceScale: deviceScalePoint.
 
 	"Cairo surface: Clean and draw figures"
 	aCairoContext
