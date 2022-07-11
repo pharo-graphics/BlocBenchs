@@ -1,6 +1,12 @@
 Extension { #name : #'SDL_RendererInfo' }
 
 { #category : #'*BlocBenchs-FPS' }
+SDL_RendererInfo >> nameString [
+
+	^ self name fromCString
+]
+
+{ #category : #'*BlocBenchs-FPS' }
 SDL_RendererInfo >> printOn: aStream [
 
 	super printOn: aStream.
