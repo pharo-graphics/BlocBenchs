@@ -7,7 +7,8 @@ Class {
 		'sdlSurface',
 		'pixelExtent',
 		'setupBlock',
-		'cairoContext'
+		'cairoContext',
+		'sdlRect'
 	],
 	#pools : [
 		'SDL2Constants'
@@ -60,8 +61,20 @@ PCSDLTexture >> initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUna
 		width: aPoint x
 		height: aPoint y.
 
+	sdlRect := SDL_Rect
+		newX: 0
+		y: 0
+		w: pixelExtent x
+		h: pixelExtent y.
+
 	self initialize.
 
+]
+
+{ #category : #accessing }
+PCSDLTexture >> sdlRect [
+
+	^ sdlRect 
 ]
 
 { #category : #accessing }

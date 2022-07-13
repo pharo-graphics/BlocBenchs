@@ -77,17 +77,10 @@ PCRawSDLCairoWindow >> presentOnWindow [
 { #category : #'opening and closing' }
 PCRawSDLCairoWindow >> resetMainTexture [
 
-	mainTexture := "PCStaticSDLTexture" PCStreamingSDLTexture
+	mainTexture := "PCStaticSDLTexture" PCStreamingSDLTexture"Reusing "
 		newExtent: sdlRenderer outputExtent
 		renderer: sdlRenderer
-		setupBlock: [ :aCairoContext |
-
-			"Reduce quality options if it's a HiDPI display"
-			isHighDPI ifTrue: [
-				aCairoContext
-					primSetTolerance: 0.5;
-					primSetAntialias: AeCairoAntialias CAIRO_ANTIALIAS_NONE.
-				aCairoContext surface deviceScale: deviceScalePoint ] ]
+		setupBlock: self textureSetupBlock
 
 ]
 
@@ -133,4 +126,18 @@ PCRawSDLCairoWindow >> stopLoop [
 
 	steppingProcess terminate.
 	steppingProcess := nil.
+]
+
+{ #category : #'opening and closing' }
+PCRawSDLCairoWindow >> textureSetupBlock [
+
+	^ [ :aCairoContext |
+
+		"Reduce quality options if it's a HiDPI display"
+		isHighDPI ifTrue: [
+			aCairoContext
+				primSetTolerance: 0.5;
+				primSetAntialias: AeCairoAntialias CAIRO_ANTIALIAS_NONE.
+			aCairoContext surface deviceScale: deviceScalePoint ] ]
+
 ]
