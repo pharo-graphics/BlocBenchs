@@ -1,6 +1,12 @@
 Extension { #name : #SDL2 }
 
 { #category : #'*BlocBenchs-FPS' }
+SDL2 class >> getHint: aName [
+
+	^ self ffiCall: #(String SDL_GetHint(String aName))
+]
+
+{ #category : #'*BlocBenchs-FPS' }
 SDL2 class >> primGetNumRenderDrivers [
 
 	^ self ffiCall: #(
