@@ -98,6 +98,32 @@ PCBenchmarker >> enableFFILogging [
 	mustLogFFI := true
 ]
 
+{ #category : #printing }
+PCBenchmarker >> fpsReportAsString [
+
+	^ String streamContents: [ :stream | self fpsReportOn: stream ]
+]
+
+{ #category : #printing }
+PCBenchmarker >> fpsReportOn: aStream [
+
+	(loggedFrameCount / case numberOfSeconds) printOn: aStream showingDecimalPlaces: 1.
+	aStream lf.
+
+]
+
+{ #category : #printing }
+PCBenchmarker >> fpsReportOnStdout [
+
+	self fpsReportOn: Stdio stdout
+]
+
+{ #category : #printing }
+PCBenchmarker >> fpsReportOnTranscript [
+
+	self fpsReportAsString withInternalLineEndings trace
+]
+
 { #category : #hook }
 PCBenchmarker >> frameCount [
 
@@ -181,7 +207,7 @@ PCBenchmarker >> reportOnStdout [
 { #category : #printing }
 PCBenchmarker >> reportOnTranscript [
 
-	self reportAsString withInternalLineEndings traceCr
+	self reportAsString withInternalLineEndings trace
 ]
 
 { #category : #running }
@@ -204,12 +230,6 @@ PCBenchmarker >> run [
 
 		] ensure: [ self closeWindow ]
 
-]
-
-{ #category : #running }
-PCBenchmarker >> runInFork [
-
-	[ self run ] fork
 ]
 
 { #category : #printing }
@@ -236,7 +256,7 @@ PCBenchmarker >> shortReportOnStdout [
 { #category : #printing }
 PCBenchmarker >> shortReportOnTranscript [
 
-	self shortReportAsString withInternalLineEndings traceCr
+	self shortReportAsString withInternalLineEndings trace
 ]
 
 { #category : #private }
