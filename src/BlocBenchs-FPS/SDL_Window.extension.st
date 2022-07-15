@@ -1,6 +1,11 @@
 Extension { #name : #'SDL_Window' }
 
 { #category : #'*BlocBenchs-FPS' }
+SDL_Window >> createSoftwareRenderer [
+	^ self createRenderer: -1 flags: SDL_RENDERER_SOFTWARE 
+]
+
+{ #category : #'*BlocBenchs-FPS' }
 SDL_Window >> size [
 	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
 
