@@ -24,7 +24,7 @@ PCBoxWindmillBenchCase >> boxBorderColor [
 { #category : #hook }
 PCBoxWindmillBenchCase >> boxBorderWidth [
 
-	^ 1
+	^ 3
 ]
 
 { #category : #hook }

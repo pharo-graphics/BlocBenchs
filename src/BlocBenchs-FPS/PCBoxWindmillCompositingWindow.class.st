@@ -57,7 +57,7 @@ PCBoxWindmillCompositingWindow >> resetAnimation [
 
 	"Render a box in a static texture"
 	boxSdlTexture := PCStaticSDLTexture 
-		newExtent: pixelBoxExtent + ((case boxBorderWidth * 2) * deviceScalePoint)
+		newExtent: pixelBoxExtent + (case boxBorderWidth * deviceScalePoint)
 		renderer: sdlRenderer
 		setupBlock: self textureSetupBlock.
 	boxSdlTexture drawPrepare.
