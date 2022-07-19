@@ -7,6 +7,21 @@ SDL2 class >> getHint: aName [
 ]
 
 { #category : #'*BlocBenchs-FPS' }
+SDL2 class >> primCreateRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: width height: height [
+	"See: https://wiki.libsdl.org/SDL_CreateRGBSurfaceWithFormat"
+
+	^ self ffiCall: #(
+		SDL_Surface*
+		SDL_CreateRGBSurfaceWithFormat (
+			0, 
+			int width, 
+			int height, 
+			int depth, 
+			Uint32 aSDLPixelFormat) )
+
+]
+
+{ #category : #'*BlocBenchs-FPS' }
 SDL2 class >> primGetNumRenderDrivers [
 
 	^ self ffiCall: #(
