@@ -14,3 +14,11 @@ SDL_Renderer >> copy: texture srcRect: srcRect dstRect: dstRect angle: angle cen
 			const "SDL_RendererFlip"int 2) )
 
 ]
+
+{ #category : #'*BlocBenchs-FPS' }
+SDL_Renderer >> primCreateTextureFromSurface: aSurface [
+
+	^ self ffiCall: #( SDL_Texture SDL_CreateTextureFromSurface (
+		self, 
+		SDL_Surface aSurface ) )
+]
