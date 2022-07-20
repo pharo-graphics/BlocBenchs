@@ -2,79 +2,65 @@ Class {
 	#name : #PCCompositionEnabledViaSDLWindow,
 	#superclass : #PCCompositionWindow,
 	#instVars : [
-		'layerSdlTexture',
-		'layerSdlRectangle',
-		'layerSdlSurface'
+		'bottomLayerTexture',
+		'topLayerTexture'
 	],
 	#category : #'BlocBenchs-FPS-Raw'
 }
-
-{ #category : #drawing }
-PCCompositionEnabledViaSDLWindow >> presentOnWindow [
-
-	sdlRenderer
-		copy: mainTexture sdlTexture;
-		copy: layerSdlTexture
-			srcRect: layerSdlRectangle
-			dstRect: layerSdlRectangle;
-		present
-]
 
 { #category : #drawing }
 PCCompositionEnabledViaSDLWindow >> resetAnimation [
 
 	super resetAnimation.
 
-"	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND."
-
-	self resetLayer.
+	self resetBottomLayer.
+	self resetTopLayer.
 
 ]
 
 { #category : #drawing }
-PCCompositionEnabledViaSDLWindow >> resetLayer [
+PCCompositionEnabledViaSDLWindow >> resetBottomLayer [
 
-	| pixelExtent aCairoSurface aCairoContext |
+	bottomLayerTexture := PCStreamingSDLTexture
+		newExtent: (case logicalExtent * deviceScalePoint) asIntegerPoint
+		renderer: sdlRenderer
+		setupBlock: self textureSetupBlock.
 
-	"SDL2 set up"	
+]
 
-	pixelExtent := (case layerExtent * deviceScalePoint) asIntegerPoint.
-	layerSdlSurface := SDL2
-		createRGBSurfaceForCairoWidth: pixelExtent x
-		height: pixelExtent y.
+{ #category : #drawing }
+PCCompositionEnabledViaSDLWindow >> resetTopLayer [
 
-	layerSdlTexture := sdlRenderer
-		createTextureFormat: SDL_PIXELFORMAT_XRGB8888
-		access: SDL_TEXTUREACCESS_STATIC
-		width: pixelExtent x
-		height: pixelExtent y.
+	topLayerTexture := PCStaticSDLTexture
+		newExtent: (case layerExtent * deviceScalePoint) asIntegerPoint
+		renderer: sdlRenderer
+		setupBlock: self textureSetupBlock.
+	topLayerTexture setBlendEnabled.
 
-	layerSdlRectangle := SDL_Rect
-		newX: 0
-		y: 0
-		w: pixelExtent x
-		h: pixelExtent y.
+	topLayerTexture cairoContextDo: [ :aeCairoContext |
+		self drawFiguresOn: aeCairoContext ]
 
+]
 
-	"Cairo set up"
-	aCairoSurface := AeCairoImageSurface
-		newForData: layerSdlSurface pixels
-		extent: pixelExtent
-		stride: layerSdlSurface pitch
-		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
-	aCairoContext := aCairoSurface newContext.
-	"Apply same HiDPI scale"
-	aCairoSurface deviceScale: deviceScalePoint.
+{ #category : #drawing }
+PCCompositionEnabledViaSDLWindow >> step [
 
-	"Cairo surface: Clean and draw figures"
-	aCairoContext
-		primSetSourceR: 0 g: 0 b: 0 a: 0;
-		primPaint.
-	self drawFiguresOn: aCairoContext.
+	self stepAnimation.
 
-	"SDL texture: Finally update it"
-	layerSdlTexture
-		updateTexturePixels: layerSdlSurface pixels
-		pitch: layerSdlSurface pitch.
+"	sdlRenderer drawBlendMode: SDL_BLENDMODE_NONE."
+	sdlRenderer clear.
 
+	bottomLayerTexture cairoContextDo: [ :aeCairoContext |
+		aeCairoContext
+			setSourceRGBColor: backgroundColorGenerator next;
+			primPaint ].
+	sdlRenderer copy: bottomLayerTexture sdlTexture.
+
+"	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND."
+	sdlRenderer
+		copy: topLayerTexture sdlTexture
+			srcRect: SDL_Rect null
+			dstRect: topLayerTexture sdlRect.
+
+	sdlRenderer present
 ]

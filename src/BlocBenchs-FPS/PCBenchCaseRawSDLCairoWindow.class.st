@@ -76,13 +76,19 @@ PCBenchCaseRawSDLCairoWindow >> resetMainTexture [
 { #category : #hook }
 PCBenchCaseRawSDLCairoWindow >> step [
 
+	self stepAnimation.
+	super step.
+
+]
+
+{ #category : #hook }
+PCBenchCaseRawSDLCairoWindow >> stepAnimation [
+
 	| currentMS |
 	frameCount := frameCount + 1.
 	
 	currentMS := Time millisecondClockValue.
 	deltaMS := currentMS - lastMS.
 	lastMS := currentMS.
-	
-	super step.
 
 ]

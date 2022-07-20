@@ -29,6 +29,12 @@ PCStreamingSDLTexture >> drawPrepare [
 		stride: (pitchAddress signedLongAt: 1)
 		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
 
+"	This should be true:
+	(pitchAddress signedLongAt: 1) = (AeCairoImageSurface 
+		primStrideForWidth: pixelExtent x
+		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32).
+"
+
 	cairoContext := aCairoSurface newContext.
 
 	setupBlock value: cairoContext

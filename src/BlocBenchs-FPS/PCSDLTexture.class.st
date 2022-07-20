@@ -30,6 +30,15 @@ PCSDLTexture >> cairoContext [
 	^ cairoContext
 ]
 
+{ #category : #accessing }
+PCSDLTexture >> cairoContextDo: aBlockClosure [
+
+	self drawPrepare.	
+	aBlockClosure value: cairoContext.
+	self drawDone.
+
+]
+
 { #category : #drawing }
 PCSDLTexture >> drawDone [
 	"Send after using the cairo context"
@@ -52,11 +61,13 @@ PCSDLTexture >> initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUna
 	sdlRenderer := aSdlRenderer.
 
 	sdlSurface := SDL2
-		createRGBSurfaceForCairoWidth: aPoint x
+		primCreateRGBSurfaceWithFormat: self sdlPixelFormat
+		depth: 32
+		width: aPoint x
 		height: aPoint y.
 
 	sdlTexture := sdlRenderer
-		createTextureFormat: SDL_PIXELFORMAT_XRGB8888
+		createTextureFormat: self sdlPixelFormat
 		access: self sdlTextureAccess
 		width: aPoint x
 		height: aPoint y.
@@ -69,6 +80,12 @@ PCSDLTexture >> initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUna
 
 	self initialize.
 
+]
+
+{ #category : #drawing }
+PCSDLTexture >> sdlPixelFormat [
+
+	^ SDL_PIXELFORMAT_ARGB8888
 ]
 
 { #category : #accessing }
@@ -90,14 +107,9 @@ PCSDLTexture >> sdlTextureAccess [
 ]
 
 { #category : #drawing }
-PCSDLTexture >> setBlend: alphaInteger [ 
-	"Prepare to copy another textures on me with the indicated alpha. 
-	Alpha is represented as an integer between 0 and 255."
+PCSDLTexture >> setBlendEnabled [
 
-	sdlTexture
-		blendMode: SDL_BLENDMODE_BLEND;
-		alphaMod: alphaInteger
-
+	sdlTexture blendMode: SDL_BLENDMODE_BLEND
 ]
 
 { #category : #drawing }

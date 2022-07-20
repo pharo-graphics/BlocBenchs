@@ -2,11 +2,11 @@ Class {
 	#name : #PCBoxWindmillCompositingWindow,
 	#superclass : #PCBoxWindmillWindow,
 	#instVars : [
-		'boxSdlTexture',
 		'sdlRects',
 		'pixelBoxExtent',
 		'pixelBoxPositions',
-		'boxPositions'
+		'boxPositions',
+		'boxTexture'
 	],
 	#category : #'BlocBenchs-FPS-Raw'
 }
@@ -25,7 +25,7 @@ PCBoxWindmillCompositingWindow >> presentOnWindow [
 	"Boxes"
 	boxPositions withIndexDo: [ :eachPosition :index |
 		(sdlRenderer
-			copy: boxSdlTexture sdlTexture
+			copy: boxTexture sdlTexture
 			srcRect: SDL_Rect null
 			dstRect: (sdlRects at: index)
 			angle: (case boxRotationInDegreesWithPosition: eachPosition frame: frameCount)
@@ -56,13 +56,13 @@ PCBoxWindmillCompositingWindow >> resetAnimation [
 			h: pixelBoxExtent y].
 
 	"Render a box in a static texture"
-	boxSdlTexture := PCStaticSDLTexture 
+	boxTexture := PCStaticSDLTexture 
 		newExtent: pixelBoxExtent + (case boxBorderWidth * deviceScalePoint)
 		renderer: sdlRenderer
 		setupBlock: self textureSetupBlock.
-	boxSdlTexture drawPrepare.
-	self drawBoxOn: boxSdlTexture cairoContext.
-	boxSdlTexture drawDone.
+	boxTexture setBlendEnabled.
+	boxTexture cairoContextDo: [ :aeCairoContext |
+		self drawBoxOn: aeCairoContext ]
 
 ]
 
@@ -73,7 +73,12 @@ PCBoxWindmillCompositingWindow >> resetMainTexture [
 		newExtent: sdlRenderer outputExtent
 		renderer: sdlRenderer
 		setupBlock: self textureSetupBlock.
-	"Should be black"
-		
+
+	mainTexture cairoContextDo: [ :aeCairoContext |
+		aeCairoContext
+			setSourceRGBAColor: Color black;
+			primPaint.
+		].
+	
 	self resetAnimation.
 ]
