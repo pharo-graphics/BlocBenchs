@@ -18,13 +18,13 @@ PCBoxWindmillBenchCase >> backgroundColor [
 { #category : #hook }
 PCBoxWindmillBenchCase >> boxBorderColor [
 
-	^ Color green muchDarker
+	^ Color green muchDarker translucent
 ]
 
 { #category : #hook }
 PCBoxWindmillBenchCase >> boxBorderWidth [
 
-	^ 3
+	^ 5
 ]
 
 { #category : #hook }
