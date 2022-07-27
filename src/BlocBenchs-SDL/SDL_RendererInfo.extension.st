@@ -1,24 +1,24 @@
 Extension { #name : #'SDL_RendererInfo' }
 
-{ #category : #'*BlocBenchs-FPS' }
+{ #category : #'*BlocBenchs-SDL' }
 SDL_RendererInfo >> isARGB8888Supported [
 
 	^ self texture_formats includes: 372645892 "SDL_PIXELFORMAT_ARGB8888"
 ]
 
-{ #category : #'*BlocBenchs-FPS' }
+{ #category : #'*BlocBenchs-SDL' }
 SDL_RendererInfo >> isXRGB8888Supported [
  
 	^ self texture_formats includes: 370546692 "SDL_PIXELFORMAT_XRGB8888"
 ]
 
-{ #category : #'*BlocBenchs-FPS' }
+{ #category : #'*BlocBenchs-SDL' }
 SDL_RendererInfo >> nameString [
 
 	^ self name fromCString
 ]
 
-{ #category : #'*BlocBenchs-FPS' }
+{ #category : #'*BlocBenchs-SDL' }
 SDL_RendererInfo >> printOn: aStream [
 
 	super printOn: aStream.

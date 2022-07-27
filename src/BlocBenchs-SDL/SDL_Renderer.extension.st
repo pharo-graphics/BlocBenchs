@@ -1,6 +1,6 @@
 Extension { #name : #'SDL_Renderer' }
 
-{ #category : #'*BlocBenchs-FPS' }
+{ #category : #'*BlocBenchs-SDL' }
 SDL_Renderer >> copy: texture srcRect: srcRect dstRect: dstRect angle: angle center: center [
 
 	^ self ffiCall: #( 
@@ -15,7 +15,7 @@ SDL_Renderer >> copy: texture srcRect: srcRect dstRect: dstRect angle: angle cen
 
 ]
 
-{ #category : #'*BlocBenchs-FPS' }
+{ #category : #'*BlocBenchs-SDL' }
 SDL_Renderer >> primCreateTextureFromSurface: aSurface [
 
 	^ self ffiCall: #( SDL_Texture SDL_CreateTextureFromSurface (
