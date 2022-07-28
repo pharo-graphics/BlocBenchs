@@ -61,7 +61,7 @@ PCSDLTexture >> initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUna
 	sdlRenderer := aSdlRenderer.
 
 	sdlSurface := SDL2
-		primCreateRGBSurfaceWithFormat: self sdlPixelFormat
+		createRGBSurfaceWithFormat: self sdlPixelFormat
 		depth: 32
 		width: aPoint x
 		height: aPoint y.

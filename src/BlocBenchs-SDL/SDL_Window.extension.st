@@ -6,6 +6,21 @@ SDL_Window >> createSoftwareRenderer [
 ]
 
 { #category : #'*BlocBenchs-SDL' }
+SDL_Window >> primSetWindowShape: aShape mode: aShapeMode [
+	"Set the shape and parameters of a shaped window.
+	
+	See: https://github.com/libsdl-org/SDL/blob/53dea9830964eee8b5c2a7ee0a65d6e268dc78a1/include/SDL_shape.h#L128
+	"
+	^ self ffiCall: #( 
+		int
+		SDL_SetWindowShape(
+			self,
+			SDL_Surface aShape,
+			SDL_WindowShapeMode aShapeMode)
+		)
+]
+
+{ #category : #'*BlocBenchs-SDL' }
 SDL_Window >> size [
 	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
 

@@ -16,6 +16,14 @@ SDL_Renderer >> copy: texture srcRect: srcRect dstRect: dstRect angle: angle cen
 ]
 
 { #category : #'*BlocBenchs-SDL' }
+SDL_Renderer >> newTextureFromSurface: aSurface [
+
+	^ (self primCreateTextureFromSurface: aSurface)
+		  autoRelease;
+		  yourself
+]
+
+{ #category : #'*BlocBenchs-SDL' }
 SDL_Renderer >> primCreateTextureFromSurface: aSurface [
 
 	^ self ffiCall: #( SDL_Texture SDL_CreateTextureFromSurface (
