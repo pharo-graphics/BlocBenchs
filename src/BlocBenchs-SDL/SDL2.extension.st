@@ -48,12 +48,40 @@ SDL2 class >> primGetNumRenderDrivers [
 ]
 
 { #category : #'*BlocBenchs-SDL' }
+SDL2 class >> primGetPerformanceCounter [
+
+	^ self ffiCall: #(
+		Uint64 SDL_GetPerformanceCounter() )
+]
+
+{ #category : #'*BlocBenchs-SDL' }
+SDL2 class >> primGetPerformanceFrequency [
+
+	^ self ffiCall: #(
+		Uint64 SDL_GetPerformanceFrequency() )
+]
+
+{ #category : #'*BlocBenchs-SDL' }
 SDL2 class >> primGetRenderDriverInfo: info at: index [
 
 	^ self ffiCall: #( 
 		int SDL_GetRenderDriverInfo(
 			int index,
 			SDL_RendererInfo * info) )
+]
+
+{ #category : #'*BlocBenchs-SDL' }
+SDL2 class >> primGetTicks [
+
+	^ self ffiCall: #(
+		Uint32 SDL_GetTicks() )
+]
+
+{ #category : #'*BlocBenchs-SDL' }
+SDL2 class >> primGetTicks64 [
+
+	^ self ffiCall: #(
+		Uint64 SDL_GetTicks64() )
 ]
 
 { #category : #'*BlocBenchs-SDL' }
