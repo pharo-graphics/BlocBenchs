@@ -1,5 +1,5 @@
 Class {
-	#name : #PCSDLTexture,
+	#name : #PCSDLTextureStrategy,
 	#superclass : #Object,
 	#instVars : [
 		'sdlRenderer',
@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-PCSDLTexture class >> newExtent: aPoint renderer: aSdlRenderer setupBlock: aUnaryBlock [
+PCSDLTextureStrategy class >> newExtent: aPoint renderer: aSdlRenderer setupBlock: aUnaryBlock [
 
 	^ self basicNew
 		  initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUnaryBlock;
@@ -25,13 +25,13 @@ PCSDLTexture class >> newExtent: aPoint renderer: aSdlRenderer setupBlock: aUnar
 ]
 
 { #category : #accessing }
-PCSDLTexture >> cairoContext [
+PCSDLTextureStrategy >> cairoContext [
 
 	^ cairoContext
 ]
 
 { #category : #accessing }
-PCSDLTexture >> cairoContextDo: aBlockClosure [
+PCSDLTextureStrategy >> cairoContextDo: aBlockClosure [
 
 	self drawPrepare.	
 	aBlockClosure value: cairoContext.
@@ -40,21 +40,21 @@ PCSDLTexture >> cairoContextDo: aBlockClosure [
 ]
 
 { #category : #drawing }
-PCSDLTexture >> drawDone [
+PCSDLTextureStrategy >> drawDone [
 	"Send after using the cairo context"
 	
 	self subclassResponsibility
 ]
 
 { #category : #drawing }
-PCSDLTexture >> drawPrepare [
+PCSDLTextureStrategy >> drawPrepare [
 	"Send before using the cairo context"
 	
 	self subclassResponsibility
 ]
 
 { #category : #drawing }
-PCSDLTexture >> initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUnaryBlock [
+PCSDLTextureStrategy >> initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUnaryBlock [
 
 	pixelExtent := aPoint.
 	setupBlock := aUnaryBlock.
@@ -83,37 +83,37 @@ PCSDLTexture >> initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUna
 ]
 
 { #category : #drawing }
-PCSDLTexture >> sdlPixelFormat [
+PCSDLTextureStrategy >> sdlPixelFormat [
 
 	^ SDL_PIXELFORMAT_ARGB8888
 ]
 
 { #category : #accessing }
-PCSDLTexture >> sdlRect [
+PCSDLTextureStrategy >> sdlRect [
 
 	^ sdlRect 
 ]
 
 { #category : #accessing }
-PCSDLTexture >> sdlTexture [
+PCSDLTextureStrategy >> sdlTexture [
 
 	^ sdlTexture 
 ]
 
 { #category : #drawing }
-PCSDLTexture >> sdlTextureAccess [
+PCSDLTextureStrategy >> sdlTextureAccess [
 
 	^ self subclassResponsibility
 ]
 
 { #category : #drawing }
-PCSDLTexture >> setBlendEnabled [
+PCSDLTextureStrategy >> setBlendEnabled [
 
 	sdlTexture blendMode: SDL_BLENDMODE_BLEND
 ]
 
 { #category : #drawing }
-PCSDLTexture >> setBlendNone [
+PCSDLTextureStrategy >> setBlendNone [
 	"Prepare to copy another textures on me without blending."
 
 	sdlTexture blendMode: SDL_BLENDMODE_NONE

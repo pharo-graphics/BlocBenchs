@@ -41,6 +41,19 @@ SDL2 class >> getHint: aName [
 ]
 
 { #category : #'*BlocBenchs-SDL' }
+SDL2 class >> memCopy: src to: dest size: n [
+
+	^ self ffiCall: #(
+		void * 
+		SDL_memcpy (
+			void * dest, 
+			const void * src,
+			size_t n
+			) )
+
+]
+
+{ #category : #'*BlocBenchs-SDL' }
 SDL2 class >> primGetNumRenderDrivers [
 
 	^ self ffiCall: #(

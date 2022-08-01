@@ -6,16 +6,44 @@ Class {
 		'cairoContext',
 		'sdlRenderer',
 		'sdlWindow',
-		'mainTexture',
 		'isHighDPI',
 		'deviceScalePoint',
-		'steppingProcess'
+		'steppingProcess',
+		'mainTextureStrategy'
+	],
+	#classVars : [
+		'MainTextureStrategyClass'
 	],
 	#pools : [
 		'SDL2Constants'
 	],
 	#category : #'BlocBenchs-FPS-Raw'
 }
+
+{ #category : #'as yet unclassified' }
+PCRawSDLCairoWindow class >> initialize [
+
+	self useUpdateStaticTextureStrategy
+]
+
+{ #category : #'as yet unclassified' }
+PCRawSDLCairoWindow class >> useDirectDrawToStreamingTextureStrategy [
+	
+	MainTextureStrategyClass := PCDirectDrawToStreamingTextureStrategy
+]
+
+{ #category : #'as yet unclassified' }
+PCRawSDLCairoWindow class >> useMemCopyToStreamingTextureStrategy [
+	
+	MainTextureStrategyClass := PCMemCopyToStreamingTextureStrategy
+]
+
+{ #category : #'as yet unclassified' }
+PCRawSDLCairoWindow class >> useUpdateStaticTextureStrategy [
+	
+	MainTextureStrategyClass := PCUpdateStaticTextureStrategy
+
+]
 
 { #category : #'opening and closing' }
 PCRawSDLCairoWindow >> close [
@@ -31,7 +59,7 @@ PCRawSDLCairoWindow >> close [
 { #category : #stepping }
 PCRawSDLCairoWindow >> drawDone [
 
-	mainTexture drawDone
+	mainTextureStrategy drawDone
 ]
 
 { #category : #stepping }
@@ -42,8 +70,8 @@ PCRawSDLCairoWindow >> drawOnCairoSurface [
 { #category : #stepping }
 PCRawSDLCairoWindow >> drawPrepare [
 
-	mainTexture drawPrepare.
-	cairoContext := mainTexture cairoContext.
+	mainTextureStrategy drawPrepare.
+	cairoContext := mainTextureStrategy cairoContext.
 ]
 
 { #category : #'opening and closing' }
@@ -70,17 +98,17 @@ PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
 PCRawSDLCairoWindow >> presentOnWindow [
 
 	sdlRenderer
-		copy: mainTexture sdlTexture;
+		copy: mainTextureStrategy sdlTexture;
 		present
 ]
 
 { #category : #'opening and closing' }
 PCRawSDLCairoWindow >> resetMainTexture [
 
-	mainTexture := "PCStaticSDLTexture" PCStreamingSDLTexture"Reusing "
+	mainTextureStrategy := MainTextureStrategyClass
 		newExtent: sdlRenderer outputExtent
 		renderer: sdlRenderer
-		setupBlock: self textureSetupBlock
+		setupBlock: self textureStrategySetupBlock
 
 ]
 
@@ -129,7 +157,7 @@ PCRawSDLCairoWindow >> stopLoop [
 ]
 
 { #category : #'opening and closing' }
-PCRawSDLCairoWindow >> textureSetupBlock [
+PCRawSDLCairoWindow >> textureStrategySetupBlock [
 
 	^ [ :aCairoContext |
 

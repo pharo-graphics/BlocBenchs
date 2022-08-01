@@ -1,6 +1,6 @@
 Class {
-	#name : #PCStreamingSDLTexture,
-	#superclass : #PCSDLTexture,
+	#name : #PCDirectDrawToStreamingTextureStrategy,
+	#superclass : #PCSDLTextureStrategy,
 	#instVars : [
 		'pitchAddress',
 		'pixelsAddress'
@@ -9,14 +9,14 @@ Class {
 }
 
 { #category : #drawing }
-PCStreamingSDLTexture >> drawDone [
+PCDirectDrawToStreamingTextureStrategy >> drawDone [
 
 	sdlTexture unlock.
 	cairoContext := nil.
 ]
 
 { #category : #drawing }
-PCStreamingSDLTexture >> drawPrepare [
+PCDirectDrawToStreamingTextureStrategy >> drawPrepare [
 
 	| aCairoSurface |
 	"Lock texture to get an address and pitch where new pixels will be written"
@@ -41,7 +41,7 @@ PCStreamingSDLTexture >> drawPrepare [
 ]
 
 { #category : #drawing }
-PCStreamingSDLTexture >> initialize [
+PCDirectDrawToStreamingTextureStrategy >> initialize [
 
 	super initialize.
 
@@ -51,7 +51,7 @@ PCStreamingSDLTexture >> initialize [
 ]
 
 { #category : #drawing }
-PCStreamingSDLTexture >> sdlTextureAccess [
+PCDirectDrawToStreamingTextureStrategy >> sdlTextureAccess [
 
 	^ SDL_TEXTUREACCESS_STREAMING
 ]

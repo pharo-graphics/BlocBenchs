@@ -3,7 +3,7 @@ Class {
 	#superclass : #PCCompositionWindow,
 	#instVars : [
 		'bottomLayerTexture',
-		'topLayerTexture'
+		'topLayerTextureStrategy'
 	],
 	#category : #'BlocBenchs-FPS-Raw'
 }
@@ -21,23 +21,23 @@ PCCompositionEnabledViaSDLWindow >> resetAnimation [
 { #category : #drawing }
 PCCompositionEnabledViaSDLWindow >> resetBottomLayer [
 
-	bottomLayerTexture := PCStreamingSDLTexture
+	bottomLayerTexture := PCDirectDrawToStreamingTextureStrategy
 		newExtent: (case logicalExtent * deviceScalePoint) asIntegerPoint
 		renderer: sdlRenderer
-		setupBlock: self textureSetupBlock.
+		setupBlock: self textureStrategySetupBlock.
 
 ]
 
 { #category : #drawing }
 PCCompositionEnabledViaSDLWindow >> resetTopLayer [
 
-	topLayerTexture := PCStaticSDLTexture
+	topLayerTextureStrategy := PCUpdateStaticTextureStrategy
 		newExtent: (case layerExtent * deviceScalePoint) asIntegerPoint
 		renderer: sdlRenderer
-		setupBlock: self textureSetupBlock.
-	topLayerTexture setBlendEnabled.
+		setupBlock: self textureStrategySetupBlock.
+	topLayerTextureStrategy setBlendEnabled.
 
-	topLayerTexture cairoContextDo: [ :aeCairoContext |
+	topLayerTextureStrategy cairoContextDo: [ :aeCairoContext |
 		self drawFiguresOn: aeCairoContext ]
 
 ]
@@ -58,9 +58,9 @@ PCCompositionEnabledViaSDLWindow >> step [
 
 "	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND."
 	sdlRenderer
-		copy: topLayerTexture sdlTexture
+		copy: topLayerTextureStrategy sdlTexture
 			srcRect: SDL_Rect null
-			dstRect: topLayerTexture sdlRect.
+			dstRect: topLayerTextureStrategy sdlRect.
 
 	sdlRenderer present
 ]
