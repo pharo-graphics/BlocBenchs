@@ -21,9 +21,15 @@ PCBenchCaseRawSDLCairoWindow class >> newWith: aPCBenchCase [
 ]
 
 { #category : #hook }
+PCBenchCaseRawSDLCairoWindow >> elapsedMillisecondsSinceFirstDraw [
+
+	^ lastMS - startMS
+]
+
+{ #category : #hook }
 PCBenchCaseRawSDLCairoWindow >> elapsedTimeSinceFirstDraw [
 
-	^ (lastMS - startMS) milliSeconds
+	^ self elapsedMillisecondsSinceFirstDraw milliSeconds
 ]
 
 { #category : #accessing }

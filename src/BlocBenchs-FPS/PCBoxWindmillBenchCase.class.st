@@ -18,13 +18,13 @@ PCBoxWindmillBenchCase >> backgroundColor [
 { #category : #hook }
 PCBoxWindmillBenchCase >> boxBorderColor [
 
-	^ Color green muchDarker translucent
+	^ Color blue muchDarker alpha: 0.5
 ]
 
 { #category : #hook }
 PCBoxWindmillBenchCase >> boxBorderWidth [
 
-	^ 5
+	^ 10
 ]
 
 { #category : #hook }
@@ -56,9 +56,9 @@ PCBoxWindmillBenchCase >> boxPositions: aDeviceScale [
 ]
 
 { #category : #hook }
-PCBoxWindmillBenchCase >> boxRotationInDegreesWithPosition: position frame: frameCount [
+PCBoxWindmillBenchCase >> boxRotationInDegreesWithPosition: position elapsedMS: elapsedMS [
 
-	^ ((position x + position y + frameCount) degreesToRadians * 1.95) radiansToDegrees
+	^ ((position x + position y + (elapsedMS/10.0) ) degreesToRadians * 1.95) radiansToDegrees
 ]
 
 { #category : #accessing }
@@ -71,7 +71,7 @@ PCBoxWindmillBenchCase >> logicalExtent [
 PCBoxWindmillBenchCase >> newElement [
 	"Answer the Bloc element to be added to the root of the space to setup the benchmark scenario."
 
-	| aContainerElement boxElements frameCount |
+	| aContainerElement boxElements startMS |
 
 	aContainerElement := BlElement new
 		clipChildren: false;
@@ -90,7 +90,7 @@ PCBoxWindmillBenchCase >> newElement [
 			yourself  ].
 	aContainerElement addChildren: boxElements.
 
-	frameCount := 0.
+	startMS := Time millisecondClockValue.
 	aContainerElement addAnimation:
 		(BlBasicAnimation new 
 			onStepDo: [ :t |
@@ -100,8 +100,7 @@ PCBoxWindmillBenchCase >> newElement [
 							centerOrigin;
 							rotateBy: (self 
 								boxRotationInDegreesWithPosition: each position
-								frame: frameCount) ] ].
-				frameCount := frameCount + 1 ];
+								elapsedMS: Time millisecondClockValue - startMS) ] ] ];
 			yourself).
 
 	^ aContainerElement
