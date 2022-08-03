@@ -1,12 +1,11 @@
 Class {
 	#name : #PCOSWindowScrollingExampleEventHandler,
 	#superclass : #OSWindowGenericRendererExampleEventHandler,
-	#category : #'BlocBenchs-FPS-Scrolling'
+	#category : #'BlocBenchs-SDL-Scrolling'
 }
 
 { #category : #visiting }
 PCOSWindowScrollingExampleEventHandler >> visitMouseWheelEvent: anEvent [
 
-	example scrollHorizontal: anEvent scrollHorizontal.
-	example scrollVertical: anEvent scrollVertical.
+	example mouseWheelEvent: anEvent
 ]

@@ -13,7 +13,7 @@ Class {
 		'ShapeModeDefault',
 		'ShapeModeReverseBinarizeAlpha'
 	],
-	#category : #'BlocBenchs-SDL'
+	#category : #'BlocBenchs-SDL-ShapedWindow'
 }
 
 { #category : #'accessing enum' }

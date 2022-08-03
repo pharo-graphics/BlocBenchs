@@ -10,7 +10,7 @@ Class {
 		'OFFSET_MODE',
 		'OFFSET_PARAMETERS'
 	],
-	#category : #'BlocBenchs-SDL'
+	#category : #'BlocBenchs-SDL-ShapedWindow'
 }
 
 { #category : #'field definition' }

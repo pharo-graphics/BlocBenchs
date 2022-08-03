@@ -6,7 +6,7 @@ See: https://github.com/libsdl-org/SDL/blob/53dea9830964eee8b5c2a7ee0a65d6e268dc
 Class {
 	#name : #'SDL_WindowShapeParams',
 	#superclass : #SDL2Union,
-	#category : #'BlocBenchs-SDL'
+	#category : #'BlocBenchs-SDL-ShapedWindow'
 }
 
 { #category : #'instance creation' }

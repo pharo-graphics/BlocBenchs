@@ -11,7 +11,7 @@ Class {
 		'SDL2Constants',
 		'SDL2Types'
 	],
-	#category : #'BlocBenchs-SDL'
+	#category : #'BlocBenchs-SDL-ShapedWindow'
 }
 
 { #category : #examples }
