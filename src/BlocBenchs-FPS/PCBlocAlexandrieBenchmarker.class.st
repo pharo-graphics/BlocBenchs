@@ -2,19 +2,19 @@
 I'm a benchmarker for the Pure Cairo renderer.
 "
 Class {
-	#name : #PCBlocPCRendererBenchmarker,
+	#name : #PCBlocAlexandrieBenchmarker,
 	#superclass : #PCBlocBenchmarker,
 	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #accessing }
-PCBlocPCRendererBenchmarker >> host [
+PCBlocAlexandrieBenchmarker >> host [
 
 	^ BAOSWindowSDL2Host new
 ]
 
 { #category : #accessing }
-PCBlocPCRendererBenchmarker >> label [
+PCBlocAlexandrieBenchmarker >> label [
 
 	^ 'Bloc Alexandrie'
 ]
