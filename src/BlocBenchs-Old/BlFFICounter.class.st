@@ -45,7 +45,7 @@ BlFFICounter >> reportsAsPagesUsing: aBuilder [
 BlFFICounter >> startMetering [
 
 	"Ensure prepared"
-	TFLCallLogger install.
+	TFLSignal install.
 	TFLFunctionCounter resetInstance.
 
 	"Really start"
@@ -66,5 +66,6 @@ BlFFICounter >> stopMetering [
 	functionNamesAndCounts := functionNamesAndCounts
 		collect: [ :value | (value / frameCount) asFloat ].
 
+	TFLSignal uninstall.
 	TFLFunctionCounter stop; resetInstance.
 ]

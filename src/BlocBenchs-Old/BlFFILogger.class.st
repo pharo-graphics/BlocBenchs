@@ -20,9 +20,8 @@ BlFFILogger >> reportsAsPagesUsing: aBuilder [
 BlFFILogger >> startMetering [
 
 	"Ensure prepared"
-	TFLCallLogger
-		install;
-		resetInstance.
+	TFLSignal install.
+	TFLCallLogger resetInstance.
 	TFLCallLogger instance entryCount: 20000.
 
 	"Really start"
@@ -35,5 +34,6 @@ BlFFILogger >> stopMetering [
 
 	loggerCopy := TFLCallLogger instance copy.
 
+	TFLSignal uninstall.
 	TFLCallLogger stop; resetInstance.
 ]

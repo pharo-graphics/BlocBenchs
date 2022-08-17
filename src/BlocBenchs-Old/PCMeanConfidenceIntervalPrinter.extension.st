@@ -3,10 +3,10 @@ Extension { #name : #PCMeanConfidenceIntervalPrinter }
 { #category : #'*BlocBenchs-Old' }
 PCMeanConfidenceIntervalPrinter class >> example [
 
-	| hosts canvases cases runners printer df |
-	hosts := { BlOSWindowSDL2Host. BlMorphicWindowHost }.
+	| cases runners printer df hosts canvases |
+	hosts := { BlOSWindowSDL2Host. BAOSWindowSDL2Host."BlMorphicWindowHost" }.
 	canvases := { BlSpartaCairoCanvasBuilder. BlSpartaSkiaCanvasBuilder}.
-	cases := { BlBoidsProfileCase new duration: 20 seconds; yourself }.
+	cases := { BlBoidsProfileCase new duration: 10 seconds; yourself }.
 	runners := hosts flatCollect: [:eachHost |
 		canvases flatCollect: [:eachCanvas |
 			cases collect: [ :eachCase |
@@ -46,7 +46,7 @@ PCMeanConfidenceIntervalPrinter class >> example [
 		lf;
 		<< runners anyOne case label;
 		lf;
-		<< PCCairoLibrary uniqueInstance versionString;
+		<< AeCairoLibrary uniqueInstance versionString;
 		lf; lf.
 	DataFrameMarkdownPrinter new
 		stream: Stdio stdout;
