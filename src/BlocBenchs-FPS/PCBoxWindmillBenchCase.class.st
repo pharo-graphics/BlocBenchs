@@ -58,13 +58,13 @@ PCBoxWindmillBenchCase >> boxPositions: aDeviceScale [
 { #category : #hook }
 PCBoxWindmillBenchCase >> boxRotationInDegreesWithPosition: position elapsedMS: elapsedMS [
 
-	^ ((position x + position y + (elapsedMS/10.0) ) degreesToRadians * 1.95) radiansToDegrees
+	^ ((position x + position y + (elapsedMS/50.0) ) degreesToRadians * 1.95) radiansToDegrees
 ]
 
 { #category : #accessing }
 PCBoxWindmillBenchCase >> logicalExtent [
 
-	^ 900 asPoint
+	^ 800 asPoint
 ]
 
 { #category : #hook }
