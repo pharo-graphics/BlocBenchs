@@ -1,54 +1,7 @@
 "
-Benchmarks to compare Sparta andd Athens-Cairo.
+Benchmarks to compare several rendering implementations.
 
-
-Example of use:
-```
-[  {
-	PCBlocRegularRendererBenchmarker new beSkia; yourself.
-	PCBlocRegularRendererBenchmarker new beCairo; yourself.
-	PCBlocNullRendererBenchmarker new.
-	PCBlocPCRendererBenchmarker new.
-	PCMorphBenchmarker new.
-	} do: [:each |
-		Smalltalk garbageCollect. 1 second wait.
-		each
-			""enableFFILogging;""
-			case: PCSolidCirclesBenchCase new;
-			run;
-			shortReportOnStdout;
-			reportOnTranscript ]
-] fork
-```
-
-Also:
-```
-| p b w |
-p := [
-	PCBenchCase allBenchCases 
-		do: [ :eachCase |
-			b := PCBlocPCRendererBenchmarker new.
-			b 	case: eachCase;
-				run;
-				shortReportOnStdout;
-				reportOnTranscript ].
-	w close.
-] fork.
-
-w := SpButtonPresenter new 
-	label: 'Stop now';
-	action: [ p terminate. b closeWindow. w close ];
-	open.
-```
-
-It was also interesting to profile with:
-```
-WorldState MinCycleLapse: 1. ""By default, 16""
-[ PCBlocNullRendererBenchmarker new
-	case: PCSolidCirclesBenchCase new;
-	run ] fork.
-AndreasSystemProfiler spyOnWorldFor: 5.
-```
+See examples in my class-side.
 
 "
 Class {
@@ -65,6 +18,156 @@ Class {
 	],
 	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
+
+{ #category : #'as yet unclassified' }
+PCBenchmarker class >> exampleAllBenchsForBloc [
+
+	[ PCBenchCase allBenchCases do: [ :eachCase |
+		eachCase numberOfSeconds: 3.
+
+		{
+		 PCBlocRegularRendererBenchmarker new beSkia; yourself.
+		 PCBlocRegularRendererBenchmarker new beCairo; yourself.
+		 PCBlocAlexandrieBenchmarker new.
+		 PCBlocNullRendererBenchmarker new.
+		} do: [ :eachBenchmarker | 
+			Smalltalk garbageCollect. 1 second wait.
+			eachBenchmarker
+			   case: eachCase;
+			   run;
+			   shortReportOnStdout;
+			   shortReportOnTranscript ] ]	
+
+	] fork.
+
+]
+
+{ #category : #'as yet unclassified' }
+PCBenchmarker class >> exampleAllBenchsWithRaw [
+	"Note: Not all `PCBenchCase` respond to `newRawSDLCairoWindow`."
+
+	[ PCBenchCase allBenchCasesWithRaw do: [ :eachCase |
+		eachCase numberOfSeconds: 3.
+
+		{
+		 PCBlocRegularRendererBenchmarker new beSkia; yourself.
+		 PCBlocRegularRendererBenchmarker new beCairo; yourself. 
+		 PCBlocAlexandrieBenchmarker new.
+		 PCRawBenchmarker new.
+		} do: [ :eachBenchmarker | 
+			Smalltalk garbageCollect. 1 second wait.
+			eachBenchmarker
+			   case: eachCase;
+			   run;
+			   shortReportOnStdout;
+			   shortReportOnTranscript ] ]	
+
+	] fork.
+
+]
+
+{ #category : #'as yet unclassified' }
+PCBenchmarker class >> exampleAllSDL2Drivers [
+
+	| case driverNames |
+	case := PCBoxWindmillBenchCase new.
+	"case := PCCompositionEnabledBenchCase new."
+	case numberOfSeconds: 4.
+
+	driverNames := (SDL2 renderDriverInfos collect: #nameString) copyWithout: 'opengles2'.
+	"opengles2 crashed on a a MacbookPro 2018"
+
+	[	driverNames do: [ :eachRendererName |
+			SDL2 setHint: 'SDL_RENDER_DRIVER' value: eachRendererName.
+			SDL2 setHint: 'SDL_RENDER_BATCHING' value: '1'.
+			SDL2 setHint: 'SDL_FRAMEBUFFER_ACCELERATION' value: '1'.
+
+			Smalltalk garbageCollect. 1 second wait.
+
+			PCRawBenchmarker new
+				case: case;
+				run;
+				shortReportOnStdout;
+				shortReportOnTranscript ]
+	] fork.
+
+
+]
+
+{ #category : #'as yet unclassified' }
+PCBenchmarker class >> exampleBenchAllCasesOneCanvas [
+
+	| p b w |
+	p := [
+		PCBenchCase allBenchCases 
+			do: [ :eachCase |
+				b := PCBlocAlexandrieBenchmarker new.
+				b 	case: eachCase;
+					run;
+					shortReportOnStdout;
+					reportOnTranscript ].
+		w close.
+	] fork.
+
+	w := SpButtonPresenter new 
+		label: 'Stop now';
+		action: [ p terminate. b closeWindow. w close ];
+		open.
+
+]
+
+{ #category : #'as yet unclassified' }
+PCBenchmarker class >> exampleProfileCase [
+	"Opens a flame-graph on the AndreasSystemProfiler."
+
+	[ | report |
+		report := SaReport newWithASPOn: [
+
+		| element space |
+		element := PCBoxWindmillBenchCase new newElement.
+		space := BlSpace new
+			host: BAOSWindowSDL2Host new;
+			addChild: element;
+			show;
+			yourself.
+		5 seconds wait.
+		space close.
+
+		].
+
+		report
+			colorMap: (SaCategoryPrefixColorMap new 
+					mapPrefixes: #(
+						'Fenster'
+						'Alexandrie'
+						'Sparta')
+						from: Color purple;
+					mapPrefixes: #(
+						'BlocHost'
+						'Bloc-Text'
+						'Bloc')
+						from: Color orange;
+					mapPrefixes: #(
+						'BlocPac'
+						'Brick'
+						'Spec-Brick')
+						from: Color lightBlue;
+					yourself);
+				inspect
+		] fork.
+
+]
+
+{ #category : #'as yet unclassified' }
+PCBenchmarker class >> exampleProfileNull [
+	"Profile the overhead of Bloc without rendering"
+
+	WorldState MinCycleLapse: 1. "By default, 16"
+	[ PCBlocNullRendererBenchmarker new
+		case: PCSolidCirclesBenchCase new;
+		run ] fork.
+	AndreasSystemProfiler spyOnWorldFor: 5.
+]
 
 { #category : #accessing }
 PCBenchmarker >> case [
