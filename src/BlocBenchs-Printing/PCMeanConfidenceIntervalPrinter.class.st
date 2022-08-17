@@ -1,6 +1,14 @@
 "
 I print a simple statistical description from a collection of numbers: the mean and confidence interval.
 
+About the size of the collection:
+- Collection shouldn't be empty.
+- If collection size >= 30, assume gaussian distribution.
+- If collection size = 1, result shows +/- 0 interval.
+- Else, use student T distibution.
+
+Note: Use a confidence level of 90%.
+
 Based on SMarkSimpleStatisticsReporter from SMark benchmark project.
 
 "
@@ -14,20 +22,24 @@ Class {
 }
 
 { #category : #statistics }
-PCMeanConfidenceIntervalPrinter >> confidenceVariance: aCollectionOfNumbers [
+PCMeanConfidenceIntervalPrinter >> confidenceIntervalFor: aCollectionOfNumbers [
 
-	| size |
-	size := aCollectionOfNumbers size.
+	| populationSize factor |
+	populationSize := aCollectionOfNumbers size.
 
-	^ size >= 30 
-		ifTrue: [ 
-			self gaussianConfidenceFactor * aCollectionOfNumbers stdev
-		  		/ size asFloat sqrt ]
-		ifFalse: [ 
-			(self studentsTConfidenceFactorFor: size) * aCollectionOfNumbers stdev
-	  			/ size asFloat sqrt ]
+	factor := populationSize >= 30 
+		ifTrue: [ self gaussianConfidenceFactor ]
+		ifFalse: [ self studentsTConfidenceFactorFor: populationSize ].
 
+	^ factor * aCollectionOfNumbers stdev / populationSize asFloat sqrt
+]
 
+{ #category : #statistics }
+PCMeanConfidenceIntervalPrinter >> defaultDecimalPlacesFor: confidenceVariance [
+
+	confidenceVariance = 0 ifTrue: [ ^ 2 ].
+	confidenceVariance >= 10 ifTrue: [ ^ 0 ].
+	^ 1 - confidenceVariance log floor
 ]
 
 { #category : #accessing }
@@ -60,33 +72,25 @@ PCMeanConfidenceIntervalPrinter >> print: aCollectionOfNumbers [
 ]
 
 { #category : #reporting }
-PCMeanConfidenceIntervalPrinter >> print: aCollectionOfNumbers on: aStream [
-	"Print average +/- confidence variance. The colleciton must be not empty."
+PCMeanConfidenceIntervalPrinter >> print: population on: aStream [
+	"Print average ± confidence interval. The colleciton must be not empty."
 
-	| confidenceVariance significantDigits |
-	confidenceVariance := aCollectionOfNumbers size = 1
+	| confidenceInterval decimalPlaces |
+	confidenceInterval := population size = 1
 		ifTrue: [ 0.0 ]
-		ifFalse: [ self confidenceVariance: aCollectionOfNumbers ].
+		ifFalse: [ self confidenceIntervalFor: population ].
 
-	significantDigits := fixedDecimalPlaces ifNil: [
-		self significantDigits: confidenceVariance ].
+	decimalPlaces := fixedDecimalPlaces ifNil: [
+		self defaultDecimalPlacesFor: confidenceInterval ].
 
-	aCollectionOfNumbers average
+	population average
 		printOn: aStream
-		showingDecimalPlaces: significantDigits.
+		showingDecimalPlaces: decimalPlaces.
 
 	aStream << ' ±'.
-	confidenceVariance
+	confidenceInterval
 		printOn: aStream
-		showingDecimalPlaces: significantDigits
-]
-
-{ #category : #statistics }
-PCMeanConfidenceIntervalPrinter >> significantDigits: confidenceVariance [
-
-	confidenceVariance = 0 ifTrue: [ ^ 2 ].
-	confidenceVariance >= 10 ifTrue: [ ^ 0 ].
-	^ 1 - confidenceVariance log floor
+		showingDecimalPlaces: decimalPlaces
 ]
 
 { #category : #statistics }
