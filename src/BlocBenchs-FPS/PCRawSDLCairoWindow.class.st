@@ -85,7 +85,7 @@ PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
 						height: extent y
 						flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI. "| SDL_WINDOW_OPENGL"
 
-	sdlRenderer := sdlWindow createAcceleratedRenderer.
+	sdlRenderer := sdlWindow createDefaultRenderer.
 
 	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
 	isHighDPI := deviceScalePoint x > 1.0 or: [ deviceScalePoint y > 1.0 ].
