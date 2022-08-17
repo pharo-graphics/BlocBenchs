@@ -7,9 +7,9 @@ Class {
 { #category : #hook }
 PCTextBenchCase >> blTextFor: random [
 
-	^ (BlRopedText string: (String loremIpsum: 170))
+	^ (BlRopedText string: (String loremIpsum: 150))
 		  fontSize: 8;
-		  fontName: 'Courier New';
+		  fontName: 'Source Code Pro';
 		  foreground: (Color random: random) muchDarker;
 		  yourself
 ]
