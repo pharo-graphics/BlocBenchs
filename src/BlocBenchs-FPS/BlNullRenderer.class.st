@@ -30,6 +30,5 @@ BlNullRenderer >> initializeForHostSpace: aBlHostSpace [
 	spaceRenderer := surface createSpaceRendererOn: self.
 	spaceRenderer initializeForSurface: surface.
 
-	textMeasurer := BlMockedTextMeasurer new
-
+	textMeasurer := BlSpartaMockedTextMeasurer new
 ]
