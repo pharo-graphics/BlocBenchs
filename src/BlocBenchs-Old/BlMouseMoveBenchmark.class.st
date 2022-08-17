@@ -48,7 +48,7 @@ BlMouseMoveBenchmark class >> exampleRun [
 	w := SpButtonPresenter new 
 		label: 'Stop now';
 		action: [ aProcess terminate. w close ];
-		openWithSpec.
+		open
 ]
 
 { #category : #accessing }

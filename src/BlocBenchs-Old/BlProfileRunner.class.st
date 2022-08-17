@@ -234,7 +234,7 @@ BlProfileRunner >> openMeterReports [
 	| notebook meterPresenters |
 	notebook := SpNotebookPresenter new.
 	meterPresenters := meters flatCollect: [ :each | 
-		each reportsAsPagesUsing: notebook ].
+		                   each reportsAsPagesUsing: notebook ].
 
 	meterPresenters do: [ :each | notebook addPage: each ].
 
@@ -242,10 +242,9 @@ BlProfileRunner >> openMeterReports [
 		addPageTitle: 'Raw'
 		provider: [ Smalltalk tools inspector onObject: self ].
 
-	notebook openWithSpec
+	notebook open
 		title: case shortDescription;
-		extent: 800@600
-
+		extent: 800 @ 600
 ]
 
 { #category : #printing }
