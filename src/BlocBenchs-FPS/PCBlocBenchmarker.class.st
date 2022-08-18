@@ -7,8 +7,9 @@ Class {
 	#superclass : #PCBenchmarker,
 	#instVars : [
 		'space',
-		'frames',
-		'realStartTimestamp'
+		'firstMS',
+		'lastMS',
+		'framesDeltaMS'
 	],
 	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
@@ -22,13 +23,19 @@ PCBlocBenchmarker >> closeWindow [
 { #category : #hook }
 PCBlocBenchmarker >> elapsedTimeSinceFirstDraw [
 
-	^ DateAndTime now - realStartTimestamp
+	^ (Time millisecondClockValue - firstMS) milliSeconds
 ]
 
 { #category : #hook }
 PCBlocBenchmarker >> frameCount [
 	
-	^ frames
+	^ framesDeltaMS size
+]
+
+{ #category : #hook }
+PCBlocBenchmarker >> framesDeltaMS [
+	
+	^ framesDeltaMS
 ]
 
 { #category : #hook }
@@ -48,14 +55,20 @@ PCBlocBenchmarker >> openWindow [
 
 	space addChild: case newElement.
 
-	"Counting frames"
-	frames := 0.
-	space addEventHandlerOn: BlSpaceRenderEndEvent do: [ :evt | 
-		frames := frames + 1 ].
+	"For each frame, register the elapsed time."
+	"Prepare collection for 250 frames per second"
+	framesDeltaMS := OrderedCollection new: case numberOfSeconds * 250.
+	space addEventHandlerOn: BlSpaceRenderEndEvent do: [ :evt |
+		| currentMS deltaMS |
+		currentMS := Time millisecondClockValue.
+		deltaMS := currentMS - lastMS.
+		framesDeltaMS add: deltaMS.
+		lastMS := currentMS ].
 
 	"Let's consider that start happens when the space is actually shown."
 	space addEventHandlerOn: BlSpaceShownEvent do: [ :evt |
-		realStartTimestamp := DateAndTime now ].
+		firstMS := Time millisecondClockValue.
+		lastMS := firstMS. ].
 
 	space show.
 

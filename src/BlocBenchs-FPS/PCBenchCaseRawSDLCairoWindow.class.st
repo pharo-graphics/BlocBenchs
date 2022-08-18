@@ -3,11 +3,11 @@ Class {
 	#superclass : #PCRawSDLCairoWindow,
 	#instVars : [
 		'case',
-		'frameCount',
+		'random',
 		'lastMS',
 		'startMS',
 		'deltaMS',
-		'random'
+		'framesDeltaMS'
 	],
 	#category : #'BlocBenchs-FPS-Raw'
 }
@@ -35,7 +35,13 @@ PCBenchCaseRawSDLCairoWindow >> elapsedTimeSinceFirstDraw [
 { #category : #accessing }
 PCBenchCaseRawSDLCairoWindow >> frameCount [
 
-	^ frameCount
+	^ framesDeltaMS size
+]
+
+{ #category : #accessing }
+PCBenchCaseRawSDLCairoWindow >> framesDeltaMS [
+
+	^ framesDeltaMS
 ]
 
 { #category : #accessing }
@@ -61,13 +67,14 @@ PCBenchCaseRawSDLCairoWindow >> resetAnimation [
 	"Prepare to start drawing the animation from the biggining.
 	Subclasses can assume that Cairo and SDL surfaces are initialized."
 
-	frameCount := 0.
-
 	startMS := Time millisecondClockValue.
 	deltaMS := 0.0.
 	lastMS := startMS.
 
 	random := case newRandom.
+
+	"Prepare collection for 250 frames per second"
+	framesDeltaMS := OrderedCollection new: case numberOfSeconds * 250.
 
 ]
 
@@ -91,10 +98,10 @@ PCBenchCaseRawSDLCairoWindow >> step [
 PCBenchCaseRawSDLCairoWindow >> stepAnimation [
 
 	| currentMS |
-	frameCount := frameCount + 1.
-	
 	currentMS := Time millisecondClockValue.
 	deltaMS := currentMS - lastMS.
 	lastMS := currentMS.
+
+	framesDeltaMS add: deltaMS.
 
 ]

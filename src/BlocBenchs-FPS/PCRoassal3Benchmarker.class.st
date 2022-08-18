@@ -30,6 +30,12 @@ PCRoassal3Benchmarker >> frameCount [
 	^ wrapper frameCount
 ]
 
+{ #category : #hook }
+PCRoassal3Benchmarker >> framesDeltaMS [
+
+	^ wrapper framesDeltaMS
+]
+
 { #category : #printing }
 PCRoassal3Benchmarker >> label [
 

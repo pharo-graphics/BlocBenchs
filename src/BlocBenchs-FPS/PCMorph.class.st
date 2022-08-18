@@ -10,7 +10,6 @@ Class {
 		'case',
 		'cairoContext',
 		'cairoSurface',
-		'frameCount',
 		'random',
 		'surfaceExtent',
 		'session',
@@ -18,7 +17,8 @@ Class {
 		'deltaMS',
 		'startMS',
 		'surfaceRectangle',
-		'surfaceData'
+		'surfaceData',
+		'framesDeltaMS'
 	],
 	#category : #'BlocBenchs-FPS-RawMorph-Old'
 }
@@ -47,8 +47,14 @@ PCMorph >> drawOn: aFormCanvas [
 	"Remember when was the first time a frame is going to be drawn."
 	currentMS := Time millisecondClockValue.
 	startMS
-		ifNil: [ deltaMS := 0.0. startMS := currentMS. self resetAnimation ]
-		ifNotNil: [ deltaMS := currentMS - lastMS ].
+		ifNil: [
+			deltaMS := 0.0. 
+			startMS := currentMS.
+			framesDeltaMS := OrderedCollection new: case numberOfSeconds * 250.
+			self resetAnimation ]
+		ifNotNil: [
+			deltaMS := currentMS - lastMS.
+			framesDeltaMS add: deltaMS ].
 	lastMS := currentMS.
 
 	"Replaces #drawDuring:"
@@ -86,14 +92,13 @@ PCMorph >> ensureReadyToDrawOnCairoCanvas [
 { #category : #accessing }
 PCMorph >> frameCount [
 
-	^ frameCount
+	^ framesDeltaMS size
 ]
 
-{ #category : #initialization }
-PCMorph >> initialize [
+{ #category : #accessing }
+PCMorph >> framesDeltaMS [
 
-	super initialize.
-	frameCount := 0.
+	^ framesDeltaMS
 ]
 
 { #category : #initialization }
@@ -136,7 +141,6 @@ PCMorph >> resetAnimation [
 { #category : #stepping }
 PCMorph >> step [
 
-	frameCount := frameCount + 1.
 	self changed
 ]
 

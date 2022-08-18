@@ -18,3 +18,11 @@ PCBlocNullRendererBenchmarker >> label [
 
 	^ 'Bloc NullRenderer'
 ]
+
+{ #category : #hook }
+PCBlocNullRendererBenchmarker >> openWindow [
+
+	super openWindow.
+	firstMS := Time millisecondClockValue.
+	lastMS := firstMS.
+]

@@ -30,6 +30,12 @@ PCRawBenchmarker >> frameCount [
 	^ rawWindow frameCount
 ]
 
+{ #category : #hook }
+PCRawBenchmarker >> framesDeltaMS [
+
+	^ rawWindow framesDeltaMS
+]
+
 { #category : #printing }
 PCRawBenchmarker >> label [
 

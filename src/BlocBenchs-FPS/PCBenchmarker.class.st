@@ -12,14 +12,14 @@ Class {
 		'loggedCallsRanking',
 		'loggedStartTime',
 		'loggedDuration',
-		'loggedFrameCount',
 		'mustLogFFI',
-		'case'
+		'case',
+		'loggedFramesDeltaMS'
 	],
 	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 PCBenchmarker class >> exampleAllBenchsForBloc [
 
 	[ PCBenchCase allBenchCases do: [ :eachCase |
@@ -42,12 +42,12 @@ PCBenchmarker class >> exampleAllBenchsForBloc [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 PCBenchmarker class >> exampleAllBenchsWithRaw [
 	"Note: Not all `PCBenchCase` respond to `newRawSDLCairoWindow`."
 
 	[ PCBenchCase allBenchCasesWithRaw do: [ :eachCase |
-		eachCase numberOfSeconds: 3.
+		eachCase numberOfSeconds: 2.
 
 		{
 		 PCBlocRegularRendererBenchmarker new beSkia; yourself.
@@ -66,7 +66,7 @@ PCBenchmarker class >> exampleAllBenchsWithRaw [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 PCBenchmarker class >> exampleAllSDL2Drivers [
 
 	| case driverNames |
@@ -94,7 +94,7 @@ PCBenchmarker class >> exampleAllSDL2Drivers [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 PCBenchmarker class >> exampleBenchAllCasesOneCanvas [
 
 	| p b w |
@@ -105,7 +105,7 @@ PCBenchmarker class >> exampleBenchAllCasesOneCanvas [
 				b 	case: eachCase;
 					run;
 					shortReportOnStdout;
-					reportOnTranscript ].
+					shortReportOnTranscript ].
 		w close.
 	] fork.
 
@@ -116,7 +116,7 @@ PCBenchmarker class >> exampleBenchAllCasesOneCanvas [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 PCBenchmarker class >> exampleProfileCase [
 	"Opens a flame-graph on the AndreasSystemProfiler."
 
@@ -124,7 +124,7 @@ PCBenchmarker class >> exampleProfileCase [
 		report := SaReport newWithASPOn: [
 
 		| element space |
-		element := PCBoxWindmillBenchCase new newElement.
+		element := PCRotatedTextBenchCase new newElement.
 		space := BlSpace new
 			host: BAOSWindowSDL2Host new;
 			addChild: element;
@@ -138,11 +138,11 @@ PCBenchmarker class >> exampleProfileCase [
 		report
 			colorMap: (SaCategoryPrefixColorMap new 
 					mapPrefixes: #(
-						'Fenster'
 						'Alexandrie'
 						'Sparta')
 						from: Color purple;
 					mapPrefixes: #(
+						'Fenster'
 						'BlocHost'
 						'Bloc-Text'
 						'Bloc')
@@ -158,7 +158,7 @@ PCBenchmarker class >> exampleProfileCase [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 PCBenchmarker class >> exampleProfileNull [
 	"Profile the overhead of Bloc without rendering"
 
@@ -210,7 +210,7 @@ PCBenchmarker >> fpsReportAsString [
 { #category : #printing }
 PCBenchmarker >> fpsReportOn: aStream [
 
-	(loggedFrameCount / case numberOfSeconds) printOn: aStream showingDecimalPlaces: 1.
+	self printFpsOn: aStream.
 	aStream lf.
 
 ]
@@ -229,6 +229,12 @@ PCBenchmarker >> fpsReportOnTranscript [
 
 { #category : #hook }
 PCBenchmarker >> frameCount [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #hook }
+PCBenchmarker >> framesDeltaMS [
 
 	^ self subclassResponsibility
 ]
@@ -261,56 +267,69 @@ PCBenchmarker >> openWindow [
 ]
 
 { #category : #printing }
-PCBenchmarker >> report [
+PCBenchmarker >> printFpsOn: aStream [
 
-	^ String streamContents: [ :aStream | self reportOn: aStream ]
+	loggedFramesDeltaMS size / loggedDuration totalSeconds
+		printOn: aStream
+		showingDecimalPlaces: 1
 ]
 
 { #category : #printing }
-PCBenchmarker >> reportAsString [
+PCBenchmarker >> printFrameMSDurationStatsOn: aStream [
 
-	^ String streamContents: [ :stream | self reportOn: stream ]
-]
-
-{ #category : #printing }
-PCBenchmarker >> reportOn: aStream [
-
-	aStream << '# '; <<  self labelWithCase; lf; lf.
-
-	mustLogFFI
-		ifFalse: [ 
-			aStream << 'Speed: '.
-			(loggedFrameCount / case numberOfSeconds) printOn: aStream showingDecimalPlaces: 2.
-			aStream << 'fps'; lf.
-
-			aStream << 'Real Duration: '.
-			loggedDuration totalSeconds printOn: aStream showingDecimalPlaces: 3.
-			aStream << 's'; lf ] 
-		ifTrue: [ 
-			aStream << 'Top FFI Calls:'; lf; lf.
-			DataFrameMarkdownPrinter new
-				stringBlockClosure: [ :o :r :c |
-					(o isNumber
-						ifTrue: [ o printShowingDecimalPlaces: 1 ]
-						ifFalse: [ o ]) asString ];
-				dataFrame: (loggedCallsRanking head: 15);
-				stream: aStream;
-				write.
-			aStream lf ].
-
+	PCMeanConfidenceIntervalPrinter new
+		print: loggedFramesDeltaMS
+		on: aStream
 
 ]
 
 { #category : #printing }
-PCBenchmarker >> reportOnStdout [
+PCBenchmarker >> printProjectedFpsOn: aStream [
 
-	self reportOn: Stdio stdout
+	| projectedFps |
+	projectedFps := loggedFramesDeltaMS
+		reject: [ :each | each isZero ]
+		thenCollect: [ :each | 1000.0 / each ].
+	PCMeanConfidenceIntervalPrinter new
+		fixedDecimalPlaces: 1;
+		print: projectedFps on: aStream.
+
 ]
 
 { #category : #printing }
-PCBenchmarker >> reportOnTranscript [
+PCBenchmarker >> reportFFIAsString [
 
-	self reportAsString withInternalLineEndings trace
+	^ String streamContents: [ :stream | self reportFFIOn: stream ]
+]
+
+{ #category : #printing }
+PCBenchmarker >> reportFFIOn: aStream [
+
+	aStream << self labelWithCase; << ': '.
+
+	DataFrameMarkdownPrinter new
+		stringBlockClosure: [ :o :r :c |
+			(o isNumber
+				ifTrue: [ o printShowingDecimalPlaces: 1 ]
+				ifFalse: [ o ]) asString ];
+		dataFrame: (loggedCallsRanking head: 15);
+		stream: aStream;
+		write.
+
+	aStream lf
+
+]
+
+{ #category : #printing }
+PCBenchmarker >> reportFFIOnStdout [
+
+	self reportFFIOn: Stdio stdout
+]
+
+{ #category : #printing }
+PCBenchmarker >> reportFFIOnTranscript [
+
+	self reportFFIAsString withInternalLineEndings trace
 ]
 
 { #category : #running }
@@ -325,9 +344,9 @@ PCBenchmarker >> run [
 		case duration wait.
 
 		"End log"
-		loggedFrameCount := self frameCount.
-		"(Zero frames indicate an error, e.g. drawing)"
-		loggedFrameCount > 0 ifTrue: [
+		loggedFramesDeltaMS := self framesDeltaMS.
+		"Zero frames indicate an error, e.g. drawing"
+		loggedFramesDeltaMS ifNotEmpty: [
 			loggedDuration := self elapsedTimeSinceFirstDraw.
 			mustLogFFI ifTrue: [ self stopFFILogging ] ].
 
@@ -344,9 +363,20 @@ PCBenchmarker >> shortReportAsString [
 { #category : #printing }
 PCBenchmarker >> shortReportOn: aStream [
 
-	aStream << self labelWithCase; << ': '.
-	(loggedFrameCount / case numberOfSeconds) printOn: aStream showingDecimalPlaces: 1.
-	aStream << 'fps'; lf.
+	aStream
+		<< self label;
+		<< ';';
+		<< case label;
+		<< ';'.
+
+	loggedDuration ifNil: [ 
+		aStream << 'run error'; lf.
+		^ self ].
+
+	self printFpsOn: aStream.
+"	aStream << ';'.
+	self printFrameMSDurationStatsOn: aStream."
+	aStream lf
 
 ]
 
@@ -395,7 +425,7 @@ PCBenchmarker >> stopFFILogging [
 		name: 'Function names';
 		yourself.
 	callsPerFrameSeries := (loggedCallsRanking values
-		collect: [ :value | (value / loggedFrameCount) asFloat ]) asDataSeries
+		collect: [ :value | (value / loggedFramesDeltaMS size) asFloat ]) asDataSeries
 			name: 'Calls per Frame';
 			yourself.
 	

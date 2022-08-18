@@ -26,30 +26,27 @@ BlAndreasSystemProfiler >> reportsAsPagesUsing: aBuilder [
 	
 		profiler saucoAsReport 
 			colorMap: (SaCategoryPrefixColorMap new 
-				mapPrefixes: #(
-					'Fenster'
-					'Sparta-Cairo'
-					'Sparta-Skia'
-					'Sparta')
-					from: (Color fromHexString: 'b721ff');
-				mapPrefixes: #(
-					'Bloc-Universe'
-					'Bloc-Space'
-					'BlocHost'
-					'Bloc')
-					from: (Color fromHexString: 'F1C40F');
-				mapPrefixes: #(
-					'BlocPac'
-					'Brick'
-					'Spec-Brick')
-					from: (Color fromHexString: '009efd');
+					mapPrefixes: #(
+						'Alexandrie'
+						'Sparta')
+						from: Color purple;
+					mapPrefixes: #(
+						'Fenster'
+						'BlocHost'
+						'Bloc-Text'
+						'Bloc')
+						from: Color orange;
+					mapPrefixes: #(
+						'BlocPac'
+						'Brick'
+						'Spec-Brick')
+						from: Color lightBlue;
 				yourself)	;
 			inspectionForFlameGraph: aBuilder.
 			
 		]
 		 }
-		
-	
+
 ]
 
 { #category : #API }

@@ -81,6 +81,7 @@ PCBoxWindmillBenchCase >> newElement [
 
 	boxElements := self boxPositions collect: [ :eachPoint | 
 		BlElement new
+			outskirts: BlOutskirts centered;
 			size: self boxExtent;
 			background: self boxColor;
 			relocate: eachPoint;

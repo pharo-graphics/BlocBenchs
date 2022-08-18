@@ -21,28 +21,25 @@ Class {
 { #category : #examples }
 BlProfileRunner class >> exampleAll [
 
-	| hosts canvases cases runners |
-	hosts := { BlOSWindowSDL2Host. BlMorphicWindowHost }.
-	canvases := { BlSpartaCairoCanvasBuilder. BlSpartaSkiaCanvasBuilder}.
-	cases := { BlBoidsProfileCase new. BlTextEditorProfileCase new }.
-	runners := hosts flatCollect: [:eachHost |
-		canvases flatCollect: [:eachCanvas |
-			cases collect: [ :eachCase |
-				| case |
-				case := eachCase copy
-					hostClass: eachHost;
-					spartaCanvasClass: eachCanvas;
-					yourself.
+	| cases runners |
+	cases := { BlBoidsProfileCase new }.
+	runners := self hostCanvasCombinations flatCollect: [ :eachAssociation |
+		cases collect: [ :eachCase |
+			| case |
+			case := eachCase copy
+				hostClass: eachAssociation key;
+				spartaCanvasClass: eachAssociation value;
+				yourself.
 
-				(BlProfileRunner newForCase: case)
-					enableTelemetry;
-					enableFPS;
-					enableFFILogger;
-					enableFFICounter;
-					enableASProfiler;
-					yourself
+			(BlProfileRunner newForCase: case)
+				enableTelemetry;
+				enableFPS;
+				enableFFILogger;
+				enableFFICounter;
+				enableASProfiler;
+				yourself
 
-				] ] ].
+			] ].
 
 	[	runners do: #run.
 		runners do: #openMeterReports ] fork.
@@ -116,33 +113,6 @@ BlProfileRunner class >> exampleBoidsFlameGraph [
 				yourself
 
 			] ].
-
-	[	runners do: #run.
-		runners do: #openMeterReports ] fork.
-
-]
-
-{ #category : #examples }
-BlProfileRunner class >> exampleBoidsTelemetry [
-
-	| hosts canvases cases runners |
-	hosts := { BlOSWindowSDL2Host. BlMorphicWindowHost }.
-	canvases := { BlSpartaCairoCanvasBuilder. BlSpartaSkiaCanvasBuilder}.
-	cases := { BlBoidsProfileCase new }.
-	runners := hosts flatCollect: [:eachHost |
-		canvases flatCollect: [:eachCanvas |
-			cases collect: [ :eachCase |
-				| case |
-				case := eachCase copy
-					hostClass: eachHost;
-					spartaCanvasClass: eachCanvas;
-					yourself.
-
-				(BlProfileRunner newForCase: case)
-					enableTelemetry;
-					yourself
-
-				] ] ].
 
 	[	runners do: #run.
 		runners do: #openMeterReports ] fork.
