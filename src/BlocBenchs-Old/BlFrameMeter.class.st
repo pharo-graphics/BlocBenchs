@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlMeter,
 	#instVars : [
 		'process',
-		'framesAndMicrosendTimestamps'
+		'framesAndMicrosendTimestamps',
+		'frameCount'
 	],
 	#category : #'BlocBenchs-Old-ProfileCases'
 }
@@ -30,7 +31,7 @@ BlFrameMeter >> intermediateFPS [
 BlFrameMeter >> registerSampleNow [
 
 	framesAndMicrosendTimestamps add:
-		case space frame id -> Time microsecondClockValue
+		frameCount -> Time microsecondClockValue
 ]
 
 { #category : #printing }
@@ -100,6 +101,14 @@ BlFrameMeter >> startMetering [
 	| delay |
 	framesAndMicrosendTimestamps := OrderedCollection new.
 	delay := Delay forSeconds: 1.
+
+	"Count frames"
+	frameCount := 0.
+	case space
+		addEventHandlerOn: BlSpaceRenderEndEvent
+		do: [ :evt |
+		frameCount := frameCount + 1 ].
+
 
 	[	process := Processor activeProcess.
 
