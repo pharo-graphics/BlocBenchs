@@ -117,6 +117,41 @@ PCBenchmarker class >> exampleBenchAllCasesOneCanvas [
 ]
 
 { #category : #examples }
+PCBenchmarker class >> exampleMinimizeLoopPeriods [
+
+	{BlOSWindowSDL2Host. BAOSWindowSDL2Host } do: [ :each |
+		each pulsePeriod: 1 milliSecond ].
+
+	WorldState MinCycleLapse: 1. "By default, 16"
+
+]
+
+{ #category : #examples }
+PCBenchmarker class >> exampleOneBench [
+
+	| aCase |
+	aCase := PCNestedTransformationsBenchCase new.
+	aCase numberOfSeconds: 4.
+
+	[ 
+		{
+		 PCBlocRegularRendererBenchmarker new beSkia; yourself.
+		 PCBlocRegularRendererBenchmarker new beCairo; yourself.
+		 PCBlocAlexandrieBenchmarker new.
+		 PCBlocNullRendererBenchmarker new.
+		} do: [ :eachBenchmarker | 
+			Smalltalk garbageCollect. 1 second wait.
+			eachBenchmarker
+			   case: aCase;
+			   run;
+			   shortReportOnStdout;
+			   shortReportOnTranscript ]
+
+	] fork.
+
+]
+
+{ #category : #examples }
 PCBenchmarker class >> exampleProfileCase [
 	"Opens a flame-graph on the AndreasSystemProfiler."
 
@@ -162,7 +197,6 @@ PCBenchmarker class >> exampleProfileCase [
 PCBenchmarker class >> exampleProfileNull [
 	"Profile the overhead of Bloc without rendering"
 
-	WorldState MinCycleLapse: 1. "By default, 16"
 	[ PCBlocNullRendererBenchmarker new
 		case: PCSolidCirclesBenchCase new;
 		run ] fork.
