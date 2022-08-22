@@ -56,21 +56,15 @@ BlFrameMeter >> reportAsStringOn: stream [
 	framesAndMicrosendTimestamps size >= 2 ifFalse: [ ^ self ].
 
 	stream
-		<< 'Average frequency (frames per second):';
+		<< 'FPS mean and error margin (90% confidence level):';
 		lf;
 		tab;
-		<< (self totalFPS printShowingDecimalPlaces: 1);
-		<< ' fps';
-		lf;
-		<< 'Sampled seconds:';
-		lf;
-		tab;
-		print: self totalSeconds asFloat;
+		<< (PCMeanConfidenceIntervalPrinter new print: self intermediateFPS);
 		lf.
 
 	framesAndMicrosendTimestamps size > 2 ifFalse: [ ^ self ].
 
-	stream << 'Inter-sample frequency:'; lf.
+	stream << 'FPS samples:'; lf.
 	self intermediateFPS withIndexDo: [ :fps :index |
 		stream
 			tab;

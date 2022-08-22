@@ -38,7 +38,10 @@ BlFFICounter >> reportsAsPagesUsing: aBuilder [
 		(SpNotebookPage 
 			title: 'FFI Calls (Avg. per Frame)'
 			provider: [
-				functionNamesAndCounts inspectionItems: aBuilder ])
+				"Too many decimal places, else."
+				(functionNamesAndCounts associations
+					collect: [ :each | each key -> (each value printShowingDecimalPlaces: 1) ]) asOrderedDictionary
+					inspectionItems: aBuilder ])
 			}
 ]
 
