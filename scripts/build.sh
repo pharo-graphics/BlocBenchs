@@ -22,7 +22,7 @@ curl https://get.pharo.org/64/110+vm | bash
 
 # Load code overriding image packages
 ./pharo Pharo.image eval --save $(cat <<EOF
-EpMonitor disableDuring: [ 
+[ EpMonitor disableDuring: [ 
   Author useAuthor: 'Load' during: [
     [	Metacello new
         baseline: 'BlocBenchs';
@@ -31,7 +31,8 @@ EpMonitor disableDuring: [
         ignoreImage;
         load.
     ]	on: MCMergeOrLoadWarning
-      do: [ :warning | warning load ] ] ].
+      do: [ :warning | warning load ] ] ]
+] timeToRun
 EOF
 )
 
