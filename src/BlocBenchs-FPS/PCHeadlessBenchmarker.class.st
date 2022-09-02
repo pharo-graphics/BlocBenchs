@@ -31,10 +31,13 @@ PCHeadlessBenchmarker >> label [
 PCHeadlessBenchmarker >> openWindow [
 	super openWindow.
 	
+	firstMS := Time millisecondClockValue.
+	lastMS := firstMS.
+		
 	pulseProcess := [
 		| delay |
 		delay := Delay forMilliseconds: 1.
-		[space requestNextPulse; pulse. space universe pulse. delay wait ] repeat.
+		[space requestNextPulse; pulse. space universe pulse. "delay wait" ] repeat.
 "		space requestNextPulse; pulse."
-		 ] forkAt: 70
+		 ] forkAt: 40
 ]
