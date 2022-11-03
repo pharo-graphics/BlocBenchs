@@ -152,6 +152,36 @@ PCBenchmarker class >> exampleOneBench [
 ]
 
 { #category : #examples }
+PCBenchmarker class >> exampleOutskirts [
+
+	| p b w |
+	p := [
+		#(centered inside outside) do: [ :eachOutskirtsSelector |
+			#(true false) do: [ :eachClipChildrenValue |
+				#(beNoBackgroundColor beTranslucentBackgroundColor beOpaqueBackgroundColor)
+					do: [ :eachBackgroundSelector |
+						| eachCase |
+						eachCase := PCOutskirtsBenchCase new
+							perform: eachBackgroundSelector;
+							outskirts: (BlOutskirts perform: eachOutskirtsSelector);
+							mustClipChildren: eachClipChildrenValue;
+							yourself.
+						b := PCBlocAlexandrieBenchmarker new.
+						b 	case: eachCase;
+							run;
+							shortReportOnStdout;
+							shortReportOnTranscript ] ] ].
+		w close.
+	] fork.
+
+	w := SpButtonPresenter new 
+		label: 'Stop now';
+		action: [ p terminate. b closeWindow. w close ];
+		open.
+
+]
+
+{ #category : #examples }
 PCBenchmarker class >> exampleProfileCase [
 	"Opens a flame-graph on the AndreasSystemProfiler."
 
