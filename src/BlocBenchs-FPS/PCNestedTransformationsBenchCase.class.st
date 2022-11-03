@@ -31,32 +31,33 @@ PCNestedTransformationsBenchCase >> newElement [
 	"Create each figure with a transform animation."
 	elements := (1 to: self numberOfFigures) collect: [ :each |
 		
-	anAnimation := BlSequentialAnimation new.
-	anAnimation add:
-		(BlTransformAnimation new 
-				absolute;
-				transformDo: [ :builder |
-					builder
-						scaleBy: self targetRelativeScale;
-						rotateBy: self targetRelativeRotation ];
-				duration: self duration;
-				yourself).
-	anAnimation add:
-		(BlTransformAnimation new 
-				absolute;
-				transformDo: [ :builder |
-					builder
-						scaleBy: 1.0;
-						rotateBy: 0.0 ];
-				duration: self duration;
-				yourself).
-	anAnimation beInfinite.
-		
-		
+		anAnimation := BlSequentialAnimation new.
+		anAnimation add:
+			(BlTransformAnimation new 
+					absolute;
+					transformDo: [ :builder |
+						builder
+							scaleBy: self targetRelativeScale;
+							rotateBy: self targetRelativeRotation ];
+					duration: self duration;
+					yourself).
+		anAnimation add:
+			(BlTransformAnimation new 
+					absolute;
+					transformDo: [ :builder |
+						builder
+							scaleBy: 1.0;
+							rotateBy: 0.0 ];
+					duration: self duration;
+					yourself).
+		anAnimation beInfinite.
+			
+			
 		BlElement new
+			clipChildren: false;
 			background: (Color random: random);
 			size: self figureExtent;
-			addAnimation: (anAnimation);
+			addAnimation: anAnimation;
 			yourself ].
 
 	"Nest the figures"
