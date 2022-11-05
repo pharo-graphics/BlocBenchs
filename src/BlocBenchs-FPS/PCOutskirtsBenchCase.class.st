@@ -94,15 +94,16 @@ PCOutskirtsBenchCase >> mustClipChildren [
 ]
 
 { #category : #accessing }
-PCOutskirtsBenchCase >> mustClipChildren: anObject [
+PCOutskirtsBenchCase >> mustClipChildren: aBoolean [
 
-	mustClipChildren := anObject
+	mustClipChildren := aBoolean
 ]
 
 { #category : #hook }
 PCOutskirtsBenchCase >> newChildWith: random [
 
 	^ BlElement new
+		  clipChildren: false;
 		  geometry: BlRectangleGeometry new;
 		  background: Color gray translucent;
 		  size: 20 asPoint;
