@@ -117,6 +117,32 @@ PCBenchmarker class >> exampleBenchAllCasesOneCanvas [
 ]
 
 { #category : #examples }
+PCBenchmarker class >> exampleGradients [
+
+	[
+		PCGradientCirclesBenchCase allSubclassesDo: [ :eachBenchCaseClass |
+			| aCase |
+			aCase := eachBenchCaseClass new.
+		 
+			#(2 5) do: [ :eachNumberOfStops |
+				aCase numberOfStops: eachNumberOfStops.
+				{
+				 PCBlocRegularRendererBenchmarker new beCairo; yourself.
+				 PCBlocAlexandrieBenchmarker new.
+				} do: [ :eachBenchmarker | 
+					Smalltalk garbageCollect. 1 second wait.
+					eachBenchmarker
+					   case: aCase;
+					   run;
+					   shortReportOnStdout;
+					   shortReportOnTranscript ]
+		] ]
+
+	] fork.
+
+]
+
+{ #category : #examples }
 PCBenchmarker class >> exampleMinimizeLoopPeriods [
 
 	{BlOSWindowSDL2Host. BAOSWindowSDL2Host } do: [ :each |
