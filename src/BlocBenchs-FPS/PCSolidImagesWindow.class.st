@@ -28,14 +28,14 @@ PCSolidImagesWindow >> drawOnCairoSurface [
 			extent := extents at: index.
 
 			cairoContext
-				primSetSourceSurface: (surfaces at: index)
+				sourceSurface: (surfaces at: index)
 					x: positionX
 					y: positionY;
-				primRectangleX: positionX
+				rectangleX: positionX
 					y: positionY
 					width: extent x
 					height: extent y;
-				primFill.
+				fill.
 
 			index := index + 1 ]]
 

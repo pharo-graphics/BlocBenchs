@@ -15,26 +15,26 @@ PCPolylinesCachingWindow >> drawOnCairoSurface [
 	deltaY := deltaYPerMS * (lastMS - startMS).
 
 	cairoContext
-		primSave;
-		primTranslateX: 0.0 y: deltaY;
-		translate: case figureOffset.
+		saveState;
+		translateByX: 0.0 y: deltaY;
+		translateBy: case figureOffset.
 	
 	1 to: case numberOfFigures do: [ :index |
 		cairoContext
-			translate: case offsetBetweenFigures;
-			primAppendPath: path;
-			setSourceRGBColor: (colors at: index);
-			primStroke ].
+			translateBy: case offsetBetweenFigures;
+			appendPath: path;
+			sourceColorRGB: (colors at: index);
+			stroke ].
 
 	cairoContext
-		primRestore.
+		restoreState.
 
 ]
 
 { #category : #drawing }
 PCPolylinesCachingWindow >> drawPath [
 
-	cairoContext primStroke
+	cairoContext stroke
 ]
 
 { #category : #drawing }
@@ -44,14 +44,14 @@ PCPolylinesCachingWindow >> resetAnimation [
 
 	self drawPrepare.
 
-		cairoContext primSave.
+		cairoContext saveState.
 
 		case vertices do: [:aPoint |
 			cairoContext lineTo: aPoint ].
 		
-		path := cairoContext copyPath.
+		path := cairoContext currentPath.
 		
-		cairoContext primRestore.
+		cairoContext restoreState.
 	
 	self drawDone.
 
@@ -61,5 +61,5 @@ PCPolylinesCachingWindow >> resetAnimation [
 PCPolylinesCachingWindow >> setPathFor: index [
 
 	cairoContext
-		primAppendPath: path
+		appendPath: path
 ]

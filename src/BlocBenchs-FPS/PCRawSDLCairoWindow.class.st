@@ -164,8 +164,8 @@ PCRawSDLCairoWindow >> textureStrategySetupBlock [
 		"Reduce quality options if it's a HiDPI display"
 		isHighDPI ifTrue: [
 			aCairoContext
-				primSetTolerance: 0.5;
-				primSetAntialias: AeCairoAntialias CAIRO_ANTIALIAS_NONE.
+				tolerance: 0.5;
+				antialias: AeCairoAntialias CAIRO_ANTIALIAS_NONE.
 			aCairoContext surface deviceScale: deviceScalePoint ] ]
 
 ]

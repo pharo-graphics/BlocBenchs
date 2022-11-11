@@ -45,5 +45,5 @@ PCTranslatingPathsWindow >> setPathFor: index deltaY: deltaY [
 { #category : #drawing }
 PCTranslatingPathsWindow >> setSourceFor: index [
 
-	cairoContext setSourceRGBColor: (colors at: index)
+	cairoContext sourceColorRGB: (colors at: index)
 ]

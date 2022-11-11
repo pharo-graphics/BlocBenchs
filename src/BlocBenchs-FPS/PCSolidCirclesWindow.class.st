@@ -7,5 +7,5 @@ Class {
 { #category : #drawing }
 PCSolidCirclesWindow >> drawPath [
 
-	cairoContext primFill
+	cairoContext fill
 ]

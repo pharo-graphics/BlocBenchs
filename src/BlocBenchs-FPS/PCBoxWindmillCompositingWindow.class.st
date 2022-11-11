@@ -76,8 +76,8 @@ PCBoxWindmillCompositingWindow >> resetMainTexture [
 
 	mainTextureStrategy cairoContextDo: [ :aeCairoContext |
 		aeCairoContext
-			setSourceRGBAColor: Color black;
-			primPaint.
+			sourceColorRGBA: Color black;
+			paint.
 		].
 	
 	self resetAnimation.

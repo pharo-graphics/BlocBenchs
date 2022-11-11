@@ -13,7 +13,7 @@ PCMemCopyToStreamingTextureStrategy >> drawDone [
 	"Copy the updated pixels to texture, and unlock."
 
 	SDL2
-		memCopy: cairoContext surface primData
+		memCopy: cairoContext surface data
 		to: pixelsAddress
 		size: (pitchAddress signedLongAt: 1) * pixelExtent y.
 
@@ -36,7 +36,7 @@ PCMemCopyToStreamingTextureStrategy >> initialize [
 	super initialize.
 
 	aCairoSurface := AeCairoImageSurface
-		createExtent: pixelExtent
+		extent: pixelExtent
 		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
 
 	cairoContext := aCairoSurface newContext.

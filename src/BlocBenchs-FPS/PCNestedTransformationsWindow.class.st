@@ -16,25 +16,25 @@ Class {
 { #category : #drawing }
 PCNestedTransformationsWindow >> drawOnCairoCanvasFigureAt: index [
 
-	cairoContext primLoadIdentity.
+	cairoContext setIdentityMatrix.
 
 	"Translate to figure's position"
-	cairoContext translate: case figureOffset.
+	cairoContext translateBy: case figureOffset.
 
 	"Apply figure's transformation using the right origin"
 	cairoContext
-		translate: rotationCenter;
-		primApplyTransform: (figureMatrices at: index);
-		translate: rotationCenterNegated.
+		translateBy: rotationCenter;
+		transformWith: (figureMatrices at: index);
+		translateBy: rotationCenterNegated.
 
 	"Draw rectangle path"
 	cairoContext
-		primRectangleX: 0.0
+		rectangleX: 0.0
 			y: 0.0
 			width: case figureExtent x
 			height: case figureExtent y;
-		setSourceRGBColor: (backgroundColors at: index);
-		primFill.
+		sourceColorRGB: (backgroundColors at: index);
+		fill.
 	
 
 ]
@@ -65,8 +65,8 @@ PCNestedTransformationsWindow >> drawOnCairoSurface [
 
 	"Clear surface"
 	cairoContext
-		setSourceRGBColor: windowColor;
-		primPaint.
+		sourceColorRGB: windowColor;
+		paint.
 
 	"Draw each figure"	
 	1 to: case numberOfFigures do: [ :index |

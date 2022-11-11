@@ -17,14 +17,14 @@ PCCompositionWindow >> drawFiguresOn: aeCairoContext [
 		position := figurePositions at: index.
 
 		aeCairoContext
-			primRectangleX: position x
+			rectangleX: position x
 				y: position y
 				width: case figureExtent x
 				height: case figureExtent y.
 				
 		aeCairoContext
-			setSourceRGBColor: (figureColors at: index);
-			primFill
+			sourceColorRGB: (figureColors at: index);
+			fill
 
 		]
 

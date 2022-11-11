@@ -7,7 +7,7 @@ Class {
 { #category : #drawing }
 PCPolylinesWindow >> drawPath [
 
-	cairoContext primStroke
+	cairoContext stroke
 ]
 
 { #category : #drawing }
@@ -15,7 +15,7 @@ PCPolylinesWindow >> resetAnimation [
 
 	super resetAnimation.
 
-	cairoContext primSetLineWidth: case borderWidth
+	cairoContext lineWidth: case borderWidth
 
 ]
 

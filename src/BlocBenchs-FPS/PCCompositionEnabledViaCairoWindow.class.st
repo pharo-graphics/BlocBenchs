@@ -14,8 +14,8 @@ PCCompositionEnabledViaCairoWindow >> drawOnCairoSurface [
 
 	"Figures are cached in the group"
 	cairoContext
-		primSetSource: layerCairoGroup;
-		primPaint
+		source: layerCairoGroup;
+		paint
 
 ]
 
@@ -24,7 +24,7 @@ PCCompositionEnabledViaCairoWindow >> resetAnimation [
 
 	super resetAnimation.
 
-	cairoContext primPushGroup.
+	cairoContext pushGroup.
 	self drawFiguresOn: cairoContext.
 	layerCairoGroup := cairoContext popGroup
 ]

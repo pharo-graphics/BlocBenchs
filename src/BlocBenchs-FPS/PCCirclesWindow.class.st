@@ -11,7 +11,7 @@ PCCirclesWindow >> setPathFor: index deltaY: deltaY [
 	center := case figureOffset + case radius + (index * case offsetBetweenFigures) + (0 @ deltaY).
 
 	cairoContext
-		primArcCenterX: center x
+		arcCenterX: center x
 			centerY: center y
 			radius: case radius x
 			startAngle: 0.0

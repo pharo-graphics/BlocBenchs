@@ -52,8 +52,8 @@ PCCompositionEnabledViaSDLWindow >> step [
 
 	bottomLayerTexture cairoContextDo: [ :aeCairoContext |
 		aeCairoContext
-			setSourceRGBColor: backgroundColorGenerator next;
-			primPaint ].
+			sourceColorRGB: backgroundColorGenerator next;
+			paint ].
 	sdlRenderer copy: bottomLayerTexture sdlTexture.
 
 "	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND."

@@ -17,20 +17,20 @@ PCBoxWindmillWindow >> drawBoxOn: aeCairoContext [
 
 	"set path (outskirts = center)"
 	aeCairoContext
-		primRectangleX: case boxBorderWidth / 2
+		rectangleX: case boxBorderWidth / 2
 			y: case boxBorderWidth / 2
 			width: case boxExtent x
 			height: case boxExtent y.
 			
 	"draw background"
 	aeCairoContext
-		setSourceRGBAColor: case boxColor;
-		primFillPreserve.
+		sourceColorRGBA: case boxColor;
+		fillPreserve.
 
 	"draw border"
 	aeCairoContext
-		setSourceRGBAColor: case boxBorderColor;
-		primSetLineWidth: case boxBorderWidth;
-		primStroke.
+		sourceColorRGBA: case boxBorderColor;
+		lineWidth: case boxBorderWidth;
+		stroke.
 
 ]
