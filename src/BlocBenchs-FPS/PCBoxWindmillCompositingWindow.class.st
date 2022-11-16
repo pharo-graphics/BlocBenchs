@@ -24,13 +24,18 @@ PCBoxWindmillCompositingWindow >> presentOnWindow [
 
 	"Boxes"
 	boxPositions withIndexDo: [ :eachPosition :index |
-		(sdlRenderer
+		| errorCode |
+		errorCode := sdlRenderer
 			copy: boxTextureStrategy sdlTexture
 			srcRect: SDL_Rect null
 			dstRect: (sdlRects at: index)
-			angle: (case boxRotationInDegreesWithPosition: eachPosition elapsedMS: self elapsedMillisecondsSinceFirstDraw)
-			center: SDL_Point null) = 0 
-				ifFalse: [ self error: SDL2 getErrorMessage ]].
+			angle: (case
+				boxRotationInDegreesWithPosition: eachPosition
+				elapsedMS: self elapsedMillisecondsSinceFirstDraw)
+			center: SDL_Point null.
+
+		errorCode = 0 ifFalse: [
+			self error: SDL2 getErrorMessage ] ].
 
 	"Frame is ready to be shown"
 	sdlRenderer present
