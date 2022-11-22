@@ -12,7 +12,7 @@ PCHeadlessBenchmarker >> closeWindow [
 	super closeWindow.
 	
 	pulseProcess ifNotNil: #terminate.
-	space universe pulse. "close was defered and neeeds to be processed"
+	space universe pulse. "close was deferred and needs to be processed"
 ]
 
 { #category : #accessing }
