@@ -117,6 +117,22 @@ PCBenchmarker class >> exampleBenchAllCasesOneCanvas [
 ]
 
 { #category : #examples }
+PCBenchmarker class >> exampleFFI [
+
+	[ | case |
+		case := PCSolidCirclesBenchCase new useSingleAnimation: false; yourself.
+		PCBlocAlexandrieBenchmarker new
+			case: case;
+			enableFFILogging;
+			run;
+			reportFFIOnStdout;
+			reportFFIOnTranscript.
+
+		] fork.
+
+]
+
+{ #category : #examples }
 PCBenchmarker class >> exampleGradients [
 
 	[
@@ -395,7 +411,7 @@ PCBenchmarker >> reportFFIAsString [
 { #category : #printing }
 PCBenchmarker >> reportFFIOn: aStream [
 
-	aStream << self labelWithCase; << ': '.
+	aStream << self labelWithCase; << ': '; lf.
 
 	DataFrameMarkdownPrinter new
 		stringBlockClosure: [ :o :r :c |
@@ -486,11 +502,9 @@ PCBenchmarker >> shortReportOnTranscript [
 PCBenchmarker >> startFFILogging [
 
 	"Ensure prepared"
-	TFLCallLogger
-		install;
-		resetInstance.
+	TFLSignal install.
+	TFLCallLogger resetInstance.
 	TFLCallLogger instance entryCount: 20000.
-	TFLFunctionCounter resetInstance.
 
 	"Really start"
 	TFLCallLogger instance start.
@@ -503,9 +517,9 @@ PCBenchmarker >> stopFFILogging [
 
 	| functionNamesSeries callsPerFrameSeries |
 
-	"circular log"
-
+	"Store a copy of the global logger, and reset it."
 	loggedCalls := TFLCallLogger instance copy.
+	TFLSignal uninstall.
 	TFLCallLogger stop; resetInstance.
 
 	"counter"
