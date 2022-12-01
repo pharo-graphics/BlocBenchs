@@ -230,10 +230,14 @@ PCBenchmarker class >> exampleProfileCase [
 	[ | report |
 		report := SaReport newWithASPOn: [
 
-		| element space |
-		element := PCRotatedTextBenchCase new newElement.
+		| case element space |
+		case := PCRotatedTextBenchCase new.
+		element := case newElement.
 		space := BlSpace new
+"			host: BlNullRendererMorphicWindowHost new;"
+"			host: BAMorphicWindowHost new;"
 			host: BAOSWindowSDL2Host new;
+			extent: case logicalExtent;
 			addChild: element;
 			show;
 			yourself.
@@ -249,7 +253,6 @@ PCBenchmarker class >> exampleProfileCase [
 						'Sparta')
 						from: Color purple;
 					mapPrefixes: #(
-						'Fenster'
 						'BlocHost'
 						'Bloc-Text'
 						'Bloc')
