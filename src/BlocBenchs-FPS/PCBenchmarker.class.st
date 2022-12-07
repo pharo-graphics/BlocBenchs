@@ -216,6 +216,20 @@ PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 
 ]
 
+{ #category : #examples }
+PCBenchmarker class >> exampleShadows [
+
+	PCBenchmarkSuite new
+		addCase: PCSolidCirclesBenchCase new;
+		addCase: PCSimpleShadowedCirclesBenchCase new;
+		addCase: (PCSimpleShadowedCirclesBenchCase new isTranslucent: false; yourself);
+		numberOfSeconds: 5;
+		addAlexandrieBenchmarker;
+		addSpartaCairoBenchmarker;
+		runInForkWithGUI
+
+]
+
 { #category : #accessing }
 PCBenchmarker >> case [
 
