@@ -1,8 +1,8 @@
 "
-I'm a benchmarker for Cairo and Skia renderers, i.e. the regular or traditional ones.
+I'm a benchmarker for Sparta (Cairo and Skia).
 "
 Class {
-	#name : #PCBlocRegularRendererBenchmarker,
+	#name : #PCBlocSpartaBenchmarker,
 	#superclass : #PCBlocBenchmarker,
 	#instVars : [
 		'spartaCanvasBuilderClass'
@@ -11,27 +11,27 @@ Class {
 }
 
 { #category : #accessing }
-PCBlocRegularRendererBenchmarker >> beCairo [
+PCBlocSpartaBenchmarker >> beCairo [
 	
 	spartaCanvasBuilderClass := BlSpartaCairoCanvasBuilder
 
 ]
 
 { #category : #accessing }
-PCBlocRegularRendererBenchmarker >> beSkia [
+PCBlocSpartaBenchmarker >> beSkia [
 	
 	spartaCanvasBuilderClass := BlSpartaSkiaCanvasBuilder
 
 ]
 
 { #category : #accessing }
-PCBlocRegularRendererBenchmarker >> host [
+PCBlocSpartaBenchmarker >> host [
 
 	^ BlOSWindowSDL2Host new
 ]
 
 { #category : #initialization }
-PCBlocRegularRendererBenchmarker >> initialize [
+PCBlocSpartaBenchmarker >> initialize [
 
 	super initialize.
 	
@@ -39,13 +39,13 @@ PCBlocRegularRendererBenchmarker >> initialize [
 ]
 
 { #category : #accessing }
-PCBlocRegularRendererBenchmarker >> label [
+PCBlocSpartaBenchmarker >> label [
 
-	^ 'Bloc ', spartaCanvasBuilderClass label
+	^ 'Bloc Sparta ', spartaCanvasBuilderClass label
 ]
 
 { #category : #accessing }
-PCBlocRegularRendererBenchmarker >> run [
+PCBlocSpartaBenchmarker >> run [
 
 	self flag: #todo. "Side effect (original setting is not restored)"
 	Bloc preferableSpartaCanvas: spartaCanvasBuilderClass.

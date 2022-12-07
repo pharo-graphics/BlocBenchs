@@ -20,49 +20,28 @@ Class {
 }
 
 { #category : #examples }
-PCBenchmarker class >> exampleAllBenchsForBloc [
+PCBenchmarker class >> exampleAllBenchs [
 
-	[ PCBenchCase allBenchCases do: [ :eachCase |
-		eachCase numberOfSeconds: 3.
-
-		{
-		 PCBlocRegularRendererBenchmarker new beSkia; yourself.
-		 PCBlocRegularRendererBenchmarker new beCairo; yourself.
-		 PCBlocAlexandrieBenchmarker new.
-		 PCBlocNullRendererBenchmarker new.
-		} do: [ :eachBenchmarker | 
-			Smalltalk garbageCollect. 1 second wait.
-			eachBenchmarker
-			   case: eachCase;
-			   run;
-			   shortReportOnStdout;
-			   shortReportOnTranscript ] ]	
-
-	] fork.
+	PCBenchmarkSuite new
+		cases: PCBenchCase allBenchCases;
+		numberOfSeconds: 3;
+		addSpartaCairoBenchmarker;
+		addAlexandrieBenchmarker;
+		runInForkWithGUI
 
 ]
 
 { #category : #examples }
 PCBenchmarker class >> exampleAllBenchsWithRaw [
-	"Note: Not all `PCBenchCase` respond to `newRawSDLCairoWindow`."
+	"Bench the cases that respond to `PCBenchCase>>#newRawSDLCairoWindow`."
 
-	[ PCBenchCase allBenchCasesWithRaw do: [ :eachCase |
-		eachCase numberOfSeconds: 2.
-
-		{
-		 PCBlocRegularRendererBenchmarker new beSkia; yourself.
-		 PCBlocRegularRendererBenchmarker new beCairo; yourself. 
-		 PCBlocAlexandrieBenchmarker new.
-		 PCRawBenchmarker new.
-		} do: [ :eachBenchmarker | 
-			Smalltalk garbageCollect. 1 second wait.
-			eachBenchmarker
-			   case: eachCase;
-			   run;
-			   shortReportOnStdout;
-			   shortReportOnTranscript ] ]	
-
-	] fork.
+	PCBenchmarkSuite new
+		cases: PCBenchCase allBenchCasesWithRaw;
+		numberOfSeconds: 2;
+		addSpartaCairoBenchmarker;
+		addAlexandrieBenchmarker;
+		addRawBenchmarker;
+		runInForkWithGUI
 
 ]
 
@@ -72,12 +51,15 @@ PCBenchmarker class >> exampleAllSDL2Drivers [
 	| case driverNames |
 	case := PCBoxWindmillBenchCase new.
 	"case := PCCompositionEnabledBenchCase new."
-	case numberOfSeconds: 4.
+	case numberOfSeconds: 30.
 
-	driverNames := (SDL2 renderDriverInfos collect: #nameString) copyWithout: 'opengles2'.
-	"opengles2 crashed on a a MacbookPro 2018"
+	driverNames := SDL2 renderDriverInfos collect: #nameString.
 
 	[	driverNames do: [ :eachRendererName |
+
+			eachRendererName traceCr.
+			Stdio stdout << eachRendererName; lf.
+
 			SDL2 setHint: 'SDL_RENDER_DRIVER' value: eachRendererName.
 			SDL2 setHint: 'SDL_RENDER_BATCHING' value: '1'.
 			SDL2 setHint: 'SDL_FRAMEBUFFER_ACCELERATION' value: '1'.
@@ -91,28 +73,6 @@ PCBenchmarker class >> exampleAllSDL2Drivers [
 				shortReportOnTranscript ]
 	] fork.
 
-
-]
-
-{ #category : #examples }
-PCBenchmarker class >> exampleBenchAllCasesOneCanvas [
-
-	| p b w |
-	p := [
-		PCBenchCase allBenchCases 
-			do: [ :eachCase |
-				b := PCBlocAlexandrieBenchmarker new.
-				b 	case: eachCase;
-					run;
-					shortReportOnStdout;
-					shortReportOnTranscript ].
-		w close.
-	] fork.
-
-	w := SpButtonPresenter new 
-		label: 'Stop now';
-		action: [ p terminate. b closeWindow. w close ];
-		open.
 
 ]
 
@@ -135,26 +95,21 @@ PCBenchmarker class >> exampleFFI [
 { #category : #examples }
 PCBenchmarker class >> exampleGradients [
 
-	[
-		PCGradientCirclesBenchCase allSubclassesDo: [ :eachBenchCaseClass |
+	| suite |
+	suite := PCBenchmarkSuite new.
+
+	PCGradientCirclesBenchCase allSubclassesDo: [ :eachBenchCaseClass |
+		#(2 5) do: [ :eachNumberOfStops |
 			| aCase |
 			aCase := eachBenchCaseClass new.
-		 
-			#(2 5) do: [ :eachNumberOfStops |
-				aCase numberOfStops: eachNumberOfStops.
-				{
-				 PCBlocRegularRendererBenchmarker new beCairo; yourself.
-				 PCBlocAlexandrieBenchmarker new.
-				} do: [ :eachBenchmarker | 
-					Smalltalk garbageCollect. 1 second wait.
-					eachBenchmarker
-					   case: aCase;
-					   run;
-					   shortReportOnStdout;
-					   shortReportOnTranscript ]
-		] ]
+			aCase numberOfStops: eachNumberOfStops.
+			suite addCase: aCase ] ].
 
-	] fork.
+	suite
+		numberOfSeconds: 5;
+		addSpartaCairoBenchmarker;
+		addAlexandrieBenchmarker;
+		runInForkWithGUI
 
 ]
 
@@ -171,60 +126,53 @@ PCBenchmarker class >> exampleMinimizeLoopPeriods [
 { #category : #examples }
 PCBenchmarker class >> exampleOneBench [
 
-	| aCase |
-	aCase := PCNestedTransformationsBenchCase new.
-	aCase numberOfSeconds: 4.
-
-	[ 
-		{
-		 PCBlocRegularRendererBenchmarker new beSkia; yourself.
-		 PCBlocRegularRendererBenchmarker new beCairo; yourself.
-		 PCBlocAlexandrieBenchmarker new.
-		 PCBlocNullRendererBenchmarker new.
-		} do: [ :eachBenchmarker | 
-			Smalltalk garbageCollect. 1 second wait.
-			eachBenchmarker
-			   case: aCase;
-			   run;
-			   shortReportOnStdout;
-			   shortReportOnTranscript ]
-
-	] fork.
+	PCBenchmarkSuite new
+		addCase: PCSolidCirclesBenchCase new;
+		numberOfSeconds: 4;
+		addSpartaCairoBenchmarker;
+		addAlexandrieBenchmarker;
+"		addNullBenchmarker;"
+"		addHeadlessBenchmarker;"
+		runInForkWithGUI
 
 ]
 
 { #category : #examples }
 PCBenchmarker class >> exampleOutskirts [
 
-	| p b w |
-	p := [
-		#(centered inside outside) do: [ :eachOutskirtsSelector |
-			#(true false) do: [ :eachClipChildrenValue |
-				#(beNoBackgroundColor beTranslucentBackgroundColor beOpaqueBackgroundColor)
-					do: [ :eachBackgroundSelector |
-						| eachCase |
-						eachCase := PCOutskirtsBenchCase new
-							perform: eachBackgroundSelector;
-							outskirts: (BlOutskirts perform: eachOutskirtsSelector);
-							mustClipChildren: eachClipChildrenValue;
-							yourself.
-						b := PCBlocAlexandrieBenchmarker new.
-						b 	case: eachCase;
-							run;
-							shortReportOnStdout;
-							shortReportOnTranscript ] ] ].
-		w close.
-	] fork.
+	| suite |
+	suite := PCBenchmarkSuite new.
 
-	w := SpButtonPresenter new 
-		label: 'Stop now';
-		action: [ p terminate. b closeWindow. w close ];
-		open.
+	#(centered inside outside) do: [ :eachOutskirtsSelector |
+		#(true false) do: [ :eachClipChildrenValue |
+			#(beNoBackgroundColor beTranslucentBackgroundColor beOpaqueBackgroundColor)
+				do: [ :eachBackgroundSelector |
+					suite addCase: (PCOutskirtsBenchCase new
+						perform: eachBackgroundSelector;
+						outskirts: (BlOutskirts perform: eachOutskirtsSelector);
+						mustClipChildren: eachClipChildrenValue;
+						yourself) ] ] ].
+	
+	suite
+		numberOfSeconds: 3;
+		addSpartaCairoBenchmarker;
+		addAlexandrieBenchmarker;
+		runInForkWithGUI
 
 ]
 
 { #category : #examples }
 PCBenchmarker class >> exampleProfileCase [
+	"Profile the overhead of Bloc without rendering"
+
+	[ PCBlocNullRendererBenchmarker new
+		case: PCSolidCirclesBenchCase new;
+		run ] fork.
+	AndreasSystemProfiler spyOnWorldFor: 5.
+]
+
+{ #category : #examples }
+PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 	"Opens a flame-graph on the AndreasSystemProfiler."
 
 	[ | report |
@@ -266,16 +214,6 @@ PCBenchmarker class >> exampleProfileCase [
 				inspect
 		] fork.
 
-]
-
-{ #category : #examples }
-PCBenchmarker class >> exampleProfileNull [
-	"Profile the overhead of Bloc without rendering"
-
-	[ PCBlocNullRendererBenchmarker new
-		case: PCSolidCirclesBenchCase new;
-		run ] fork.
-	AndreasSystemProfiler spyOnWorldFor: 5.
 ]
 
 { #category : #accessing }
@@ -483,8 +421,6 @@ PCBenchmarker >> shortReportOn: aStream [
 		^ self ].
 
 	self printFpsOn: aStream.
-"	aStream << ';'.
-	self printFrameMSDurationStatsOn: aStream."
 	aStream lf
 
 ]
