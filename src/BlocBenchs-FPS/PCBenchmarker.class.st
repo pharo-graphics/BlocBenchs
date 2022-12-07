@@ -165,7 +165,7 @@ PCBenchmarker class >> exampleOutskirts [
 PCBenchmarker class >> exampleProfileCase [
 	"Profile the overhead of Bloc without rendering"
 
-	[ PCBlocNullRendererBenchmarker new
+	[ PCHeadlessBenchmarker new
 		case: PCSolidCirclesBenchCase new;
 		run ] fork.
 	AndreasSystemProfiler spyOnWorldFor: 5.

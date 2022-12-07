@@ -29,12 +29,6 @@ PCBenchmarkSuite >> addHeadlessBenchmarker [
 ]
 
 { #category : #adding }
-PCBenchmarkSuite >> addNullBenchmarker [
-
-	benchmarkers add: PCBlocNullRendererBenchmarker new
-]
-
-{ #category : #adding }
 PCBenchmarkSuite >> addRawBenchmarker [
 
 	benchmarkers add: PCRawBenchmarker new
