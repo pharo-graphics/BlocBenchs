@@ -2,7 +2,9 @@ Class {
 	#name : #PCHeadlessHostSpace,
 	#superclass : #Object,
 	#instVars : [
-		'canvas'
+		'canvas',
+		'windowExtent',
+		'space'
 	],
 	#category : #'BlocBenchs-FPS-Host-Headless'
 }
@@ -14,18 +16,10 @@ PCHeadlessHostSpace >> asForm [
 	^ canvas asForm	
 ]
 
-{ #category : #private }
-PCHeadlessHostSpace >> ensureCanvas [
+{ #category : #accessing }
+PCHeadlessHostSpace >> canvas: aCanvas [
 
-	canvas ifNil:[
-		canvas := AeCanvas extent: self extentAsPoint ]
-
-]
-
-{ #category : #private }
-PCHeadlessHostSpace >> extentAsPoint [
-
-	^ 500 asPoint
+	canvas := aCanvas
 ]
 
 { #category : #enumerating }
@@ -49,7 +43,7 @@ PCHeadlessHostSpace >> hasResized [
 { #category : #'host space - geometry' }
 PCHeadlessHostSpace >> logicalSize [
 	
-	^ self extentAsPoint asLogicalSize
+	^ canvas extent asLogicalSize
 ]
 
 { #category : #testing }
@@ -61,7 +55,6 @@ PCHeadlessHostSpace >> needsRebuild [
 { #category : #rendering }
 PCHeadlessHostSpace >> render: aBlSpace [ 
 
-	self ensureCanvas.
 	canvas fullDraw: aBlSpace root.
 
 ]
@@ -77,7 +70,13 @@ PCHeadlessHostSpace >> show [
 
 ]
 
+{ #category : #accessing }
+PCHeadlessHostSpace >> space: aBlSpace [
+
+	space := aBlSpace
+]
+
 { #category : #'host space - geometry' }
-PCHeadlessHostSpace >> windowExtent: aPoint [ 
+PCHeadlessHostSpace >> windowExtent: aPoint [
 
 ]

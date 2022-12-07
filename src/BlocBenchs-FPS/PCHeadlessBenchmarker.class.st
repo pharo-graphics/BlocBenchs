@@ -2,7 +2,7 @@ Class {
 	#name : #PCHeadlessBenchmarker,
 	#superclass : #PCBlocBenchmarker,
 	#instVars : [
-		'pulseProcess'
+		'pulseLoop'
 	],
 	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
@@ -11,7 +11,11 @@ Class {
 PCHeadlessBenchmarker >> closeWindow [
 	super closeWindow.
 	
-	pulseProcess ifNotNil: #terminate.
+	"To verify it worked reasonably"
+	space root aeAsForm inspect.
+	
+	pulseLoop stop.
+"	pulseProcess ifNotNil: #terminate."
 	space universe pulse. "close was deferred and needs to be processed"
 ]
 
@@ -33,11 +37,14 @@ PCHeadlessBenchmarker >> openWindow [
 	
 	firstMS := Time millisecondClockValue.
 	lastMS := firstMS.
-		
-	pulseProcess := [
-		| delay |
-		delay := Delay forMilliseconds: 1.
-		[space requestNextPulse; pulse. space universe pulse. "delay wait" ] repeat.
-"		space requestNextPulse; pulse."
-		 ] forkAt: 40
+	
+	"This host provides no pulse loop, for the moment, so we do it:"
+	pulseLoop := BlHostPulseLoop forHost: PCHeadlessHost.
+	pulseLoop pulsePeriod: 1 milliSecond.
+	pulseLoop start.
+	
+"	pulseLoop := [
+		[ space universe pulse ] repeat
+		] forkAt: 40
+"
 ]
