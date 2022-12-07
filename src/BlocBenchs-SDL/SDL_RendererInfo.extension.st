@@ -15,7 +15,7 @@ SDL_RendererInfo >> isXRGB8888Supported [
 { #category : #'*BlocBenchs-SDL' }
 SDL_RendererInfo >> nameString [
 
-	^ self name fromCString
+	^ self name bytesFromCString utf8Decoded
 ]
 
 { #category : #'*BlocBenchs-SDL' }
