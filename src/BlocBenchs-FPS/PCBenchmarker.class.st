@@ -128,11 +128,10 @@ PCBenchmarker class >> exampleOneBench [
 
 	PCBenchmarkSuite new
 		addCase: PCSolidCirclesBenchCase new;
-		numberOfSeconds: 4;
+		numberOfSeconds: 5;
 		addSpartaCairoBenchmarker;
-		addAlexandrieBenchmarker;
-"		addNullBenchmarker;"
 "		addHeadlessBenchmarker;"
+		addAlexandrieBenchmarker;
 		runInForkWithGUI
 
 ]
