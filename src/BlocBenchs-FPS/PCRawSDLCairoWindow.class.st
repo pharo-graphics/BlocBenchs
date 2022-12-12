@@ -48,6 +48,7 @@ PCRawSDLCairoWindow class >> useUpdateStaticTextureStrategy [
 { #category : #'opening and closing' }
 PCRawSDLCairoWindow >> close [
 
+	sdlRenderer ifNil: [ ^ self ].
 	sdlRenderer destroy.
 	sdlRenderer := nil.
 
@@ -152,6 +153,7 @@ PCRawSDLCairoWindow >> stepWait [
 { #category : #stepping }
 PCRawSDLCairoWindow >> stopLoop [
 
+	steppingProcess ifNil: [ ^self ].
 	steppingProcess terminate.
 	steppingProcess := nil.
 ]
