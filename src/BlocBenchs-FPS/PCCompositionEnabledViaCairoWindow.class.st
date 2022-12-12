@@ -2,7 +2,7 @@ Class {
 	#name : #PCCompositionEnabledViaCairoWindow,
 	#superclass : #PCCompositionWindow,
 	#instVars : [
-		'layerCairoGroup'
+		'layerCairoSurfacePattern'
 	],
 	#category : #'BlocBenchs-FPS-Raw'
 }
@@ -12,9 +12,9 @@ PCCompositionEnabledViaCairoWindow >> drawOnCairoSurface [
 
 	super drawOnCairoSurface.
 
-	"Figures are cached in the group"
+	"Figures are cached"
 	cairoContext
-		source: layerCairoGroup;
+		source: layerCairoSurfacePattern;
 		paint
 
 ]
@@ -26,5 +26,5 @@ PCCompositionEnabledViaCairoWindow >> resetAnimation [
 
 	cairoContext pushGroup.
 	self drawFiguresOn: cairoContext.
-	layerCairoGroup := cairoContext popGroup
+	layerCairoSurfacePattern := cairoContext popGroupAsSurfacePattern
 ]
