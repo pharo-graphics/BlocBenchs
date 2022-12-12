@@ -98,6 +98,31 @@ PCBenchmarker class >> exampleAnimations [
 ]
 
 { #category : #examples }
+PCBenchmarker class >> exampleBunchOfBenchs [
+
+	PCBenchmarkSuite new
+
+		addCase: PCSolidCirclesBenchCase new;
+		addCase: PCDashedBorderCirclesBenchCase new;
+		addCase: (PCOutskirtsBenchCase new
+			beTranslucentBackgroundColor;
+			outskirts: BlOutskirts outside;
+			yourself);
+		addCase: PCHexagonBenchCase new;
+		addCase: PCLinearGradientCirclesBenchCase new;
+		addCase: PCRadialGradientCirclesBenchCase new;
+		addCase: PCBoxWindmillBenchCase new;
+		addCase: PCTextBenchCase new;
+		addCase: PCRoundedRectanglesBenchCase new;
+
+		numberOfSeconds: 4;
+"		addSpartaCairoBenchmarker;"
+		addAlexandrieBenchmarker;
+		runInForkWithGUI
+
+]
+
+{ #category : #examples }
 PCBenchmarker class >> exampleFFI [
 
 	[ | case |
