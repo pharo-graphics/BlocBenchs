@@ -1,6 +1,9 @@
 Class {
 	#name : #PCTranslatingFiguresBenchCase,
 	#superclass : #PCBenchCase,
+	#instVars : [
+		'useSingleAnimation'
+	],
 	#category : #'BlocBenchs-FPS-Cases'
 }
 
@@ -27,6 +30,14 @@ PCTranslatingFiguresBenchCase >> figureOffset [
 	^ 20 @ 20
 ]
 
+{ #category : #initialization }
+PCTranslatingFiguresBenchCase >> initialize [
+
+	super initialize.
+	
+	useSingleAnimation := true
+]
+
 { #category : #accessing }
 PCTranslatingFiguresBenchCase >> logicalExtent [
 
@@ -36,13 +47,44 @@ PCTranslatingFiguresBenchCase >> logicalExtent [
 { #category : #hook }
 PCTranslatingFiguresBenchCase >> newElement [
 
+	^ useSingleAnimation
+		  ifTrue: [ self newElementWithSingleAnimation ]
+		  ifFalse: [ self newElementWithIndependentAnimations ]
+]
+
+{ #category : #hook }
+PCTranslatingFiguresBenchCase >> newElementWithIndependentAnimations [
+
+	| random container |
+	random := self newRandom.
+	container := BlElement new
+		size: self logicalExtent;
+		yourself.
+
+	1 to: self numberOfFigures do: [ :index |
+		| aFigure |
+		aFigure := self newFigureWith: random.
+		aFigure relocate: self figureOffset + ((index * self offsetBetweenFigures x) @ 0).
+		aFigure addAnimation: ((BlTransformAnimation translate: self targetTranslation)
+		  duration: self duration;
+		  yourself).
+		
+		container addChild: aFigure ].
+
+	^ container
+]
+
+{ #category : #hook }
+PCTranslatingFiguresBenchCase >> newElementWithSingleAnimation [
+
 	| random container |
 	random := self newRandom.
 	container := BlElement new
 		size: self logicalExtent;
 		addAnimation: ((BlTransformAnimation translate: self targetTranslation)
 		  duration: self duration;
-		  yourself).
+		  yourself);
+		yourself.
 
 	1 to: self numberOfFigures do: [ :index |
 		| aFigure |
@@ -81,4 +123,16 @@ PCTranslatingFiguresBenchCase >> offsetBetweenFigures [
 PCTranslatingFiguresBenchCase >> targetTranslation [
 
 	^ 0 @ 200
+]
+
+{ #category : #accessing }
+PCTranslatingFiguresBenchCase >> useSingleAnimation [
+
+	^ useSingleAnimation
+]
+
+{ #category : #accessing }
+PCTranslatingFiguresBenchCase >> useSingleAnimation: aBoolean [
+
+	useSingleAnimation := aBoolean
 ]

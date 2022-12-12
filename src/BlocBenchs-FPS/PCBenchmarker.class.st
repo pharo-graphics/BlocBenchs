@@ -77,6 +77,27 @@ PCBenchmarker class >> exampleAllSDL2Drivers [
 ]
 
 { #category : #examples }
+PCBenchmarker class >> exampleAnimations [
+
+	| aCase |
+	aCase := PCSolidCirclesBenchCase new.
+	aCase numberOfSeconds: 4.
+
+	[ 
+		#(true false) do: [ :aBoolean |
+			aCase useSingleAnimation: aBoolean.
+			PCHeadlessBenchmarker "PCBlocAlexandrieBenchmarker" new
+			   case: aCase;
+			   run;
+			   shortReportOnStdout;
+			   shortReportOnTranscript
+		 ]
+
+	] fork.
+
+]
+
+{ #category : #examples }
 PCBenchmarker class >> exampleFFI [
 
 	[ | case |
