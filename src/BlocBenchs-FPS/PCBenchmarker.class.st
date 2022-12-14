@@ -263,6 +263,34 @@ PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 ]
 
 { #category : #examples }
+PCBenchmarker class >> exampleProfileRawSDLCairoWithFlameGraph [
+	"Opens a flame-graph on the AndreasSystemProfiler."
+
+	| report |
+
+		[ PCRawBenchmarker new
+			case: PCSolidImagesBenchCase new;
+			run ] fork.
+		report := SaReport newWithASPFor: 5 seconds.
+
+		report
+			colorMap: (SaCategoryPrefixColorMap new 
+					mapPrefixes: #(
+						'BlocBenchs')
+						from: Color purple;
+					mapPrefixes: #(
+						'Alexandrie')
+						from: Color lightBlue;
+					mapPrefixes: #(
+						'FFI'
+						'ThreadedFFI')
+						from: Color orange;
+					yourself);
+				inspect.
+
+]
+
+{ #category : #examples }
 PCBenchmarker class >> exampleShadows [
 
 	PCBenchmarkSuite new
