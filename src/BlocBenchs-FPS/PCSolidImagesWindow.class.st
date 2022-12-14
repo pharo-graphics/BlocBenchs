@@ -2,8 +2,7 @@ Class {
 	#name : #PCSolidImagesWindow,
 	#superclass : #PCTranslatingFiguresWindow,
 	#instVars : [
-		'surfaces',
-		'extents'
+		'patterns'
 	],
 	#category : #'BlocBenchs-FPS-Raw'
 }
@@ -11,33 +10,32 @@ Class {
 { #category : #drawing }
 PCSolidImagesWindow >> drawOnCairoSurface [
 
-	| index deltaY |
+	| deltaY tmpMatrix patternStream |
 	super drawOnCairoSurface.
 
 	deltaY := deltaYPerMS * (lastMS - startMS).
-	index := 1.
+	tmpMatrix := AeCairoMatrix new.
+	patternStream := patterns readStream.
 
-	1 to: case numberOfColumns do: [ :col |
-		| positionX |
-		positionX := case figureOffset x + col * case offsetBetweenFigures x - 380.0. "WHY?"
+	1 to: case numberOfColumns do: [ :columnIndex |
+		| positionX positionY |
+		positionX := ((case figureOffset x + columnIndex) * case offsetBetweenFigures x) - 380.0. "WHY?"
+		positionY := case figureOffset y + deltaY.
 
-		1 to: case numberOfRows do: [ :row |
+		1 to: case numberOfRows do: [ :rowIndex |
+			| aPattern |
+			positionY := positionY + case offsetBetweenFigures y.
 
-			| positionY extent |
-			positionY := case figureOffset y + (row * case offsetBetweenFigures y) + deltaY.
-			extent := extents at: index.
+			aPattern := patternStream next.
+			"The pattern translation must be negated, as Cairo doc explains."
+			tmpMatrix beTranslationByX: positionX negated y: positionY negated.
+			aPattern matrix: tmpMatrix.
 
 			cairoContext
-				sourceSurface: (surfaces at: index)
-					x: positionX
-					y: positionY;
-				rectangleX: positionX
-					y: positionY
-					width: extent x
-					height: extent y;
-				fill.
+				source: aPattern;
+				paint
 
-			index := index + 1 ]]
+		]]
 
 ]
 
@@ -46,14 +44,12 @@ PCSolidImagesWindow >> resetAnimation [
 
 	super resetAnimation.
 
-	surfaces := OrderedCollection new.
-	extents := OrderedCollection new.
-	1 to: case numberOfColumns * case numberOfRows do: [ :each | 
-		| aForm |
-		aForm := case newFormWith: random.
-		surfaces add: (AeCairoImageSurface fromForm: aForm).
-		extents add: aForm extent ].
-	surfaces := surfaces asArray.
-	extents := extents asArray.
+	patterns := Array streamContents: [ :stream |
+		(case numberOfColumns * case numberOfRows) timesRepeat: [
+			| aForm aPattern |
+			aForm := case newFormWith: random.
+			aPattern := AeCairoSurfacePattern surface: (AeCairoImageSurface fromForm: aForm).
+			aPattern filter: AeCairoSamplingFilter CAIRO_FILTER_FAST.
+			stream nextPut: aPattern ] ]
 
 ]

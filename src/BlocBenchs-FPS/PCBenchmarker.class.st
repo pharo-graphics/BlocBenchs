@@ -173,11 +173,12 @@ PCBenchmarker class >> exampleMinimizeLoopPeriods [
 PCBenchmarker class >> exampleOneBench [
 
 	PCBenchmarkSuite new
-		addCase: PCSolidCirclesBenchCase new;
+		addCase: PCSolidImagesBenchCase new;
 		numberOfSeconds: 5;
-		addSpartaCairoBenchmarker;
+"		addSpartaCairoBenchmarker;"
 "		addHeadlessBenchmarker;"
-		addAlexandrieBenchmarker;
+"		addAlexandrieBenchmarker;"
+		addRawBenchmarker;
 		runInForkWithGUI
 
 ]
