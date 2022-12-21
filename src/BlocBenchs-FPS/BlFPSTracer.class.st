@@ -21,6 +21,7 @@ Class {
 
 { #category : #examples }
 BlFPSTracer class >> exampleOfUse [
+	"The #start adds a handler to the space shown event, then it should be added before space show."
 
 	| space |
 	space := BlSpace new.
