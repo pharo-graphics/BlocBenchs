@@ -1,19 +1,23 @@
 "
-Evaluate:
+I am a benchmark for mouse event handling. 
 
-```
-BlMouseMoveBenchmark new runInFork.
-```
+I open a space with a tree of elements, and dispatch artificial mouse move events in the center.
+
+The results are presented at Transcript. Open it and evaluate:
+`BlMouseMoveBenchmark new runInFork`.
+
+There is also an example in class-side.
 "
 Class {
 	#name : #BlMouseMoveBenchmark,
 	#superclass : #Object,
 	#instVars : [
-		'delayBetweenEventDispatchs',
 		'geometries',
 		'benchDuration',
 		'extent',
-		'nestingLevel'
+		'nestingLevel',
+		'delayBetweenEventDispatchs',
+		'host'
 	],
 	#category : #'BlocBenchs-Old-MouseMove'
 }
@@ -23,22 +27,21 @@ BlMouseMoveBenchmark class >> exampleRun [
 
 	| aProcess w |
 	aProcess := [
-	{  BlSpartaSkiaCanvasBuilder.
-		BlSpartaCairoCanvasBuilder }
-			do: [ :eachCanvasClass |
+	{ 	BlOSWindowSDL2Host.
+		BAOSWindowSDL2Host. }
+			do: [ :eachHostClass |
 				{ 	400 asPoint.
 					"800 asPoint" }
 						do: [ :eachExtent |
-							{ 10. 5. 1 }
+							{ 20. "10. 1" }
 								do: [ :eachNestingLevel |
-									('{1} {2} (levels={3}):' format: {
-										eachCanvasClass label.
+									('{1} {2} (nesting levels={3}):' format: {
+										eachHostClass label.
 										eachExtent.
 										eachNestingLevel }) traceCr.
 
-									Bloc preferableSpartaCanvas: eachCanvasClass.
-									
 									self new
+										host: eachHostClass new;
 										extent: eachExtent;
 										nestingLevel: eachNestingLevel;
 										run ] ] ].
@@ -52,9 +55,9 @@ BlMouseMoveBenchmark class >> exampleRun [
 ]
 
 { #category : #accessing }
-BlMouseMoveBenchmark >> benchDuration: anObject [
+BlMouseMoveBenchmark >> benchDuration: aDuration [
 
-	benchDuration := anObject
+	benchDuration := aDuration
 ]
 
 { #category : #private }
@@ -66,9 +69,9 @@ BlMouseMoveBenchmark >> benchFindEventTargetOn: aSpace at: mouseMovePosition [
 ]
 
 { #category : #accessing }
-BlMouseMoveBenchmark >> delayBetweenEventDispatchs: anObject [
+BlMouseMoveBenchmark >> delayBetweenEventDispatchs: aDuration [
 
-	delayBetweenEventDispatchs := anObject
+	delayBetweenEventDispatchs := aDuration
 ]
 
 { #category : #private }
@@ -96,6 +99,12 @@ BlMouseMoveBenchmark >> geometries: aCollection [
 	geometries := aCollection
 ]
 
+{ #category : #accessing }
+BlMouseMoveBenchmark >> host: aBlOSWindowSDL2Host [ 
+
+	host := aBlOSWindowSDL2Host
+]
+
 { #category : #initialization }
 BlMouseMoveBenchmark >> initialize [ 
 
@@ -109,14 +118,16 @@ BlMouseMoveBenchmark >> initialize [
 
 	nestingLevel := 3.
 
+	host := BAOSWindowSDL2Host new.
+
 	geometries := {
-		BlEllipseGeometry new.
-		BlRoundedRectangleGeometry cornerRadius: 20.
-		BlSquareGeometry new.
-		BlRectangleGeometry new.
-"		BlPolygonGeometry vertices: { 0@0. 1000@0. 1000@1000 }."
-		BlCircleGeometry new.
-		BlTriangleGeometry new }
+		BlRoundedRectangleGeometry cornerRadius: 40.
+		"BlAnnulusSectorGeometry new
+			startAngle: 45;
+			endAngle: 270;
+			innerRadius: 0.0;
+			outerRadius: 1.0;
+			yourself" }
 
 ]
 
@@ -148,9 +159,9 @@ BlMouseMoveBenchmark >> mouseMoverLoopOn: aSpace at: aPoint [
 ]
 
 { #category : #accessing }
-BlMouseMoveBenchmark >> nestingLevel: anObject [
+BlMouseMoveBenchmark >> nestingLevel: aNumber [
 
-	nestingLevel := anObject
+	nestingLevel := aNumber
 ]
 
 { #category : #private }
@@ -220,13 +231,14 @@ BlMouseMoveBenchmark >> runOn: aGeometry [
 	elements reduceRight: [:a :b | a addChild: b ].
 
 	aSpace := BlSpace new
+		host: host;
 		addChild: elements first;
 		addChild:
 			(self newPointerElement
 				relocate: eventPosition;
 				yourself);
 		extent: extent;
-		title: aGeometry asString;
+		title: host class label, ' - ', aGeometry asString;
 		show;
 		yourself.
 	self doLittleWait.
