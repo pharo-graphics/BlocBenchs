@@ -270,18 +270,7 @@ BlProfileRunner >> runOnOpen [
 { #category : #private }
 BlProfileRunner >> withBlocParametersDo: aBlockClosure [
 
-	| systemHostClass systemSpartaCanvas |
-"	systemHostClass := Bloc preferableHostClass."
-	systemSpartaCanvas := Bloc preferableSpartaCanvas.
-
-"	Bloc preferableHostClass: case hostClass."
-	case space host: case hostClass new.
-	Bloc preferableSpartaCanvas: case spartaCanvasClass.
-
-	aBlockClosure ensure: [
-
-"		Bloc preferableHostClass: systemHostClass."
-		Bloc preferableSpartaCanvas: systemSpartaCanvas.]
+	case space host: case hostClass new
 
 ]
 

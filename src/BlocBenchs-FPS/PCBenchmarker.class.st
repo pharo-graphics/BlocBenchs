@@ -25,7 +25,6 @@ PCBenchmarker class >> exampleAllBenchs [
 	PCBenchmarkSuite new
 		cases: PCBenchCase allBenchCases;
 		numberOfSeconds: 3;
-		addSpartaCairoBenchmarker;
 		addAlexandrieBenchmarker;
 		runInForkWithGUI
 
@@ -38,7 +37,6 @@ PCBenchmarker class >> exampleAllBenchsWithRaw [
 	PCBenchmarkSuite new
 		cases: PCBenchCase allBenchCasesWithRaw;
 		numberOfSeconds: 2;
-		addSpartaCairoBenchmarker;
 		addAlexandrieBenchmarker;
 		addRawBenchmarker;
 		runInForkWithGUI
@@ -153,7 +151,6 @@ PCBenchmarker class >> exampleGradients [
 
 	suite
 		numberOfSeconds: 5;
-		addSpartaCairoBenchmarker;
 		addAlexandrieBenchmarker;
 		runInForkWithGUI
 
@@ -201,7 +198,6 @@ PCBenchmarker class >> exampleOutskirts [
 	
 	suite
 		numberOfSeconds: 3;
-		addSpartaCairoBenchmarker;
 		addAlexandrieBenchmarker;
 		runInForkWithGUI
 
@@ -299,7 +295,6 @@ PCBenchmarker class >> exampleShadows [
 		addCase: (PCSimpleShadowedCirclesBenchCase new isTranslucent: false; yourself);
 		numberOfSeconds: 5;
 		addAlexandrieBenchmarker;
-		addSpartaCairoBenchmarker;
 		runInForkWithGUI
 
 ]

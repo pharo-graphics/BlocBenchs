@@ -34,20 +34,6 @@ PCBenchmarkSuite >> addRawBenchmarker [
 	benchmarkers add: PCRawBenchmarker new
 ]
 
-{ #category : #adding }
-PCBenchmarkSuite >> addSpartaCairoBenchmarker [
-
-	benchmarkers add: (PCBlocSpartaBenchmarker new beCairo; yourself).
-
-]
-
-{ #category : #adding }
-PCBenchmarkSuite >> addSpartaSkiaBenchmarker [
-
-	benchmarkers add: (PCBlocSpartaBenchmarker new beSkia; yourself)
-
-]
-
 { #category : #accessing }
 PCBenchmarkSuite >> benchmarkers [
 
