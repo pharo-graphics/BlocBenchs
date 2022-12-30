@@ -11,27 +11,31 @@ BaselineOfBlocBenchs >> baseline: spec [
 		for: #common
 		do: [ 
 			self
-				declareAlexandrieOn: spec;
+				declareBlocPacOn: spec;
+				declareToploOn: spec;
 				declareFFICallLoggerOn: spec;
 				declareDataFrameOn: spec;
-				declareSaucoPerfMeterOn: spec;
-				declareSpecBrickOn: spec.
+				declareSaucoPerfMeterOn: spec.
 			spec
 				package: 'BlocBenchs-SDL';
 				package: 'BlocBenchs-Printing'
-					with: [ spec requires: #('SpecBrick' 'DataFrame') ];
+					with: [ spec requires: #('DataFrame') ];
+				package: 'BlocBenchs-BoidsExample'
+					with: [ spec requires: #('BlocPac') ];
 				package: 'BlocBenchs-Old'
-					with: [ spec requires: #('SpecBrick' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
+					with: [ spec requires: #('BlocBenchs-BoidsExample' 'Toplo' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-FPS'
 					with: [ spec requires: #('BlocBenchs-SDL' 'SpecBrick' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing' 'Alexandrie') ]
 			]
 ]
 
 { #category : #'external projects' }
-BaselineOfBlocBenchs >> declareAlexandrieOn: spec [
+BaselineOfBlocBenchs >> declareBlocPacOn: spec [
+
 	spec
-		baseline: 'Alexandrie'
-		with: [ spec repository: 'github://pharo-graphics/Alexandrie:master/src' ]
+		baseline: 'BlocPac'
+		with: [
+			spec repository: 'github://pharo-graphics/bloc-pac:dev-1.0/src' ]
 ]
 
 { #category : #'external projects' }
@@ -56,8 +60,8 @@ BaselineOfBlocBenchs >> declareSaucoPerfMeterOn: spec [
 ]
 
 { #category : #'external projects' }
-BaselineOfBlocBenchs >> declareSpecBrickOn: spec [
+BaselineOfBlocBenchs >> declareToploOn: spec [
 	spec
-		baseline: 'SpecBrick'
-		with: [ spec repository: 'github://pharo-graphics/Spec-Brick:dev-1.0/src' ]
+		baseline: 'Toplo'
+		with: [ spec repository: 'github://plantec/toplo:master/src' ]
 ]
