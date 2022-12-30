@@ -27,11 +27,9 @@ BlAndreasSystemProfiler >> reportsAsPagesUsing: aBuilder [
 		profiler saucoAsReport 
 			colorMap: (SaCategoryPrefixColorMap new 
 					mapPrefixes: #(
-						'Alexandrie'
-						'Sparta')
+						'Alexandrie')
 						from: Color purple;
 					mapPrefixes: #(
-						'Fenster'
 						'BlocHost'
 						'Bloc-Text'
 						'Bloc')
