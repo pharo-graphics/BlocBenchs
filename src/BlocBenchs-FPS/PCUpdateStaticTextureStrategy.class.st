@@ -8,8 +8,9 @@ Class {
 PCUpdateStaticTextureStrategy >> drawDone [
 
 	sdlTexture
-		updateTexturePixels: sdlSurface pixels
-		pitch: sdlSurface pitch.
+		updateTextureRect: SDL_Rect null
+			pixels: sdlSurface pixels
+			pitch:  sdlSurface pitch.
 
 ]
 
