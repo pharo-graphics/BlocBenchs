@@ -21,13 +21,48 @@ SDLShapedWindowExample class >> bigPharoSurface [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample class >> example1 [
+SDLShapedWindowExample class >> example [
 
 	self basicNew
-		initializeWithSDLSurface: self bigPharoSurface;
-		setUpWithBinarizeAlpha;
+		initializeWithSDLSurface: self sdlSurfaceWithBlackCircle;
+		setUpWithColorKey: Color black;
 		show;
 		inspect
+]
+
+{ #category : #examples }
+SDLShapedWindowExample class >> sdlSurfaceWithBlackCircle [
+
+	| radius extent sdlSurface cairoSurface |
+	radius := 400.
+	extent := (radius * 2) asPoint.
+
+	sdlSurface := SDL2
+		createRGBSurfaceWithFormat: SDL_PIXELFORMAT_ARGB8888
+		depth: 32
+		width: extent x
+		height: extent y.
+
+	sdlSurface lockSurface.
+		
+	cairoSurface := AeCairoImageSurface
+		newForData: sdlSurface pixels
+		extent: extent
+		stride: sdlSurface pitch
+		format: AeCairoSurfaceFormat argb32.
+
+	cairoSurface newContext
+		sourceColorRGB: Color white;
+		paint;
+		sourceColorRGB: Color black;
+		circleRadius: radius;
+		fill.
+
+	cairoSurface flush.
+	
+	sdlSurface unlockSurface.
+
+	^ sdlSurface
 ]
 
 { #category : #examples }
@@ -100,7 +135,7 @@ SDLShapedWindowExample >> setUpWithBinarizeAlpha [
 	aMode :=	SDL_WindowShapeMode
 		mode: SDL_WindowShapeModeEnum ShapeModeBinarizeAlpha
 		parameters: (SDL_WindowShapeParams binarizationCutoff: 100).
-
+	
 	(sdlWindow primSetWindowShape: sdlSurface mode: aMode) in: [ :result |
 		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
 
@@ -116,33 +151,42 @@ SDLShapedWindowExample >> setUpWithBinarizeAlpha [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> setUpWithColorKey [
+SDLShapedWindowExample >> setUpWithColorKey: aColor [
 
-	| aMode |
+	| aMode aSDLColor aSDLWindowShapeParams |
 	SDL2 initVideo.
 
 	sdlWindow := SDL2
 		createShapedWindow: 'Shaped Window - Color Key'
-		x: SDL_WINDOWPOS_UNDEFINED
-		y: SDL_WINDOWPOS_UNDEFINED
+		x: 100
+		y: 100
 		width: sdlSurface w
 		height: sdlSurface h
 		flags: 0.
-		
+
+	aSDLColor :=
+		SDL_Color externalNew
+			autoRelease;
+			r: (aColor red   * 255) asInteger;
+			g: (aColor green * 255) asInteger;
+			b: (aColor blue  * 255) asInteger;
+			a: (aColor alpha * 255) asInteger;
+			yourself.
+	aSDLWindowShapeParams := SDL_WindowShapeParams colorKey: aSDLColor.
 	aMode :=	SDL_WindowShapeMode
 		mode: SDL_WindowShapeModeEnum ShapeModeColorKey 
-		parameters: (SDL_WindowShapeParams colorKey: (SDL_Color newFrom: Color transparent)).
-
+		parameters: aSDLWindowShapeParams.
+"1halt.
 	(sdlWindow primSetWindowShape: sdlSurface mode: aMode) in: [ :result |
-		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
+		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ]."
 
 	sdlRenderer := sdlWindow createDefaultRenderer.
-	sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface.
+	"sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface."
 	sdlRenderer
 "		drawColorR: 0 g: 0 b: 0 a: 0;"
-		drawColorR: 200 g: 200 b: 200 a: 200;
+		drawColorR: 0 g: 255 b: 255 a: 255;
 		clear;
-		copy: sdlTexture;
+"		copy: sdlTexture;"
 		present
 
 ]
