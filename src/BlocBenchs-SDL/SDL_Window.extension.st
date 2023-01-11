@@ -6,6 +6,21 @@ SDL_Window >> createSoftwareRenderer [
 ]
 
 { #category : #'*BlocBenchs-SDL' }
+SDL_Window >> position [
+	| x y |
+	x := ByteArray new: ExternalType long byteSize.
+	y := ByteArray new: ExternalType long byteSize.
+	self getPositionX: x y: y.
+	^ ( x signedLongAt: 1) @ (y signedLongAt: 1)
+]
+
+{ #category : #'*BlocBenchs-SDL' }
+SDL_Window >> position: aPoint [
+
+	self setPositionX: aPoint x asInteger y: aPoint y asInteger
+]
+
+{ #category : #'*BlocBenchs-SDL' }
 SDL_Window >> primSetWindowShape: aShape mode: aShapeMode [
 	"Set the shape and parameters of a shaped window.
 	
