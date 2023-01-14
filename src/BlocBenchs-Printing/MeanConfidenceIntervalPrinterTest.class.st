@@ -2,16 +2,16 @@
 A DataSeriesStatisticsPrinterTest is a test class for testing the behavior of DataSeriesStatisticsPrinter
 "
 Class {
-	#name : #PCMeanConfidenceIntervalPrinterTest,
+	#name : #MeanConfidenceIntervalPrinterTest,
 	#superclass : #TestCase,
 	#category : #'BlocBenchs-Printing'
 }
 
 { #category : #tests }
-PCMeanConfidenceIntervalPrinterTest >> testPrintMultipleExamples [
+MeanConfidenceIntervalPrinterTest >> testPrintMultipleExamples [
 
 	| printer |
-	printer := PCMeanConfidenceIntervalPrinter new.
+	printer := MeanConfidenceIntervalPrinter new.
 	
 	self assert: (printer print: (Array new: 1 withAll: 5)) equals: '5.00 ±0.00'.
 	self assert: (printer print: (Array new: 10 withAll: 5)) equals: '5.00 ±0.00'.
@@ -25,5 +25,19 @@ PCMeanConfidenceIntervalPrinterTest >> testPrintMultipleExamples [
 	self assert: (printer print: (1 to: 10)) equals: '5.5 ±1.7'.
 	printer fixedDecimalPlaces: 3.
 	self assert: (printer print: (1 to: 10)) equals:  '5.500 ±1.735'.
+
+]
+
+{ #category : #tests }
+MeanConfidenceIntervalPrinterTest >> testPrintWithUnit [
+
+	| printer |
+	printer := MeanConfidenceIntervalPrinter new.
+
+	printer
+		unitString: 'ms';
+		fixedDecimalPlaces: 1.
+	
+	self assert: (printer print: (1 to: 30)) equals: '15.5ms ±2.6'.
 
 ]

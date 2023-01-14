@@ -59,7 +59,7 @@ BlFrameMeter >> reportAsStringOn: stream [
 		<< 'FPS mean and error margin (90% confidence level):';
 		lf;
 		tab;
-		<< (PCMeanConfidenceIntervalPrinter new print: self intermediateFPS);
+		<< (MeanConfidenceIntervalPrinter new print: self intermediateFPS);
 		lf.
 
 	framesAndMicrosendTimestamps size > 2 ifFalse: [ ^ self ].

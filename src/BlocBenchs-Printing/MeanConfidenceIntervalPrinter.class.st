@@ -13,16 +13,17 @@ Based on SMarkSimpleStatisticsReporter from SMark benchmark project.
 
 "
 Class {
-	#name : #PCMeanConfidenceIntervalPrinter,
+	#name : #MeanConfidenceIntervalPrinter,
 	#superclass : #Object,
 	#instVars : [
-		'fixedDecimalPlaces'
+		'fixedDecimalPlaces',
+		'unitString'
 	],
 	#category : #'BlocBenchs-Printing'
 }
 
 { #category : #statistics }
-PCMeanConfidenceIntervalPrinter >> confidenceIntervalFor: aCollectionOfNumbers [
+MeanConfidenceIntervalPrinter >> confidenceIntervalFor: aCollectionOfNumbers [
 
 	| populationSize factor |
 	populationSize := aCollectionOfNumbers size.
@@ -35,7 +36,7 @@ PCMeanConfidenceIntervalPrinter >> confidenceIntervalFor: aCollectionOfNumbers [
 ]
 
 { #category : #statistics }
-PCMeanConfidenceIntervalPrinter >> defaultDecimalPlacesFor: confidenceVariance [
+MeanConfidenceIntervalPrinter >> defaultDecimalPlacesFor: confidenceVariance [
 
 	confidenceVariance = 0 ifTrue: [ ^ 2 ].
 	confidenceVariance >= 10 ifTrue: [ ^ 0 ].
@@ -43,19 +44,19 @@ PCMeanConfidenceIntervalPrinter >> defaultDecimalPlacesFor: confidenceVariance [
 ]
 
 { #category : #accessing }
-PCMeanConfidenceIntervalPrinter >> fixedDecimalPlaces [
+MeanConfidenceIntervalPrinter >> fixedDecimalPlaces [
 
 	^ fixedDecimalPlaces
 ]
 
 { #category : #accessing }
-PCMeanConfidenceIntervalPrinter >> fixedDecimalPlaces: aPositiveInteger [
+MeanConfidenceIntervalPrinter >> fixedDecimalPlaces: aPositiveInteger [
 
 	fixedDecimalPlaces := aPositiveInteger
 ]
 
 { #category : #statistics }
-PCMeanConfidenceIntervalPrinter >> gaussianConfidenceFactor [
+MeanConfidenceIntervalPrinter >> gaussianConfidenceFactor [
 	"Used when size >= 30."
 	"1 ~ 68.27%"
 	"1.644853626951 ~ 90%"
@@ -65,14 +66,14 @@ PCMeanConfidenceIntervalPrinter >> gaussianConfidenceFactor [
 ]
 
 { #category : #printing }
-PCMeanConfidenceIntervalPrinter >> print: aCollectionOfNumbers [
+MeanConfidenceIntervalPrinter >> print: aCollectionOfNumbers [
 
 	^ String streamContents: [ :aStream | 
 		  self print: aCollectionOfNumbers on: aStream ]
 ]
 
 { #category : #reporting }
-PCMeanConfidenceIntervalPrinter >> print: population on: aStream [
+MeanConfidenceIntervalPrinter >> print: population on: aStream [
 	"Print average ± confidence interval. The colleciton must be not empty."
 
 	| confidenceInterval decimalPlaces |
@@ -87,6 +88,9 @@ PCMeanConfidenceIntervalPrinter >> print: population on: aStream [
 		printOn: aStream
 		showingDecimalPlaces: decimalPlaces.
 
+	unitString ifNotNil: [
+		aStream << unitString ].
+
 	aStream << ' ±'.
 	confidenceInterval
 		printOn: aStream
@@ -94,7 +98,7 @@ PCMeanConfidenceIntervalPrinter >> print: population on: aStream [
 ]
 
 { #category : #statistics }
-PCMeanConfidenceIntervalPrinter >> studentsTConfidenceFactorFor: size [
+MeanConfidenceIntervalPrinter >> studentsTConfidenceFactorFor: size [
 	"Answer a pre-calculated value for a confidence interval of ~90%."
 	"Supported for 1 <= size <= 30."
 	"The students T distribution sucks to calculate since the value depends on the size."
@@ -133,4 +137,16 @@ PCMeanConfidenceIntervalPrinter >> studentsTConfidenceFactorFor: size [
 	values at: 30 put: 1.697.
 	^ values at: size
 	
+]
+
+{ #category : #accessing }
+MeanConfidenceIntervalPrinter >> unitString [
+
+	^ unitString
+]
+
+{ #category : #accessing }
+MeanConfidenceIntervalPrinter >> unitString: aStringOrNil [
+
+	unitString := aStringOrNil
 ]
