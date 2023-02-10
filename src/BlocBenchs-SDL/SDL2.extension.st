@@ -1,21 +1,6 @@
 Extension { #name : #SDL2 }
 
 { #category : #'*BlocBenchs-SDL' }
-SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: width height: height [
-	"See: https://wiki.libsdl.org/SDL_CreateRGBSurfaceWithFormat"
-
-	^ self ffiCall: #(
-		SDL_Surface*
-		SDL_CreateRGBSurfaceWithFormat (
-			0, 
-			int width, 
-			int height, 
-			int depth, 
-			Uint32 aSDLPixelFormat) )
-
-]
-
-{ #category : #'*BlocBenchs-SDL' }
 SDL2 class >> createShapedWindow: title x: x y: y width: width height: height flags: flags [
 	"Create a window that can be shaped with the specified position, dimensions, and flags.
 
