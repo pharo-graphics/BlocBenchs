@@ -40,6 +40,25 @@ SDLShapedWindowExample class >> example [
 ]
 
 { #category : #examples }
+SDLShapedWindowExample class >> exampleBinarizeAlpha [
+
+	| example |
+	example := self basicNew
+		initializeWithSDLSurface: self bigPharoSurface;
+		setUpWithBinarizeAlpha;
+		yourself.
+		
+"	example inspect."
+	
+	example show.
+	
+	2 seconds wait.
+	
+	example tearDown.
+
+]
+
+{ #category : #examples }
 SDLShapedWindowExample class >> sdlSurfaceWithWhiteBackground [
 
 	| radius extent sdlSurface cairoSurface |
@@ -135,15 +154,17 @@ SDLShapedWindowExample >> setUpWithBinarizeAlpha [
 
 	sdlWindow := SDL2
 		createShapedWindow: 'Shaped Window - BinarizeAlpha'
-		x: SDL_WINDOWPOS_UNDEFINED
-		y: SDL_WINDOWPOS_UNDEFINED
+		x: 50
+		y: 50
 		width: sdlSurface w
 		height: sdlSurface h
 		flags: 0.
 		
+	self assert: sdlWindow isShaped.
+
 	aMode :=	SDL_WindowShapeMode
 		mode: SDL_WindowShapeModeEnum ShapeModeBinarizeAlpha
-		parameters: (SDL_WindowShapeParams binarizationCutoff: 100).
+		parameters: (SDL_WindowShapeParams binarizationCutoff: 255).
 	
 	(sdlWindow primSetWindowShape: sdlSurface mode: aMode) in: [ :result |
 		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
@@ -151,8 +172,8 @@ SDLShapedWindowExample >> setUpWithBinarizeAlpha [
 	sdlRenderer := sdlWindow createDefaultRenderer.
 	sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface.
 	sdlRenderer
-"		drawColorR: 0 g: 0 b: 0 a: 0;"
-		drawColorR: 200 g: 200 b: 200 a: 200;
+		drawColorR: 0 g: 0 b: 0 a: 0;
+"		drawColorR: 200 g: 200 b: 200 a: 200;"
 		clear;
 		copy: sdlTexture;
 		present
@@ -163,12 +184,12 @@ SDLShapedWindowExample >> setUpWithBinarizeAlpha [
 SDLShapedWindowExample >> setUpWithColorKey: aColor [
 
 	| aMode aSDLColor aSDLWindowShapeParams |
-"	SDL2 initVideo."
+	SDL2 initVideo.
 
 	sdlWindow := SDL2
 		createShapedWindow: 'Shaped Window - Color Key'
-		x: 100
-		y: 100
+		x: 50
+		y: 50
 		width: sdlSurface w
 		height: sdlSurface h
 		flags: 0.
@@ -193,7 +214,7 @@ SDLShapedWindowExample >> setUpWithColorKey: aColor [
 
 
 	sdlRenderer := sdlWindow createDefaultRenderer.
-	sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface.
+	sdlTexture := sdlRenderer primCreateTextureFromSurface: "sdlSurface"self class bigPharoSurface.
 	sdlRenderer
 		drawColorR: 0 g: 255 b: 255 a: 255;
 		clear;
