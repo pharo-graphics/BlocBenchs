@@ -15,9 +15,11 @@ BaselineOfBlocBenchs >> baseline: spec [
 				declareToploOn: spec;
 				declareFFICallLoggerOn: spec;
 				declareDataFrameOn: spec;
-				declareSaucoPerfMeterOn: spec.
+				declareSaucoPerfMeterOn: spec;
+				declareSdlExperimentsOn: spec.
 			spec
-				package: 'BlocBenchs-SDL';
+				package: 'BlocBenchs-SDL'
+					with: [ spec requires: #('SDLExperiments') ];
 				package: 'BlocBenchs-Printing'
 					with: [ spec requires: #('DataFrame') ];
 				package: 'BlocBenchs-BoidsExample'
@@ -25,7 +27,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 				package: 'BlocBenchs-Old'
 					with: [ spec requires: #('BlocBenchs-BoidsExample' 'Toplo' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-FPS'
-					with: [ spec requires: #('BlocBenchs-SDL' 'SpecBrick' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing' 'Alexandrie') ]
+					with: [ spec requires: #('BlocBenchs-SDL' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing') ]
 			]
 ]
 
@@ -57,6 +59,13 @@ BaselineOfBlocBenchs >> declareSaucoPerfMeterOn: spec [
 	spec
 		baseline: 'SaucoPerfMeter'
 		with: [ spec repository: 'github://tinchodias/pharo-sauco-profiler/' ]
+]
+
+{ #category : #'external projects' }
+BaselineOfBlocBenchs >> declareSdlExperimentsOn: spec [
+	spec
+		baseline: 'SDLExperiments'
+		with: [ spec repository: 'github://tinchodias/pharo-sdl-experiments:main/' ]
 ]
 
 { #category : #'external projects' }
