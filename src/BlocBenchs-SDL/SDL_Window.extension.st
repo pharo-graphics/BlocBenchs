@@ -6,6 +6,12 @@ SDL_Window >> createSoftwareRenderer [
 ]
 
 { #category : #'*BlocBenchs-SDL' }
+SDL_Window >> isShaped [
+
+	^ self ffiCall: #(bool SDL_IsShapedWindow(void))
+]
+
+{ #category : #'*BlocBenchs-SDL' }
 SDL_Window >> position [
 	| x y |
 	x := ByteArray new: ExternalType long byteSize.
@@ -30,19 +36,7 @@ SDL_Window >> primSetWindowShape: aShape mode: aShapeMode [
 		int
 		SDL_SetWindowShape(
 			self,
-			SDL_Surface aShape,
-			SDL_WindowShapeMode aShapeMode)
+			SDL_Surface * aShape,
+			SDL_WindowShapeMode * aShapeMode)
 		)
-]
-
-{ #category : #'*BlocBenchs-SDL' }
-SDL_Window >> size [
-	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
-
-	| w h |
-	w := FFIInt32 newBuffer.
-	h := FFIInt32 newBuffer.
-	self getSizeW: w h: h.
-	^ (w signedLongAt: 1) @ (h signedLongAt: 1)
-
 ]

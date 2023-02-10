@@ -23,18 +23,27 @@ SDLShapedWindowExample class >> bigPharoSurface [
 { #category : #examples }
 SDLShapedWindowExample class >> example [
 
-	self basicNew
-		initializeWithSDLSurface: self sdlSurfaceWithBlackCircle;
-		setUpWithColorKey: Color black;
-		show;
-		inspect
+	| example |
+	example := self basicNew
+		initializeWithSDLSurface: self sdlSurfaceWithWhiteBackground;
+		setUpWithColorKey: Color white;
+		yourself.
+		
+"	example inspect."
+	
+	example show.
+	
+	2 seconds wait.
+	
+	example tearDown.
+
 ]
 
 { #category : #examples }
-SDLShapedWindowExample class >> sdlSurfaceWithBlackCircle [
+SDLShapedWindowExample class >> sdlSurfaceWithWhiteBackground [
 
 	| radius extent sdlSurface cairoSurface |
-	radius := 400.
+	radius := 128.
 	extent := (radius * 2) asPoint.
 
 	sdlSurface := SDL2
@@ -154,7 +163,7 @@ SDLShapedWindowExample >> setUpWithBinarizeAlpha [
 SDLShapedWindowExample >> setUpWithColorKey: aColor [
 
 	| aMode aSDLColor aSDLWindowShapeParams |
-	SDL2 initVideo.
+"	SDL2 initVideo."
 
 	sdlWindow := SDL2
 		createShapedWindow: 'Shaped Window - Color Key'
@@ -163,6 +172,8 @@ SDLShapedWindowExample >> setUpWithColorKey: aColor [
 		width: sdlSurface w
 		height: sdlSurface h
 		flags: 0.
+
+	self assert: sdlWindow isShaped.
 
 	aSDLColor :=
 		SDL_Color externalNew
@@ -176,17 +187,17 @@ SDLShapedWindowExample >> setUpWithColorKey: aColor [
 	aMode :=	SDL_WindowShapeMode
 		mode: SDL_WindowShapeModeEnum ShapeModeColorKey 
 		parameters: aSDLWindowShapeParams.
-"1halt.
+
 	(sdlWindow primSetWindowShape: sdlSurface mode: aMode) in: [ :result |
-		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ]."
+		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
+
 
 	sdlRenderer := sdlWindow createDefaultRenderer.
-	"sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface."
+	sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface.
 	sdlRenderer
-"		drawColorR: 0 g: 0 b: 0 a: 0;"
 		drawColorR: 0 g: 255 b: 255 a: 255;
 		clear;
-"		copy: sdlTexture;"
+		copy: sdlTexture;
 		present
 
 ]
@@ -200,8 +211,9 @@ SDLShapedWindowExample >> show [
 { #category : #examples }
 SDLShapedWindowExample >> tearDown [
 
-	sdlTexture destroy.
-	sdlTexture := nil.
+	sdlTexture ifNotNil: [
+		sdlTexture destroy.
+		sdlTexture := nil ].
 
 	sdlRenderer destroy.
 	sdlRenderer := nil.
