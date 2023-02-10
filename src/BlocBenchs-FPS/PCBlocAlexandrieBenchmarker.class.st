@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 PCBlocAlexandrieBenchmarker >> host [
 
-	^ BAOSWindowSDL2Host new
+	^ BlOSWindowSDL2Host new
 ]
 
 { #category : #accessing }
