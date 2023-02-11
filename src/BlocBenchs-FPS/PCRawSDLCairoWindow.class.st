@@ -95,6 +95,37 @@ PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
 
 ]
 
+{ #category : #'opening and closing' }
+PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent shape: shapeSurface [
+
+	| aMode |
+	sdlWindow := SDL2
+						createShapedWindow: title
+						x: position x
+						y: position y
+						width: extent x
+						height: extent y
+						flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI. "| SDL_WINDOW_OPENGL"
+
+	self assert: sdlWindow isShaped.
+
+	"Any translucent pixel will be considered transparent"
+	aMode :=	SDL_WindowShapeMode
+		mode: SDL_WindowShapeModeEnum ShapeModeBinarizeAlpha
+		parameters: (SDL_WindowShapeParams binarizationCutoff: 255).
+	(sdlWindow primSetWindowShape: shapeSurface mode: aMode) in: [ :result |
+		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
+
+
+	sdlRenderer := sdlWindow createDefaultRenderer.
+
+	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
+	isHighDPI := deviceScalePoint x > 1.0 or: [ deviceScalePoint y > 1.0 ].
+
+	self resetMainTexture.
+
+]
+
 { #category : #stepping }
 PCRawSDLCairoWindow >> presentOnWindow [
 
