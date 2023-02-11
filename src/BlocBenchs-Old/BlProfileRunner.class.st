@@ -116,6 +116,29 @@ BlProfileRunner class >> exampleBoidsFlameGraph [
 ]
 
 { #category : #examples }
+BlProfileRunner class >> exampleTextEditorFPS [
+
+	| cases runners |
+	cases := { BlTextEditorProfileCase new }.
+	runners := self hostClassesToProfile flatCollect: [ :eachHostClass |
+		cases collect: [ :eachCase |
+			| case |
+			case := eachCase copy
+				hostClass: eachHostClass;
+				yourself.
+
+			(BlProfileRunner newForCase: case)
+				enableFPS;
+				yourself
+
+			] ].
+
+	[	runners do: #run.
+		runners do: #openMeterReports ] fork.
+
+]
+
+{ #category : #examples }
 BlProfileRunner class >> hostClassesToProfile [
 
 	^ { BlOSWindowSDL2Host }

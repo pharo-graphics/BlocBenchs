@@ -45,18 +45,12 @@ BlTextEditorProfileCase >> lapseToWaitBetween: aDuration [
 { #category : #hooks }
 BlTextEditorProfileCase >> newElement [
 
-	| editor |
-	editor := BrTextEditor new
+	| model |
+	model := ToAlbumModel new
 		text: (String loremIpsum: 20000) asRopedText;
-		useSyncStylerStrategy;
 		yourself.
 		
-	editorElement := BrEditorElement new
-		editor: editor;
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ];
-		yourself.
+	editorElement := model onWidget.
 
 	^ editorElement
 ]
