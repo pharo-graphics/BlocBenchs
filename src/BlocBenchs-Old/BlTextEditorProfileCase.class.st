@@ -33,7 +33,7 @@ BlTextEditorProfileCase >> executeBody [
 { #category : #accessing }
 BlTextEditorProfileCase >> lapseToWaitBetween [
 
-	^ lapseToWaitBetween ifNil: [ lapseToWaitBetween := 1 seconds ]
+	^ lapseToWaitBetween ifNil: [ lapseToWaitBetween := 0.5 seconds ]
 ]
 
 { #category : #accessing }
