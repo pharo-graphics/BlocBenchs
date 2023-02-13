@@ -19,16 +19,21 @@ Class {
 }
 
 { #category : #examples }
+BlProfileRunner class >> casesToProfile [
+
+	^ { BlBoidsProfileCase new. BlTextEditorProfileCase new }
+]
+
+{ #category : #examples }
 BlProfileRunner class >> exampleAll [
 
 	| cases runners |
-	cases := { BlBoidsProfileCase new }.
-	runners := self hostCanvasCombinations flatCollect: [ :eachAssociation |
+	cases := self casesToProfile.
+	runners := self hostClassesToProfile flatCollect: [ :eachHostClass |
 		cases collect: [ :eachCase |
 			| case |
 			case := eachCase copy
-				hostClass: eachAssociation key;
-				spartaCanvasClass: eachAssociation value;
+				hostClass: eachHostClass;
 				yourself.
 
 			(BlProfileRunner newForCase: case)
@@ -47,16 +52,15 @@ BlProfileRunner class >> exampleAll [
 ]
 
 { #category : #examples }
-BlProfileRunner class >> exampleBoidsFFI [
+BlProfileRunner class >> exampleOnlyFFI [
 
 	| cases runners |
-	cases := { BlBoidsProfileCase new }.
-	runners := self hostCanvasCombinations flatCollect: [ :eachAssociation |
+	cases := self casesToProfile.
+	runners := self hostClassesToProfile flatCollect: [ :eachHostClass |
 		cases collect: [ :eachCase |
 			| case |
 			case := eachCase copy
-				hostClass: eachAssociation key;
-				spartaCanvasClass: eachAssociation value;
+				hostClass: eachHostClass;
 				yourself.
 
 			(BlProfileRunner newForCase: case)
@@ -72,16 +76,15 @@ BlProfileRunner class >> exampleBoidsFFI [
 ]
 
 { #category : #examples }
-BlProfileRunner class >> exampleBoidsFPS [
+BlProfileRunner class >> exampleOnlyFPS [
 
 	| cases runners |
-	cases := { BlBoidsProfileCase new }.
-	runners := self hostCanvasCombinations flatCollect: [ :eachAssociation |
+	cases := self casesToProfile.
+	runners := self hostClassesToProfile flatCollect: [ :eachHostClass |
 		cases collect: [ :eachCase |
 			| case |
 			case := eachCase copy
-				hostClass: eachAssociation key;
-				spartaCanvasClass: eachAssociation value;
+				hostClass: eachHostClass;
 				yourself.
 
 			(BlProfileRunner newForCase: case)
@@ -96,16 +99,15 @@ BlProfileRunner class >> exampleBoidsFPS [
 ]
 
 { #category : #examples }
-BlProfileRunner class >> exampleBoidsFlameGraph [
+BlProfileRunner class >> exampleOnlyFlameGraph [
 
 	| cases runners |
-	cases := { BlBoidsProfileCase new }.
-	runners := self hostCanvasCombinations flatCollect: [ :eachAssociation |
+	cases := self casesToProfile.
+	runners := self hostClassesToProfile flatCollect: [ :eachHostClass |
 		cases collect: [ :eachCase |
 			| case |
 			case := eachCase copy
-				hostClass: eachAssociation key;
-				spartaCanvasClass: eachAssociation value;
+				hostClass: eachHostClass;
 				yourself.
 
 			(BlProfileRunner newForCase: case)
@@ -120,13 +122,9 @@ BlProfileRunner class >> exampleBoidsFlameGraph [
 ]
 
 { #category : #examples }
-BlProfileRunner class >> hostCanvasCombinations [
+BlProfileRunner class >> hostClassesToProfile [
 
-	^ {
-		BlOSWindowSDL2Host -> BlSpartaSkiaCanvasBuilder.
-		BlOSWindowSDL2Host -> BlSpartaCairoCanvasBuilder.
-		BAOSWindowSDL2Host -> BlSpartaCairoCanvasBuilder. "The canvas builder doesn't matter in this case: This host ignores the canvas builder"
-		}
+	^ { BlOSWindowSDL2Host }
 ]
 
 { #category : #'instance creation' }
@@ -270,7 +268,8 @@ BlProfileRunner >> runOnOpen [
 { #category : #private }
 BlProfileRunner >> withBlocParametersDo: aBlockClosure [
 
-	case space host: case hostClass new
+	case space host: case hostClass new.
+	aBlockClosure value.
 
 ]
 

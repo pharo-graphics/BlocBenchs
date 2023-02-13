@@ -13,7 +13,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'space',
-		'spartaCanvasClass',
 		'hostClass'
 	],
 	#category : #'BlocBenchs-Old-ProfileCases'
@@ -97,10 +96,9 @@ BlProfileCase >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		nextPutAll: '(';
-		print: hostClass label.
-	aStream
+		print: self label;
 		nextPutAll: ', ';
-		print: spartaCanvasClass label;
+		print: hostClass label;
 		nextPutAll: ')'.
 
 ]
@@ -119,24 +117,10 @@ BlProfileCase >> shortDescription [
 		  aStream
 			  nextPutAll: self label;
 			  nextPutAll: ' | ';
-			  nextPutAll: hostClass label;
-			  nextPutAll: ' | ';
-			  nextPutAll: spartaCanvasClass label ]
+			  nextPutAll: hostClass label ]
 ]
 
 { #category : #accessing }
 BlProfileCase >> space [
 	^ space
-]
-
-{ #category : #accessing }
-BlProfileCase >> spartaCanvasClass [
-
-	^ spartaCanvasClass
-]
-
-{ #category : #accessing }
-BlProfileCase >> spartaCanvasClass: aSpartaCanvasClass [
-
-	spartaCanvasClass := aSpartaCanvasClass
 ]

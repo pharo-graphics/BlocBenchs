@@ -37,5 +37,5 @@ SDL_Renderer >> primCreateTextureFromSurface: aSurface [
 
 	^ self ffiCall: #( SDL_Texture SDL_CreateTextureFromSurface (
 		self, 
-		SDL_Surface aSurface ) )
+		SDL_Surface * aSurface ) )
 ]

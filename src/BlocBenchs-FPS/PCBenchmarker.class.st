@@ -159,7 +159,7 @@ PCBenchmarker class >> exampleGradients [
 { #category : #examples }
 PCBenchmarker class >> exampleMinimizeLoopPeriods [
 
-	{BlOSWindowSDL2Host. BAOSWindowSDL2Host } do: [ :each |
+	{ BlOSWindowSDL2Host } do: [ :each |
 		each pulsePeriod: 1 milliSecond ].
 
 	WorldState MinCycleLapse: 1. "By default, 16"
@@ -225,8 +225,8 @@ PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 		element := case newElement.
 		space := BlSpace new
 "			host: BlNullRendererMorphicWindowHost new;"
-"			host: BAMorphicWindowHost new;"
-			host: BAOSWindowSDL2Host new;
+"			host: BlMorphicWindowHost new;"
+			host: BlOSWindowSDL2Host new;
 			extent: case logicalExtent;
 			addChild: element;
 			show;
@@ -407,7 +407,7 @@ PCBenchmarker >> printFpsOn: aStream [
 { #category : #printing }
 PCBenchmarker >> printFrameMSDurationStatsOn: aStream [
 
-	PCMeanConfidenceIntervalPrinter new
+	MeanConfidenceIntervalPrinter new
 		print: loggedFramesDeltaMS
 		on: aStream
 
@@ -420,7 +420,7 @@ PCBenchmarker >> printProjectedFpsOn: aStream [
 	projectedFps := loggedFramesDeltaMS
 		reject: [ :each | each isZero ]
 		thenCollect: [ :each | 1000.0 / each ].
-	PCMeanConfidenceIntervalPrinter new
+	MeanConfidenceIntervalPrinter new
 		fixedDecimalPlaces: 1;
 		print: projectedFps on: aStream.
 

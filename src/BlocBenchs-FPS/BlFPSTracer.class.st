@@ -127,7 +127,7 @@ BlFPSTracer >> printStatsOn: aStream [
 	
 	aStream << ';	ms:	'.
 
-	PCMeanConfidenceIntervalPrinter new
+	MeanConfidenceIntervalPrinter new
 		print: framesDeltaMS
 		on: aStream.
 

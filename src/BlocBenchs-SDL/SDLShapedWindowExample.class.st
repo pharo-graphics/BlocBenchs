@@ -4,8 +4,10 @@ Class {
 	#instVars : [
 		'sdlWindow',
 		'sdlRenderer',
-		'sdlSurface',
-		'sdlTexture'
+		'sdlTexture',
+		'shapeMode',
+		'referencedObjectsUntilTearDown',
+		'shapeSurface'
 	],
 	#pools : [
 		'SDL2Constants',
@@ -21,13 +23,37 @@ SDLShapedWindowExample class >> bigPharoSurface [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample class >> example1 [
+SDLShapedWindowExample class >> exampleByBinarizedAlpha [
 
-	self basicNew
-		initializeWithSDLSurface: self bigPharoSurface;
-		setUpWithBinarizeAlpha;
-		show;
-		inspect
+	| example |
+	example := self new
+		shapeSurface: self bigPharoSurface;
+		shapeByBinarizedAlpha: 255;
+		yourself.
+		
+	example show.
+	
+	2 seconds wait.
+	
+	example tearDown.
+
+]
+
+{ #category : #examples }
+SDLShapedWindowExample class >> exampleByColorKey [
+
+	| example |
+	example := self new
+		shapeSurface: self bigPharoSurface;
+		shapeByColorKey: Color white;
+		yourself.
+	
+	example show.
+	
+	2 seconds wait.
+	
+	example tearDown.
+
 ]
 
 { #category : #examples }
@@ -49,12 +75,44 @@ SDLShapedWindowExample class >> surfaceFromForm: aForm [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> initializeWithSDLSurface: aSDLSurface [
-	"Set the surface that defines the shape of the window.
-	Note: We don't take responsability of freeing the surface."
+SDLShapedWindowExample class >> surfaceWithRoundedCornersExtent: extent [
 
-	self initialize.
-	sdlSurface := aSDLSurface
+	| sdlSurface cairoSurface |
+
+	sdlSurface := SDL2
+		createRGBSurfaceWithFormat: SDL_PIXELFORMAT_ARGB8888
+		depth: 32
+		width: extent x
+		height: extent y.
+
+	sdlSurface lockSurface.
+		
+	cairoSurface := AeCairoImageSurface
+		newForData: sdlSurface pixels
+		extent: extent
+		stride: sdlSurface pitch
+		format: AeCairoSurfaceFormat argb32.
+
+	cairoSurface newContext
+		sourceColorRGBA: Color transparent;
+		paint;
+		sourceColorRGB: Color black;
+		roundedRectangleTo: extent radii: (Array new: 4 withAll: extent min / 3);
+		fill.
+
+	cairoSurface flush.
+	
+	sdlSurface unlockSurface.
+
+	^ sdlSurface
+]
+
+{ #category : #examples }
+SDLShapedWindowExample >> initialize [
+
+	super initialize.
+	referencedObjectsUntilTearDown := OrderedCollection new.
+
 ]
 
 { #category : #examples }
@@ -74,7 +132,7 @@ SDLShapedWindowExample >> sdlRenderer [
 { #category : #examples }
 SDLShapedWindowExample >> sdlSurface [
 
-	^ sdlSurface
+	^ shapeSurface
 ]
 
 { #category : #examples }
@@ -84,88 +142,88 @@ SDLShapedWindowExample >> sdlWindow [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> setUpWithBinarizeAlpha [
+SDLShapedWindowExample >> shapeByBinarizedAlpha: threshold [
 
-	| aMode |
-	SDL2 initVideo.
-
-	sdlWindow := SDL2
-		createShapedWindow: 'Shaped Window - BinarizeAlpha'
-		x: SDL_WINDOWPOS_UNDEFINED
-		y: SDL_WINDOWPOS_UNDEFINED
-		width: sdlSurface w
-		height: sdlSurface h
-		flags: 0.
-		
-	aMode :=	SDL_WindowShapeMode
+	shapeMode := SDL_WindowShapeMode
 		mode: SDL_WindowShapeModeEnum ShapeModeBinarizeAlpha
-		parameters: (SDL_WindowShapeParams binarizationCutoff: 100).
+		parameters: (SDL_WindowShapeParams binarizationCutoff: threshold)
+]
 
-	(sdlWindow primSetWindowShape: sdlSurface mode: aMode) in: [ :result |
-		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
+{ #category : #examples }
+SDLShapedWindowExample >> shapeByColorKey: aColor [
 
-	sdlRenderer := sdlWindow createDefaultRenderer.
-	sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface.
-	sdlRenderer
-"		drawColorR: 0 g: 0 b: 0 a: 0;"
-		drawColorR: 200 g: 200 b: 200 a: 200;
-		clear;
-		copy: sdlTexture;
-		present
+	| aSDLColor aSDLWindowShapeParams |
+	aSDLColor :=
+		SDL_Color externalNew
+			autoRelease;
+			r: (aColor red   * 255) asInteger;
+			g: (aColor green * 255) asInteger;
+			b: (aColor blue  * 255) asInteger;
+			a: (aColor alpha * 255) asInteger;
+			yourself.
+	aSDLWindowShapeParams := SDL_WindowShapeParams colorKey: aSDLColor.
+
+	shapeMode := SDL_WindowShapeMode
+		mode: SDL_WindowShapeModeEnum ShapeModeColorKey 
+		parameters: aSDLWindowShapeParams.
+
+	referencedObjectsUntilTearDown
+		add: aSDLColor;
+		add: aSDLWindowShapeParams
 
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> setUpWithColorKey [
+SDLShapedWindowExample >> shapeSurface: aSDLSurface [
 
-	| aMode |
-	SDL2 initVideo.
-
-	sdlWindow := SDL2
-		createShapedWindow: 'Shaped Window - Color Key'
-		x: SDL_WINDOWPOS_UNDEFINED
-		y: SDL_WINDOWPOS_UNDEFINED
-		width: sdlSurface w
-		height: sdlSurface h
-		flags: 0.
-		
-	aMode :=	SDL_WindowShapeMode
-		mode: SDL_WindowShapeModeEnum ShapeModeColorKey 
-		parameters: (SDL_WindowShapeParams colorKey: (SDL_Color newFrom: Color transparent)).
-
-	(sdlWindow primSetWindowShape: sdlSurface mode: aMode) in: [ :result |
-		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
-
-	sdlRenderer := sdlWindow createDefaultRenderer.
-	sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface.
-	sdlRenderer
-"		drawColorR: 0 g: 0 b: 0 a: 0;"
-		drawColorR: 200 g: 200 b: 200 a: 200;
-		clear;
-		copy: sdlTexture;
-		present
-
+	shapeSurface := aSDLSurface
 ]
 
 { #category : #examples }
 SDLShapedWindowExample >> show [
 
-	sdlWindow show
+"	SDL2 initVideo."
+
+	sdlWindow := SDL2
+		createShapedWindow: 'Shaped Window - Color Key'
+		x: 20
+		y: 20
+		width: shapeSurface w
+		height: shapeSurface h
+		flags: SDL_WINDOW_SHOWN.
+	
+	[ sdlWindow isShaped ] whileFalse: [
+		';' trace.
+		10 milliSeconds wait ].
+	'.' traceCr.	
+
+	(sdlWindow primSetWindowShape: shapeSurface mode: shapeMode) in: [ :result |
+		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
+
+	sdlRenderer := sdlWindow createDefaultRenderer.
+	sdlTexture := sdlRenderer primCreateTextureFromSurface: "sdlSurface"self class bigPharoSurface.
+	sdlRenderer
+		drawColorR: 0 g: 255 b: 255 a: 255;
+		clear;
+		copy: sdlTexture;
+		present
+
 ]
 
 { #category : #examples }
 SDLShapedWindowExample >> tearDown [
 
-	sdlTexture destroy.
+	referencedObjectsUntilTearDown removeAll.
+	shapeSurface := nil.
+	
+	sdlTexture ifNotNil: #destroy.
 	sdlTexture := nil.
 
-	sdlRenderer destroy.
+	sdlRenderer ifNotNil: #destroy.
 	sdlRenderer := nil.
 
-	sdlWindow hide.	
-	sdlWindow destroy.
+	sdlWindow ifNotNil: #destroy.
 	sdlWindow := nil.
 
-	sdlSurface := nil.
 
 ]

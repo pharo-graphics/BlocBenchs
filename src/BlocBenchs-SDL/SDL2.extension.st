@@ -1,28 +1,13 @@
 Extension { #name : #SDL2 }
 
 { #category : #'*BlocBenchs-SDL' }
-SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: width height: height [
-	"See: https://wiki.libsdl.org/SDL_CreateRGBSurfaceWithFormat"
-
-	^ self ffiCall: #(
-		SDL_Surface*
-		SDL_CreateRGBSurfaceWithFormat (
-			0, 
-			int width, 
-			int height, 
-			int depth, 
-			Uint32 aSDLPixelFormat) )
-
-]
-
-{ #category : #'*BlocBenchs-SDL' }
 SDL2 class >> createShapedWindow: title x: x y: y width: width height: height flags: flags [
 	"Create a window that can be shaped with the specified position, dimensions, and flags.
 
 	See: https://github.com/libsdl-org/SDL/blob/53dea9830964eee8b5c2a7ee0a65d6e268dc78a1/include/SDL_shape.h#L69"
 
 	^ self ffiCall: #(
-		SDL_Window *
+		SDL_Window
 		SDL_CreateShapedWindow(
 			"const char *" String title,
 			uint x,
@@ -54,13 +39,6 @@ SDL2 class >> memCopy: src to: dest size: n [
 ]
 
 { #category : #'*BlocBenchs-SDL' }
-SDL2 class >> primGetNumRenderDrivers [
-
-	^ self ffiCall: #(
-		int SDL_GetNumRenderDrivers ( void ) )
-]
-
-{ #category : #'*BlocBenchs-SDL' }
 SDL2 class >> primGetPerformanceCounter [
 
 	^ self ffiCall: #(
@@ -75,15 +53,6 @@ SDL2 class >> primGetPerformanceFrequency [
 ]
 
 { #category : #'*BlocBenchs-SDL' }
-SDL2 class >> primGetRenderDriverInfo: info at: index [
-
-	^ self ffiCall: #( 
-		int SDL_GetRenderDriverInfo(
-			int index,
-			SDL_RendererInfo * info) )
-]
-
-{ #category : #'*BlocBenchs-SDL' }
 SDL2 class >> primGetTicks [
 
 	^ self ffiCall: #(
@@ -95,19 +64,4 @@ SDL2 class >> primGetTicks64 [
 
 	^ self ffiCall: #(
 		Uint64 SDL_GetTicks64() )
-]
-
-{ #category : #'*BlocBenchs-SDL' }
-SDL2 class >> renderDriverInfos [
-	"Get a collection of `SDL_RendererInfo` objects for the number of 2D rendering drivers available for the current display.
-
-	Inspect:
-		SDL2 renderDriverInfos
-	"
-
-	^ (0 to: self primGetNumRenderDrivers - 1) collect: [:index |
-		| info |
-		info := SDL_RendererInfo externalNew autoRelease.
-		self primGetRenderDriverInfo: info at: index.
-		info ]
 ]
