@@ -49,6 +49,7 @@ PCRawBenchmarker >> openWindow [
 	rawWindow
 		openWithTitle: self labelWithCase
 		position: 30 asPoint
-		extent: case logicalExtent.
+		extent: case logicalExtent
+		"shape: (SDLShapedWindowExample surfaceWithRoundedCornersExtent: case logicalExtent)".
 	rawWindow startLoop
 ]

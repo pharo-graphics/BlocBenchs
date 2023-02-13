@@ -57,11 +57,27 @@ SDLShapedWindowExample class >> exampleByColorKey [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample class >> sdlSurfaceWithWhiteBackground [
+SDLShapedWindowExample class >> surfaceFromForm: aForm [
 
-	| radius extent sdlSurface cairoSurface |
-	radius := 128.
-	extent := (radius * 2) asPoint.
+	| convertedForm aSDLSurface |
+	convertedForm := aForm unhibernate; asFormOfDepth: 32.
+	aSDLSurface := SDL2 createRGBSurfaceFromPixels: convertedForm bits
+			width: convertedForm width height: convertedForm height
+			depth: 32 pitch: convertedForm width * 4
+			rmask: 16r00ff0000 
+			gmask: 16r000ff00
+			bmask: 16r00000ff
+			amask: 16rff000000.
+	aSDLSurface autoRelease.
+	^ aSDLSurface
+	
+
+]
+
+{ #category : #examples }
+SDLShapedWindowExample class >> surfaceWithRoundedCornersExtent: extent [
+
+	| sdlSurface cairoSurface |
 
 	sdlSurface := SDL2
 		createRGBSurfaceWithFormat: SDL_PIXELFORMAT_ARGB8888
@@ -78,10 +94,10 @@ SDLShapedWindowExample class >> sdlSurfaceWithWhiteBackground [
 		format: AeCairoSurfaceFormat argb32.
 
 	cairoSurface newContext
-		sourceColorRGB: Color white;
+		sourceColorRGBA: Color transparent;
 		paint;
 		sourceColorRGB: Color black;
-		circleRadius: radius;
+		roundedRectangleTo: extent radii: (Array new: 4 withAll: extent min / 3);
 		fill.
 
 	cairoSurface flush.
@@ -89,24 +105,6 @@ SDLShapedWindowExample class >> sdlSurfaceWithWhiteBackground [
 	sdlSurface unlockSurface.
 
 	^ sdlSurface
-]
-
-{ #category : #examples }
-SDLShapedWindowExample class >> surfaceFromForm: aForm [
-
-	| convertedForm aSDLSurface |
-	convertedForm := aForm unhibernate; asFormOfDepth: 32.
-	aSDLSurface := SDL2 createRGBSurfaceFromPixels: convertedForm bits
-			width: convertedForm width height: convertedForm height
-			depth: 32 pitch: convertedForm width * 4
-			rmask: 16r00ff0000 
-			gmask: 16r000ff00
-			bmask: 16r00000ff
-			amask: 16rff000000.
-	aSDLSurface autoRelease.
-	^ aSDLSurface
-	
-
 ]
 
 { #category : #examples }
