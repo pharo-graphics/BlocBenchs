@@ -4,8 +4,10 @@ Class {
 	#instVars : [
 		'sdlWindow',
 		'sdlRenderer',
-		'sdlSurface',
-		'sdlTexture'
+		'sdlTexture',
+		'shapeMode',
+		'referencedObjectsUntilTearDown',
+		'shapeSurface'
 	],
 	#pools : [
 		'SDL2Constants',
@@ -21,16 +23,14 @@ SDLShapedWindowExample class >> bigPharoSurface [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample class >> example [
+SDLShapedWindowExample class >> exampleByBinarizedAlpha [
 
 	| example |
-	example := self basicNew
-		initializeWithSDLSurface: self sdlSurfaceWithWhiteBackground;
-		setUpWithColorKey: Color white;
+	example := self new
+		shapeSurface: self bigPharoSurface;
+		shapeByBinarizedAlpha: 255;
 		yourself.
 		
-"	example inspect."
-	
 	example show.
 	
 	2 seconds wait.
@@ -40,15 +40,13 @@ SDLShapedWindowExample class >> example [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample class >> exampleBinarizeAlpha [
+SDLShapedWindowExample class >> exampleByColorKey [
 
 	| example |
-	example := self basicNew
-		initializeWithSDLSurface: self bigPharoSurface;
-		setUpWithBinarizeAlpha;
+	example := self new
+		shapeSurface: self bigPharoSurface;
+		shapeByColorKey: Color white;
 		yourself.
-		
-"	example inspect."
 	
 	example show.
 	
@@ -112,12 +110,11 @@ SDLShapedWindowExample class >> surfaceFromForm: aForm [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> initializeWithSDLSurface: aSDLSurface [
-	"Set the surface that defines the shape of the window.
-	Note: We don't take responsability of freeing the surface."
+SDLShapedWindowExample >> initialize [
 
-	self initialize.
-	sdlSurface := aSDLSurface
+	super initialize.
+	referencedObjectsUntilTearDown := OrderedCollection new.
+
 ]
 
 { #category : #examples }
@@ -137,7 +134,7 @@ SDLShapedWindowExample >> sdlRenderer [
 { #category : #examples }
 SDLShapedWindowExample >> sdlSurface [
 
-	^ sdlSurface
+	^ shapeSurface
 ]
 
 { #category : #examples }
@@ -147,55 +144,17 @@ SDLShapedWindowExample >> sdlWindow [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> setUpWithBinarizeAlpha [
+SDLShapedWindowExample >> shapeByBinarizedAlpha: threshold [
 
-	| aMode |
-	SDL2 initVideo.
-
-	sdlWindow := SDL2
-		createShapedWindow: 'Shaped Window - BinarizeAlpha'
-		x: 50
-		y: 50
-		width: sdlSurface w
-		height: sdlSurface h
-		flags: 0.
-		
-	self assert: sdlWindow isShaped.
-
-	aMode :=	SDL_WindowShapeMode
+	shapeMode := SDL_WindowShapeMode
 		mode: SDL_WindowShapeModeEnum ShapeModeBinarizeAlpha
-		parameters: (SDL_WindowShapeParams binarizationCutoff: 255).
-	
-	(sdlWindow primSetWindowShape: sdlSurface mode: aMode) in: [ :result |
-		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
-
-	sdlRenderer := sdlWindow createDefaultRenderer.
-	sdlTexture := sdlRenderer primCreateTextureFromSurface: sdlSurface.
-	sdlRenderer
-		drawColorR: 0 g: 0 b: 0 a: 0;
-"		drawColorR: 200 g: 200 b: 200 a: 200;"
-		clear;
-		copy: sdlTexture;
-		present
-
+		parameters: (SDL_WindowShapeParams binarizationCutoff: threshold)
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> setUpWithColorKey: aColor [
+SDLShapedWindowExample >> shapeByColorKey: aColor [
 
-	| aMode aSDLColor aSDLWindowShapeParams |
-	SDL2 initVideo.
-
-	sdlWindow := SDL2
-		createShapedWindow: 'Shaped Window - Color Key'
-		x: 50
-		y: 50
-		width: sdlSurface w
-		height: sdlSurface h
-		flags: 0.
-
-	self assert: sdlWindow isShaped.
-
+	| aSDLColor aSDLWindowShapeParams |
 	aSDLColor :=
 		SDL_Color externalNew
 			autoRelease;
@@ -205,13 +164,43 @@ SDLShapedWindowExample >> setUpWithColorKey: aColor [
 			a: (aColor alpha * 255) asInteger;
 			yourself.
 	aSDLWindowShapeParams := SDL_WindowShapeParams colorKey: aSDLColor.
-	aMode :=	SDL_WindowShapeMode
+
+	shapeMode := SDL_WindowShapeMode
 		mode: SDL_WindowShapeModeEnum ShapeModeColorKey 
 		parameters: aSDLWindowShapeParams.
 
-	(sdlWindow primSetWindowShape: sdlSurface mode: aMode) in: [ :result |
-		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
+	referencedObjectsUntilTearDown
+		add: aSDLColor;
+		add: aSDLWindowShapeParams
 
+]
+
+{ #category : #examples }
+SDLShapedWindowExample >> shapeSurface: aSDLSurface [
+
+	shapeSurface := aSDLSurface
+]
+
+{ #category : #examples }
+SDLShapedWindowExample >> show [
+
+"	SDL2 initVideo."
+
+	sdlWindow := SDL2
+		createShapedWindow: 'Shaped Window - Color Key'
+		x: 20
+		y: 20
+		width: shapeSurface w
+		height: shapeSurface h
+		flags: SDL_WINDOW_SHOWN.
+	
+	[ sdlWindow isShaped ] whileFalse: [
+		';' trace.
+		10 milliSeconds wait ].
+	'.' traceCr.	
+
+	(sdlWindow primSetWindowShape: shapeSurface mode: shapeMode) in: [ :result |
+		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
 
 	sdlRenderer := sdlWindow createDefaultRenderer.
 	sdlTexture := sdlRenderer primCreateTextureFromSurface: "sdlSurface"self class bigPharoSurface.
@@ -224,25 +213,19 @@ SDLShapedWindowExample >> setUpWithColorKey: aColor [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> show [
-
-	sdlWindow show
-]
-
-{ #category : #examples }
 SDLShapedWindowExample >> tearDown [
 
-	sdlTexture ifNotNil: [
-		sdlTexture destroy.
-		sdlTexture := nil ].
+	referencedObjectsUntilTearDown removeAll.
+	shapeSurface := nil.
+	
+	sdlTexture ifNotNil: #destroy.
+	sdlTexture := nil.
 
-	sdlRenderer destroy.
+	sdlRenderer ifNotNil: #destroy.
 	sdlRenderer := nil.
 
-	sdlWindow hide.	
-	sdlWindow destroy.
+	sdlWindow ifNotNil: #destroy.
 	sdlWindow := nil.
 
-	sdlSurface := nil.
 
 ]
