@@ -30,7 +30,7 @@ PCUpdateStaticTextureStrategy >> initialize [
 		newForData: sdlSurface pixels
 		extent: pixelExtent
 		stride: sdlSurface pitch
-		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
+		format: AeCairoSurfaceFormat argb32.
 
 	cairoContext := aCairoSurface newContext.
 

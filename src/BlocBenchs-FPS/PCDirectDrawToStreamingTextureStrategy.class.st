@@ -27,12 +27,12 @@ PCDirectDrawToStreamingTextureStrategy >> drawPrepare [
 		newForData: pixelsAddress
 		extent: pixelExtent
 		stride: (pitchAddress signedLongAt: 1)
-		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32.
+		format: AeCairoSurfaceFormat argb32.
 
 "	This should be true:
 	(pitchAddress signedLongAt: 1) = (AeCairoImageSurface 
 		primStrideForWidth: pixelExtent x
-		format: AeCairoSurfaceFormat CAIRO_FORMAT_ARGB32).
+		format: AeCairoSurfaceFormat argb32).
 "
 
 	cairoContext := aCairoSurface newContext.
