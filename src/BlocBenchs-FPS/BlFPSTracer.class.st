@@ -128,9 +128,8 @@ BlFPSTracer >> printStatsOn: aStream [
 	aStream << ';	ms:	'.
 
 	MeanConfidenceIntervalPrinter new
-		print: framesDeltaMS
-		on: aStream.
-
+		fixedDecimalPlaces: 1;
+		print: framesDeltaMS on: aStream
 
 ]
 
