@@ -97,7 +97,7 @@ SDLShapedWindowExample class >> surfaceWithRoundedCornersExtent: extent [
 		sourceColorRGBA: Color transparent;
 		paint;
 		sourceColorRGB: Color black;
-		roundedRectangleTo: extent radii: (Array new: 4 withAll: extent min / 3);
+		roundedRectangleTo: extent radius: extent min / 3;
 		fill.
 
 	cairoSurface flush.

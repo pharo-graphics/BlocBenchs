@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'geometry testing' }
-BoidCustomGeometry >> containsPoint: aPoint in: aBlElement [ 
+BoidCustomGeometry >> containsPoint: aPoint alreadyInGeometryBoundsOf: aBlElement [ 
 	"Inspired by BlEllipseGeometry>>#containsPoint:in:"
 
 	| w h x y center xRadius yRadius normalized |
