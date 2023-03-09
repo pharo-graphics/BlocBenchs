@@ -34,8 +34,9 @@ PCBoxWindmillCompositingWindow >> presentOnWindow [
 				elapsedMS: self elapsedMillisecondsSinceFirstDraw)
 			center: SDL_Point null.
 
-		errorCode = 0 ifFalse: [
-			self error: SDL2 getErrorMessage ] ].
+		SDL2
+			ensureSuccessCode: errorCode
+			description: 'Calling SDL_RenderCopyEx' ].
 
 	"Frame is ready to be shown"
 	sdlRenderer present
