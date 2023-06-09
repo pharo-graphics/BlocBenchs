@@ -4,14 +4,14 @@ Class {
 	#category : #BaselineOfBlocBenchs
 }
 
-{ #category : #baseline }
+{ #category : #baselines }
 BaselineOfBlocBenchs >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
 		do: [ 
 			self
-				declareBlocPacOn: spec;
+				declareBlocOn: spec;
 				declareToploOn: spec;
 				declareFFICallLoggerOn: spec;
 				declareDataFrameOn: spec;
@@ -23,7 +23,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 				package: 'BlocBenchs-Printing'
 					with: [ spec requires: #('DataFrame') ];
 				package: 'BlocBenchs-BoidsExample'
-					with: [ spec requires: #('BlocPac') ];
+					with: [ spec requires: #('Bloc') ];
 				package: 'BlocBenchs-Old'
 					with: [ spec requires: #('BlocBenchs-BoidsExample' 'Toplo' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-FPS'
@@ -32,12 +32,12 @@ BaselineOfBlocBenchs >> baseline: spec [
 ]
 
 { #category : #'external projects' }
-BaselineOfBlocBenchs >> declareBlocPacOn: spec [
+BaselineOfBlocBenchs >> declareBlocOn: spec [
 
 	spec
-		baseline: 'BlocPac'
+		baseline: 'Bloc'
 		with: [
-			spec repository: 'github://pharo-graphics/bloc-pac:dev-1.0/src' ]
+			spec repository: 'github://pharo-graphics/bloc:dev-1.0/src' ]
 ]
 
 { #category : #'external projects' }
