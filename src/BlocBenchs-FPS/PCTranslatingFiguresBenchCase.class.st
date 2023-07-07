@@ -16,7 +16,7 @@ PCTranslatingFiguresBenchCase class >> exampleOpenFigureSamples [
 
 		BlSpace new
 			addChild: (sampleElement
-				relocate: 50 asPoint;
+				position: 50 asPoint;
 				yourself);
 			title: 'Sample: ', each label;
 			extent: 400 asPoint;
@@ -64,7 +64,7 @@ PCTranslatingFiguresBenchCase >> newElementWithIndependentAnimations [
 	1 to: self numberOfFigures do: [ :index |
 		| aFigure |
 		aFigure := self newFigureWith: random.
-		aFigure relocate: self figureOffset + ((index * self offsetBetweenFigures x) @ 0).
+		aFigure position: self figureOffset + ((index * self offsetBetweenFigures x) @ 0).
 		aFigure addAnimation: ((BlTransformAnimation translate: self targetTranslation)
 		  duration: self duration;
 		  yourself).
@@ -89,7 +89,7 @@ PCTranslatingFiguresBenchCase >> newElementWithSingleAnimation [
 	1 to: self numberOfFigures do: [ :index |
 		| aFigure |
 		aFigure := self newFigureWith: random.
-		aFigure relocate: self figureOffset + ((index * self offsetBetweenFigures x) @ 0).
+		aFigure position: self figureOffset + ((index * self offsetBetweenFigures x) @ 0).
 		container addChild: aFigure ].
 
 	^ container

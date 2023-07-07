@@ -65,7 +65,7 @@ PCNestedTransformationsBenchCase >> newElement [
 
 	"Only the first figure element needs to be added to the root of the space."
 	^ elements first
-		relocate: self figureOffset;
+		position: self figureOffset;
 		yourself
 ]
 

@@ -84,7 +84,7 @@ PCBoxWindmillBenchCase >> newElement [
 			outskirts: BlOutskirts centered;
 			size: self boxExtent;
 			background: self boxColor;
-			relocate: eachPoint;
+			position: eachPoint;
 			border: (BlBorder
 				paint: self boxBorderColor
 				width: self boxBorderWidth);

@@ -55,7 +55,7 @@ PCCompositionBenchCase >> newFigure: random [
 	
 	^ BlElement new
 		background: (Color random: random);
-		relocate: (self nextLocation: random);
+		position: (self nextLocation: random);
 		size: self figureExtent;
 		yourself
 ]

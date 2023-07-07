@@ -20,7 +20,7 @@ PCImagesBenchCase >> newFigureWith: random [
 	1 to: self numberOfRows do:[ :index |
 		container addChild:
 			((self newImageElementWith: random)
-				relocate: 0 @ (index * self offsetBetweenFigures y);
+				position: 0 @ (index * self offsetBetweenFigures y);
 				yourself) ].
 
 	^ container

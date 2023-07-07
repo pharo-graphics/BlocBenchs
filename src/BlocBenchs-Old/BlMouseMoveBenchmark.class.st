@@ -217,7 +217,7 @@ BlMouseMoveBenchmark >> runOn: aGeometry [
 
 	elements := (1 to: nestingLevel) collect: [ :index |
 		BlElement new
-			relocate: 0@0;
+			position: 0@0;
 			size: extent;
 			geometry: aGeometry;
 			background: (Color random: random);
@@ -235,7 +235,7 @@ BlMouseMoveBenchmark >> runOn: aGeometry [
 		addChild: elements first;
 		addChild:
 			(self newPointerElement
-				relocate: eventPosition;
+				position: eventPosition;
 				yourself);
 		extent: extent;
 		title: host class label, ' - ', aGeometry asString;
