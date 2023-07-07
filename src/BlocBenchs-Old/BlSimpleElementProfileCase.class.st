@@ -10,11 +10,11 @@ Class {
 	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : #'instance creation' }
+{ #category : #hooks }
 BlSimpleElementProfileCase >> newElement [
 
 	^ element := BlElement new
-		relocate: 100 asPoint;
+		position: 100 asPoint;
 		size: 100 asPoint;
 		border: (BlBorder paint: Color gray width: 4);
 		addAnimation: (self newSteppingAnimation);

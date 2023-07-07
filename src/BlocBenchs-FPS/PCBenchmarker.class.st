@@ -121,6 +121,18 @@ PCBenchmarker class >> exampleBunchOfBenchs [
 ]
 
 { #category : #examples }
+PCBenchmarker class >> exampleComposition [
+
+	PCBenchmarkSuite new
+		addCase: PCCompositionEnabledBenchCase new;
+		addCase: PCCompositionDisabledBenchCase new;
+		numberOfSeconds: 10;
+		addAlexandrieBenchmarker;
+		runInForkWithGUI
+
+]
+
+{ #category : #examples }
 PCBenchmarker class >> exampleFFI [
 
 	[ | case |
@@ -221,7 +233,8 @@ PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 		report := SaReport newWithASPOn: [
 
 		| case element space |
-		case := PCRotatedTextBenchCase new.
+		case := PCGuassianShadowedCirclesBenchCase new.
+		case numberOfSeconds: 10.
 		element := case newElement.
 		space := BlSpace new
 "			host: BlNullRendererMorphicWindowHost new;"
@@ -231,7 +244,7 @@ PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 			addChild: element;
 			show;
 			yourself.
-		5 seconds wait.
+		case duration wait.
 		space close.
 
 		].
