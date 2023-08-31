@@ -53,7 +53,7 @@ PCBlocBenchmarker >> openWindow [
 		extent: case logicalExtent;
 		yourself.
 
-	space addChild: case newElement.
+	space root addChild: case newElement.
 
 	"For each frame, register the elapsed time."
 	"Prepare collection for 250 frames per second"
