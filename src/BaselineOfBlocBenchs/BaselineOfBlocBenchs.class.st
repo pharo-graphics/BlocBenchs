@@ -22,6 +22,8 @@ BaselineOfBlocBenchs >> baseline: spec [
 					with: [ spec requires: #('SDLExperiments') ];
 				package: 'BlocBenchs-Printing'
 					with: [ spec requires: #('DataFrame') ];
+				package: 'BlocBenchs-Alexandrie'
+					with: [ spec requires: #('Bloc' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-BoidsExample'
 					with: [ spec requires: #('Bloc') ];
 				package: 'BlocBenchs-Old'

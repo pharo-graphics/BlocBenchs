@@ -21,7 +21,7 @@ Class {
 { #category : #examples }
 BlProfileRunner class >> casesToProfile [
 
-	^ { BlBoidsProfileCase new. BlTextEditorProfileCase new }
+	^ { BlBoidsProfileCase new }
 ]
 
 { #category : #examples }
@@ -124,7 +124,7 @@ BlProfileRunner class >> exampleOnlyFlameGraph [
 { #category : #examples }
 BlProfileRunner class >> hostClassesToProfile [
 
-	^ { BlOSWindowSDL2Host }
+	^ { BlOSWindowSDL2Host "BlMorphicWindowHost" }
 ]
 
 { #category : #'instance creation' }
