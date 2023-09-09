@@ -12,6 +12,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 		do: [ 
 			self
 				declareBlocOn: spec;
+				declareBoidsOn: spec;
 				declareToploOn: spec;
 				declareFFICallLoggerOn: spec;
 				declareDataFrameOn: spec;
@@ -24,10 +25,8 @@ BaselineOfBlocBenchs >> baseline: spec [
 					with: [ spec requires: #('DataFrame') ];
 				package: 'BlocBenchs-Alexandrie'
 					with: [ spec requires: #('Bloc' 'BlocBenchs-Printing') ];
-				package: 'BlocBenchs-BoidsExample'
-					with: [ spec requires: #('Bloc') ];
 				package: 'BlocBenchs-Old'
-					with: [ spec requires: #('BlocBenchs-BoidsExample' 'Toplo' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
+					with: [ spec requires: #('BlocTutorials-Boids' 'Toplo' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-FPS'
 					with: [ spec requires: #('BlocBenchs-SDL' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing') ]
 			]
@@ -40,6 +39,15 @@ BaselineOfBlocBenchs >> declareBlocOn: spec [
 		baseline: 'Bloc'
 		with: [
 			spec repository: 'github://pharo-graphics/bloc:dev-1.0/src' ]
+]
+
+{ #category : #'external projects' }
+BaselineOfBlocBenchs >> declareBoidsOn: spec [
+
+	spec
+		package: 'BlocTutorials-Boids'
+		with: [
+			spec repository: 'github://pharo-graphics/Tutorials:dev-1.0/src' ]
 ]
 
 { #category : #'external projects' }
