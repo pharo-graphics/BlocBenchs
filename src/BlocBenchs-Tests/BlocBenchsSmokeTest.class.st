@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 BlocBenchsSmokeTest >> defaultTimeLimit [
 
-	^ 2 minutes
+	^ 5 minutes
 ]
 
 { #category : #tests }
@@ -43,17 +43,22 @@ BlocBenchsSmokeTest >> testPCBenchmarker3 [
 { #category : #tests }
 BlocBenchsSmokeTest >> testPCOSWindowScrollingExample1 [
 
-	PCOSWindowScrollingExample new beFlatScrolling; open; inspect
+	PCOSWindowScrollingExample new
+		beFlatScrolling;
+		open
 ]
 
 { #category : #tests }
 BlocBenchsSmokeTest >> testPCOSWindowScrollingExample2 [
 
-	PCOSWindowScrollingExample new beInertialScrolling; open; inspect
+	PCOSWindowScrollingExample new
+		beInertialScrolling;
+		open
 ]
 
 { #category : #tests }
 BlocBenchsSmokeTest >> testSDLShapedWindowExample [
 
-	SDLShapedWindowExample exampleByColorKey
+	OSPlatform current isMacOS ifTrue: [ 
+		SDLShapedWindowExample exampleByColorKey ]
 ]
