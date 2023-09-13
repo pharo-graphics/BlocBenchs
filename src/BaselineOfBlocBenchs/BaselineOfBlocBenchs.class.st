@@ -7,6 +7,7 @@ Class {
 { #category : #baselines }
 BaselineOfBlocBenchs >> baseline: spec [
 	<baseline>
+
 	spec
 		for: #common
 		do: [ 
@@ -28,7 +29,9 @@ BaselineOfBlocBenchs >> baseline: spec [
 				package: 'BlocBenchs-Old'
 					with: [ spec requires: #('BlocTutorials-Boids' 'Toplo' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-FPS'
-					with: [ spec requires: #('BlocBenchs-SDL' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing') ]
+					with: [ spec requires: #('BlocBenchs-SDL' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing') ];
+				package: 'BlocBenchs-Tests'
+					with: [ spec requires: #('BlocBenchs-SDL' 'BlocBenchs-Alexandrie' 'BlocBenchs-Old' 'BlocBenchs-FPS') ]
 			]
 ]
 
