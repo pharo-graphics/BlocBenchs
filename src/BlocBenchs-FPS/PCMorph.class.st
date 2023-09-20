@@ -111,7 +111,7 @@ PCMorph >> initializeSurface [
 	surfaceData := FFIExternalArray
 		fromHandle: cairoSurface data getHandle
 		type: FFIUInt32
-		size: cairoSurface height * cairoSurface stride / 4.
+		size: cairoSurface byteSize >> 2.
 
 ]
 
