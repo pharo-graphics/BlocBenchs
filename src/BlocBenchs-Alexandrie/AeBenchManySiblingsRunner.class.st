@@ -64,38 +64,38 @@ AeBenchManySiblingsRunner >> prepareToStep [
 { #category : #printing }
 AeBenchManySiblingsRunner >> reportOn: stream [
 
-	| separator sortedMS |
-	separator := ' | '.
+	| sortedMS |
+	stream
+		nextPutAll: ('LABEL: {1} figures in {3} surface {2}'
+			format: {
+				figures size.
+				surfaceExtent.
+				(surfaceExtent x * surfaceExtent y * 4) humanReadableByteSizeString }).
 
 	stream
-		nextPutAll: '# runs: ';
-		print: millisecondsToRun size.
-
-	stream
-		nextPutAll: separator;
-		nextPutAll: '# figures: ';
-		print: figures size.
-
-	stream
-		nextPutAll: separator;
-		nextPutAll: 'mean: '.
+		nextPutAll: ' STATS: '.
 	MeanConfidenceIntervalPrinter new
 		unitString: 'ms';
-		print: millisecondsToRun
-			on: stream.
+		fixedDecimalPlaces: 1;
+		print: millisecondsToRun on: stream.
 
 	sortedMS := millisecondsToRun sorted asArray.
 	stream
-		nextPutAll: separator;
-		nextPutAll: 'top 10%: '.
-	(sortedMS last: (millisecondsToRun size * 0.1) ceiling) printElementsOn: stream.
+		nextPutAll: '; faster tenth: '.
+	(sortedMS first: (millisecondsToRun size * 0.1) ceiling)
+		do: [:element | stream print: element ]
+		separatedBy: [stream space].
+	stream
+		nextPutAll: '; slower tenth: '.
+	(sortedMS last: (millisecondsToRun size * 0.1) ceiling)
+		do: [:element | stream print: element ]
+		separatedBy: [stream space].
 
 	stream
-		nextPutAll: separator;
-		nextPutAll: 'bottom 10%: '.
-	(sortedMS first: (millisecondsToRun size * 0.1) ceiling) printElementsOn: stream.
+		nextPutAll: '; runs: ';
+		print: millisecondsToRun size.
 
-	stream cr
+	stream cr; flush
 ]
 
 { #category : #printing }
