@@ -26,10 +26,10 @@ AeBenchManySiblingsRunner >> initialize [
 
 	super initialize.
 
-	numberOfRuns := 30.
+	numberOfRuns := 35.
 	surfaceExtent := 1000 @ 600.
-	matrixDimension := 50 @ 50.
-	figureFactoryBlock := [ AeBenchRRectFigure new ]
+	matrixDimension := 20 @ 10.
+	figureFactoryBlock := [ AeBenchCircleFigure new ]
 ]
 
 { #category : #running }
@@ -40,19 +40,26 @@ AeBenchManySiblingsRunner >> prepareFirstStep [
 		extent: surfaceExtent
 		format: AeCairoSurfaceFormat argb32.
 	cairoContext := cairoSurface newContext.
+	cairoContext antialias: AeCairoAntialias fast.
 
 	cellExtent := surfaceExtent / matrixDimension.
 	figures := OrderedCollection new.
 	1 to: matrixDimension x do: [ :colIndex |
 		1 to: matrixDimension y do: [ :rowIndex |
-			figures add:
+			| newFigure |
+			newFigure :=
 				(figureFactoryBlock value
 					position: (Point
 						x: (colIndex - 1) * cellExtent x
 						y: (rowIndex - 1) * cellExtent y);
 					extent: cellExtent;
 					consolidate;
-					yourself) ] ]
+					yourself).
+			
+"			newFigure cachePathWith: cairoContext."
+			"todo: add parameter to ensure integer or 0.5 positions"
+			
+			figures add: newFigure ] ]
 ]
 
 { #category : #running }
@@ -106,7 +113,7 @@ AeBenchManySiblingsRunner >> reportString [
 
 { #category : #running }
 AeBenchManySiblingsRunner >> run [
-	<script: 'self new run'>
+	<script: 'AeBenchManySiblingsRunner new run'>
 
 	self prepareFirstStep.
 
@@ -117,8 +124,7 @@ AeBenchManySiblingsRunner >> run [
 				(Time millisecondsToRun: [ self step ]) ] ].
 
 	self reportOn: Transcript.
-	Transcript flush.
-	
+		
 	cairoSurface inspect.
 ]
 

@@ -10,26 +10,18 @@ Class {
 
 { #category : #drawing }
 AeBenchCircleFigure >> consolidate [
-
+	
 	super consolidate.
 	
-	radius := extent min / 2.
-	center := position - radius
+	radius := extent min // 2.
+	center := extent // 2
 ]
 
 { #category : #drawing }
-AeBenchCircleFigure >> drawOn: aCairoContext [
+AeBenchCircleFigure >> drawPathOn: aCairoContext [
 
 	aCairoContext
 		circleCenterX: center x
-			y: center y
-			radius: radius.
-	
-	aCairoContext
-		sourceColorRGBA: fillColor;
-		fillPreserve.
-
-	aCairoContext
-		sourceColorRGBA: strokeColor;
-		stroke
+		y: center y
+		radius: radius
 ]

@@ -15,15 +15,7 @@ AeBenchRRectFigure >> consolidate [
 ]
 
 { #category : #drawing }
-AeBenchRRectFigure >> drawOn: aCairoContext [
+AeBenchRRectFigure >> drawPathOn: aCairoContext [
 
-	aCairoContext
-		translateByX: position x y: position y;
-		roundedRectangleTo: extent radius: radius;
-		sourceColorRGBA: fillColor;
-		fillPreserve;
-		sourceColorRGBA: strokeColor;
-		stroke;
-		translateByX: position x negated y: position y negated
-
+	aCairoContext roundedRectangleTo: extent radius: radius
 ]
