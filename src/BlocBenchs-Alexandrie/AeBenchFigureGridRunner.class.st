@@ -1,12 +1,11 @@
 Class {
-	#name : #AeBenchManySiblingsRunner,
+	#name : #AeBenchFigureGridRunner,
 	#superclass : #Object,
 	#instVars : [
 		'surfaceExtent',
 		'matrixDimension',
 		'cairoContext',
 		'cairoSurface',
-		'cellDrawStrategy',
 		'millisecondsToRun',
 		'numberOfRuns',
 		'figureFactoryBlock',
@@ -16,13 +15,13 @@ Class {
 }
 
 { #category : #accessing }
-AeBenchManySiblingsRunner >> cairoSurface [
+AeBenchFigureGridRunner >> cairoSurface [
 
 	^ cairoSurface
 ]
 
 { #category : #initialization }
-AeBenchManySiblingsRunner >> initialize [
+AeBenchFigureGridRunner >> initialize [
 
 	super initialize.
 
@@ -33,7 +32,7 @@ AeBenchManySiblingsRunner >> initialize [
 ]
 
 { #category : #running }
-AeBenchManySiblingsRunner >> prepareFirstStep [
+AeBenchFigureGridRunner >> prepareFirstStep [
 
 	| cellExtent |
 	cairoSurface := AeCairoImageSurface
@@ -63,13 +62,13 @@ AeBenchManySiblingsRunner >> prepareFirstStep [
 ]
 
 { #category : #running }
-AeBenchManySiblingsRunner >> prepareToStep [
+AeBenchFigureGridRunner >> prepareToStep [
 
 	cairoContext clearTransparent
 ]
 
 { #category : #printing }
-AeBenchManySiblingsRunner >> reportOn: stream [
+AeBenchFigureGridRunner >> reportOn: stream [
 
 	| sortedMS |
 	stream
@@ -106,14 +105,14 @@ AeBenchManySiblingsRunner >> reportOn: stream [
 ]
 
 { #category : #printing }
-AeBenchManySiblingsRunner >> reportString [
+AeBenchFigureGridRunner >> reportString [
 
 	^ String streamContents: [ :stream | self reportOn: stream ]
 ]
 
 { #category : #running }
-AeBenchManySiblingsRunner >> run [
-	<script: 'AeBenchManySiblingsRunner new run'>
+AeBenchFigureGridRunner >> run [
+	<script: 'AeBenchFigureGridRunner new run'>
 
 	self prepareFirstStep.
 
@@ -129,7 +128,7 @@ AeBenchManySiblingsRunner >> run [
 ]
 
 { #category : #running }
-AeBenchManySiblingsRunner >> step [
+AeBenchFigureGridRunner >> step [
 
 	figures do: [ :each | each drawOn: cairoContext ]
 ]
