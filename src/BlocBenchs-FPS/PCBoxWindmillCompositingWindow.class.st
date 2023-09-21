@@ -72,7 +72,7 @@ PCBoxWindmillCompositingWindow >> resetAnimation [
 
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 PCBoxWindmillCompositingWindow >> resetMainTexture [
 
 	mainTextureStrategy := PCUpdateStaticTextureStrategy
@@ -82,9 +82,9 @@ PCBoxWindmillCompositingWindow >> resetMainTexture [
 
 	mainTextureStrategy cairoContextDo: [ :aeCairoContext |
 		aeCairoContext
-			sourceColorRGBA: Color black;
+			sourceColor: Color black;
 			paint.
 		].
 	
-	self resetAnimation.
+	self resetAnimation
 ]

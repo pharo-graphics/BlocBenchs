@@ -12,7 +12,7 @@ PCCleanCanvasWindow >> clearCairoSurface [
 	"Clear background (https://www.cairographics.org/FAQ/#clear_a_surface)"
 
 	cairoContext
-		sourceColorRGB: canvasClearColor;
+		sourceColor: canvasClearColor;
 		paint
 
 ]

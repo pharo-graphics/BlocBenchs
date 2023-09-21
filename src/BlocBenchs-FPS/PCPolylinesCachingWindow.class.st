@@ -23,7 +23,7 @@ PCPolylinesCachingWindow >> drawOnCairoSurface [
 		cairoContext
 			translateBy: case offsetBetweenFigures;
 			appendPath: path;
-			sourceColorRGB: (colors at: index);
+			sourceColor: (colors at: index);
 			stroke ].
 
 	cairoContext

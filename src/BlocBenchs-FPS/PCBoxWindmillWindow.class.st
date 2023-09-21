@@ -24,12 +24,12 @@ PCBoxWindmillWindow >> drawBoxOn: aeCairoContext [
 			
 	"draw background"
 	aeCairoContext
-		sourceColorRGBA: case boxColor;
+		sourceColor: case boxColor;
 		fillPreserve.
 
 	"draw border"
 	aeCairoContext
-		sourceColorRGBA: case boxBorderColor;
+		sourceColor: case boxBorderColor;
 		lineWidth: case boxBorderWidth;
 		stroke.
 

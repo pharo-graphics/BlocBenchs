@@ -94,9 +94,9 @@ SDLShapedWindowExample class >> surfaceWithRoundedCornersExtent: extent [
 		format: AeCairoSurfaceFormat argb32.
 
 	cairoSurface newContext
-		sourceColorRGBA: Color transparent;
+		sourceColor: Color transparent;
 		paint;
-		sourceColorRGB: Color black;
+		sourceColor: Color black;
 		roundedRectangleTo: extent radius: extent min / 3;
 		fill.
 

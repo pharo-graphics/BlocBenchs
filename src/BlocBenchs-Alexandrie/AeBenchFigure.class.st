@@ -40,11 +40,11 @@ AeBenchFigure >> drawOn: aCairoContext [
 		ifNotNil: [ aCairoContext appendPath: cachedPath ].	
 
 	aCairoContext
-		sourceColorRGBA: fillColor;
+		sourceColor: fillColor;
 		fillPreserve.
 
 	aCairoContext
-		sourceColorRGBA: strokeColor;
+		sourceColor: strokeColor;
 		stroke.
 
 	aCairoContext

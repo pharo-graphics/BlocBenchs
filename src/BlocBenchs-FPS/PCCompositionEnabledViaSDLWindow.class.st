@@ -42,7 +42,7 @@ PCCompositionEnabledViaSDLWindow >> resetTopLayer [
 
 ]
 
-{ #category : #drawing }
+{ #category : #hook }
 PCCompositionEnabledViaSDLWindow >> step [
 
 	self stepAnimation.
@@ -52,7 +52,7 @@ PCCompositionEnabledViaSDLWindow >> step [
 
 	bottomLayerTexture cairoContextDo: [ :aeCairoContext |
 		aeCairoContext
-			sourceColorRGB: backgroundColorGenerator next;
+			sourceColor: backgroundColorGenerator next;
 			paint ].
 	sdlRenderer copy: bottomLayerTexture sdlTexture.
 

@@ -33,13 +33,13 @@ PCNestedTransformationsWindow >> drawOnCairoCanvasFigureAt: index [
 			y: 0.0
 			width: case figureExtent x
 			height: case figureExtent y;
-		sourceColorRGB: (backgroundColors at: index);
+		sourceColor: (backgroundColors at: index);
 		fill.
 	
 
 ]
 
-{ #category : #drawing }
+{ #category : #stepping }
 PCNestedTransformationsWindow >> drawOnCairoSurface [
 
 	"Prepare on first draw"
@@ -65,7 +65,7 @@ PCNestedTransformationsWindow >> drawOnCairoSurface [
 
 	"Clear surface"
 	cairoContext
-		sourceColorRGB: windowColor;
+		sourceColor: windowColor;
 		paint.
 
 	"Draw each figure"	

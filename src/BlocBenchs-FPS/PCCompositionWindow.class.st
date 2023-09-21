@@ -23,7 +23,7 @@ PCCompositionWindow >> drawFiguresOn: aeCairoContext [
 				height: case figureExtent y.
 				
 		aeCairoContext
-			sourceColorRGB: (figureColors at: index);
+			sourceColor: (figureColors at: index);
 			fill
 
 		]
