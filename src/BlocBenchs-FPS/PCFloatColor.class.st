@@ -73,6 +73,12 @@ PCFloatColor >> initializeR: redValue g: greenValue b: blueValue a: alphaValue [
 	alpha := alphaValue
 ]
 
+{ #category : #testing }
+PCFloatColor >> isTranslucent [
+	
+	^ alpha < 1.0
+]
+
 { #category : #printing }
 PCFloatColor >> printOn: aStream [
 
