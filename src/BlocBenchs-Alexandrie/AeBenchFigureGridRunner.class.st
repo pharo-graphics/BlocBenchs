@@ -9,15 +9,30 @@ Class {
 		'millisecondsToRun',
 		'numberOfRuns',
 		'figureFactoryBlock',
-		'figures'
+		'figures',
+		'cachePath',
+		'strokeFigures',
+		'fillFigures'
 	],
 	#category : #'BlocBenchs-Alexandrie'
 }
 
 { #category : #accessing }
+AeBenchFigureGridRunner >> cachePath: aBoolean [
+
+	cachePath := aBoolean
+]
+
+{ #category : #accessing }
 AeBenchFigureGridRunner >> cairoSurface [
 
 	^ cairoSurface
+]
+
+{ #category : #accessing }
+AeBenchFigureGridRunner >> fillFigures: aBoolean [
+
+	fillFigures := aBoolean
 ]
 
 { #category : #initialization }
@@ -26,21 +41,19 @@ AeBenchFigureGridRunner >> initialize [
 	super initialize.
 
 	numberOfRuns := 35.
-	surfaceExtent := 1000 @ 600.
+	surfaceExtent := 900 @ 450.
 	matrixDimension := 20 @ 10.
-	figureFactoryBlock := [ AeBenchCircleFigure new ]
+	figureFactoryBlock := [ AeBenchCircleFigure new ].
+	cachePath := false.
+	strokeFigures := true.
+	fillFigures := true.
 ]
 
 { #category : #running }
-AeBenchFigureGridRunner >> prepareFirstStep [
+AeBenchFigureGridRunner >> prepareFigures [
 
-	| cellExtent |
-	cairoSurface := AeCairoImageSurface
-		extent: surfaceExtent
-		format: AeCairoSurfaceFormat argb32.
-	cairoContext := cairoSurface newContext.
-	cairoContext antialias: AeCairoAntialias fast.
-
+	| cellExtent aRandom |
+	aRandom := Random seed: 7.
 	cellExtent := surfaceExtent / matrixDimension.
 	figures := OrderedCollection new.
 	1 to: matrixDimension x do: [ :colIndex |
@@ -55,10 +68,25 @@ AeBenchFigureGridRunner >> prepareFirstStep [
 					consolidate;
 					yourself).
 			
-"			newFigure cachePathWith: cairoContext."
-			"todo: add parameter to ensure integer or 0.5 positions"
+			strokeFigures ifTrue: [ 
+				newFigure strokeColor: (PCFloatColor newFrom: (Color random: aRandom)) ].
+			fillFigures ifTrue: [ 
+				newFigure fillColor: (PCFloatColor newFrom: (Color random: aRandom)) ].
+			cachePath ifTrue: [
+				newFigure cachePathWith: cairoContext].
 			
 			figures add: newFigure ] ]
+]
+
+{ #category : #running }
+AeBenchFigureGridRunner >> prepareSurface [
+
+	cairoSurface := AeCairoImageSurface
+		extent: surfaceExtent
+		format: AeCairoSurfaceFormat argb32.
+	cairoContext := cairoSurface newContext.
+	cairoContext antialias: AeCairoAntialias fast
+
 ]
 
 { #category : #running }
@@ -114,7 +142,9 @@ AeBenchFigureGridRunner >> reportString [
 AeBenchFigureGridRunner >> run [
 	<script: 'AeBenchFigureGridRunner new run'>
 
-	self prepareFirstStep.
+	self
+		prepareSurface;
+		prepareFigures.
 
 	millisecondsToRun := Array streamContents: [ :msStream |
 		numberOfRuns timesRepeat: [
@@ -123,12 +153,17 @@ AeBenchFigureGridRunner >> run [
 				(Time millisecondsToRun: [ self step ]) ] ].
 
 	self reportOn: Transcript.
-		
-	cairoSurface inspect.
+	cairoSurface inspect
 ]
 
 { #category : #running }
 AeBenchFigureGridRunner >> step [
 
 	figures do: [ :each | each drawOn: cairoContext ]
+]
+
+{ #category : #accessing }
+AeBenchFigureGridRunner >> strokeFigures: aBoolean [
+
+	strokeFigures := aBoolean
 ]

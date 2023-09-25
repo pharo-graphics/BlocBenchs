@@ -21,11 +21,7 @@ AeBenchFigure >> cachePathWith: aCairoContext [
 
 { #category : #initialization }
 AeBenchFigure >> consolidate [
-	
-	fillColor ifNil: [
-		fillColor := PCFloatColor newFrom: Color random ].
-	strokeColor ifNil: [
-		strokeColor := PCFloatColor newFrom: Color random ]
+
 ]
 
 { #category : #drawing }
@@ -33,22 +29,27 @@ AeBenchFigure >> drawOn: aCairoContext [
 
 	aCairoContext
 		saveState;
+"		setIdentityMatrix;"
 		translateByX: position x y: position y.
 
 	cachedPath
-		ifNil: [ self drawPathOn: aCairoContext. ]
-		ifNotNil: [ aCairoContext appendPath: cachedPath ].	
+		ifNil: [ self drawPathOn: aCairoContext ]
+		ifNotNil: [
+			aCairoContext appendPath: cachedPath ].
 
-	aCairoContext
-		sourceColor: fillColor;
-		fillPreserve.
+	fillColor ifNotNil: [
+		aCairoContext
+			sourceColor: fillColor;
+			fillPreservingPath: strokeColor notNil ].
 
-	aCairoContext
-		sourceColor: strokeColor;
-		stroke.
+	strokeColor ifNotNil: [
+		aCairoContext
+			sourceColor: strokeColor;
+			stroke ].
 
-	aCairoContext
-		restoreState
+	aCairoContext restoreState.
+"	aCairoContext
+		translateByX: position x negated y: position y negated"
 ]
 
 { #category : #drawing }
@@ -64,7 +65,19 @@ AeBenchFigure >> extent: aPoint [
 ]
 
 { #category : #accessing }
+AeBenchFigure >> fillColor: anObject [
+
+	fillColor := anObject
+]
+
+{ #category : #accessing }
 AeBenchFigure >> position: aPoint [
 
 	position := aPoint
+]
+
+{ #category : #accessing }
+AeBenchFigure >> strokeColor: anObject [
+
+	strokeColor := anObject
 ]
