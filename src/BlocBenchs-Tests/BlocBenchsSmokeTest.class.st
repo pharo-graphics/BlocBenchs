@@ -13,7 +13,7 @@ BlocBenchsSmokeTest >> defaultTimeLimit [
 { #category : #tests }
 BlocBenchsSmokeTest >> testAeBenchManySiblingsRunner [
 
-	AeBenchManySiblingsRunner new run
+	AeBenchFigureGridRunner new run
 ]
 
 { #category : #tests }
