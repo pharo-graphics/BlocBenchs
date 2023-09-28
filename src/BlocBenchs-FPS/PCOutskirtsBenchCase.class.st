@@ -1,73 +1,75 @@
 Class {
-	#name : #PCOutskirtsBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
+	#name : 'PCOutskirtsBenchCase',
+	#superclass : 'PCTranslatingFiguresBenchCase',
 	#instVars : [
 		'backgroundColor',
 		'outskirts',
 		'mustClipChildren',
 		'backgroundLabel'
 	],
-	#category : #'BlocBenchs-FPS-Cases'
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> backgroundColor [
 	
 	^ backgroundColor
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> backgroundColor: aColor [
 	
 	backgroundColor := aColor
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> beNoBackgroundColor [
 	
 	backgroundColor := Color transparent.
 	backgroundLabel := 'No'
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> beOpaqueBackgroundColor [
 	
 	backgroundColor := Color orange.
 	backgroundLabel := 'Opaque'
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> beTranslucentBackgroundColor [
 	
 	backgroundColor := Color green alpha: 0.1.
 	backgroundLabel := 'Translucent'
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> borderColorWith: random [
 		
 	^ (Color random: random) alpha: 0.3
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> borderWidth [
 
 	^ 12
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCOutskirtsBenchCase >> figureExtent [
 
 	^ 100 asPoint
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> figureGeometry [
 		
 	^ BlRoundedRectangleGeometry cornerRadius: 25
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 PCOutskirtsBenchCase >> initialize [
 
 	super initialize.
@@ -78,7 +80,7 @@ PCOutskirtsBenchCase >> initialize [
 		beTranslucentBackgroundColor.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCOutskirtsBenchCase >> label [
 
 	^ '{1} border & clipping={3} & {2} background' format: {
@@ -87,19 +89,19 @@ PCOutskirtsBenchCase >> label [
 		mustClipChildren }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCOutskirtsBenchCase >> mustClipChildren [
 
 	^ mustClipChildren
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCOutskirtsBenchCase >> mustClipChildren: aBoolean [
 
 	mustClipChildren := aBoolean
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> newChildWith: random [
 
 	^ BlElement new
@@ -110,7 +112,7 @@ PCOutskirtsBenchCase >> newChildWith: random [
 		  yourself
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> newFigureWith: random [
 
 	^ BlElement new
@@ -124,13 +126,13 @@ PCOutskirtsBenchCase >> newFigureWith: random [
 		  yourself
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> outskirts [
 		
 	^ outskirts
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCOutskirtsBenchCase >> outskirts: aBlOutskirts [
 
 	outskirts := aBlOutskirts

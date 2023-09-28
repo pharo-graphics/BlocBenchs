@@ -1,10 +1,12 @@
 Class {
-	#name : #PCCirclesWindow,
-	#superclass : #PCTranslatingPathsWindow,
-	#category : #'BlocBenchs-FPS-Raw'
+	#name : 'PCCirclesWindow',
+	#superclass : 'PCTranslatingPathsWindow',
+	#category : 'BlocBenchs-FPS-Raw',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Raw'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCCirclesWindow >> setPathFor: index deltaY: deltaY [
 
 	| center |

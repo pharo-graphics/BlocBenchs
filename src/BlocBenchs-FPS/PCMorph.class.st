@@ -4,8 +4,8 @@ I'm a Morph that draws an Athens Canvas every time the World steps.
 This is useful for benchmarking FPS.
 "
 Class {
-	#name : #PCMorph,
-	#superclass : #Morph,
+	#name : 'PCMorph',
+	#superclass : 'Morph',
 	#instVars : [
 		'case',
 		'cairoContext',
@@ -20,16 +20,18 @@ Class {
 		'surfaceData',
 		'framesDeltaMS'
 	],
-	#category : #'BlocBenchs-FPS-RawMorph-Old'
+	#category : 'BlocBenchs-FPS-RawMorph-Old',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'RawMorph-Old'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> case [
 
 	^ case
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> case: aPCBenchCase [
 
 	case := aPCBenchCase.
@@ -38,7 +40,7 @@ PCMorph >> case: aPCBenchCase [
 
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCMorph >> drawOn: aFormCanvas [
 
 	| currentMS |
@@ -64,20 +66,20 @@ PCMorph >> drawOn: aFormCanvas [
 	self updateFromCairoSurfaceToFormCanvas: aFormCanvas.
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCMorph >> drawOnCairoSurface [
 	"Draw on cairoCanvas. Assume #ensureReadyToDrawOnCairoCanvas was executed just before."
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> elapsedTimeSinceFirstDraw [
 
 	^ (lastMS - startMS) milliSeconds
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 PCMorph >> ensureReadyToDrawOnCairoCanvas [
 
 	session == Smalltalk session ifTrue: [ ^ self ].
@@ -89,19 +91,19 @@ PCMorph >> ensureReadyToDrawOnCairoCanvas [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> frameCount [
 
 	^ framesDeltaMS size
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> framesDeltaMS [
 
 	^ framesDeltaMS
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 PCMorph >> initializeSurface [
 
 	cairoSurface := AeCairoImageSurface extent: surfaceExtent.
@@ -115,54 +117,54 @@ PCMorph >> initializeSurface [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> logicalExtent [
 
 	^ surfaceExtent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> random [
 
 	^ random
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> random: aRandom [
 
 	random := aRandom
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCMorph >> resetAnimation [
 
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 PCMorph >> step [
 
 	self changed
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 PCMorph >> stepTime [
 
 	^ 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> surface [
 
 	^ cairoSurface
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCMorph >> surfaceExtent: aPoint [
 
 	surfaceExtent := aPoint
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCMorph >> updateFromCairoSurfaceToFormCanvas: aFormCanvas [
 	"Based on displayOnMorphicCanvas:at: and AeCairoImageSurface>>asForm."
 

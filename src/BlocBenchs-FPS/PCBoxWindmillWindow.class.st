@@ -2,17 +2,19 @@
 See RSAnimationExamples>>#example01BoxWindmill
 "
 Class {
-	#name : #PCBoxWindmillWindow,
-	#superclass : #PCCleanCanvasWindow,
+	#name : 'PCBoxWindmillWindow',
+	#superclass : 'PCCleanCanvasWindow',
 	#instVars : [
 		'figurePositions',
 		'figureColors',
 		'backgroundColorGenerator'
 	],
-	#category : #'BlocBenchs-FPS-Raw'
+	#category : 'BlocBenchs-FPS-Raw',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Raw'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCBoxWindmillWindow >> drawBoxOn: aeCairoContext [
 
 	"set path (outskirts = center)"

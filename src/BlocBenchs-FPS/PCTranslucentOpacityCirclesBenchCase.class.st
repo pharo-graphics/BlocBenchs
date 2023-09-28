@@ -1,10 +1,12 @@
 Class {
-	#name : #PCTranslucentOpacityCirclesBenchCase,
-	#superclass : #PCCirclesBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCTranslucentOpacityCirclesBenchCase',
+	#superclass : 'PCCirclesBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCTranslucentOpacityCirclesBenchCase >> prepare: anElement with: random [
 
 	anElement

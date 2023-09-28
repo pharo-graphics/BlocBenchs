@@ -1,10 +1,12 @@
 Class {
-	#name : #PCSolidImagesBenchCase,
-	#superclass : #PCImagesBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCSolidImagesBenchCase',
+	#superclass : 'PCImagesBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCSolidImagesBenchCase >> newImageElementWith: random [
 	
 	| randomIcon |
@@ -16,7 +18,7 @@ PCSolidImagesBenchCase >> newImageElementWith: random [
 	  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCSolidImagesBenchCase >> newRawSDLCairoWindow [
 
 	^ PCSolidImagesWindow newWith: self

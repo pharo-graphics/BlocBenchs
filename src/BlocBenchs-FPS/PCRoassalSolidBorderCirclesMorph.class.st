@@ -1,10 +1,12 @@
 Class {
-	#name : #PCRoassalSolidBorderCirclesMorph,
-	#superclass : #PCRoassalCirclesMorph,
-	#category : #'BlocBenchs-FPS-RawMorph-Old'
+	#name : 'PCRoassalSolidBorderCirclesMorph',
+	#superclass : 'PCRoassalCirclesMorph',
+	#category : 'BlocBenchs-FPS-RawMorph-Old',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'RawMorph-Old'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCRoassalSolidBorderCirclesMorph >> prepareCircle: aCircleShape [
 
 	aCircleShape

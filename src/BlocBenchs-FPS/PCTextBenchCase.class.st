@@ -1,10 +1,12 @@
 Class {
-	#name : #PCTextBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCTextBenchCase',
+	#superclass : 'PCTranslatingFiguresBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCTextBenchCase >> blTextFor: random [
 
 	^ (BlRopedText string: (String loremIpsum: 170))
@@ -14,13 +16,13 @@ PCTextBenchCase >> blTextFor: random [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCTextBenchCase >> logicalExtent [
 
 	^ 900 @ 900
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCTextBenchCase >> newFigureWith: random [
 	
 	^ BlTextElement new
@@ -29,19 +31,19 @@ PCTextBenchCase >> newFigureWith: random [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCTextBenchCase >> numberOfFigures [
 
 	^ 100
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCTextBenchCase >> offsetBetweenFigures [
 
 	^ 0 @ 9
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCTextBenchCase >> targetTranslation [
 
 	^ 0 @ 100

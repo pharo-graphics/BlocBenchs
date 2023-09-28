@@ -1,16 +1,18 @@
 Class {
-	#name : #PCSolidCirclesBenchCase,
-	#superclass : #PCCirclesBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCSolidCirclesBenchCase',
+	#superclass : 'PCCirclesBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCSolidCirclesBenchCase >> newRawSDLCairoWindow [
 
 	^ PCSolidCirclesWindow newWith: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCSolidCirclesBenchCase >> newRoassalWrapperMorph [
 	
 	^ PCRoassalSolidCirclesMorph new
@@ -18,7 +20,7 @@ PCSolidCirclesBenchCase >> newRoassalWrapperMorph [
 		  yourself
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCSolidCirclesBenchCase >> prepare: anElement with: random [
 
 	anElement background: (Color random: random)

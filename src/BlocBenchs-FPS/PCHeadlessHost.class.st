@@ -13,21 +13,23 @@ Differences with `BlHeadlessHost`:
 - I don't use a Sparta canvas (but could, it's polymorphic but not implemented yet)
 "
 Class {
-	#name : #PCHeadlessHost,
-	#superclass : #Object,
+	#name : 'PCHeadlessHost',
+	#superclass : 'Object',
 	#classInstVars : [
 		'scaleFactor'
 	],
-	#category : #'BlocBenchs-FPS-Host-Headless'
+	#category : 'BlocBenchs-FPS-Host-Headless',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Host-Headless'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCHeadlessHost class >> scaleFactor [
 
 	^ scaleFactor ifNil: [ 1.0 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCHeadlessHost class >> scaleFactor: aFloat [
 	"
 	For typical HiDPI:
@@ -38,19 +40,19 @@ PCHeadlessHost class >> scaleFactor: aFloat [
 	scaleFactor := aFloat
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCHeadlessHost class >> stop [
 	
 	
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 PCHeadlessHost class >> uiProcessDo: aFullBlockClosure [ 
 	
 	^ aFullBlockClosure value: Processor activeProcess
 ]
 
-{ #category : #'host - api' }
+{ #category : 'host - api' }
 PCHeadlessHost >> createHostSpaceFor: aBlSpace [ 
 	
 	| scaleFactor aHostSpace aCanvas aeCairoSurface |
@@ -70,19 +72,19 @@ PCHeadlessHost >> createHostSpaceFor: aBlSpace [
 
 ]
 
-{ #category : #'host - api' }
+{ #category : 'host - api' }
 PCHeadlessHost >> destroyHostSpaceFor: aBlSpace [
 
 	aBlSpace detachHostSpace
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PCHeadlessHost >> isRunning [
 
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PCHeadlessHost >> isStillAvailable [
 
 	^ true

@@ -4,49 +4,51 @@ Inspired on RSAnimationExamples>>#example01BoxWindmill
 
 "
 Class {
-	#name : #PCBoxWindmillBenchCase,
-	#superclass : #PCBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCBoxWindmillBenchCase',
+	#superclass : 'PCBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> backgroundColor [
 
 	^ Color black
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> boxBorderColor [
 
 	^ Color blue muchDarker alpha: 0.5
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> boxBorderWidth [
 
 	^ 10
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> boxColor [
 
 	^ Color white
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> boxExtent [
 
 	^ 140 @ 40
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> boxPositions [
 	"Answer the logical positions for the boxes"
 
 	^ self boxPositions: 1@1
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> boxPositions: aDeviceScale [
 	"Answer the positions for the boxes in the pixel space"
 	
@@ -55,19 +57,19 @@ PCBoxWindmillBenchCase >> boxPositions: aDeviceScale [
 			  (x @ y) - (self boxExtent * aDeviceScale / 2) ] ]
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> boxRotationInDegreesWithPosition: position elapsedMS: elapsedMS [
 
 	^ ((position x + position y + (elapsedMS/50.0) ) degreesToRadians * 1.95) radiansToDegrees
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCBoxWindmillBenchCase >> logicalExtent [
 
 	^ 800 asPoint
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBoxWindmillBenchCase >> newElement [
 	"Answer the Bloc element to be added to the root of the space to setup the benchmark scenario."
 
@@ -107,7 +109,7 @@ PCBoxWindmillBenchCase >> newElement [
 	^ aContainerElement
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCBoxWindmillBenchCase >> newRawSDLCairoWindow [
 
 	^ PCBoxWindmillCompositingWindow newWith: self

@@ -1,16 +1,18 @@
 Class {
-	#name : #PCRoassalTranslatingFiguresMorph,
-	#superclass : #PCRoassalMorph,
-	#category : #'BlocBenchs-FPS-RawMorph-Old'
+	#name : 'PCRoassalTranslatingFiguresMorph',
+	#superclass : 'PCRoassalMorph',
+	#category : 'BlocBenchs-FPS-RawMorph-Old',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'RawMorph-Old'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCRoassalTranslatingFiguresMorph >> newShape: index [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCRoassalTranslatingFiguresMorph >> resetAnimation [
 
 	| canvas aContainer offset |

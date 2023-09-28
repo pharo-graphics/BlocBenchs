@@ -2,47 +2,49 @@
 I'm a benchmarker for Roassal3.
 "
 Class {
-	#name : #PCRoassal3Benchmarker,
-	#superclass : #PCBenchmarker,
+	#name : 'PCRoassal3Benchmarker',
+	#superclass : 'PCBenchmarker',
 	#instVars : [
 		'wrapper',
 		'roassalCanvas',
 		'window'
 	],
-	#category : #'BlocBenchs-FPS-Benchmarkers'
+	#category : 'BlocBenchs-FPS-Benchmarkers',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Benchmarkers'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRoassal3Benchmarker >> closeWindow [
 
 	window delete
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRoassal3Benchmarker >> elapsedTimeSinceFirstDraw [
 
 	^ wrapper elapsedTimeSinceFirstDraw
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRoassal3Benchmarker >> frameCount [
 
 	^ wrapper frameCount
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRoassal3Benchmarker >> framesDeltaMS [
 
 	^ wrapper framesDeltaMS
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 PCRoassal3Benchmarker >> label [
 
 	^ 'Roassal3'
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRoassal3Benchmarker >> openWindow [
 	
 	wrapper := case newRoassalWrapperMorph.

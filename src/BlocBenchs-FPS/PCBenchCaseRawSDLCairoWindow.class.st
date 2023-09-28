@@ -1,6 +1,6 @@
 Class {
-	#name : #PCBenchCaseRawSDLCairoWindow,
-	#superclass : #PCRawSDLCairoWindow,
+	#name : 'PCBenchCaseRawSDLCairoWindow',
+	#superclass : 'PCRawSDLCairoWindow',
 	#instVars : [
 		'case',
 		'random',
@@ -9,10 +9,12 @@ Class {
 		'deltaMS',
 		'framesDeltaMS'
 	],
-	#category : #'BlocBenchs-FPS-Raw'
+	#category : 'BlocBenchs-FPS-Raw',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Raw'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCBenchCaseRawSDLCairoWindow class >> newWith: aPCBenchCase [
 
 	^ self basicNew
@@ -20,31 +22,31 @@ PCBenchCaseRawSDLCairoWindow class >> newWith: aPCBenchCase [
 		  yourself
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBenchCaseRawSDLCairoWindow >> elapsedMillisecondsSinceFirstDraw [
 
 	^ lastMS - startMS
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBenchCaseRawSDLCairoWindow >> elapsedTimeSinceFirstDraw [
 
 	^ self elapsedMillisecondsSinceFirstDraw milliSeconds
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCBenchCaseRawSDLCairoWindow >> frameCount [
 
 	^ framesDeltaMS size
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCBenchCaseRawSDLCairoWindow >> framesDeltaMS [
 
 	^ framesDeltaMS
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCBenchCaseRawSDLCairoWindow >> initializeWith: aPCBenchCase [
 
 	self initialize.
@@ -53,7 +55,7 @@ PCBenchCaseRawSDLCairoWindow >> initializeWith: aPCBenchCase [
 
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCBenchCaseRawSDLCairoWindow >> open [
 
 	self
@@ -62,7 +64,7 @@ PCBenchCaseRawSDLCairoWindow >> open [
 		extent: case logicalExtent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCBenchCaseRawSDLCairoWindow >> resetAnimation [
 	"Prepare to start drawing the animation from the biggining.
 	Subclasses can assume that Cairo and SDL surfaces are initialized."
@@ -78,7 +80,7 @@ PCBenchCaseRawSDLCairoWindow >> resetAnimation [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCBenchCaseRawSDLCairoWindow >> resetMainTexture [
 
 	super resetMainTexture.
@@ -86,7 +88,7 @@ PCBenchCaseRawSDLCairoWindow >> resetMainTexture [
 	self resetAnimation.
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBenchCaseRawSDLCairoWindow >> step [
 
 	self stepAnimation.
@@ -94,7 +96,7 @@ PCBenchCaseRawSDLCairoWindow >> step [
 
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCBenchCaseRawSDLCairoWindow >> stepAnimation [
 
 	| currentMS |

@@ -1,10 +1,12 @@
 Class {
-	#name : #PCUpdateStaticTextureStrategy,
-	#superclass : #PCSDLTextureStrategy,
-	#category : #'BlocBenchs-FPS-Raw'
+	#name : 'PCUpdateStaticTextureStrategy',
+	#superclass : 'PCSDLTextureStrategy',
+	#category : 'BlocBenchs-FPS-Raw',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Raw'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCUpdateStaticTextureStrategy >> drawDone [
 
 	sdlTexture
@@ -14,13 +16,13 @@ PCUpdateStaticTextureStrategy >> drawDone [
 
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCUpdateStaticTextureStrategy >> drawPrepare [
 	"The cairo context was prepared in initialize."
 
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCUpdateStaticTextureStrategy >> initialize [
 
 	| aCairoSurface |
@@ -37,7 +39,7 @@ PCUpdateStaticTextureStrategy >> initialize [
 	setupBlock value: cairoContext
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCUpdateStaticTextureStrategy >> sdlTextureAccess [
 
 	^ SDL_TEXTUREACCESS_STATIC

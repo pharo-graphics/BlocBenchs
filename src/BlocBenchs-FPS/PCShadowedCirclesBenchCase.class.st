@@ -1,14 +1,16 @@
 Class {
-	#name : #PCShadowedCirclesBenchCase,
-	#superclass : #PCCirclesBenchCase,
+	#name : 'PCShadowedCirclesBenchCase',
+	#superclass : 'PCCirclesBenchCase',
 	#instVars : [
 		'isTranslucent',
 		'maximumOffset'
 	],
-	#category : #'BlocBenchs-FPS-Cases'
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 PCShadowedCirclesBenchCase >> initialize [
 
 	super initialize.
@@ -17,37 +19,37 @@ PCShadowedCirclesBenchCase >> initialize [
 	maximumOffset := 20 @ 20.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCShadowedCirclesBenchCase >> isTranslucent [
 
 	^ isTranslucent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCShadowedCirclesBenchCase >> isTranslucent: aBoolean [
 
 	isTranslucent := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCShadowedCirclesBenchCase >> maximumOffset [
 
 	^ maximumOffset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCShadowedCirclesBenchCase >> maximumOffset: anObject [
 
 	maximumOffset := anObject
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCShadowedCirclesBenchCase >> newShadowColor: shadowColor offset: shadowOffset [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCShadowedCirclesBenchCase >> prepare: anElement with: random [
 
 	| shadowColor shadowOffset |

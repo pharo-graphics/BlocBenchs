@@ -1,10 +1,12 @@
 Class {
-	#name : #PCSolidCirclesWindow,
-	#superclass : #PCCirclesWindow,
-	#category : #'BlocBenchs-FPS-Raw'
+	#name : 'PCSolidCirclesWindow',
+	#superclass : 'PCCirclesWindow',
+	#category : 'BlocBenchs-FPS-Raw',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Raw'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCSolidCirclesWindow >> drawPath [
 
 	cairoContext fill

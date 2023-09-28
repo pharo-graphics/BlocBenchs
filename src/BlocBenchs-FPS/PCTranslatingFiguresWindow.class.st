@@ -1,13 +1,15 @@
 Class {
-	#name : #PCTranslatingFiguresWindow,
-	#superclass : #PCCleanCanvasWindow,
+	#name : 'PCTranslatingFiguresWindow',
+	#superclass : 'PCCleanCanvasWindow',
 	#instVars : [
 		'deltaYPerMS'
 	],
-	#category : #'BlocBenchs-FPS-Raw'
+	#category : 'BlocBenchs-FPS-Raw',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Raw'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCTranslatingFiguresWindow >> resetAnimation [
 
 	super resetAnimation.

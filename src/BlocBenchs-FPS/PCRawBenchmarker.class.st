@@ -2,15 +2,17 @@
 I'm a benchmarker for raw Morphic window rendering using Cairo.
 "
 Class {
-	#name : #PCRawBenchmarker,
-	#superclass : #PCBenchmarker,
+	#name : 'PCRawBenchmarker',
+	#superclass : 'PCBenchmarker',
 	#instVars : [
 		'rawWindow'
 	],
-	#category : #'BlocBenchs-FPS-Benchmarkers'
+	#category : 'BlocBenchs-FPS-Benchmarkers',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Benchmarkers'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRawBenchmarker >> closeWindow [
 
 	rawWindow stopLoop.
@@ -18,31 +20,31 @@ PCRawBenchmarker >> closeWindow [
 
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRawBenchmarker >> elapsedTimeSinceFirstDraw [
 
 	^ rawWindow elapsedTimeSinceFirstDraw
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRawBenchmarker >> frameCount [
 
 	^ rawWindow frameCount
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRawBenchmarker >> framesDeltaMS [
 
 	^ rawWindow framesDeltaMS
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 PCRawBenchmarker >> label [
 
 	^ 'Raw SDL2+Cairo'
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRawBenchmarker >> openWindow [
 	
 	rawWindow := case newRawSDLCairoWindow.

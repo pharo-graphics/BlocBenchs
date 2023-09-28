@@ -1,10 +1,12 @@
 Class {
-	#name : #PCTranslucentImagesBenchCase,
-	#superclass : #PCImagesBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCTranslucentImagesBenchCase',
+	#superclass : 'PCImagesBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCTranslucentImagesBenchCase >> newImageElementWith: random [
 	
 	| randomIcon |

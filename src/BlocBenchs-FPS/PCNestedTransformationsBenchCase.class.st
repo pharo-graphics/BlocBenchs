@@ -1,28 +1,30 @@
 Class {
-	#name : #PCNestedTransformationsBenchCase,
-	#superclass : #PCBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCNestedTransformationsBenchCase',
+	#superclass : 'PCBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCNestedTransformationsBenchCase >> figureExtent [
 
 	^ 600.0 asPoint
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCNestedTransformationsBenchCase >> figureOffset [
 
 	^ 50.0 asPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCNestedTransformationsBenchCase >> logicalExtent [
 
 	^ 750 @ 750
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCNestedTransformationsBenchCase >> newElement [
 
 	| elements random anAnimation |
@@ -69,25 +71,25 @@ PCNestedTransformationsBenchCase >> newElement [
 		yourself
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCNestedTransformationsBenchCase >> newRawSDLCairoWindow [
 
 	^ PCNestedTransformationsWindow newWith: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCNestedTransformationsBenchCase >> numberOfFigures [
 
 	^ 50
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCNestedTransformationsBenchCase >> targetRelativeRotation [
 
 	^ 5.0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCNestedTransformationsBenchCase >> targetRelativeScale [
 
 	^ 0.9

@@ -1,22 +1,24 @@
 Class {
-	#name : #PCSolidBorderCirclesBenchCase,
-	#superclass : #PCCirclesBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCSolidBorderCirclesBenchCase',
+	#superclass : 'PCCirclesBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCSolidBorderCirclesBenchCase >> borderWidth [
 
 	^ 5
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCSolidBorderCirclesBenchCase >> newRawSDLCairoWindow [
 
 	^ PCSolidBorderCirclesWindow newWith: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCSolidBorderCirclesBenchCase >> newRoassalWrapperMorph [
 
 	^ PCRoassalSolidBorderCirclesMorph new
@@ -24,7 +26,7 @@ PCSolidBorderCirclesBenchCase >> newRoassalWrapperMorph [
 		  yourself
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCSolidBorderCirclesBenchCase >> prepare: anElement with: random [
 
 	anElement border:

@@ -1,10 +1,12 @@
 Class {
-	#name : #PCRotatedTextBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCRotatedTextBenchCase',
+	#superclass : 'PCTranslatingFiguresBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRotatedTextBenchCase >> blTextFor: random [
 
 	^ (BlRopedText string: (String loremIpsum: 90))
@@ -14,13 +16,13 @@ PCRotatedTextBenchCase >> blTextFor: random [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCRotatedTextBenchCase >> logicalExtent [
 
 	^ 900 @ 500
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRotatedTextBenchCase >> newFigureWith: random [
 	
 	^ BlTextElement new
@@ -31,13 +33,13 @@ PCRotatedTextBenchCase >> newFigureWith: random [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCRotatedTextBenchCase >> numberOfFigures [
 
 	^ 100
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCRotatedTextBenchCase >> offsetBetweenFigures [
 
 	^ 7 @ 0

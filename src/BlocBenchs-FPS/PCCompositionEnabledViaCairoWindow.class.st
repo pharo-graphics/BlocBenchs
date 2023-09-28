@@ -1,13 +1,15 @@
 Class {
-	#name : #PCCompositionEnabledViaCairoWindow,
-	#superclass : #PCCompositionWindow,
+	#name : 'PCCompositionEnabledViaCairoWindow',
+	#superclass : 'PCCompositionWindow',
 	#instVars : [
 		'layerCairoSurfacePattern'
 	],
-	#category : #'BlocBenchs-FPS-Raw'
+	#category : 'BlocBenchs-FPS-Raw',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Raw'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCCompositionEnabledViaCairoWindow >> drawOnCairoSurface [
 
 	super drawOnCairoSurface.
@@ -19,7 +21,7 @@ PCCompositionEnabledViaCairoWindow >> drawOnCairoSurface [
 
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 PCCompositionEnabledViaCairoWindow >> resetAnimation [
 
 	super resetAnimation.

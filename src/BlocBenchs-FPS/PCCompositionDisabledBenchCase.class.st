@@ -1,16 +1,18 @@
 Class {
-	#name : #PCCompositionDisabledBenchCase,
-	#superclass : #PCCompositionBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCCompositionDisabledBenchCase',
+	#superclass : 'PCCompositionBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PCCompositionDisabledBenchCase >> newRawSDLCairoWindow [
 
 	^ PCCompositionDisabledWindow newWith: self
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCCompositionDisabledBenchCase >> prepareAsStatic: anElement [
 
 ]

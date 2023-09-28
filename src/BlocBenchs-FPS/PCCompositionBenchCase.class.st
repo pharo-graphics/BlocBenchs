@@ -1,28 +1,30 @@
 Class {
-	#name : #PCCompositionBenchCase,
-	#superclass : #PCBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCCompositionBenchCase',
+	#superclass : 'PCBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCCompositionBenchCase >> figureExtent [
 
 	^ 25 asPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCCompositionBenchCase >> layerExtent [
 
 	^ self logicalExtent / 1.5
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCCompositionBenchCase >> logicalExtent [
 
 	^ 700 @ 700
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCCompositionBenchCase >> newElement [
 
 	| random backgroundColorGenerator container staticComplexElement |
@@ -50,7 +52,7 @@ PCCompositionBenchCase >> newElement [
 	^ container
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCCompositionBenchCase >> newFigure: random [
 	
 	^ BlElement new
@@ -60,20 +62,20 @@ PCCompositionBenchCase >> newFigure: random [
 		yourself
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCCompositionBenchCase >> nextLocation: random [
 
 	^ (random nextInteger: self layerExtent x - self figureExtent x)
 	  @ (random nextInteger: self layerExtent y - self figureExtent y)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCCompositionBenchCase >> numberOfFigures [
 
 	^ 5000
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCCompositionBenchCase >> prepareAsStatic: anElement [
 
 	self subclassResponsibility

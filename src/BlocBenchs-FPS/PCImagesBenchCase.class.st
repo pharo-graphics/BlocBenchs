@@ -1,16 +1,18 @@
 Class {
-	#name : #PCImagesBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : 'PCImagesBenchCase',
+	#superclass : 'PCTranslatingFiguresBenchCase',
+	#category : 'BlocBenchs-FPS-Cases',
+	#package : 'BlocBenchs-FPS',
+	#tag : 'Cases'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCImagesBenchCase >> logicalExtent [
 
 	^ 700 @ 700
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCImagesBenchCase >> newFigureWith: random [
 
 	| container |
@@ -26,37 +28,37 @@ PCImagesBenchCase >> newFigureWith: random [
 	^ container
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCImagesBenchCase >> newFormWith: random [
 
 	^ Smalltalk ui icons icons atRandom: random
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCImagesBenchCase >> newImageElementWith: random [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCImagesBenchCase >> numberOfColumns [
 
 	^ 30
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCImagesBenchCase >> numberOfFigures [
 
 	^ self numberOfColumns
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PCImagesBenchCase >> numberOfRows [
 
 	^ 20
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 PCImagesBenchCase >> offsetBetweenFigures [
 
 	^ 20 @ 20
