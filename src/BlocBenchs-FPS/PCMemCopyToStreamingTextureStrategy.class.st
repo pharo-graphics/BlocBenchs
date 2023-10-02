@@ -1,16 +1,14 @@
 Class {
-	#name : 'PCMemCopyToStreamingTextureStrategy',
-	#superclass : 'PCSDLTextureStrategy',
+	#name : #PCMemCopyToStreamingTextureStrategy,
+	#superclass : #PCSDLTextureStrategy,
 	#instVars : [
 		'pitchAddress',
 		'pixelsAddress'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCMemCopyToStreamingTextureStrategy >> drawDone [
 	"Copy the updated pixels to texture, and unlock."
 
@@ -23,7 +21,7 @@ PCMemCopyToStreamingTextureStrategy >> drawDone [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCMemCopyToStreamingTextureStrategy >> drawPrepare [
 
 	"Lock texture to get an address and pitch where new pixels will be written"
@@ -31,7 +29,7 @@ PCMemCopyToStreamingTextureStrategy >> drawPrepare [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCMemCopyToStreamingTextureStrategy >> initialize [
 
 	| aCairoSurface |
@@ -50,7 +48,7 @@ PCMemCopyToStreamingTextureStrategy >> initialize [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCMemCopyToStreamingTextureStrategy >> sdlTextureAccess [
 
 	^ SDL_TEXTUREACCESS_STREAMING

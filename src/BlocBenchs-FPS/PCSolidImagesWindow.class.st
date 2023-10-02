@@ -1,15 +1,13 @@
 Class {
-	#name : 'PCSolidImagesWindow',
-	#superclass : 'PCTranslatingFiguresWindow',
+	#name : #PCSolidImagesWindow,
+	#superclass : #PCTranslatingFiguresWindow,
 	#instVars : [
 		'patterns'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSolidImagesWindow >> drawOnCairoSurface [
 
 	| deltaY tmpMatrix patternStream |
@@ -41,7 +39,7 @@ PCSolidImagesWindow >> drawOnCairoSurface [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSolidImagesWindow >> resetAnimation [
 
 	super resetAnimation.

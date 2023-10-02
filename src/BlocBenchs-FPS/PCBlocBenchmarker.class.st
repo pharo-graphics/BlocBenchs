@@ -3,50 +3,48 @@ I'm a benchmarker for Bloc renderers, always in a Morphic Window host.
 
 "
 Class {
-	#name : 'PCBlocBenchmarker',
-	#superclass : 'PCBenchmarker',
+	#name : #PCBlocBenchmarker,
+	#superclass : #PCBenchmarker,
 	#instVars : [
 		'space',
 		'firstMS',
 		'lastMS',
 		'framesDeltaMS'
 	],
-	#category : 'BlocBenchs-FPS-Benchmarkers',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Benchmarkers'
+	#category : 'BlocBenchs-FPS-Benchmarkers'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBlocBenchmarker >> closeWindow [
 
 	space close
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBlocBenchmarker >> elapsedTimeSinceFirstDraw [
 
 	^ (Time millisecondClockValue - firstMS) milliSeconds
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBlocBenchmarker >> frameCount [
 	
 	^ framesDeltaMS size
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBlocBenchmarker >> framesDeltaMS [
 	
 	^ framesDeltaMS
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBlocBenchmarker >> host [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBlocBenchmarker >> openWindow [
 
 	space := BlSpace new

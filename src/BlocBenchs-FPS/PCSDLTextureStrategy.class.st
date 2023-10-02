@@ -1,6 +1,6 @@
 Class {
-	#name : 'PCSDLTextureStrategy',
-	#superclass : 'Object',
+	#name : #PCSDLTextureStrategy,
+	#superclass : #Object,
 	#instVars : [
 		'sdlRenderer',
 		'sdlTexture',
@@ -13,12 +13,10 @@ Class {
 	#pools : [
 		'SDL2Constants'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCSDLTextureStrategy class >> newExtent: aPoint renderer: aSdlRenderer setupBlock: aUnaryBlock [
 
 	^ self basicNew
@@ -26,13 +24,13 @@ PCSDLTextureStrategy class >> newExtent: aPoint renderer: aSdlRenderer setupBloc
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCSDLTextureStrategy >> cairoContext [
 
 	^ cairoContext
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCSDLTextureStrategy >> cairoContextDo: aBlockClosure [
 
 	self drawPrepare.	
@@ -41,21 +39,21 @@ PCSDLTextureStrategy >> cairoContextDo: aBlockClosure [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSDLTextureStrategy >> drawDone [
 	"Send after using the cairo context"
 	
 	self subclassResponsibility
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSDLTextureStrategy >> drawPrepare [
 	"Send before using the cairo context"
 	
 	self subclassResponsibility
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSDLTextureStrategy >> initializeExtent: aPoint renderer: aSdlRenderer setupBlock: aUnaryBlock [
 
 	pixelExtent := aPoint.
@@ -84,37 +82,37 @@ PCSDLTextureStrategy >> initializeExtent: aPoint renderer: aSdlRenderer setupBlo
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSDLTextureStrategy >> sdlPixelFormat [
 
 	^ SDL_PIXELFORMAT_ARGB8888
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCSDLTextureStrategy >> sdlRect [
 
 	^ sdlRect 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCSDLTextureStrategy >> sdlTexture [
 
 	^ sdlTexture 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSDLTextureStrategy >> sdlTextureAccess [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSDLTextureStrategy >> setBlendEnabled [
 
 	sdlTexture blendMode: SDL_BLENDMODE_BLEND
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCSDLTextureStrategy >> setBlendNone [
 	"Prepare to copy another textures on me without blending."
 

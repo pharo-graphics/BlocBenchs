@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCCirclesBenchCase',
-	#superclass : 'PCTranslatingFiguresBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCCirclesBenchCase,
+	#superclass : #PCTranslatingFiguresBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCCirclesBenchCase >> newFigureWith: random [
 
 	^ BlElement new
@@ -17,25 +15,25 @@ PCCirclesBenchCase >> newFigureWith: random [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCCirclesBenchCase >> numberOfFigures [
 
 	^ 100
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCCirclesBenchCase >> offsetBetweenFigures [
 
 	^ 6 @ 0
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCCirclesBenchCase >> prepare: anElement with: random [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCCirclesBenchCase >> radius [
 
 	^ 50.0 asPoint

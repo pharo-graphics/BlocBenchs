@@ -6,20 +6,18 @@ While the traditional Color requires a conversion each time a RBGA values is que
 
 "
 Class {
-	#name : 'PCFloatColor',
-	#superclass : 'Object',
+	#name : #PCFloatColor,
+	#superclass : #Object,
 	#instVars : [
 		'red',
 		'blue',
 		'green',
 		'alpha'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCFloatColor class >> newFrom: aColor [
 
 	^ self basicNew
@@ -30,19 +28,19 @@ PCFloatColor class >> newFrom: aColor [
 		  yourself
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCFloatColor class >> newRandom: aRandom [
 
 	^ self newFrom: (Color random: aRandom)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCFloatColor >> alpha [
 
 	^ alpha
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 PCFloatColor >> asColor [
 
 	^ Color
@@ -52,19 +50,19 @@ PCFloatColor >> asColor [
 		  alpha: alpha
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCFloatColor >> blue [
 
 	^ blue
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCFloatColor >> green [
 
 	^ green
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 PCFloatColor >> initializeR: redValue g: greenValue b: blueValue a: alphaValue [
 
 	self initialize.
@@ -75,13 +73,13 @@ PCFloatColor >> initializeR: redValue g: greenValue b: blueValue a: alphaValue [
 	alpha := alphaValue
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 PCFloatColor >> isTranslucent [
 	
 	^ alpha < 1.0
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCFloatColor >> printOn: aStream [
 
 	| places |
@@ -100,7 +98,7 @@ PCFloatColor >> printOn: aStream [
 		nextPutAll: ')'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCFloatColor >> red [
 
 	^ red

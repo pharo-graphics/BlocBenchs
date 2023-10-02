@@ -1,15 +1,13 @@
 Class {
-	#name : 'PCHeadlessBenchmarker',
-	#superclass : 'PCBlocBenchmarker',
+	#name : #PCHeadlessBenchmarker,
+	#superclass : #PCBlocBenchmarker,
 	#instVars : [
 		'pulseLoop'
 	],
-	#category : 'BlocBenchs-FPS-Benchmarkers',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Benchmarkers'
+	#category : 'BlocBenchs-FPS-Benchmarkers'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCHeadlessBenchmarker >> closeWindow [
 	super closeWindow.
 	
@@ -21,19 +19,19 @@ PCHeadlessBenchmarker >> closeWindow [
 	space universe pulse. "close was deferred and needs to be processed"
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCHeadlessBenchmarker >> host [
 
 	^ PCHeadlessHost new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCHeadlessBenchmarker >> label [
 
 	^ 'Bloc Alexandrie Headless'
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCHeadlessBenchmarker >> openWindow [
 	super openWindow.
 	

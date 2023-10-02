@@ -1,23 +1,21 @@
 Class {
-	#name : 'PCDirectDrawToStreamingTextureStrategy',
-	#superclass : 'PCSDLTextureStrategy',
+	#name : #PCDirectDrawToStreamingTextureStrategy,
+	#superclass : #PCSDLTextureStrategy,
 	#instVars : [
 		'pitchAddress',
 		'pixelsAddress'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCDirectDrawToStreamingTextureStrategy >> drawDone [
 
 	sdlTexture unlock.
 	cairoContext := nil.
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCDirectDrawToStreamingTextureStrategy >> drawPrepare [
 
 	| aCairoSurface |
@@ -42,7 +40,7 @@ PCDirectDrawToStreamingTextureStrategy >> drawPrepare [
 	setupBlock value: cairoContext
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCDirectDrawToStreamingTextureStrategy >> initialize [
 
 	super initialize.
@@ -52,7 +50,7 @@ PCDirectDrawToStreamingTextureStrategy >> initialize [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCDirectDrawToStreamingTextureStrategy >> sdlTextureAccess [
 
 	^ SDL_TEXTUREACCESS_STREAMING

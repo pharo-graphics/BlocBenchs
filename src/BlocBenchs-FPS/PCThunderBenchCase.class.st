@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCThunderBenchCase',
-	#superclass : 'PCPolylineBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCThunderBenchCase,
+	#superclass : #PCPolylineBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCThunderBenchCase >> vertices [
 
 	^ (Array streamContents: [:stream |

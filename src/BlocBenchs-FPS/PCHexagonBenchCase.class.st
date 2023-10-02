@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCHexagonBenchCase',
-	#superclass : 'PCPolylineBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCHexagonBenchCase,
+	#superclass : #PCPolylineBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCHexagonBenchCase >> vertices [ 
 
 	^ { 

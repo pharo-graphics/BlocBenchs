@@ -1,15 +1,13 @@
 Class {
-	#name : 'PCRoassalMorph',
-	#superclass : 'PCMorph',
+	#name : #PCRoassalMorph,
+	#superclass : #PCMorph,
 	#instVars : [
 		'roassalAthensMorph'
 	],
-	#category : 'BlocBenchs-FPS-RawMorph-Old',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'RawMorph-Old'
+	#category : 'BlocBenchs-FPS-RawMorph-Old'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCRoassalMorph >> drawOnCairoSurface [
 
 	cairoSurface drawDuring: [ :aCairoCanvas | 
@@ -18,7 +16,7 @@ PCRoassalMorph >> drawOnCairoSurface [
 			drawOnAthensCanvas: aCairoCanvas ].
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCRoassalMorph >> initializeSurface [ 
 
 	cairoSurface := AthensCairoSurface extent: surfaceExtent.

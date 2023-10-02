@@ -4,14 +4,12 @@ I'm a bench case for linear gradients.
 See my superclass comment.
 "
 Class {
-	#name : 'PCLinearGradientCirclesBenchCase',
-	#superclass : 'PCGradientCirclesBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCLinearGradientCirclesBenchCase,
+	#superclass : #PCGradientCirclesBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCLinearGradientCirclesBenchCase >> newGradient: random [
 
 	^ BlLinearGradientPaint new

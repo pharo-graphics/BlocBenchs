@@ -1,6 +1,6 @@
 Class {
-	#name : 'PCBoxWindmillCompositingWindow',
-	#superclass : 'PCBoxWindmillWindow',
+	#name : #PCBoxWindmillCompositingWindow,
+	#superclass : #PCBoxWindmillWindow,
 	#instVars : [
 		'sdlRects',
 		'pixelBoxExtent',
@@ -8,17 +8,15 @@ Class {
 		'boxPositions',
 		'boxTextureStrategy'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCBoxWindmillCompositingWindow >> drawOnCairoSurface [
 	"Completely done via composition of SDL textures"
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCBoxWindmillCompositingWindow >> presentOnWindow [
 
 	"Background"
@@ -44,7 +42,7 @@ PCBoxWindmillCompositingWindow >> presentOnWindow [
 	sdlRenderer present
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCBoxWindmillCompositingWindow >> resetAnimation [
 
 	super resetAnimation.
@@ -74,7 +72,7 @@ PCBoxWindmillCompositingWindow >> resetAnimation [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBoxWindmillCompositingWindow >> resetMainTexture [
 
 	mainTextureStrategy := PCUpdateStaticTextureStrategy

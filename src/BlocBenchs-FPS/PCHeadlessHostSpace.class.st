@@ -1,84 +1,81 @@
 Class {
-	#name : 'PCHeadlessHostSpace',
-	#superclass : 'Object',
+	#name : #PCHeadlessHostSpace,
+	#superclass : #Object,
 	#instVars : [
 		'canvas',
 		'windowExtent',
 		'space'
 	],
-	#category : 'BlocBenchs-FPS-Host-Headless',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Host-Headless'
+	#category : #'BlocBenchs-FPS-Host-Headless'
 }
 
-{ #category : 'converting' }
+{ #category : #converting }
 PCHeadlessHostSpace >> asForm [
 	"Useful for debugging"
 
 	^ canvas asForm	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCHeadlessHostSpace >> canvas: aCanvas [
 
 	canvas := aCanvas
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 PCHeadlessHostSpace >> fetchedEventsDo: aFullBlockClosure [ 
 
 	
 ]
 
-{ #category : 'host space - events' }
+{ #category : #'host space - events' }
 PCHeadlessHostSpace >> generateEvents [
 
 	
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 PCHeadlessHostSpace >> hasResized [
 
 	^ false
 ]
 
-{ #category : 'host space - geometry' }
+{ #category : #'host space - geometry' }
 PCHeadlessHostSpace >> logicalSize [
 	
 	^ canvas extent asLogicalSize
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 PCHeadlessHostSpace >> needsRebuild [
 
 	^ false
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 PCHeadlessHostSpace >> render: aBlSpace [ 
 
-	canvas fullDraw: aBlSpace root.
-
+	aBlSpace aeFullDrawOn: canvas
 ]
 
-{ #category : 'host space - rendering' }
+{ #category : #'host space - rendering' }
 PCHeadlessHostSpace >> requestRedraw [
 
 	
 ]
 
-{ #category : 'host space - displaying' }
+{ #category : #'host space - displaying' }
 PCHeadlessHostSpace >> show [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCHeadlessHostSpace >> space: aBlSpace [
 
 	space := aBlSpace
 ]
 
-{ #category : 'host space - geometry' }
+{ #category : #'host space - geometry' }
 PCHeadlessHostSpace >> windowExtent: aPoint [
 
 ]

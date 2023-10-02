@@ -1,15 +1,13 @@
 Class {
-	#name : 'PCTranslatingPathsWindow',
-	#superclass : 'PCTranslatingFiguresWindow',
+	#name : #PCTranslatingPathsWindow,
+	#superclass : #PCTranslatingFiguresWindow,
 	#instVars : [
 		'colors'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCTranslatingPathsWindow >> drawOnCairoSurface [
 
 	| deltaY |
@@ -23,13 +21,13 @@ PCTranslatingPathsWindow >> drawOnCairoSurface [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCTranslatingPathsWindow >> drawPath [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCTranslatingPathsWindow >> resetAnimation [
 
 	super resetAnimation.
@@ -38,13 +36,13 @@ PCTranslatingPathsWindow >> resetAnimation [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCTranslatingPathsWindow >> setPathFor: index deltaY: deltaY [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCTranslatingPathsWindow >> setSourceFor: index [
 
 	cairoContext sourceColor: (colors at: index)

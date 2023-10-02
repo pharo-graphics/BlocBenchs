@@ -1,18 +1,16 @@
 Class {
-	#name : 'PCPolylinesWindow',
-	#superclass : 'PCTranslatingPathsWindow',
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#name : #PCPolylinesWindow,
+	#superclass : #PCTranslatingPathsWindow,
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCPolylinesWindow >> drawPath [
 
 	cairoContext stroke
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCPolylinesWindow >> resetAnimation [
 
 	super resetAnimation.
@@ -21,7 +19,7 @@ PCPolylinesWindow >> resetAnimation [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCPolylinesWindow >> setPathFor: index deltaY: deltaY [
 
 	| offset |

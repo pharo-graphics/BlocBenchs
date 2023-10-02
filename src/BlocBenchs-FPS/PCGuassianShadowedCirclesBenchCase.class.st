@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCGuassianShadowedCirclesBenchCase',
-	#superclass : 'PCShadowedCirclesBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCGuassianShadowedCirclesBenchCase,
+	#superclass : #PCShadowedCirclesBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCGuassianShadowedCirclesBenchCase >> newShadowColor: shadowColor offset: shadowOffset [
 
 	^ BlGaussianShadowEffect
@@ -15,7 +13,7 @@ PCGuassianShadowedCirclesBenchCase >> newShadowColor: shadowColor offset: shadow
 				offset: shadowOffset
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCGuassianShadowedCirclesBenchCase >> numberOfFigures [
 
 	^ 100

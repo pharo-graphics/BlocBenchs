@@ -1,18 +1,16 @@
 Class {
-	#name : 'PCRoundedRectanglesBenchCase',
-	#superclass : 'PCTranslatingFiguresBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCRoundedRectanglesBenchCase,
+	#superclass : #PCTranslatingFiguresBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCRoundedRectanglesBenchCase >> figureExtent [
 
 	^ 80.0 asPoint
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCRoundedRectanglesBenchCase >> newFigureWith: random [
 
 	^ BlElement new

@@ -3,17 +3,15 @@ I define a case to be benchmarked by a PCBenchmarker.
 
 "
 Class {
-	#name : 'PCBenchCase',
-	#superclass : 'Object',
+	#name : #PCBenchCase,
+	#superclass : #Object,
 	#instVars : [
 		'numberOfSeconds'
 	],
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'convenience' }
+{ #category : #convenience }
 PCBenchCase class >> allBenchCases [
 
 	^ self allSubclasses
@@ -21,7 +19,7 @@ PCBenchCase class >> allBenchCases [
 		  thenCollect: [ :each | each new ]
 ]
 
-{ #category : 'convenience' }
+{ #category : #convenience }
 PCBenchCase class >> allBenchCasesWithRaw [
 
 	^ self allBenchCases select: [ :each |
@@ -29,19 +27,19 @@ PCBenchCase class >> allBenchCasesWithRaw [
 
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchCase >> angleInDegreesWith: random [
 		
 	^ random nextInteger: 360
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchCase >> duration [
 
 	^ numberOfSeconds seconds
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 PCBenchCase >> initialize [
 
 	super initialize.
@@ -50,7 +48,7 @@ PCBenchCase >> initialize [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchCase >> label [
 
 	| prefix suffix |
@@ -60,13 +58,13 @@ PCBenchCase >> label [
 	^ ' ' join: ((self className allButFirst: prefix size) allButLast: suffix size) splitCamelCase
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchCase >> logicalExtent [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchCase >> newColorGenerator [ 
 
 	^ Generator on: [ :generator | 
@@ -77,39 +75,39 @@ PCBenchCase >> newColorGenerator [
 		nextIndex := (nextIndex + 1) \\ wheel size + 1 ] repeat ]
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchCase >> newElement [
 	"Answer the Bloc element to be added to the root of the space to setup the benchmark scenario."
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 PCBenchCase >> newRandom [
 
 	^ Random seed: 1
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchCase >> newRawSDLCairoWindow [
 	"Answer a PCBenchCaseRawSDLCairoWindow instance to benchmark this case."
 
 	^ self notYetImplemented
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchCase >> numberOfMilliseconds [
 
 	^ numberOfSeconds * 1000
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchCase >> numberOfSeconds [
 
 	^ numberOfSeconds
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchCase >> numberOfSeconds: aNumber [
 
 	numberOfSeconds := aNumber

@@ -1,17 +1,15 @@
 Class {
-	#name : 'PCCompositionWindow',
-	#superclass : 'PCCleanCanvasWindow',
+	#name : #PCCompositionWindow,
+	#superclass : #PCCleanCanvasWindow,
 	#instVars : [
 		'figurePositions',
 		'figureColors',
 		'backgroundColorGenerator'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCompositionWindow >> drawFiguresOn: aeCairoContext [
 	
 	1 to: case numberOfFigures do: [ :index |
@@ -32,14 +30,14 @@ PCCompositionWindow >> drawFiguresOn: aeCairoContext [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCompositionWindow >> drawOnCairoSurface [
 
 	canvasClearColor := backgroundColorGenerator next.
 	super drawOnCairoSurface
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCompositionWindow >> resetAnimation [
 
 	super resetAnimation.

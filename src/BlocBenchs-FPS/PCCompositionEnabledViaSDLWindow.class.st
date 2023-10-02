@@ -1,16 +1,14 @@
 Class {
-	#name : 'PCCompositionEnabledViaSDLWindow',
-	#superclass : 'PCCompositionWindow',
+	#name : #PCCompositionEnabledViaSDLWindow,
+	#superclass : #PCCompositionWindow,
 	#instVars : [
 		'bottomLayerTexture',
 		'topLayerTextureStrategy'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCompositionEnabledViaSDLWindow >> resetAnimation [
 
 	super resetAnimation.
@@ -20,7 +18,7 @@ PCCompositionEnabledViaSDLWindow >> resetAnimation [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCompositionEnabledViaSDLWindow >> resetBottomLayer [
 
 	bottomLayerTexture := PCDirectDrawToStreamingTextureStrategy
@@ -30,7 +28,7 @@ PCCompositionEnabledViaSDLWindow >> resetBottomLayer [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCompositionEnabledViaSDLWindow >> resetTopLayer [
 
 	topLayerTextureStrategy := PCUpdateStaticTextureStrategy
@@ -44,7 +42,7 @@ PCCompositionEnabledViaSDLWindow >> resetTopLayer [
 
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCCompositionEnabledViaSDLWindow >> step [
 
 	self stepAnimation.

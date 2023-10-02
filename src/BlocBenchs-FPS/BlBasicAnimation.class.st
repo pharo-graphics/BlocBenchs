@@ -1,33 +1,31 @@
 Class {
-	#name : 'BlBasicAnimation',
-	#superclass : 'BlBaseAnimation',
+	#name : #BlBasicAnimation,
+	#superclass : #BlBaseAnimation,
 	#instVars : [
 		'stepBlock'
 	],
-	#category : 'BlocBenchs-FPS-Utility',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Utility'
+	#category : 'BlocBenchs-FPS-Utility'
 }
 
-{ #category : 'pulse' }
+{ #category : #pulse }
 BlBasicAnimation >> doStep [
 	stepBlock cull: target
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlBasicAnimation >> duration [
 
 	^ 1 minute
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlBasicAnimation >> initialize [ 
 	super initialize.
 	
 	self beInfinite.
 ]
 
-{ #category : 'pulse' }
+{ #category : #pulse }
 BlBasicAnimation >> onStepDo: aBlock [
 	stepBlock := aBlock
 ]

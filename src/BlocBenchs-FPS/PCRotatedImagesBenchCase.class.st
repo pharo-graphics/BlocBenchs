@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCRotatedImagesBenchCase',
-	#superclass : 'PCImagesBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCRotatedImagesBenchCase,
+	#superclass : #PCImagesBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCRotatedImagesBenchCase >> newImageElementWith: random [
 	
 	| randomIcon |

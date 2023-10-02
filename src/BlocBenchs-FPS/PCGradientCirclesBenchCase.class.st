@@ -4,17 +4,15 @@ I'm a bench case for gradient fills.
 My main parameters is ""numberOfStops"".
 "
 Class {
-	#name : 'PCGradientCirclesBenchCase',
-	#superclass : 'PCCirclesBenchCase',
+	#name : #PCGradientCirclesBenchCase,
+	#superclass : #PCCirclesBenchCase,
 	#instVars : [
 		'numberOfStops'
 	],
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCGradientCirclesBenchCase >> initialize [
 
 	super initialize.
@@ -22,7 +20,7 @@ PCGradientCirclesBenchCase >> initialize [
 	numberOfStops := 3.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCGradientCirclesBenchCase >> label [
 
 	^ '{1} w/ {2} stops' format: {
@@ -30,13 +28,13 @@ PCGradientCirclesBenchCase >> label [
 		numberOfStops }
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCGradientCirclesBenchCase >> newGradient: random [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCGradientCirclesBenchCase >> newStops: random [
 
 	^ (0.0 to: 1.0 by: (1/(numberOfStops-1)))
@@ -44,20 +42,20 @@ PCGradientCirclesBenchCase >> newStops: random [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCGradientCirclesBenchCase >> numberOfStops [
 
 	^ numberOfStops
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCGradientCirclesBenchCase >> numberOfStops: aCollection [
 	"Establish the gradient stops, in the form: { 0.0 -> Color black. 1.0 -> Color white }"
 
 	numberOfStops := aCollection
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCGradientCirclesBenchCase >> prepare: anElement with: random [
 
 	anElement background: (self newGradient: random)

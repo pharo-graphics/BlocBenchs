@@ -4,8 +4,8 @@ I trace to Transcript animation statistics of a Bloc space.
 See an example of use on my class side.
 "
 Class {
-	#name : 'BlFPSTracer',
-	#superclass : 'Object',
+	#name : #BlFPSTracer,
+	#superclass : #Object,
 	#instVars : [
 		'framesDeltaMS',
 		'lastMS',
@@ -16,12 +16,10 @@ Class {
 		'spaceShownEventHandler',
 		'spaceRenderEndEventHandler'
 	],
-	#category : 'BlocBenchs-FPS-Utility',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Utility'
+	#category : 'BlocBenchs-FPS-Utility'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlFPSTracer class >> exampleOfUse [
 	"The #start adds a handler to the space shown event, then it should be added before space show."
 
@@ -43,7 +41,7 @@ BlFPSTracer class >> exampleOfUse [
 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlFPSTracer class >> newOnSpace: aSpace [
 
 	^ self basicNew
@@ -51,7 +49,7 @@ BlFPSTracer class >> newOnSpace: aSpace [
 		yourself
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlFPSTracer class >> startOnSpace: aBlSpace [ 
 
 	^ (self newOnSpace: aBlSpace)
@@ -59,7 +57,7 @@ BlFPSTracer class >> startOnSpace: aBlSpace [
 		yourself
 ]
 
-{ #category : 'displaying' }
+{ #category : #displaying }
 BlFPSTracer >> forkLoopProcess [
 
 	loopProcess := [
@@ -81,7 +79,7 @@ BlFPSTracer >> forkLoopProcess [
 
 ]
 
-{ #category : 'displaying' }
+{ #category : #displaying }
 BlFPSTracer >> initializeOnSpace: aSpace [
 
 	self initialize.
@@ -110,7 +108,7 @@ BlFPSTracer >> initializeOnSpace: aSpace [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlFPSTracer >> printOn: aStream [
 
 	super printOn: aStream.
@@ -120,7 +118,7 @@ BlFPSTracer >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : 'displaying' }
+{ #category : #displaying }
 BlFPSTracer >> printStatsOn: aStream [
 
 	aStream
@@ -135,14 +133,14 @@ BlFPSTracer >> printStatsOn: aStream [
 
 ]
 
-{ #category : 'displaying' }
+{ #category : #displaying }
 BlFPSTracer >> resetFramesDeltaMS [
 
 	framesDeltaMS := LinkedList new.
 
 ]
 
-{ #category : 'displaying' }
+{ #category : #displaying }
 BlFPSTracer >> start [
 
 	self trace. ' start' traceCr.
@@ -153,7 +151,7 @@ BlFPSTracer >> start [
 
 ]
 
-{ #category : 'displaying' }
+{ #category : #displaying }
 BlFPSTracer >> stop [
 
 	self trace. ' stop' traceCr.

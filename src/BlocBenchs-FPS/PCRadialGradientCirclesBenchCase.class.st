@@ -4,14 +4,12 @@ I'm a bench case for radial gradients.
 See my superclass comment.
 "
 Class {
-	#name : 'PCRadialGradientCirclesBenchCase',
-	#superclass : 'PCGradientCirclesBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCRadialGradientCirclesBenchCase,
+	#superclass : #PCGradientCirclesBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCRadialGradientCirclesBenchCase >> newGradient: random [
 
 	^ BlRadialGradientPaint new

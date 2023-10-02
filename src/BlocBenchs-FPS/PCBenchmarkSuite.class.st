@@ -1,66 +1,64 @@
 Class {
-	#name : 'PCBenchmarkSuite',
-	#superclass : 'Object',
+	#name : #PCBenchmarkSuite,
+	#superclass : #Object,
 	#instVars : [
 		'cases',
 		'numberOfSeconds',
 		'benchmarkers',
 		'timeToWaitBetweenCases'
 	],
-	#category : 'BlocBenchs-FPS-Suite',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Suite'
+	#category : 'BlocBenchs-FPS-Suite'
 }
 
-{ #category : 'adding' }
+{ #category : #adding }
 PCBenchmarkSuite >> addAlexandrieBenchmarker [
 
 	benchmarkers add: PCBlocAlexandrieBenchmarker new
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 PCBenchmarkSuite >> addCase: aPCBenchCase [ 
 	
 	cases add: aPCBenchCase
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 PCBenchmarkSuite >> addHeadlessBenchmarker [
 
 	benchmarkers add: PCHeadlessBenchmarker new
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 PCBenchmarkSuite >> addRawBenchmarker [
 
 	benchmarkers add: PCRawBenchmarker new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarkSuite >> benchmarkers [
 
 	^ benchmarkers
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarkSuite >> benchmarkers: aCollection [
 
 	benchmarkers := aCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarkSuite >> cases [
 
 	^ cases
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarkSuite >> cases: aCollection [
 
 	cases := aCollection
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 PCBenchmarkSuite >> initialize [
 
 	super initialize.
@@ -71,19 +69,19 @@ PCBenchmarkSuite >> initialize [
 	numberOfSeconds := 5.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarkSuite >> numberOfSeconds [
 
 	^ numberOfSeconds
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarkSuite >> numberOfSeconds: anObject [
 
 	numberOfSeconds := anObject
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 PCBenchmarkSuite >> run [
 
 	cases do: [ :eachCase |
@@ -98,7 +96,7 @@ PCBenchmarkSuite >> run [
 			   shortReportOnTranscript ] ]
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 PCBenchmarkSuite >> runInForkWithGUI [
 
 	| b p w remainingCasesToBench |

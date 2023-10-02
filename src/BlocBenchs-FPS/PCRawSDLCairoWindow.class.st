@@ -1,6 +1,6 @@
 Class {
-	#name : 'PCRawSDLCairoWindow',
-	#superclass : 'Object',
+	#name : #PCRawSDLCairoWindow,
+	#superclass : #Object,
 	#instVars : [
 		'session',
 		'cairoContext',
@@ -17,37 +17,35 @@ Class {
 	#pools : [
 		'SDL2Constants'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 PCRawSDLCairoWindow class >> initialize [
 
 	self useUpdateStaticTextureStrategy
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 PCRawSDLCairoWindow class >> useDirectDrawToStreamingTextureStrategy [
 	
 	MainTextureStrategyClass := PCDirectDrawToStreamingTextureStrategy
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 PCRawSDLCairoWindow class >> useMemCopyToStreamingTextureStrategy [
 	
 	MainTextureStrategyClass := PCMemCopyToStreamingTextureStrategy
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 PCRawSDLCairoWindow class >> useUpdateStaticTextureStrategy [
 	
 	MainTextureStrategyClass := PCUpdateStaticTextureStrategy
 
 ]
 
-{ #category : 'opening and closing' }
+{ #category : #'opening and closing' }
 PCRawSDLCairoWindow >> close [
 
 	sdlRenderer ifNil: [ ^ self ].
@@ -59,25 +57,25 @@ PCRawSDLCairoWindow >> close [
 
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> drawDone [
 
 	mainTextureStrategy drawDone
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> drawOnCairoSurface [
 	"Hook: subclasses can use cairoContext to draw."
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> drawPrepare [
 
 	mainTextureStrategy drawPrepare.
 	cairoContext := mainTextureStrategy cairoContext.
 ]
 
-{ #category : 'opening and closing' }
+{ #category : #'opening and closing' }
 PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
 
 	sdlWindow := SDL2
@@ -97,7 +95,7 @@ PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
 
 ]
 
-{ #category : 'opening and closing' }
+{ #category : #'opening and closing' }
 PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent shape: shapeSurface [
 
 	| aMode |
@@ -131,7 +129,7 @@ PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent sh
 
 ]
 
-{ #category : 'opening and closing' }
+{ #category : #'opening and closing' }
 PCRawSDLCairoWindow >> openWithTitleOriginal: title position: position extent: extent [
 
 	sdlWindow := SDL2
@@ -151,7 +149,7 @@ PCRawSDLCairoWindow >> openWithTitleOriginal: title position: position extent: e
 
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> presentOnWindow [
 
 	sdlRenderer
@@ -159,7 +157,7 @@ PCRawSDLCairoWindow >> presentOnWindow [
 		present
 ]
 
-{ #category : 'opening and closing' }
+{ #category : #'opening and closing' }
 PCRawSDLCairoWindow >> resetMainTexture [
 
 	mainTextureStrategy := MainTextureStrategyClass
@@ -169,7 +167,7 @@ PCRawSDLCairoWindow >> resetMainTexture [
 
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> startLoop [
 
 	[
@@ -188,7 +186,7 @@ PCRawSDLCairoWindow >> startLoop [
 
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> step [
 
 	self drawPrepare.
@@ -199,14 +197,14 @@ PCRawSDLCairoWindow >> step [
 
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> stepWait [
 
 	self flag: #todo.
 	1 milliSecond wait
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCRawSDLCairoWindow >> stopLoop [
 
 	steppingProcess ifNil: [ ^self ].
@@ -214,7 +212,7 @@ PCRawSDLCairoWindow >> stopLoop [
 	steppingProcess := nil.
 ]
 
-{ #category : 'opening and closing' }
+{ #category : #'opening and closing' }
 PCRawSDLCairoWindow >> textureStrategySetupBlock [
 
 	^ [ :aCairoContext |

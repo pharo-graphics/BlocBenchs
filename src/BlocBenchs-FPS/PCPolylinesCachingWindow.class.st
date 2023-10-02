@@ -1,15 +1,13 @@
 Class {
-	#name : 'PCPolylinesCachingWindow',
-	#superclass : 'PCTranslatingPathsWindow',
+	#name : #PCPolylinesCachingWindow,
+	#superclass : #PCTranslatingPathsWindow,
 	#instVars : [
 		'path'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCPolylinesCachingWindow >> drawOnCairoSurface [
 
 	| deltaY |
@@ -33,13 +31,13 @@ PCPolylinesCachingWindow >> drawOnCairoSurface [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCPolylinesCachingWindow >> drawPath [
 
 	cairoContext stroke
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCPolylinesCachingWindow >> resetAnimation [
 
 	super resetAnimation.
@@ -59,7 +57,7 @@ PCPolylinesCachingWindow >> resetAnimation [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 PCPolylinesCachingWindow >> setPathFor: index [
 
 	cairoContext

@@ -1,18 +1,16 @@
 Class {
-	#name : 'PCPolylineBenchCase',
-	#superclass : 'PCTranslatingFiguresBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCPolylineBenchCase,
+	#superclass : #PCTranslatingFiguresBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCPolylineBenchCase >> borderWidth [
 
 	^ 1
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCPolylineBenchCase >> newFigureWith: random [
 
 	^ BlElement new
@@ -23,13 +21,13 @@ PCPolylineBenchCase >> newFigureWith: random [
 		  yourself
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCPolylineBenchCase >> newRawSDLCairoWindow [
 
 	^ PCPolylinesCachingWindow newWith: self
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCPolylineBenchCase >> newRoassalWrapperMorph [
 
 	^ PCRoassalPolylineMorph new
@@ -37,7 +35,7 @@ PCPolylineBenchCase >> newRoassalWrapperMorph [
 		  yourself
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCPolylineBenchCase >> vertices [
 
 	self subclassResponsibility

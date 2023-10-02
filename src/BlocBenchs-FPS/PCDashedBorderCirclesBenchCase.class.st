@@ -1,18 +1,16 @@
 Class {
-	#name : 'PCDashedBorderCirclesBenchCase',
-	#superclass : 'PCCirclesBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCDashedBorderCirclesBenchCase,
+	#superclass : #PCCirclesBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCDashedBorderCirclesBenchCase >> borderWidth [
 
 	^ 10
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCDashedBorderCirclesBenchCase >> prepare: anElement with: random [
 
 	anElement border:

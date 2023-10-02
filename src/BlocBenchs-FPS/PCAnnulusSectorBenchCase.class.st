@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCAnnulusSectorBenchCase',
-	#superclass : 'PCTranslatingFiguresBenchCase',
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#name : #PCAnnulusSectorBenchCase,
+	#superclass : #PCTranslatingFiguresBenchCase,
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCAnnulusSectorBenchCase >> newFigureWith: random [
 
 	^ BlElement new

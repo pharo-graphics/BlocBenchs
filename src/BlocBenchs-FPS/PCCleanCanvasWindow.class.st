@@ -1,15 +1,13 @@
 Class {
-	#name : 'PCCleanCanvasWindow',
-	#superclass : 'PCBenchCaseRawSDLCairoWindow',
+	#name : #PCCleanCanvasWindow,
+	#superclass : #PCBenchCaseRawSDLCairoWindow,
 	#instVars : [
 		'canvasClearColor'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCleanCanvasWindow >> clearCairoSurface [
 	"Clear background (https://www.cairographics.org/FAQ/#clear_a_surface)"
 
@@ -19,13 +17,13 @@ PCCleanCanvasWindow >> clearCairoSurface [
 
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCleanCanvasWindow >> drawOnCairoSurface [
 
 	self clearCairoSurface
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCleanCanvasWindow >> resetAnimation [
 
 	super resetAnimation.

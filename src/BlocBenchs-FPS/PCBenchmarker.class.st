@@ -5,8 +5,8 @@ See examples in my class-side.
 
 "
 Class {
-	#name : 'PCBenchmarker',
-	#superclass : 'Object',
+	#name : #PCBenchmarker,
+	#superclass : #Object,
 	#instVars : [
 		'loggedCalls',
 		'loggedCallsRanking',
@@ -16,12 +16,10 @@ Class {
 		'case',
 		'loggedFramesDeltaMS'
 	],
-	#category : 'BlocBenchs-FPS-Benchmarkers',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Benchmarkers'
+	#category : 'BlocBenchs-FPS-Benchmarkers'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleAllBenchs [
 
 	PCBenchmarkSuite new
@@ -32,7 +30,7 @@ PCBenchmarker class >> exampleAllBenchs [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleAllBenchsWithRaw [
 	"Bench the cases that respond to `PCBenchCase>>#newRawSDLCairoWindow`."
 
@@ -45,7 +43,7 @@ PCBenchmarker class >> exampleAllBenchsWithRaw [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleAllSDL2Drivers [
 
 	| case driverNames |
@@ -76,7 +74,7 @@ PCBenchmarker class >> exampleAllSDL2Drivers [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleAnimations [
 
 	| aCase |
@@ -97,7 +95,7 @@ PCBenchmarker class >> exampleAnimations [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleBunchOfBenchs [
 
 	PCBenchmarkSuite new
@@ -122,7 +120,7 @@ PCBenchmarker class >> exampleBunchOfBenchs [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleComposition [
 
 	PCBenchmarkSuite new
@@ -134,7 +132,7 @@ PCBenchmarker class >> exampleComposition [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleFFI [
 
 	[ | case |
@@ -150,7 +148,7 @@ PCBenchmarker class >> exampleFFI [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleGradients [
 
 	| suite |
@@ -170,7 +168,7 @@ PCBenchmarker class >> exampleGradients [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleMinimizeLoopPeriods [
 
 	{ BlOSWindowSDL2Host } do: [ :each |
@@ -180,7 +178,7 @@ PCBenchmarker class >> exampleMinimizeLoopPeriods [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleOneBench [
 
 	PCBenchmarkSuite new
@@ -194,7 +192,7 @@ PCBenchmarker class >> exampleOneBench [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleOutskirts [
 
 	| suite |
@@ -217,7 +215,7 @@ PCBenchmarker class >> exampleOutskirts [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleProfileCase [
 	"Profile the overhead of Bloc without rendering"
 
@@ -227,7 +225,7 @@ PCBenchmarker class >> exampleProfileCase [
 	AndreasSystemProfiler spyOnWorldFor: 5.
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 	"Opens a flame-graph on the AndreasSystemProfiler."
 
@@ -273,7 +271,7 @@ PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleProfileRawSDLCairoWithFlameGraph [
 	"Opens a flame-graph on the AndreasSystemProfiler."
 
@@ -301,7 +299,7 @@ PCBenchmarker class >> exampleProfileRawSDLCairoWithFlameGraph [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCBenchmarker class >> exampleShadows [
 
 	PCBenchmarkSuite new
@@ -314,19 +312,19 @@ PCBenchmarker class >> exampleShadows [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarker >> case [
 
 	^ case
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarker >> case: aPCBenchCase [
 
 	case := aPCBenchCase
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchmarker >> closeWindow [
 
 	self subclassResponsibility
@@ -334,25 +332,25 @@ PCBenchmarker >> closeWindow [
 
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchmarker >> elapsedTimeSinceFirstDraw [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCBenchmarker >> enableFFILogging [
 
 	mustLogFFI := true
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> fpsReportAsString [
 
 	^ String streamContents: [ :stream | self fpsReportOn: stream ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> fpsReportOn: aStream [
 
 	self printFpsOn: aStream.
@@ -360,31 +358,31 @@ PCBenchmarker >> fpsReportOn: aStream [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> fpsReportOnStdout [
 
 	self fpsReportOn: Stdio stdout
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> fpsReportOnTranscript [
 
 	self fpsReportAsString withInternalLineEndings trace
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchmarker >> frameCount [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchmarker >> framesDeltaMS [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'initializing' }
+{ #category : #initializing }
 PCBenchmarker >> initialize [
 
 	super initialize.
@@ -392,26 +390,26 @@ PCBenchmarker >> initialize [
 	mustLogFFI := false.
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> label [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> labelWithCase [
 
 	^ self label, ' - ', case label
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCBenchmarker >> openWindow [
 	
 	self subclassResponsibility
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> printFpsOn: aStream [
 
 	loggedFramesDeltaMS size / loggedDuration totalSeconds
@@ -419,7 +417,7 @@ PCBenchmarker >> printFpsOn: aStream [
 		showingDecimalPlaces: 1
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> printFrameMSDurationStatsOn: aStream [
 
 	MeanConfidenceIntervalPrinter new
@@ -428,7 +426,7 @@ PCBenchmarker >> printFrameMSDurationStatsOn: aStream [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> printProjectedFpsOn: aStream [
 
 	| projectedFps |
@@ -441,13 +439,13 @@ PCBenchmarker >> printProjectedFpsOn: aStream [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> reportFFIAsString [
 
 	^ String streamContents: [ :stream | self reportFFIOn: stream ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> reportFFIOn: aStream [
 
 	aStream << self labelWithCase; << ': '; lf.
@@ -465,19 +463,19 @@ PCBenchmarker >> reportFFIOn: aStream [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> reportFFIOnStdout [
 
 	self reportFFIOn: Stdio stdout
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> reportFFIOnTranscript [
 
 	self reportFFIAsString withInternalLineEndings trace
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 PCBenchmarker >> run [
 
 	"Start log"
@@ -499,13 +497,13 @@ PCBenchmarker >> run [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> shortReportAsString [
 
 	^ String streamContents: [ :stream | self shortReportOn: stream ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> shortReportOn: aStream [
 
 	aStream
@@ -523,19 +521,19 @@ PCBenchmarker >> shortReportOn: aStream [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> shortReportOnStdout [
 
 	self shortReportOn: Stdio stdout
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 PCBenchmarker >> shortReportOnTranscript [
 
 	self shortReportAsString withInternalLineEndings trace
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 PCBenchmarker >> startFFILogging [
 
 	"Ensure prepared"
@@ -549,7 +547,7 @@ PCBenchmarker >> startFFILogging [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 PCBenchmarker >> stopFFILogging [
 
 	| functionNamesSeries callsPerFrameSeries |

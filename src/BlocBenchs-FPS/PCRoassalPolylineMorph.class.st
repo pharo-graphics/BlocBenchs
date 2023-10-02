@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCRoassalPolylineMorph',
-	#superclass : 'PCRoassalTranslatingFiguresMorph',
-	#category : 'BlocBenchs-FPS-RawMorph-Old',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'RawMorph-Old'
+	#name : #PCRoassalPolylineMorph,
+	#superclass : #PCRoassalTranslatingFiguresMorph,
+	#category : 'BlocBenchs-FPS-RawMorph-Old'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCRoassalPolylineMorph >> newShape: index [
 
 	| offset translatedPoints |

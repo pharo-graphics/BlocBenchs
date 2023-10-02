@@ -1,6 +1,6 @@
 Class {
-	#name : 'PCNestedTransformationsWindow',
-	#superclass : 'PCBenchCaseRawSDLCairoWindow',
+	#name : #PCNestedTransformationsWindow,
+	#superclass : #PCBenchCaseRawSDLCairoWindow,
 	#instVars : [
 		'backgroundColors',
 		'figureMatrices',
@@ -10,12 +10,10 @@ Class {
 		'rotationCenterNegated',
 		'windowColor'
 	],
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCNestedTransformationsWindow >> drawOnCairoCanvasFigureAt: index [
 
 	cairoContext setIdentityMatrix.
@@ -41,7 +39,7 @@ PCNestedTransformationsWindow >> drawOnCairoCanvasFigureAt: index [
 
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 PCNestedTransformationsWindow >> drawOnCairoSurface [
 
 	"Prepare on first draw"

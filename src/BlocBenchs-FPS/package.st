@@ -1,1 +1,1 @@
-Package { #name : 'BlocBenchs-FPS' }
+Package { #name : #'BlocBenchs-FPS' }

@@ -1,15 +1,13 @@
 Class {
-	#name : 'PCTranslatingFiguresBenchCase',
-	#superclass : 'PCBenchCase',
+	#name : #PCTranslatingFiguresBenchCase,
+	#superclass : #PCBenchCase,
 	#instVars : [
 		'useSingleAnimation'
 	],
-	#category : 'BlocBenchs-FPS-Cases',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Cases'
+	#category : 'BlocBenchs-FPS-Cases'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCTranslatingFiguresBenchCase class >> exampleOpenFigureSamples [
 
 	self allBenchCases do: [ :each |
@@ -26,13 +24,13 @@ PCTranslatingFiguresBenchCase class >> exampleOpenFigureSamples [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> figureOffset [
 
 	^ 20 @ 20
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 PCTranslatingFiguresBenchCase >> initialize [
 
 	super initialize.
@@ -40,13 +38,13 @@ PCTranslatingFiguresBenchCase >> initialize [
 	useSingleAnimation := true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> logicalExtent [
 
 	^ 750 @ 350
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCTranslatingFiguresBenchCase >> newElement [
 
 	^ useSingleAnimation
@@ -54,7 +52,7 @@ PCTranslatingFiguresBenchCase >> newElement [
 		  ifFalse: [ self newElementWithIndependentAnimations ]
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCTranslatingFiguresBenchCase >> newElementWithIndependentAnimations [
 
 	| random container |
@@ -76,7 +74,7 @@ PCTranslatingFiguresBenchCase >> newElementWithIndependentAnimations [
 	^ container
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCTranslatingFiguresBenchCase >> newElementWithSingleAnimation [
 
 	| random container |
@@ -97,43 +95,43 @@ PCTranslatingFiguresBenchCase >> newElementWithSingleAnimation [
 	^ container
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCTranslatingFiguresBenchCase >> newFigureWith: random [
 	
 	^ self subclassResponsibility
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 PCTranslatingFiguresBenchCase >> newSampleFigure [
 
 	^ self newFigureWith: self newRandom
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> numberOfFigures [
 
 	^ 300
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 PCTranslatingFiguresBenchCase >> offsetBetweenFigures [
 
 	^ 2 @ 0
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> targetTranslation [
 
 	^ 0 @ 200
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> useSingleAnimation [
 
 	^ useSingleAnimation
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 PCTranslatingFiguresBenchCase >> useSingleAnimation: aBoolean [
 
 	useSingleAnimation := aBoolean

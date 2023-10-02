@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCRoassalCirclesMorph',
-	#superclass : 'PCRoassalTranslatingFiguresMorph',
-	#category : 'BlocBenchs-FPS-RawMorph-Old',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'RawMorph-Old'
+	#name : #PCRoassalCirclesMorph,
+	#superclass : #PCRoassalTranslatingFiguresMorph,
+	#category : 'BlocBenchs-FPS-RawMorph-Old'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCRoassalCirclesMorph >> newShape: index [
 
 	^ RSCircle new
@@ -17,7 +15,7 @@ PCRoassalCirclesMorph >> newShape: index [
 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 PCRoassalCirclesMorph >> prepareCircle: aCircleShape [
 
 	self subclassResponsibility 

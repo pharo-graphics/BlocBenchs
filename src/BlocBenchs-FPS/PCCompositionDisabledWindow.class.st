@@ -1,12 +1,10 @@
 Class {
-	#name : 'PCCompositionDisabledWindow',
-	#superclass : 'PCCompositionWindow',
-	#category : 'BlocBenchs-FPS-Raw',
-	#package : 'BlocBenchs-FPS',
-	#tag : 'Raw'
+	#name : #PCCompositionDisabledWindow,
+	#superclass : #PCCompositionWindow,
+	#category : 'BlocBenchs-FPS-Raw'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 PCCompositionDisabledWindow >> drawOnCairoSurface [
 
 	super drawOnCairoSurface.
