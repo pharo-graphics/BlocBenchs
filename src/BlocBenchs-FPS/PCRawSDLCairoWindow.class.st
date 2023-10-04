@@ -17,7 +17,7 @@ Class {
 	#pools : [
 		'SDL2Constants'
 	],
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #'as yet unclassified' }
@@ -221,7 +221,7 @@ PCRawSDLCairoWindow >> textureStrategySetupBlock [
 		isHighDPI ifTrue: [
 			aCairoContext
 				tolerance: 0.5;
-				antialias: AeCairoAntialias CAIRO_ANTIALIAS_NONE.
+				antialias: AeCairoAntialias none.
 			aCairoContext surface deviceScale: deviceScalePoint ] ]
 
 ]
