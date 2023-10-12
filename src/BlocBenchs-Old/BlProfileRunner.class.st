@@ -52,6 +52,21 @@ BlProfileRunner class >> exampleAll [
 ]
 
 { #category : #examples }
+BlProfileRunner class >> exampleMinimalFPS [
+	
+	[ 	| case |
+		case := BlBoidsProfileCase new
+			hostClass: BlOSWindowSDL2Host;
+			duration: 7 seconds;
+			yourself.
+
+		(BlProfileRunner newForCase: case)
+			enableFPS;
+			run;
+			openMeterReports ] fork
+]
+
+{ #category : #examples }
 BlProfileRunner class >> exampleOnlyFFI [
 
 	| cases runners |
