@@ -13,12 +13,9 @@ BlAndreasSystemProfiler >> reportsAsPagesUsing: aBuilder [
 	^ { 
 	
 	
-	SpNotebookPage title: 'VM Stats' provider: [
+	SpNotebookPage title: 'Report as String' provider: [
 		(aBuilder newText
-			   text: (String streamContents: [ :strm |
-			profiler reportGCStatsOn: strm.
-			profiler reportProcessStatsOn: strm.
-			]);
+			   text: profiler report;
 			   yourself) ].
 		
 	
