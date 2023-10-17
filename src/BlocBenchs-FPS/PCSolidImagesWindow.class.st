@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'patterns'
 	],
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }
@@ -49,7 +49,7 @@ PCSolidImagesWindow >> resetAnimation [
 			| aForm aPattern |
 			aForm := case newFormWith: random.
 			aPattern := AeCairoSurfacePattern surface: (AeCairoImageSurface fromForm: aForm).
-			aPattern filter: AeCairoSamplingFilter CAIRO_FILTER_FAST.
+			aPattern filter: AeCairoSamplingFilter fast.
 			stream nextPut: aPattern ] ]
 
 ]
