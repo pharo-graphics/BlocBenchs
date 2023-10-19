@@ -72,16 +72,12 @@ BlProfileCase >> newElement [
 { #category : #API }
 BlProfileCase >> openSpace [
 
-	self flag: #todo. "Handle Host and SpartaCanvas here? (instead of in runner)"
-
-	space root
-		addChild: self newElement;
-		forceLayout.
+	space root addChild: self newElement.
 		
 	space
 		title: self shortDescription;
-		show.
-
+		extent: self spaceExtent;
+		show
 ]
 
 { #category : #copying }
@@ -122,5 +118,12 @@ BlProfileCase >> shortDescription [
 
 { #category : #accessing }
 BlProfileCase >> space [
+
 	^ space
+]
+
+{ #category : #hooks }
+BlProfileCase >> spaceExtent [
+
+	^ 800 @ 600
 ]
