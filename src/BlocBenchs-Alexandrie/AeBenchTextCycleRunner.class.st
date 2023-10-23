@@ -63,7 +63,7 @@ AeBenchTextCycleRunner >> add0ScanFacesBenchs [
 { #category : #benchmarking }
 AeBenchTextCycleRunner >> add1ShapeBenchs [
 
-	| ftLibrary ftFace hbBlob hbFace cairoFontFace |
+	| ftLibrary ftFace hbBlob hbFace cairoFontFace hbFont |
 	fontFileReferences := { 
 		AeFilesystemResources inriaSerifRegularTTF.
 "		AeCascadiaCodeDownloadedFont new fileReference.
@@ -88,7 +88,25 @@ AeBenchTextCycleRunner >> add1ShapeBenchs [
 			hbBlob := AeHbBlob newLocatedAt: ttfFileReference.
 			hbFace := hbBlob newHbFaceAtIndex: 0.
 			cairoFontFace := hbFace newCairoFontFace ]
-		do: [ self shape1: cairoFontFace ]
+		do: [ self shape1: cairoFontFace ].
+		
+	self
+		addBenchLabeled: 'shape2: FT'
+		setUp: [ 
+			ftLibrary := AeFTLibrary newInitialized.
+			ftFace := ftLibrary
+				newFaceFromFile: ttfFileReference
+				index: 0.
+			hbFont := AeHbFont newForFTFaceReferenced: ftFace ]
+		do: [ self shape2: hbFont ].
+
+	self
+		addBenchLabeled: 'shape2: HB'
+		setUp: [ 
+			hbBlob := AeHbBlob newLocatedAt: ttfFileReference.
+			hbFace := hbBlob newHbFaceAtIndex: 0.
+			hbFont := hbFace newHbFont ]
+		do: [ self shape2: hbFont ]
 ]
 
 { #category : #benchmarking }
@@ -145,6 +163,7 @@ AeBenchTextCycleRunner >> initialize [
 	results := LinkedList new.
 
 	utf8Encoded := 'Officë' utf8Encoded.
+"	utf8Encoded := String loremIpsum utf8Encoded."
 	fontSize := 50.
 	benchDuration := 2 seconds.
 
@@ -293,4 +312,19 @@ AeBenchTextCycleRunner >> shape1: cairoFontFace [
 	cairoContext fontFace: cairoFontFace.
 	cairoContext fontSize: fontSize.
 	^ cairoContext scaledFont glyphArrayForUtf8Array: utf8Encoded
+]
+
+{ #category : #benchmarking }
+AeBenchTextCycleRunner >> shape2: hbFont [
+
+	self halt. "Set fontSize!?"
+			
+	^ AeHbBuffer new
+		direction: AeHbDirection leftToRight;
+		script: AeHbScript latin;
+		language: AeHbLanguage en;
+		clusterLevel: AeHbBufferClusterLevel recommended;
+		addUtf8ByteArray: utf8Encoded;
+		shapeWithFont: hbFont;
+		cairoGlyphArray
 ]
