@@ -18,6 +18,12 @@ BlTextEditorProfileCase >> defaultLapseToWait [
 	^ 0.5 seconds
 ]
 
+{ #category : #accessing }
+BlTextEditorProfileCase >> defaultNumberOfSimulatedEvents [
+
+	^ 15
+]
+
 { #category : #hooks }
 BlTextEditorProfileCase >> dispatchEvent [
 
@@ -70,11 +76,18 @@ BlTextEditorProfileCase >> newElement [
 { #category : #accessing }
 BlTextEditorProfileCase >> numberOfSimulatedEvents [
 
-	^ numberOfSimulatedEvents ifNil: [ numberOfSimulatedEvents := 12 ]
+	^ numberOfSimulatedEvents ifNil: [
+		numberOfSimulatedEvents := self defaultNumberOfSimulatedEvents ]
 ]
 
 { #category : #accessing }
 BlTextEditorProfileCase >> numberOfSimulatedEvents: anInteger [
 
 	numberOfSimulatedEvents := anInteger
+]
+
+{ #category : #hooks }
+BlTextEditorProfileCase >> spaceExtent [
+
+	^ 400 @ 800
 ]
