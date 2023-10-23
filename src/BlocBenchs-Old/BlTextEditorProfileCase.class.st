@@ -6,19 +6,31 @@ Class {
 	#superclass : #BlProfileCase,
 	#instVars : [
 		'editorElement',
-		'numberOfScrollDowns',
-		'lapseToWaitBetween'
+		'lapseToWaitBetween',
+		'numberOfSimulatedEvents'
 	],
 	#category : #'BlocBenchs-Old-ProfileCases'
 }
+
+{ #category : #accessing }
+BlTextEditorProfileCase >> defaultLapseToWait [
+
+	^ 0.5 seconds
+]
+
+{ #category : #hooks }
+BlTextEditorProfileCase >> dispatchEvent [
+
+	self subclassResponsibility
+]
 
 { #category : #hooks }
 BlTextEditorProfileCase >> executeBody [ 
 
 	self lapseToWaitBetween wait.
-	self numberOfScrollDowns timesRepeat: [ |b|
+	self numberOfSimulatedEvents timesRepeat: [ |b|
 		self lapseToWaitBetween wait.
-		b := [ BlSpace simulateMouseWheelOn: editorElement by: (BlVector x: 0 y: -7) ].
+		b := [ self dispatchEvent ].
 
 		self flag: #todo. "Not sure what's the best way to send the simulated event"
 		BlUseAsyncFeatures 
@@ -33,7 +45,7 @@ BlTextEditorProfileCase >> executeBody [
 { #category : #accessing }
 BlTextEditorProfileCase >> lapseToWaitBetween [
 
-	^ lapseToWaitBetween ifNil: [ lapseToWaitBetween := 0.5 seconds ]
+	^ lapseToWaitBetween ifNil: [ lapseToWaitBetween := self defaultLapseToWait ]
 ]
 
 { #category : #accessing }
@@ -56,13 +68,13 @@ BlTextEditorProfileCase >> newElement [
 ]
 
 { #category : #accessing }
-BlTextEditorProfileCase >> numberOfScrollDowns [
+BlTextEditorProfileCase >> numberOfSimulatedEvents [
 
-	^ numberOfScrollDowns ifNil: [ numberOfScrollDowns := 12 ]
+	^ numberOfSimulatedEvents ifNil: [ numberOfSimulatedEvents := 12 ]
 ]
 
 { #category : #accessing }
-BlTextEditorProfileCase >> numberOfScrollDowns: anInteger [
+BlTextEditorProfileCase >> numberOfSimulatedEvents: anInteger [
 
-	numberOfScrollDowns := anInteger
+	numberOfSimulatedEvents := anInteger
 ]

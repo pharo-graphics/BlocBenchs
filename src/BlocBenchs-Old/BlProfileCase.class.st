@@ -73,7 +73,8 @@ BlProfileCase >> newElement [
 BlProfileCase >> openSpace [
 
 	space root addChild: self newElement.
-		
+	space root children first requestFocus.
+	
 	space
 		title: self shortDescription;
 		extent: self spaceExtent;
