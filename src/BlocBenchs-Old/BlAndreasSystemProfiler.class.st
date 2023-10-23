@@ -22,21 +22,22 @@ BlAndreasSystemProfiler >> reportsAsPagesUsing: aBuilder [
 	SpNotebookPage title: 'Flame Graph' provider: [
 	
 		profiler saucoAsReport 
-			colorMap: (SaCategoryPrefixColorMap new 
+			colorMap:
+				(SaCategoryPrefixColorMap new 
 					mapPrefixes: #(
+						'OSWindow'
 						'Alexandrie')
-						from: Color purple;
+						from: Color lightBlue;
 					mapPrefixes: #(
-						'BlocHost'
 						'Bloc-Text'
+						'BlocHost'
 						'Bloc')
 						from: Color orange;
 					mapPrefixes: #(
-						'BlocPac'
-						'Brick'
-						'Spec-Brick')
-						from: Color lightBlue;
-				yourself)	;
+						'Album'
+						'Toplo')
+						from: Color pink;
+					yourself)	;
 			inspectionForFlameGraph: aBuilder.
 			
 		]
