@@ -2,27 +2,29 @@
 Profiling case where Boids example is shown in a space during some seconds.
 "
 Class {
-	#name : #BlBoidsProfileCase,
-	#superclass : #BlFixedDurationProfileCase,
+	#name : 'BlBoidsProfileCase',
+	#superclass : 'BlFixedDurationProfileCase',
 	#instVars : [
 		'boidsSkyElementClass'
 	],
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlBoidsProfileCase >> boidsSkyElementClass [
 
 	^ boidsSkyElementClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlBoidsProfileCase >> boidsSkyElementClass: aBoidsSkyElementClass [
 
 	boidsSkyElementClass := aBoidsSkyElementClass
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlBoidsProfileCase >> initialize [ 
 
 	super initialize.
@@ -31,7 +33,7 @@ BlBoidsProfileCase >> initialize [
 
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlBoidsProfileCase >> newElement [
 
 	^ boidsSkyElementClass new

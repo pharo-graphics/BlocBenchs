@@ -2,12 +2,14 @@
 I'm a profiling case with a BlElement that changes background color on each frame with an infinite animation.
 "
 Class {
-	#name : #BlBackgroundColorProfileCase,
-	#superclass : #BlSimpleElementProfileCase,
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#name : 'BlBackgroundColorProfileCase',
+	#superclass : 'BlSimpleElementProfileCase',
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlBackgroundColorProfileCase >> newSteppingAnimation [
 
 	| colorGenerator |

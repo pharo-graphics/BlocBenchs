@@ -1,10 +1,12 @@
 Class {
-	#name : #BlMouseWheelScrollTextEditorProfileCase,
-	#superclass : #BlTextEditorProfileCase,
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#name : 'BlMouseWheelScrollTextEditorProfileCase',
+	#superclass : 'BlTextEditorProfileCase',
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlMouseWheelScrollTextEditorProfileCase >> dispatchEvent [
 
 	BlSpace simulateMouseWheelOn: editorElement by: (BlVector x: 0 y: -7)

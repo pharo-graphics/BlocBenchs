@@ -1,46 +1,53 @@
 Class {
-	#name : #BlocBenchsSmokeTest,
-	#superclass : #TestCase,
-	#category : #'BlocBenchs-Tests'
+	#name : 'BlocBenchsSmokeTest',
+	#superclass : 'TestCase',
+	#category : 'BlocBenchs-Tests',
+	#package : 'BlocBenchs-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlocBenchsSmokeTest >> defaultTimeLimit [
 
 	^ 5 minutes
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BlocBenchsSmokeTest >> testAeBenchManySiblingsRunner [
 
 	AeBenchFigureGridRunner new run
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
+BlocBenchsSmokeTest >> testBlMouseMoveBenchmark [
+
+	BlMouseMoveBenchmark exampleRun
+]
+
+{ #category : 'tests' }
 BlocBenchsSmokeTest >> testBlProfileRunner [
 
 	BlProfileRunner exampleAll
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BlocBenchsSmokeTest >> testPCBenchmarker1 [
 
 	PCBenchmarker exampleAllBenchs
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BlocBenchsSmokeTest >> testPCBenchmarker2 [
 
 	PCBenchmarker exampleAllBenchsWithRaw
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BlocBenchsSmokeTest >> testPCBenchmarker3 [
 
 	PCBenchmarker exampleProfileCaseWithFlameGraph
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BlocBenchsSmokeTest >> testPCOSWindowScrollingExample1 [
 
 	PCOSWindowScrollingExample new
@@ -48,7 +55,7 @@ BlocBenchsSmokeTest >> testPCOSWindowScrollingExample1 [
 		open
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BlocBenchsSmokeTest >> testPCOSWindowScrollingExample2 [
 
 	PCOSWindowScrollingExample new
@@ -56,7 +63,7 @@ BlocBenchsSmokeTest >> testPCOSWindowScrollingExample2 [
 		open
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BlocBenchsSmokeTest >> testSDLShapedWindowExample [
 
 	OSPlatform current isMacOS ifTrue: [ 
