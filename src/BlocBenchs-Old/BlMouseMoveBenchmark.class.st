@@ -27,8 +27,7 @@ BlMouseMoveBenchmark class >> exampleRun [
 
 	| aProcess w |
 	aProcess := [
-	{ 	BlOSWindowSDL2Host.
-		BAOSWindowSDL2Host. }
+	{ 	BlOSWindowSDL2Host }
 			do: [ :eachHostClass |
 				{ 	400 asPoint.
 					"800 asPoint" }
@@ -118,7 +117,7 @@ BlMouseMoveBenchmark >> initialize [
 
 	nestingLevel := 3.
 
-	host := BAOSWindowSDL2Host new.
+	host := BlOSWindowSDL2Host new.
 
 	geometries := {
 		BlRoundedRectangleGeometry cornerRadius: 40.
@@ -232,15 +231,19 @@ BlMouseMoveBenchmark >> runOn: aGeometry [
 
 	aSpace := BlSpace new
 		host: host;
+		yourself.
+	
+	aSpace root
 		addChild: elements first;
 		addChild:
 			(self newPointerElement
 				position: eventPosition;
-				yourself);
+				yourself).
+				
+	aSpace
 		extent: extent;
 		title: host class label, ' - ', aGeometry asString;
-		show;
-		yourself.
+		show.
 	self doLittleWait.
 
 	self mouseMoveOn: aSpace at: eventPosition.
