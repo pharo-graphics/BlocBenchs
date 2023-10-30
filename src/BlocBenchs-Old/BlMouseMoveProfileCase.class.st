@@ -93,7 +93,7 @@ BlMouseMoveProfileCase >> newSteppingAnimation [
 { #category : 'private' }
 BlMouseMoveProfileCase >> numberOfCellsOnEachSide [
 
-	^ 60
+	^ 100
 ]
 
 { #category : 'hooks' }
