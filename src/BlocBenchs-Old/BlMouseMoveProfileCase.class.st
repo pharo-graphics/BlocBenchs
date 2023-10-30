@@ -51,8 +51,13 @@ BlMouseMoveProfileCase >> newElement [
 				size: cellExtent + 1;
 				background: Color random darker;
 				clipChildren: false;
-				when: BlMouseMoveEvent do: [ :evt |
-					evt target background: Color random muchLighter ];
+				when: BlMouseMoveEvent
+				do: [ :evt |
+					"Highlight element, but enforce changing color only 
+					if has not been already highlighted.
+					This avoids triggering many redraws."
+					evt target background paint color = Color white
+						ifFalse: [ evt target background: Color white ] ];
 				yourself ].
 
 	^ BlElement new
