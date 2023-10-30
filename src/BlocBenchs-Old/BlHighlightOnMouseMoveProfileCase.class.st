@@ -4,7 +4,7 @@ I'm a benchmarking case that simulates mouse move in a circle over a grid of ele
 This is a scenario where updating only dirty rectangles can benefit.
 "
 Class {
-	#name : 'BlMouseMoveProfileCase',
+	#name : 'BlHighlightOnMouseMoveProfileCase',
 	#superclass : 'BlFixedDurationProfileCase',
 	#category : 'BlocBenchs-Old-ProfileCases',
 	#package : 'BlocBenchs-Old',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : 'examples' }
-BlMouseMoveProfileCase class >> example [
+BlHighlightOnMouseMoveProfileCase class >> example [
 	
 	[ 	| case |
 		case := self new
@@ -27,7 +27,7 @@ BlMouseMoveProfileCase class >> example [
 ]
 
 { #category : 'hooks' }
-BlMouseMoveProfileCase >> newElement [
+BlHighlightOnMouseMoveProfileCase >> newElement [
 	"Answer the element under study."
 
 	| columnCount rowCount boardExtent cellExtent board |
@@ -69,7 +69,7 @@ BlMouseMoveProfileCase >> newElement [
 ]
 
 { #category : 'private' }
-BlMouseMoveProfileCase >> newSteppingAnimation [
+BlHighlightOnMouseMoveProfileCase >> newSteppingAnimation [
 
 	| oldPosition newPosition center |
 	newPosition := 0.0 asPoint.
@@ -96,13 +96,13 @@ BlMouseMoveProfileCase >> newSteppingAnimation [
 ]
 
 { #category : 'private' }
-BlMouseMoveProfileCase >> numberOfCellsOnEachSide [
+BlHighlightOnMouseMoveProfileCase >> numberOfCellsOnEachSide [
 
 	^ 100
 ]
 
 { #category : 'hooks' }
-BlMouseMoveProfileCase >> spaceExtent [
+BlHighlightOnMouseMoveProfileCase >> spaceExtent [
 
 	^ 500 asPoint
 ]
