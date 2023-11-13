@@ -16,7 +16,7 @@ Class {
 		'case',
 		'loggedFramesDeltaMS'
 	],
-	#category : 'BlocBenchs-FPS-Benchmarkers'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #examples }
@@ -233,17 +233,19 @@ PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 		report := SaReport newWithASPOn: [
 
 		| case element space |
-		case := PCGuassianShadowedCirclesBenchCase new.
-		case numberOfSeconds: 10.
+"		case := PCNestedTransformationsBenchCase new."
+		case := PCRotatedTextBenchCase new.
+		case numberOfSeconds: 7.
 		element := case newElement.
 		space := BlSpace new
 "			host: BlNullRendererMorphicWindowHost new;"
 "			host: BlMorphicWindowHost new;"
 			host: BlOSWindowSDL2Host new;
 			extent: case logicalExtent;
-			addChild: element;
-			show;
 			yourself.
+		space root  addChild: element.
+		space show.
+
 		case duration wait.
 		space close.
 
@@ -252,19 +254,14 @@ PCBenchmarker class >> exampleProfileCaseWithFlameGraph [
 		report
 			colorMap: (SaCategoryPrefixColorMap new 
 					mapPrefixes: #(
-						'Alexandrie'
-						'Sparta')
-						from: Color purple;
+						'OSWindow'
+						'Alexandrie')
+						from: Color lightBlue;
 					mapPrefixes: #(
-						'BlocHost'
 						'Bloc-Text'
+						'BlocHost'
 						'Bloc')
 						from: Color orange;
-					mapPrefixes: #(
-						'BlocPac'
-						'Brick'
-						'Spec-Brick')
-						from: Color lightBlue;
 					yourself);
 				inspect
 		] fork.

@@ -2,17 +2,15 @@
 I'm a profiling case with an animated BlElement.
 "
 Class {
-	#name : 'BlSimpleElementProfileCase',
-	#superclass : 'BlFixedDurationProfileCase',
+	#name : #BlSimpleElementProfileCase,
+	#superclass : #BlFixedDurationProfileCase,
 	#instVars : [
 		'element'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlSimpleElementProfileCase >> newElement [
 
 	^ element := BlElement new
@@ -23,7 +21,7 @@ BlSimpleElementProfileCase >> newElement [
 		yourself
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlSimpleElementProfileCase >> newSteppingAnimation [
 
 	^ self subclassResponsibility

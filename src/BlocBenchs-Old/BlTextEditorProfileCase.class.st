@@ -2,37 +2,35 @@
 I'm a profiling case where a text editor is scrolled down multiple times.
 "
 Class {
-	#name : 'BlTextEditorProfileCase',
-	#superclass : 'BlProfileCase',
+	#name : #BlTextEditorProfileCase,
+	#superclass : #BlProfileCase,
 	#instVars : [
 		'editorElement',
 		'lapseToWaitBetween',
 		'numberOfSimulatedEvents'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> defaultLapseToWait [
 
 	^ 0.5 seconds
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> defaultNumberOfSimulatedEvents [
 
 	^ 15
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlTextEditorProfileCase >> dispatchEvent [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlTextEditorProfileCase >> executeBody [ 
 
 	self lapseToWaitBetween wait.
@@ -50,19 +48,19 @@ BlTextEditorProfileCase >> executeBody [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> lapseToWaitBetween [
 
 	^ lapseToWaitBetween ifNil: [ lapseToWaitBetween := self defaultLapseToWait ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> lapseToWaitBetween: aDuration [
 
 	lapseToWaitBetween := aDuration
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlTextEditorProfileCase >> newElement [
 
 	| model |
@@ -75,20 +73,20 @@ BlTextEditorProfileCase >> newElement [
 	^ editorElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> numberOfSimulatedEvents [
 
 	^ numberOfSimulatedEvents ifNil: [
 		numberOfSimulatedEvents := self defaultNumberOfSimulatedEvents ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> numberOfSimulatedEvents: anInteger [
 
 	numberOfSimulatedEvents := anInteger
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlTextEditorProfileCase >> spaceExtent [
 
 	^ 400 @ 800

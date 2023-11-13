@@ -9,53 +9,51 @@ Collaborators:
 	- case: the case under study, which may be needed by the meter.
 "
 Class {
-	#name : 'BlMeter',
-	#superclass : 'Object',
+	#name : #BlMeter,
+	#superclass : #Object,
 	#instVars : [
 		'case'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMeter >> case [
 
 	^ case
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMeter >> case: aCase [
 
 	case := aCase
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlMeter >> reportAsString [
 
 	^ String streamContents: [ :stream | self reportAsStringOn: stream ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlMeter >> reportAsStringOn: aStream [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'API' }
+{ #category : #API }
 BlMeter >> reportsAsPagesUsing: aBuilder [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'API' }
+{ #category : #API }
 BlMeter >> startMetering [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'API' }
+{ #category : #API }
 BlMeter >> stopMetering [
 
 	self subclassResponsibility

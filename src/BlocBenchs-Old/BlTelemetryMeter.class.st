@@ -1,15 +1,13 @@
 Class {
-	#name : 'BlTelemetryMeter',
-	#superclass : 'BlMeter',
+	#name : #BlTelemetryMeter,
+	#superclass : #BlMeter,
 	#instVars : [
 		'loggerCopy'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'API' }
+{ #category : #API }
 BlTelemetryMeter >> reportsAsPagesUsing: aBuilder [
 
 	^ { (SpNotebookPage
@@ -17,7 +15,7 @@ BlTelemetryMeter >> reportsAsPagesUsing: aBuilder [
 		   provider: [ loggerCopy inspectorTreeIn: aBuilder ]) }
 ]
 
-{ #category : 'API' }
+{ #category : #API }
 BlTelemetryMeter >> startMetering [
 
 	BlTelemetryLogger instance
@@ -27,7 +25,7 @@ BlTelemetryMeter >> startMetering [
 	case space telemetry: BlMemoryTelemetry new
 ]
 
-{ #category : 'API' }
+{ #category : #API }
 BlTelemetryMeter >> stopMetering [
 
 	loggerCopy := BlTelemetryLogger instance copy.
