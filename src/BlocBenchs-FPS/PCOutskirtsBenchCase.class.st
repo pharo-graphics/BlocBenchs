@@ -1,3 +1,6 @@
+"
+I'm a parameterized bench case to cover the variants of element geometries as rendered by Bloc-Alexanderie's canvas.
+"
 Class {
 	#name : #PCOutskirtsBenchCase,
 	#superclass : #PCTranslatingFiguresBenchCase,
@@ -5,9 +8,10 @@ Class {
 		'backgroundColor',
 		'outskirts',
 		'mustClipChildren',
-		'backgroundLabel'
+		'backgroundLabel',
+		'useExplicitBorderPathGeometry'
 	],
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }
@@ -61,12 +65,6 @@ PCOutskirtsBenchCase >> figureExtent [
 	^ 100 asPoint
 ]
 
-{ #category : #hook }
-PCOutskirtsBenchCase >> figureGeometry [
-		
-	^ BlRoundedRectangleGeometry cornerRadius: 25
-]
-
 { #category : #initialization }
 PCOutskirtsBenchCase >> initialize [
 
@@ -75,16 +73,18 @@ PCOutskirtsBenchCase >> initialize [
 	self
 		mustClipChildren: true;
 		outskirts: BlOutskirts inside;
-		beTranslucentBackgroundColor.
+		beTranslucentBackgroundColor;
+		useExplicitBorderPathGeometry: true.
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 PCOutskirtsBenchCase >> label [
 
 	^ '{1} border & clipping={3} & {2} background' format: {
 		outskirts class name splitCamelCase last.
 		backgroundLabel.
-		mustClipChildren }
+		mustClipChildren.
+		useExplicitBorderPathGeometry }
 ]
 
 { #category : #accessing }
@@ -111,13 +111,33 @@ PCOutskirtsBenchCase >> newChildWith: random [
 ]
 
 { #category : #hook }
+PCOutskirtsBenchCase >> newFigureGeometry [
+	
+	| cornerRadius |
+	cornerRadius := 25.
+	^ useExplicitBorderPathGeometry 
+		ifTrue: [ BlRoundedRectangleGeometry cornerRadius: cornerRadius ]
+		ifFalse: [
+			"A hand-made octogon"
+			(BlPolygonGeometry vertices: { 
+				 cornerRadius @ 0.
+				 self figureExtent x - cornerRadius @  0.
+				 self figureExtent x @ cornerRadius.
+				 self figureExtent x @ (self figureExtent y - cornerRadius).
+				 self figureExtent x - cornerRadius @ self figureExtent y.
+				 cornerRadius @ self figureExtent y.
+				 0 @ (self figureExtent y - cornerRadius).
+				 0 @ cornerRadius }) ]
+]
+
+{ #category : #hook }
 PCOutskirtsBenchCase >> newFigureWith: random [
 
 	^ BlElement new
 		  border: (BlBorder paint: (self borderColorWith: random) width: self borderWidth);
 		  background: self backgroundColor;
 		  outskirts: self outskirts;
-		  geometry: self figureGeometry;
+		  geometry: self newFigureGeometry;
 		  size: self figureExtent;
 		  clipChildren: self mustClipChildren;
 		  addChild: (self newChildWith: random);
@@ -134,4 +154,10 @@ PCOutskirtsBenchCase >> outskirts [
 PCOutskirtsBenchCase >> outskirts: aBlOutskirts [
 
 	outskirts := aBlOutskirts
+]
+
+{ #category : #accessing }
+PCOutskirtsBenchCase >> useExplicitBorderPathGeometry: aBoolean [
+
+	useExplicitBorderPathGeometry := aBoolean
 ]
