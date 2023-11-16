@@ -7,6 +7,20 @@ Class {
 	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
+{ #category : #examples }
+BlMouseWheelScrollTextEditorProfileCase class >> example [
+	
+	[ 	| case |
+		case := self new
+			hostClass: BlOSWindowSDL2Host;
+			yourself.
+
+		(BlProfileRunner newForCase: case)
+			enableASProfiler;
+			run;
+			openMeterReports ] fork
+]
+
 { #category : #hooks }
 BlMouseWheelScrollTextEditorProfileCase >> dispatchEvent [
 
