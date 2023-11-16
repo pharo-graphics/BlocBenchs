@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfBlocBenchs }
+Package { #name : 'BaselineOfBlocBenchs' }
