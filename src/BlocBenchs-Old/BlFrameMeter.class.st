@@ -6,7 +6,7 @@ Class {
 		'framesAndMicrosendTimestamps',
 		'frameCount'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #private }

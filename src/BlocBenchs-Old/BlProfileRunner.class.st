@@ -15,7 +15,7 @@ Class {
 		'case',
 		'meters'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #examples }

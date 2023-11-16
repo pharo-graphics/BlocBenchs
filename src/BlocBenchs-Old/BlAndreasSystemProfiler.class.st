@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'profiler'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #API }

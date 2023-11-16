@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'element'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #hooks }

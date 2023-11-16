@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'case'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #accessing }

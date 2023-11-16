@@ -1,7 +1,10 @@
+"
+Profile case that emulates a user pressing down arrow repeated times.
+"
 Class {
 	#name : #BlKeysCursorMoveTextEditorProfileCase,
 	#superclass : #BlTextEditorProfileCase,
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #examples }
@@ -36,8 +39,10 @@ BlKeysCursorMoveTextEditorProfileCase >> dispatchEvent [
 	| key time |
 	key := KeyboardKey down.
 	time := DateAndTime now.
-	{ 	BlKeyDownEvent new key: key; timestamp: time; yourself.
-		BlKeyUpEvent new key: key; timestamp: time; yourself }
-			do: [ :anEvent |
-				editorElement space dispatchEvent: anEvent ]
+	{ BlKeyDownEvent new. BlKeyUpEvent new }
+		do: [ :anEvent |
+			anEvent
+				key: key;
+				timestamp: time.
+			editorElement space dispatchEvent: anEvent ]
 ]

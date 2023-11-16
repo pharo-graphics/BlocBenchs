@@ -19,7 +19,7 @@ Class {
 		'delayBetweenEventDispatchs',
 		'host'
 	],
-	#category : 'BlocBenchs-Old-MouseMove'
+	#category : #'BlocBenchs-Old-MouseMove'
 }
 
 { #category : #examples }

@@ -5,7 +5,7 @@ Class {
 		'functionNamesAndCounts',
 		'frameCount'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #API }

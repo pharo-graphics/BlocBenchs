@@ -6,7 +6,7 @@ This is a scenario where updating only dirty rectangles can benefit.
 Class {
 	#name : #BlHighlightOnMouseMoveProfileCase,
 	#superclass : #BlFixedDurationProfileCase,
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #examples }

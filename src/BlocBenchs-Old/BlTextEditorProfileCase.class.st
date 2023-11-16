@@ -9,7 +9,7 @@ Class {
 		'lapseToWaitBetween',
 		'numberOfSimulatedEvents'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #accessing }

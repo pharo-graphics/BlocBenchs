@@ -15,7 +15,7 @@ Class {
 		'space',
 		'hostClass'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
 { #category : #API }
