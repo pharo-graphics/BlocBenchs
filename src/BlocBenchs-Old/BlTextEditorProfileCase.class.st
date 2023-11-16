@@ -63,14 +63,11 @@ BlTextEditorProfileCase >> lapseToWaitBetween: aDuration [
 { #category : #hooks }
 BlTextEditorProfileCase >> newElement [
 
-	| model |
-	model := ToAlbumModel new
+	^ editorElement := ToAlbum new
 		text: (String loremIpsum: 20000) asRopedText;
+		withRowNumbers;
 		yourself.
-		
-	editorElement := model onWidget.
 
-	^ editorElement
 ]
 
 { #category : #accessing }
