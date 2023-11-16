@@ -103,10 +103,9 @@ PCOutskirtsBenchCase >> mustClipChildren: aBoolean [
 PCOutskirtsBenchCase >> newChildWith: random [
 
 	^ BlElement new
-		  clipChildren: false;
 		  geometry: BlRectangleGeometry new;
-		  background: Color gray translucent;
-		  size: 20 asPoint;
+		  background: (Color gray alpha: 0.5);
+		  size: self figureExtent / 2;
 		  yourself
 ]
 
