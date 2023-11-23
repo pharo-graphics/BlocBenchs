@@ -86,5 +86,5 @@ BlTextEditorProfileCase >> numberOfSimulatedEvents: anInteger [
 { #category : #hooks }
 BlTextEditorProfileCase >> spaceExtent [
 
-	^ 400 @ 800
+	^ 500 @ 900
 ]
