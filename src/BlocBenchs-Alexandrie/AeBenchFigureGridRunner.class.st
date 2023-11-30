@@ -1,6 +1,6 @@
 Class {
-	#name : #AeBenchFigureGridRunner,
-	#superclass : #Object,
+	#name : 'AeBenchFigureGridRunner',
+	#superclass : 'Object',
 	#instVars : [
 		'surfaceExtent',
 		'matrixDimension',
@@ -14,28 +14,29 @@ Class {
 		'strokeFigures',
 		'fillFigures'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : 'BlocBenchs-Alexandrie',
+	#package : 'BlocBenchs-Alexandrie'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AeBenchFigureGridRunner >> cachePath: aBoolean [
 
 	cachePath := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AeBenchFigureGridRunner >> cairoSurface [
 
 	^ cairoSurface
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AeBenchFigureGridRunner >> fillFigures: aBoolean [
 
 	fillFigures := aBoolean
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 AeBenchFigureGridRunner >> initialize [
 
 	super initialize.
@@ -49,7 +50,7 @@ AeBenchFigureGridRunner >> initialize [
 	fillFigures := true.
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AeBenchFigureGridRunner >> prepareFigures [
 
 	| cellExtent aRandom |
@@ -78,7 +79,7 @@ AeBenchFigureGridRunner >> prepareFigures [
 			figures add: newFigure ] ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AeBenchFigureGridRunner >> prepareSurface [
 
 	cairoSurface := AeCairoImageSurface
@@ -89,13 +90,13 @@ AeBenchFigureGridRunner >> prepareSurface [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AeBenchFigureGridRunner >> prepareToStep [
 
 	cairoContext clearTransparent
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 AeBenchFigureGridRunner >> reportOn: stream [
 
 	| sortedMS |
@@ -132,13 +133,13 @@ AeBenchFigureGridRunner >> reportOn: stream [
 	stream cr; flush
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 AeBenchFigureGridRunner >> reportString [
 
 	^ String streamContents: [ :stream | self reportOn: stream ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AeBenchFigureGridRunner >> run [
 	<script: 'AeBenchFigureGridRunner new run'>
 
@@ -156,13 +157,13 @@ AeBenchFigureGridRunner >> run [
 	cairoSurface inspect
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AeBenchFigureGridRunner >> step [
 
 	figures do: [ :each | each drawOn: cairoContext ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AeBenchFigureGridRunner >> strokeFigures: aBoolean [
 
 	strokeFigures := aBoolean

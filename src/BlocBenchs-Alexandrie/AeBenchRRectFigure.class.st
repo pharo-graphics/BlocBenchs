@@ -1,20 +1,21 @@
 Class {
-	#name : #AeBenchRRectFigure,
-	#superclass : #AeBenchFigure,
+	#name : 'AeBenchRRectFigure',
+	#superclass : 'AeBenchFigure',
 	#instVars : [
 		'radius'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : 'BlocBenchs-Alexandrie',
+	#package : 'BlocBenchs-Alexandrie'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 AeBenchRRectFigure >> consolidate [
 
 	super consolidate.
 	radius := (extent // 5) min
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 AeBenchRRectFigure >> drawPathOn: aCairoContext [
 
 	aCairoContext roundedRectangleTo: extent radius: radius

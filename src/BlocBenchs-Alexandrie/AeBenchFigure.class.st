@@ -1,6 +1,6 @@
 Class {
-	#name : #AeBenchFigure,
-	#superclass : #Object,
+	#name : 'AeBenchFigure',
+	#superclass : 'Object',
 	#instVars : [
 		'fillColor',
 		'strokeColor',
@@ -8,10 +8,11 @@ Class {
 		'extent',
 		'cachedPath'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : 'BlocBenchs-Alexandrie',
+	#package : 'BlocBenchs-Alexandrie'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 AeBenchFigure >> cachePathWith: aCairoContext [
 	
 	aCairoContext restoreStateAfter: [
@@ -19,12 +20,12 @@ AeBenchFigure >> cachePathWith: aCairoContext [
 		cachedPath := aCairoContext currentPath ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 AeBenchFigure >> consolidate [
 
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 AeBenchFigure >> drawOn: aCairoContext [
 
 	aCairoContext
@@ -52,31 +53,31 @@ AeBenchFigure >> drawOn: aCairoContext [
 		translateByX: position x negated y: position y negated"
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 AeBenchFigure >> drawPathOn: aCairoContext [
 
 	self subclassResponsibility
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 AeBenchFigure >> extent: aPoint [
 
 	extent := aPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AeBenchFigure >> fillColor: anObject [
 
 	fillColor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AeBenchFigure >> position: aPoint [
 
 	position := aPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AeBenchFigure >> strokeColor: anObject [
 
 	strokeColor := anObject
