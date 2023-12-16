@@ -69,9 +69,11 @@ AeBenchFigureGridRunner >> prepareFigures [
 					yourself).
 			
 			strokeFigures ifTrue: [ 
-				newFigure strokeColor: (PCFloatColor newFrom: (Color random: aRandom)) ].
+				newFigure strokeColor: (PCFloatColor newFrom: Color red) ].
+"				newFigure strokeColor: (PCFloatColor newFrom: (Color random: aRandom)) ]."
 			fillFigures ifTrue: [ 
-				newFigure fillColor: (PCFloatColor newFrom: (Color random: aRandom)) ].
+				newFigure fillColor: (PCFloatColor newFrom: Color yellow) ].
+"				newFigure fillColor: (PCFloatColor newFrom: (Color random: aRandom)) ]."
 			cachePath ifTrue: [
 				newFigure cachePathWith: cairoContext].
 			
@@ -85,8 +87,8 @@ AeBenchFigureGridRunner >> prepareSurface [
 		extent: surfaceExtent
 		format: AeCairoSurfaceFormat argb32.
 	cairoContext := cairoSurface newContext.
-	cairoContext antialias: AeCairoAntialias fast
-
+	cairoContext antialias: AeCairoAntialias good.
+	cairoContext lineWidth: 1
 ]
 
 { #category : #running }

@@ -29,7 +29,6 @@ AeBenchFigure >> drawOn: aCairoContext [
 
 	aCairoContext
 		saveState;
-"		setIdentityMatrix;"
 		translateByX: position x y: position y.
 
 	cachedPath
@@ -47,9 +46,7 @@ AeBenchFigure >> drawOn: aCairoContext [
 			sourceColor: strokeColor;
 			stroke ].
 
-	aCairoContext restoreState.
-"	aCairoContext
-		translateByX: position x negated y: position y negated"
+	aCairoContext restoreState
 ]
 
 { #category : #drawing }
