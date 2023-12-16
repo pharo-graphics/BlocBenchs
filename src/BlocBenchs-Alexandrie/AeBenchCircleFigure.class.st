@@ -1,15 +1,14 @@
 Class {
-	#name : 'AeBenchCircleFigure',
-	#superclass : 'AeBenchFigure',
+	#name : #AeBenchCircleFigure,
+	#superclass : #AeBenchFigure,
 	#instVars : [
 		'radius',
 		'center'
 	],
-	#category : 'BlocBenchs-Alexandrie',
-	#package : 'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie'
 }
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 AeBenchCircleFigure >> consolidate [
 	
 	super consolidate.
@@ -18,7 +17,7 @@ AeBenchCircleFigure >> consolidate [
 	center := extent // 2
 ]
 
-{ #category : 'drawing' }
+{ #category : #drawing }
 AeBenchCircleFigure >> drawPathOn: aCairoContext [
 
 	aCairoContext

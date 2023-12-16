@@ -2,8 +2,8 @@
 I have benchmarks for the text cycle: open a font file, shape, draw.
 "
 Class {
-	#name : 'AeBenchTextCycleRunner',
-	#superclass : 'Object',
+	#name : #AeBenchTextCycleRunner,
+	#superclass : #Object,
 	#instVars : [
 		'benchs',
 		'fontFileReferences',
@@ -18,11 +18,10 @@ Class {
 		'results',
 		'cairoSurface'
 	],
-	#category : 'BlocBenchs-Alexandrie',
-	#package : 'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie'
 }
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> add0ScanFacesBenchs [
 
 	| ftLibrary |
@@ -61,7 +60,7 @@ AeBenchTextCycleRunner >> add0ScanFacesBenchs [
 			hbBlob faceCount ]
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> add1ShapeBenchs [
 
 	| ftLibrary ftFace hbBlob hbFace cairoFontFace hbFont |
@@ -110,7 +109,7 @@ AeBenchTextCycleRunner >> add1ShapeBenchs [
 		do: [ self shape2: hbFont ]
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> add2DrawBenchs [
 
 	| ftLibrary ftFace hbBlob hbFace cairoFontFace glyphArray |
@@ -143,19 +142,19 @@ AeBenchTextCycleRunner >> add2DrawBenchs [
 		do: [ self draw: glyphArray ]
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> addBenchLabeled: aString setUp: setUpBlock do: aBlock [
 
 	benchs add: { setUpBlock. aBlock. aString }
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> draw: glyphArray [
 
 	cairoContext showGlyphs: glyphArray size: glyphArray length
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> initialize [
 
 	super initialize.
@@ -185,7 +184,7 @@ AeBenchTextCycleRunner >> initialize [
 		fontOptions: fontOptions.
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> reportToStdout: results [
 
 	| stream separator | 
@@ -203,7 +202,7 @@ AeBenchTextCycleRunner >> reportToStdout: results [
 	stream flush
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> run0ScanBenchs [
 	<script: 'self new run0ScanBenchs inspect'>
 
@@ -236,7 +235,7 @@ AeBenchTextCycleRunner >> run0ScanBenchs [
 	self reportToStdout: results.
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> run1ShapeBenchs [
 	<script: 'self new run1ShapeBenchs inspect'>
 
@@ -269,7 +268,7 @@ AeBenchTextCycleRunner >> run1ShapeBenchs [
 	self reportToStdout: results.
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> run2DrawBenchs [
 	<script: 'self new run2DrawBenchs inspect'>
 
@@ -307,7 +306,7 @@ AeBenchTextCycleRunner >> run2DrawBenchs [
 	self reportToStdout: results.
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> shape1: cairoFontFace [
 
 	cairoContext fontFace: cairoFontFace.
@@ -315,7 +314,7 @@ AeBenchTextCycleRunner >> shape1: cairoFontFace [
 	^ cairoContext scaledFont glyphArrayForUtf8Array: utf8Encoded
 ]
 
-{ #category : 'benchmarking' }
+{ #category : #benchmarking }
 AeBenchTextCycleRunner >> shape2: hbFont [
 
 	self halt. "Set fontSize!?"

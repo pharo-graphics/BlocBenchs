@@ -1,11 +1,10 @@
 Class {
-	#name : 'AeBenchHbBufferSetup',
-	#superclass : 'Object',
-	#category : 'BlocBenchs-Alexandrie',
-	#package : 'BlocBenchs-Alexandrie'
+	#name : #AeBenchHbBufferSetup,
+	#superclass : #Object,
+	#category : #'BlocBenchs-Alexandrie'
 }
 
-{ #category : 'bench' }
+{ #category : #bench }
 AeBenchHbBufferSetup >> compareAlternatives [
 	<script: 'self new compareAlternatives'>
 
