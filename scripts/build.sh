@@ -18,7 +18,7 @@ REPO_DIR="$(dirname "$SCRIPTS_DIR")"
 
 
 # Get a fresh image
-curl https://get.pharo.org/64/110+vm | bash
+curl https://get.pharo.org/64/120+vmLatest | bash
 
 # Load code overriding image packages
 ./pharo Pharo.image eval --save $(cat <<EOF
