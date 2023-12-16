@@ -86,5 +86,5 @@ BaselineOfBlocBenchs >> declareSdlExperimentsOn: spec [
 BaselineOfBlocBenchs >> declareToploOn: spec [
 	spec
 		baseline: 'Toplo'
-		with: [ spec repository: 'github://plantec/toplo:SteelSheet/src' ]
+		with: [ spec repository: 'github://plantec/toplo:main/src' ]
 ]
