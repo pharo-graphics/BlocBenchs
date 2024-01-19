@@ -9,38 +9,40 @@ Cases have a hostClass and a spartaCanvasClass that must be set to the space and
 
 "
 Class {
-	#name : #BlProfileCase,
-	#superclass : #Object,
+	#name : 'BlProfileCase',
+	#superclass : 'Object',
 	#instVars : [
 		'space',
 		'hostClass'
 	],
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #API }
+{ #category : 'API' }
 BlProfileCase >> closeSpace [
 
 	space close
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlProfileCase >> executeBody [
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlProfileCase >> hostClass [
 
 	^ hostClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlProfileCase >> hostClass: aBlHostClass [
 
 	hostClass := aBlHostClass
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlProfileCase >> initialize [
 
 	super initialize.
@@ -48,7 +50,7 @@ BlProfileCase >> initialize [
 	self resetSpace.
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlProfileCase >> label [
 
 	| className ending beginning |
@@ -62,14 +64,14 @@ BlProfileCase >> label [
 	^ (className allButFirst: beginning size) allButLast: ending size
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlProfileCase >> newElement [
 	"Answer the element under study."
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlProfileCase >> openSpace [
 
 	space root addChild: self newElement.
@@ -81,13 +83,13 @@ BlProfileCase >> openSpace [
 		show
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 BlProfileCase >> postCopy [
 
 	self resetSpace
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlProfileCase >> printOn: aStream [
 
 	super printOn: aStream.
@@ -100,14 +102,14 @@ BlProfileCase >> printOn: aStream [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlProfileCase >> resetSpace [
 
 	space := BlSpace new
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlProfileCase >> shortDescription [
 
 	^ String streamContents: [ :aStream | 
@@ -117,13 +119,13 @@ BlProfileCase >> shortDescription [
 			  nextPutAll: hostClass label ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlProfileCase >> space [
 
 	^ space
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlProfileCase >> spaceExtent [
 
 	^ 800 @ 600

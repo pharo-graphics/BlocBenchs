@@ -1,13 +1,15 @@
 Class {
-	#name : #BlFFILogger,
-	#superclass : #BlMeter,
+	#name : 'BlFFILogger',
+	#superclass : 'BlMeter',
 	#instVars : [
 		'loggerCopy'
 	],
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #API }
+{ #category : 'API' }
 BlFFILogger >> reportsAsPagesUsing: aBuilder [
 
 	^ { (SpNotebookPage
@@ -16,7 +18,7 @@ BlFFILogger >> reportsAsPagesUsing: aBuilder [
 		   aBuilder instantiate: TFLCallsPresenter on: loggerCopy ]) }
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFFILogger >> startMetering [
 
 	"Ensure prepared"
@@ -28,7 +30,7 @@ BlFFILogger >> startMetering [
 	TFLCallLogger instance start
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFFILogger >> stopMetering [
 	"Store a copy of the global logger, and reset it."
 

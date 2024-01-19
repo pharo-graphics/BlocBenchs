@@ -1,15 +1,17 @@
 Class {
-	#name : #BlFrameMeter,
-	#superclass : #BlMeter,
+	#name : 'BlFrameMeter',
+	#superclass : 'BlMeter',
 	#instVars : [
 		'process',
 		'framesAndMicrosendTimestamps',
 		'frameCount'
 	],
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 BlFrameMeter >> fpsFrom: frameAndMicrosendTimestampA to: frameAndMicrosendTimestampB [
 
 	| totalSeconds |
@@ -20,21 +22,21 @@ BlFrameMeter >> fpsFrom: frameAndMicrosendTimestampA to: frameAndMicrosendTimest
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlFrameMeter >> intermediateFPS [
 
 	^ framesAndMicrosendTimestamps overlappingPairsCollect: [ :a :b | 
 		  self fpsFrom: a to: b ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlFrameMeter >> registerSampleNow [
 
 	framesAndMicrosendTimestamps add:
 		frameCount -> Time microsecondClockValue
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 BlFrameMeter >> reportAsStringOn: stream [
 
 	stream
@@ -78,7 +80,7 @@ BlFrameMeter >> reportAsStringOn: stream [
 
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFrameMeter >> reportsAsPagesUsing: aBuilder [
 
 	^ { (SpNotebookPage title: 'Frame Report' provider: [ 
@@ -87,7 +89,7 @@ BlFrameMeter >> reportsAsPagesUsing: aBuilder [
 			   yourself ]) }
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFrameMeter >> startMetering [
 	"Start a high-priority process that will tally the space's frame id. The id of a space increases on every new frame.
 	"
@@ -117,14 +119,14 @@ BlFrameMeter >> startMetering [
 
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFrameMeter >> stopMetering [
 
 	process terminate.
 	process := nil.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlFrameMeter >> totalFPS [
 
 	^ self
@@ -132,7 +134,7 @@ BlFrameMeter >> totalFPS [
 		  to: framesAndMicrosendTimestamps last
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlFrameMeter >> totalSeconds [
 	"Answer the number of elapsed seconds, expressed as a Float."
 

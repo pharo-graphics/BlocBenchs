@@ -4,12 +4,14 @@ I'm a benchmarking case that simulates mouse move in a circle over a grid of ele
 This is a scenario where updating only dirty rectangles can benefit.
 "
 Class {
-	#name : #BlHighlightOnMouseMoveProfileCase,
-	#superclass : #BlFixedDurationProfileCase,
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#name : 'BlHighlightOnMouseMoveProfileCase',
+	#superclass : 'BlFixedDurationProfileCase',
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 BlHighlightOnMouseMoveProfileCase class >> example [
 	
 	[ 	| case |
@@ -24,7 +26,7 @@ BlHighlightOnMouseMoveProfileCase class >> example [
 			openMeterReports ] fork
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlHighlightOnMouseMoveProfileCase >> newElement [
 	"Answer the element under study."
 
@@ -66,7 +68,7 @@ BlHighlightOnMouseMoveProfileCase >> newElement [
 		yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlHighlightOnMouseMoveProfileCase >> newSteppingAnimation [
 
 	| oldPosition newPosition center |
@@ -93,13 +95,13 @@ BlHighlightOnMouseMoveProfileCase >> newSteppingAnimation [
 		  yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 BlHighlightOnMouseMoveProfileCase >> numberOfCellsOnEachSide [
 
 	^ 100
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlHighlightOnMouseMoveProfileCase >> spaceExtent [
 
 	^ 500 asPoint
