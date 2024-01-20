@@ -5,7 +5,7 @@ Class {
 		'isTranslucent',
 		'maximumOffset'
 	],
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #initialization }

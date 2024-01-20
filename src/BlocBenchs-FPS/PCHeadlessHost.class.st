@@ -18,7 +18,7 @@ Class {
 	#classInstVars : [
 		'scaleFactor'
 	],
-	#category : 'BlocBenchs-FPS-Host-Headless'
+	#category : #'BlocBenchs-FPS-Host-Headless'
 }
 
 { #category : #accessing }

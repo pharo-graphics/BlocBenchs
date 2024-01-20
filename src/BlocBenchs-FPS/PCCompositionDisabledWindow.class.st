@@ -1,7 +1,7 @@
 Class {
 	#name : #PCCompositionDisabledWindow,
 	#superclass : #PCCompositionWindow,
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }

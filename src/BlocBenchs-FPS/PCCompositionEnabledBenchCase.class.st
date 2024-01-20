@@ -1,7 +1,7 @@
 Class {
 	#name : #PCCompositionEnabledBenchCase,
 	#superclass : #PCCompositionBenchCase,
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #'instance creation' }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'useSingleAnimation'
 	],
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #examples }

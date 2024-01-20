@@ -7,7 +7,7 @@ Class {
 		'benchmarkers',
 		'timeToWaitBetweenCases'
 	],
-	#category : 'BlocBenchs-FPS-Suite'
+	#category : #'BlocBenchs-FPS-Suite'
 }
 
 { #category : #adding }

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'rawWindow'
 	],
-	#category : 'BlocBenchs-FPS-Benchmarkers'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #hook }

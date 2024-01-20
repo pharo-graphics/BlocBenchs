@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'roassalAthensMorph'
 	],
-	#category : 'BlocBenchs-FPS-RawMorph-Old'
+	#category : #'BlocBenchs-FPS-RawMorph-Old'
 }
 
 { #category : #drawing }

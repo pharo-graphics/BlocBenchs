@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'pulseLoop'
 	],
-	#category : 'BlocBenchs-FPS-Benchmarkers'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #hook }
@@ -12,7 +12,7 @@ PCHeadlessBenchmarker >> closeWindow [
 	super closeWindow.
 	
 	"To verify it worked reasonably"
-	space root aeAsForm inspect.
+	space root asForm inspect.
 	
 	pulseLoop stop.
 "	pulseProcess ifNotNil: #terminate."

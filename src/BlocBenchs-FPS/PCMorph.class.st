@@ -20,7 +20,7 @@ Class {
 		'surfaceData',
 		'framesDeltaMS'
 	],
-	#category : 'BlocBenchs-FPS-RawMorph-Old'
+	#category : #'BlocBenchs-FPS-RawMorph-Old'
 }
 
 { #category : #accessing }

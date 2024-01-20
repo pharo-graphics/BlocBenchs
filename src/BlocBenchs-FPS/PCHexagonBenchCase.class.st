@@ -1,7 +1,7 @@
 Class {
 	#name : #PCHexagonBenchCase,
 	#superclass : #PCPolylineBenchCase,
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }

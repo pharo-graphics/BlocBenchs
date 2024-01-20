@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'stepBlock'
 	],
-	#category : 'BlocBenchs-FPS-Utility'
+	#category : #'BlocBenchs-FPS-Utility'
 }
 
 { #category : #pulse }

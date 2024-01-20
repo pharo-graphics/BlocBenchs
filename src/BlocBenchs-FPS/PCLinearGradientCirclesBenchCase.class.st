@@ -6,7 +6,7 @@ See my superclass comment.
 Class {
 	#name : #PCLinearGradientCirclesBenchCase,
 	#superclass : #PCGradientCirclesBenchCase,
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }

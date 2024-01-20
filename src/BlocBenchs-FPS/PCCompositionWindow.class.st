@@ -6,7 +6,7 @@ Class {
 		'figureColors',
 		'backgroundColorGenerator'
 	],
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }

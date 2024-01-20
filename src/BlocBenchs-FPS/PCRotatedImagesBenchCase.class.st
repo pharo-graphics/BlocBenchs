@@ -1,7 +1,7 @@
 Class {
 	#name : #PCRotatedImagesBenchCase,
 	#superclass : #PCImagesBenchCase,
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #'instance creation' }

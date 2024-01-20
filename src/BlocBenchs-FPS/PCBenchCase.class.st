@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'numberOfSeconds'
 	],
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #convenience }

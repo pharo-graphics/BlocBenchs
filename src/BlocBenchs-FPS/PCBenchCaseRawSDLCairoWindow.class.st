@@ -9,7 +9,7 @@ Class {
 		'deltaMS',
 		'framesDeltaMS'
 	],
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #'instance creation' }

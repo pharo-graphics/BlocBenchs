@@ -1,7 +1,7 @@
 Class {
 	#name : #PCSolidCirclesWindow,
 	#superclass : #PCCirclesWindow,
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }

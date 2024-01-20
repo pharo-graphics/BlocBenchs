@@ -1,7 +1,7 @@
 Class {
 	#name : #PCTextBenchCase,
 	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }

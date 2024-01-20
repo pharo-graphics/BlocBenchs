@@ -5,7 +5,7 @@ Class {
 		'bottomLayerTexture',
 		'topLayerTextureStrategy'
 	],
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }

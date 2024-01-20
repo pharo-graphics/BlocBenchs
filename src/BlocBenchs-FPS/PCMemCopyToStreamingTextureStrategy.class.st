@@ -5,7 +5,7 @@ Class {
 		'pitchAddress',
 		'pixelsAddress'
 	],
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }

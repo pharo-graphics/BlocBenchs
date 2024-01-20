@@ -6,7 +6,7 @@ Inspired on RSAnimationExamples>>#example01BoxWindmill
 Class {
 	#name : #PCBoxWindmillBenchCase,
 	#superclass : #PCBenchCase,
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }

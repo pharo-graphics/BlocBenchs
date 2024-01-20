@@ -16,7 +16,7 @@ Class {
 		'spaceShownEventHandler',
 		'spaceRenderEndEventHandler'
 	],
-	#category : 'BlocBenchs-FPS-Utility'
+	#category : #'BlocBenchs-FPS-Utility'
 }
 
 { #category : #examples }

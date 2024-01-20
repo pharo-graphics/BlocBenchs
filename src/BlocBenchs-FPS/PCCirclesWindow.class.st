@@ -1,7 +1,7 @@
 Class {
 	#name : #PCCirclesWindow,
 	#superclass : #PCTranslatingPathsWindow,
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }

@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'numberOfStops'
 	],
-	#category : 'BlocBenchs-FPS-Cases'
+	#category : #'BlocBenchs-FPS-Cases'
 }
 
 { #category : #hook }

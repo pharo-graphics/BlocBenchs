@@ -4,7 +4,7 @@ I'm a benchmarker for the Pure Cairo renderer.
 Class {
 	#name : #PCBlocAlexandrieBenchmarker,
 	#superclass : #PCBlocBenchmarker,
-	#category : 'BlocBenchs-FPS-Benchmarkers'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #accessing }

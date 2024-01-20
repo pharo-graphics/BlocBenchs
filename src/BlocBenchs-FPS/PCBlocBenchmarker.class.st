@@ -11,7 +11,7 @@ Class {
 		'lastMS',
 		'framesDeltaMS'
 	],
-	#category : 'BlocBenchs-FPS-Benchmarkers'
+	#category : #'BlocBenchs-FPS-Benchmarkers'
 }
 
 { #category : #hook }

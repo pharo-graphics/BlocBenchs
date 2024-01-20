@@ -1,7 +1,7 @@
 Class {
 	#name : #PCUpdateStaticTextureStrategy,
 	#superclass : #PCSDLTextureStrategy,
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #drawing }

@@ -13,7 +13,7 @@ Class {
 	#pools : [
 		'SDL2Constants'
 	],
-	#category : 'BlocBenchs-FPS-Raw'
+	#category : #'BlocBenchs-FPS-Raw'
 }
 
 { #category : #'instance creation' }
