@@ -1,11 +1,10 @@
 Class {
-	#name : 'BaselineOfBlocBenchs',
-	#superclass : 'BaselineOf',
-	#category : 'BaselineOfBlocBenchs',
-	#package : 'BaselineOfBlocBenchs'
+	#name : #BaselineOfBlocBenchs,
+	#superclass : #BaselineOf,
+	#category : #BaselineOfBlocBenchs
 }
 
-{ #category : 'baselines' }
+{ #category : #baselines }
 BaselineOfBlocBenchs >> baseline: spec [
 	<baseline>
 
@@ -36,7 +35,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 			]
 ]
 
-{ #category : 'external projects' }
+{ #category : #'external projects' }
 BaselineOfBlocBenchs >> declareBlocOn: spec [
 
 	spec
@@ -45,7 +44,7 @@ BaselineOfBlocBenchs >> declareBlocOn: spec [
 			spec repository: 'github://pharo-graphics/bloc:dev-1.0/src' ]
 ]
 
-{ #category : 'external projects' }
+{ #category : #'external projects' }
 BaselineOfBlocBenchs >> declareBoidsOn: spec [
 
 	spec
@@ -54,37 +53,37 @@ BaselineOfBlocBenchs >> declareBoidsOn: spec [
 			spec repository: 'github://pharo-graphics/Tutorials:dev-1.0/src' ]
 ]
 
-{ #category : 'external projects' }
+{ #category : #'external projects' }
 BaselineOfBlocBenchs >> declareDataFrameOn: spec [
 	spec
 		baseline: 'DataFrame'
 		with: [ spec repository: 'github://PolyMathOrg/DataFrame/src' ]
 ]
 
-{ #category : 'external projects' }
+{ #category : #'external projects' }
 BaselineOfBlocBenchs >> declareFFICallLoggerOn: spec [
 	spec
 		baseline: 'FFICallLogger'
 		with: [ spec repository: 'github://tinchodias/FFICallLogger/' ]
 ]
 
-{ #category : 'external projects' }
+{ #category : #'external projects' }
 BaselineOfBlocBenchs >> declareSaucoPerfMeterOn: spec [
 	spec
 		baseline: 'SaucoPerfMeter'
 		with: [ spec repository: 'github://tinchodias/pharo-sauco-profiler/' ]
 ]
 
-{ #category : 'external projects' }
+{ #category : #'external projects' }
 BaselineOfBlocBenchs >> declareSdlExperimentsOn: spec [
 	spec
 		baseline: 'SDLExperiments'
 		with: [ spec repository: 'github://tinchodias/pharo-sdl-experiments:main/' ]
 ]
 
-{ #category : 'external projects' }
+{ #category : #'external projects' }
 BaselineOfBlocBenchs >> declareToploOn: spec [
 	spec
 		baseline: 'Toplo'
-		with: [ spec repository: 'github://plantec/toplo:main/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Toplo:main/src' ]
 ]
