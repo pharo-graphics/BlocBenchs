@@ -1,1 +1,1 @@
-Package { #name : 'BlocBenchs-Old' }
+Package { #name : #'BlocBenchs-Old' }

@@ -9,24 +9,22 @@ See my class-side for an example.
 
 "
 Class {
-	#name : 'BlProfileRunner',
-	#superclass : 'Object',
+	#name : #BlProfileRunner,
+	#superclass : #Object,
 	#instVars : [
 		'case',
 		'meters'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlProfileRunner class >> casesToProfile [
 
 	^ { BlBoidsProfileCase new }
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlProfileRunner class >> exampleAll [
 
 	| cases runners |
@@ -53,7 +51,7 @@ BlProfileRunner class >> exampleAll [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlProfileRunner class >> exampleMinimalFPS [
 	
 	[ 	| case |
@@ -68,7 +66,7 @@ BlProfileRunner class >> exampleMinimalFPS [
 			openMeterReports ] fork
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlProfileRunner class >> exampleOnlyFFI [
 
 	| cases runners |
@@ -92,7 +90,7 @@ BlProfileRunner class >> exampleOnlyFFI [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlProfileRunner class >> exampleOnlyFPS [
 
 	| cases runners |
@@ -115,7 +113,7 @@ BlProfileRunner class >> exampleOnlyFPS [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlProfileRunner class >> exampleOnlyFlameGraph [
 
 	| cases runners |
@@ -138,13 +136,13 @@ BlProfileRunner class >> exampleOnlyFlameGraph [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlProfileRunner class >> hostClassesToProfile [
 
 	^ { BlOSWindowSDL2Host "BlMorphicWindowHost" }
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BlProfileRunner class >> newForCase: aProfileCase [
 
 	^ self new
@@ -152,55 +150,55 @@ BlProfileRunner class >> newForCase: aProfileCase [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlProfileRunner >> addMeter: aMeter [
 
 	meters add: aMeter
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlProfileRunner >> case [
 
 	^ case
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlProfileRunner >> case: aProfileCase [ 
 	
 	case := aProfileCase 
 ]
 
-{ #category : 'convenience' }
+{ #category : #convenience }
 BlProfileRunner >> enableASProfiler [
 	
 	self addMeter: BlAndreasSystemProfiler new
 ]
 
-{ #category : 'convenience' }
+{ #category : #convenience }
 BlProfileRunner >> enableFFICounter [
 
 	self addMeter: BlFFICounter new
 ]
 
-{ #category : 'convenience' }
+{ #category : #convenience }
 BlProfileRunner >> enableFFILogger [
 
 	self addMeter: BlFFILogger new
 ]
 
-{ #category : 'convenience' }
+{ #category : #convenience }
 BlProfileRunner >> enableFPS [
 	
 	self addMeter: BlFrameMeter new
 ]
 
-{ #category : 'convenience' }
+{ #category : #convenience }
 BlProfileRunner >> enableTelemetry [
 	
 	self addMeter: BlTelemetryMeter new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlProfileRunner >> initialize [
 
 	super initialize.
@@ -208,13 +206,13 @@ BlProfileRunner >> initialize [
 	meters := OrderedCollection new.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlProfileRunner >> meters [
 
 	^ meters
 ]
 
-{ #category : 'API' }
+{ #category : #API }
 BlProfileRunner >> openMeterReports [
 
 	| notebook meterPresenters |
@@ -233,7 +231,7 @@ BlProfileRunner >> openMeterReports [
 		extent: 800 @ 600
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 BlProfileRunner >> printOn: aStream [
 
 	super printOn: aStream.
@@ -244,7 +242,7 @@ BlProfileRunner >> printOn: aStream [
 
 ]
 
-{ #category : 'API' }
+{ #category : #API }
 BlProfileRunner >> reportMeterReportsOnStdout [
 
 	| logStream |
@@ -262,7 +260,7 @@ BlProfileRunner >> reportMeterReportsOnStdout [
 	logStream nextPutAll: '---'; lf.
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 BlProfileRunner >> run [
 	"Profile the body of the case."
 
@@ -272,7 +270,7 @@ BlProfileRunner >> run [
 			ensure: [ case closeSpace ] ]
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 BlProfileRunner >> runOnOpen [
 	"Profile the opening of the case."
 
@@ -282,7 +280,7 @@ BlProfileRunner >> runOnOpen [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlProfileRunner >> withBlocParametersDo: aBlockClosure [
 
 	case space host: case hostClass new.
@@ -290,7 +288,7 @@ BlProfileRunner >> withBlocParametersDo: aBlockClosure [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlProfileRunner >> withStartedMetersDo: aBlockClosure [
 
 	meters do: [ :each |

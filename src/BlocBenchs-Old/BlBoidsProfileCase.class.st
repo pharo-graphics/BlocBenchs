@@ -2,17 +2,15 @@
 Profiling case where Boids example is shown in a space during some seconds.
 "
 Class {
-	#name : 'BlBoidsProfileCase',
-	#superclass : 'BlFixedDurationProfileCase',
+	#name : #BlBoidsProfileCase,
+	#superclass : #BlFixedDurationProfileCase,
 	#instVars : [
 		'boidsSkyElementClass'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlBoidsProfileCase class >> exampleFFI [
 	
 	[ 	| case |
@@ -27,7 +25,7 @@ BlBoidsProfileCase class >> exampleFFI [
 			openMeterReports ] fork
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlBoidsProfileCase class >> exampleFPS [
 	
 	[ 	| case |
@@ -41,7 +39,7 @@ BlBoidsProfileCase class >> exampleFPS [
 			openMeterReports ] fork
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlBoidsProfileCase class >> exampleProfile [
 	
 	[ 	| case |
@@ -55,19 +53,19 @@ BlBoidsProfileCase class >> exampleProfile [
 			openMeterReports ] fork
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlBoidsProfileCase >> boidsSkyElementClass [
 
 	^ boidsSkyElementClass
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlBoidsProfileCase >> boidsSkyElementClass: aBoidsSkyElementClass [
 
 	boidsSkyElementClass := aBoidsSkyElementClass
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlBoidsProfileCase >> initialize [ 
 
 	super initialize.
@@ -75,7 +73,7 @@ BlBoidsProfileCase >> initialize [
 	boidsSkyElementClass := BoidsSkyUsingGeometryElement 
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlBoidsProfileCase >> newElement [
 
 	^ boidsSkyElementClass new

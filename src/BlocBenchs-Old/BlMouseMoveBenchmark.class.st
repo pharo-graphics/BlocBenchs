@@ -6,11 +6,12 @@ I open a space with a tree of elements, and dispatch artificial mouse move event
 The results are presented at Transcript. Open it and evaluate:
 `BlMouseMoveBenchmark new runInFork`.
 
-There is also an example in class-side.
+There is also an example on class-side.
+
 "
 Class {
-	#name : 'BlMouseMoveBenchmark',
-	#superclass : 'Object',
+	#name : #BlMouseMoveBenchmark,
+	#superclass : #Object,
 	#instVars : [
 		'geometries',
 		'benchDuration',
@@ -19,94 +20,83 @@ Class {
 		'delayBetweenEventDispatchs',
 		'host'
 	],
-	#category : 'BlocBenchs-Old-MouseMove',
-	#package : 'BlocBenchs-Old',
-	#tag : 'MouseMove'
+	#category : #'BlocBenchs-Old-MouseMove'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlMouseMoveBenchmark class >> exampleRun [
 
 	| aProcess w |
 	aProcess := [
-	{ 	BlOSWindowSDL2Host }
-			do: [ :eachHostClass |
-				{ 	400 asPoint.
-					"800 asPoint" }
-						do: [ :eachExtent |
-							{ 20. "10. 1" }
-								do: [ :eachNestingLevel |
-									('{1} {2} (nesting levels={3}):' format: {
-										eachHostClass label.
-										eachExtent.
-										eachNestingLevel }) traceCr.
+		{ BlOSWindowSDL2Host } do: [ :eachHostClass |
+			{ 400 asPoint } do: [ :eachExtent |
+				{ 20. 5 } do: [ :eachNestingLevel |
+					('{1} {2} (nesting levels={3}):' format: {
+						eachHostClass label.
+						eachExtent.
+						eachNestingLevel }) traceCr.
 
-									self new
-										host: eachHostClass new;
-										extent: eachExtent;
-										nestingLevel: eachNestingLevel;
-										run ] ] ].
-		w close.
-	] fork.
+					self new
+						host: eachHostClass new;
+						extent: eachExtent;
+						nestingLevel: eachNestingLevel;
+						geometries: {
+							BlRoundedRectangleGeometry cornerRadius: 40.
+							"BlAnnulusSectorGeometry new
+								startAngle: 45;
+								endAngle: 270;
+								innerRadius: 0.0;
+								outerRadius: 1.0;
+								yourself" };
+						run ] ] ].
+		w close ] fork.
 
-	w := SpButtonPresenter new 
-		label: 'Stop now';
-		action: [ aProcess terminate. w close ];
-		open
+	w := SpButtonPresenter new
+		     label: 'Stop now';
+		     action: [
+			     aProcess terminate.
+			     w close ];
+		     open
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> benchDuration: aDuration [
 
 	benchDuration := aDuration
 ]
 
-{ #category : 'private' }
-BlMouseMoveBenchmark >> benchFindEventTargetOn: aSpace at: mouseMovePosition [
-
-	^ [ aSpace root findMouseEventTargetAt: mouseMovePosition ]
-		benchFor: benchDuration
-
-]
-
-{ #category : 'accessing' }
-BlMouseMoveBenchmark >> delayBetweenEventDispatchs: aDuration [
-
-	delayBetweenEventDispatchs := aDuration
-]
-
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> doLittleWait [
 
-	^ 500 milliSeconds
+	^ 500 milliSeconds wait
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> extent: aPoint [
 
 	extent := aPoint
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> frequencyStringFor: aBenchmarkResult [
 
 	^ String streamContents: [ :stream | 
 		  aBenchmarkResult frequency printOn: stream showingDecimalPlaces: 2 ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> geometries: aCollection [
 
 	geometries := aCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> host: aBlOSWindowSDL2Host [ 
 
 	host := aBlOSWindowSDL2Host
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlMouseMoveBenchmark >> initialize [ 
 
 	super initialize.
@@ -132,7 +122,7 @@ BlMouseMoveBenchmark >> initialize [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> mouseMoveOn: aSpace at: aPoint [
 	
 	| aProcess |
@@ -147,7 +137,7 @@ BlMouseMoveBenchmark >> mouseMoveOn: aSpace at: aPoint [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> mouseMoverLoopOn: aSpace at: aPoint [
 	
 	[ 	| anEvent |
@@ -159,13 +149,13 @@ BlMouseMoveBenchmark >> mouseMoverLoopOn: aSpace at: aPoint [
 		aSpace dispatchEvent: anEvent ] repeat
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> nestingLevel: aNumber [
 
 	nestingLevel := aNumber
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> newPointerElement [
 
 	^ BlElement new
@@ -176,21 +166,16 @@ BlMouseMoveBenchmark >> newPointerElement [
 		yourself
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 BlMouseMoveBenchmark >> run [
 
 	| outputDataFrame |
-	outputDataFrame := DataFrame withColumnNames: #('Indirect' 'Direct').
+	outputDataFrame := DataFrame withColumnNames: #('BlMouseMoveEvent rate' 'findMouseTargetAt rate').
 	
 	geometries do: [ :aGeometry |
-		| results |
-		results := self runOn: aGeometry.
-		
-	outputDataFrame
-		addRow: {
-			self frequencyStringFor: results first.
-			self frequencyStringFor: results second }
-		named: aGeometry className  ].
+		self
+			runFor: aGeometry
+			addingResultsOn: outputDataFrame   ].
 
 	DataFrameMarkdownPrinter new
 		stream: Transcript;
@@ -201,68 +186,71 @@ BlMouseMoveBenchmark >> run [
 
 ]
 
-{ #category : 'running' }
-BlMouseMoveBenchmark >> runInFork [
+{ #category : #private }
+BlMouseMoveBenchmark >> runFor: aGeometry addingResultsOn: aDataFrame [
 
-	[ self run ] fork
-]
-
-{ #category : 'private' }
-BlMouseMoveBenchmark >> runOn: aGeometry [
-
-	| count elements aSpace firstTime lastTime resultForIndirectCheck resultForDirectCheck eventPosition random |
+	| count elements aSpace firstTime lastTime resultForHandledEvents resultForFindMouseTargetAt eventPosition random |
 	count := 0.
 	firstTime := nil.
 	random := Random seed: 7.
 	eventPosition := extent // 2.
 
 	elements := (1 to: nestingLevel) collect: [ :index |
-		BlElement new
-			position: 0@0;
-			size: extent;
-			geometry: aGeometry;
-			background: (Color random: random);
-			when: BlMouseMoveEvent do: [ :evt |
-				count := count+1.
-				firstTime ifNil: [ firstTime := evt timestamp ].
-				lastTime := evt timestamp ];
-			transformDo: [ :builder | builder scaleBy: 0.9 ];
-			yourself ].
+		            BlElement new
+			            position: 0 @ 0;
+			            size: extent;
+			            geometry: aGeometry;
+			            background: (Color random: random);
+			            addEventHandler: (BlEventHandler
+					             on: BlMouseMoveEvent
+					             do: [ :evt |
+						             count := count + 1.
+						             firstTime ifNil: [ firstTime := evt timestamp ].
+						             lastTime := evt timestamp ]);
+			            transformDo: [ :builder | builder scaleBy: 0.9 ];
+			            yourself ].
 
-	elements reduceRight: [:a :b | a addChild: b ].
+	elements reduceRight: [ :a :b | a addChild: b ].
 
 	aSpace := BlSpace new
-		host: host;
-		yourself.
-	
+		          host: host;
+		          yourself.
+
 	aSpace root
 		addChild: elements first;
-		addChild:
-			(self newPointerElement
-				position: eventPosition;
-				yourself).
-				
+		addChild: (self newPointerElement
+				 position: eventPosition;
+				 yourself).
+
 	aSpace
 		extent: extent;
-		title: host class label, ' - ', aGeometry asString;
+		title: host class label , ' - ' , aGeometry asString;
 		show.
 	self doLittleWait.
 
 	self mouseMoveOn: aSpace at: eventPosition.
-	
-	resultForIndirectCheck := 
-		BenchmarkResult new
-			iterations: count;
-			elapsedTime: lastTime - firstTime;
-			yourself.
 
-	resultForDirectCheck := self
-		benchFindEventTargetOn: aSpace
-		at: eventPosition.
+	resultForHandledEvents := BenchmarkResult new
+		                          iterations: count;
+		                          elapsedTime: lastTime - firstTime;
+		                          yourself.
+
+	resultForFindMouseTargetAt := [
+		aSpace root findMouseEventTargetAt: eventPosition
+		] benchFor: benchDuration.
 
 	aSpace close.
 	self doLittleWait.
 
-	^ { resultForIndirectCheck. resultForDirectCheck }
+	aDataFrame
+		addRow: {
+			self frequencyStringFor: resultForHandledEvents.
+			self frequencyStringFor: resultForFindMouseTargetAt }
+		named: aGeometry className
+]
 
+{ #category : #running }
+BlMouseMoveBenchmark >> runInFork [
+
+	[ self run ] fork
 ]

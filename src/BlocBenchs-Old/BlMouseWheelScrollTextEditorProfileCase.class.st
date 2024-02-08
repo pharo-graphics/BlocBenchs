@@ -2,14 +2,12 @@
 Profile case that emulates a user scrolling down using the wheel.
 "
 Class {
-	#name : 'BlMouseWheelScrollTextEditorProfileCase',
-	#superclass : 'BlTextEditorProfileCase',
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#name : #BlMouseWheelScrollTextEditorProfileCase,
+	#superclass : #BlTextEditorProfileCase,
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlMouseWheelScrollTextEditorProfileCase class >> example [
 	
 	[ 	| case |
@@ -23,7 +21,7 @@ BlMouseWheelScrollTextEditorProfileCase class >> example [
 			openMeterReports ] fork
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlMouseWheelScrollTextEditorProfileCase >> dispatchEvent [
 
 	| anEvent |
