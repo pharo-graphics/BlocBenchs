@@ -58,21 +58,21 @@ BaselineOfBlocBenchs >> declareBoidsOn: spec [
 BaselineOfBlocBenchs >> declareDataFrameOn: spec [
 	spec
 		baseline: 'DataFrame'
-		with: [ spec repository: 'github://PolyMathOrg/DataFrame/src' ]
+		with: [ spec repository: 'github://PolyMathOrg/DataFrame:master/src' ]
 ]
 
 { #category : 'external projects' }
 BaselineOfBlocBenchs >> declareFFICallLoggerOn: spec [
 	spec
 		baseline: 'FFICallLogger'
-		with: [ spec repository: 'github://tinchodias/FFICallLogger/' ]
+		with: [ spec repository: 'github://tinchodias/FFICallLogger:master/' ]
 ]
 
 { #category : 'external projects' }
 BaselineOfBlocBenchs >> declareSaucoPerfMeterOn: spec [
 	spec
 		baseline: 'SaucoPerfMeter'
-		with: [ spec repository: 'github://tinchodias/pharo-sauco-profiler/' ]
+		with: [ spec repository: 'github://tinchodias/pharo-sauco-profiler:master/' ]
 ]
 
 { #category : 'external projects' }
