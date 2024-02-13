@@ -1,13 +1,15 @@
 Class {
-	#name : #BlAndreasSystemProfiler,
-	#superclass : #BlMeter,
+	#name : 'BlAndreasSystemProfiler',
+	#superclass : 'BlMeter',
 	#instVars : [
 		'profiler'
 	],
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #API }
+{ #category : 'API' }
 BlAndreasSystemProfiler >> reportsAsPagesUsing: aBuilder [
 
 	^ { 
@@ -45,14 +47,14 @@ BlAndreasSystemProfiler >> reportsAsPagesUsing: aBuilder [
 
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlAndreasSystemProfiler >> startMetering [
 
 	profiler := AndreasSystemProfiler new.
 	profiler startProfiling
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlAndreasSystemProfiler >> stopMetering [
 
 	profiler stopProfiling

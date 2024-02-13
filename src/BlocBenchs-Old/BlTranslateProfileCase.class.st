@@ -2,12 +2,14 @@
 I'm a profiling case with a BlElement that translates during a period of time.
 "
 Class {
-	#name : #BlTranslateProfileCase,
-	#superclass : #BlSimpleElementProfileCase,
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#name : 'BlTranslateProfileCase',
+	#superclass : 'BlSimpleElementProfileCase',
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 BlTranslateProfileCase >> newSteppingAnimation [
 
 	^ (BlTransformAnimation translate: 0@200)

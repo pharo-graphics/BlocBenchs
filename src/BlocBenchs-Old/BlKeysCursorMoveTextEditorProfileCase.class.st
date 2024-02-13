@@ -2,12 +2,14 @@
 Profile case that emulates a user pressing down arrow repeated times.
 "
 Class {
-	#name : #BlKeysCursorMoveTextEditorProfileCase,
-	#superclass : #BlTextEditorProfileCase,
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#name : 'BlKeysCursorMoveTextEditorProfileCase',
+	#superclass : 'BlTextEditorProfileCase',
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 BlKeysCursorMoveTextEditorProfileCase class >> example [
 	
 	[ 	| case |
@@ -21,19 +23,19 @@ BlKeysCursorMoveTextEditorProfileCase class >> example [
 			openMeterReports ] fork
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlKeysCursorMoveTextEditorProfileCase >> defaultLapseToWait [
 
 	^ 100 milliSeconds
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlKeysCursorMoveTextEditorProfileCase >> defaultNumberOfSimulatedEvents [
 
 	^ 40
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 BlKeysCursorMoveTextEditorProfileCase >> dispatchEvent [
 	
 	| key time |

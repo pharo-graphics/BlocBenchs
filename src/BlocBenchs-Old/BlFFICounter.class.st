@@ -1,14 +1,16 @@
 Class {
-	#name : #BlFFICounter,
-	#superclass : #BlMeter,
+	#name : 'BlFFICounter',
+	#superclass : 'BlMeter',
 	#instVars : [
 		'functionNamesAndCounts',
 		'frameCount'
 	],
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#category : 'BlocBenchs-Old-ProfileCases',
+	#package : 'BlocBenchs-Old',
+	#tag : 'ProfileCases'
 }
 
-{ #category : #API }
+{ #category : 'API' }
 BlFFICounter >> reportAsStringOn: aStream [
 
 	aStream
@@ -16,7 +18,7 @@ BlFFICounter >> reportAsStringOn: aStream [
 		<< self reportCallStatsAsString; lf.
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFFICounter >> reportCallStatsAsString [
 
 	^ String streamContents: [ :stream |
@@ -27,7 +29,7 @@ BlFFICounter >> reportCallStatsAsString [
 		]
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFFICounter >> reportsAsPagesUsing: aBuilder [
 
 	^ { 
@@ -45,7 +47,7 @@ BlFFICounter >> reportsAsPagesUsing: aBuilder [
 			}
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFFICounter >> startMetering [
 
 	"Ensure prepared"
@@ -63,7 +65,7 @@ BlFFICounter >> startMetering [
 		frameCount := frameCount + 1 ].
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 BlFFICounter >> stopMetering [
 	"Extract relevant information of the global logger, and reset it."
 
