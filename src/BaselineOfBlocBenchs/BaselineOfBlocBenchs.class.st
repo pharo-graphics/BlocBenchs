@@ -42,7 +42,7 @@ BaselineOfBlocBenchs >> declareBlocOn: spec [
 	spec
 		baseline: 'Bloc'
 		with: [
-			spec repository: 'github://pharo-graphics/bloc:dev-1.0/src' ]
+			spec repository: 'github://pharo-graphics/Bloc:dev-1.0/src' ]
 ]
 
 { #category : 'external projects' }
