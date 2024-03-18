@@ -3,35 +3,33 @@ Profiling case where a BlElement is shown in a space during some seconds.
 
 "
 Class {
-	#name : 'BlFixedDurationProfileCase',
-	#superclass : 'BlProfileCase',
+	#name : #BlFixedDurationProfileCase,
+	#superclass : #BlProfileCase,
 	#instVars : [
 		'duration'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlFixedDurationProfileCase >> duration [
 
 	^ duration
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlFixedDurationProfileCase >> duration: aDuration [
 
 	duration := aDuration
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlFixedDurationProfileCase >> executeBody [
 
 	self duration wait
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlFixedDurationProfileCase >> initialize [
 
 	super initialize.

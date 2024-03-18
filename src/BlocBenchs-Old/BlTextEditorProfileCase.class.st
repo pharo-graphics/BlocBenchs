@@ -2,67 +2,67 @@
 I'm a profiling case where a text editor is scrolled down multiple times.
 "
 Class {
-	#name : 'BlTextEditorProfileCase',
-	#superclass : 'BlProfileCase',
+	#name : #BlTextEditorProfileCase,
+	#superclass : #BlProfileCase,
 	#instVars : [
 		'editorElement',
 		'lapseToWaitBetween',
 		'numberOfSimulatedEvents'
 	],
-	#category : 'BlocBenchs-Old-ProfileCases',
-	#package : 'BlocBenchs-Old',
-	#tag : 'ProfileCases'
+	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> defaultLapseToWait [
 
 	^ 0.5 seconds
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> defaultNumberOfSimulatedEvents [
 
 	^ 15
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlTextEditorProfileCase >> dispatchEvent [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'hooks' }
+{ #category : #API }
 BlTextEditorProfileCase >> executeBody [ 
 
-	self lapseToWaitBetween wait.
-	self numberOfSimulatedEvents timesRepeat: [ |b|
-		self lapseToWaitBetween wait.
-		b := [ self dispatchEvent ].
+	| task semaphore |
+	semaphore := Semaphore new.
+	task := BlRepeatedTaskAction new.
+	task delay: self lapseToWaitBetween.
+	task action: [
+		self dispatchEvent.
+		semaphore signal ].
+	space enqueueTask: task.
 
-		self flag: #todo. "Not sure what's the best way to send the simulated event"
-		BlUseAsyncFeatures 
-			ifEnabledDo: [ editorElement inUIProcessDo: b ]
-			otherwise: b.
-"		space enqueueTask: (BlTaskAction new action: b; yourself)"
-		].
-	self lapseToWaitBetween wait.
-
+	"Make this process wait until all events have been dispatched"
+	self numberOfSimulatedEvents timesRepeat: [ semaphore wait ].
+	task stop.
+	
+	"Wait a bit more so the last event can be processed"
+	self lapseToWaitBetween wait
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> lapseToWaitBetween [
 
 	^ lapseToWaitBetween ifNil: [ lapseToWaitBetween := self defaultLapseToWait ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> lapseToWaitBetween: aDuration [
 
 	lapseToWaitBetween := aDuration
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlTextEditorProfileCase >> newElement [
 
 	^ editorElement := ToAlbum new
@@ -72,20 +72,20 @@ BlTextEditorProfileCase >> newElement [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> numberOfSimulatedEvents [
 
 	^ numberOfSimulatedEvents ifNil: [
 		numberOfSimulatedEvents := self defaultNumberOfSimulatedEvents ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlTextEditorProfileCase >> numberOfSimulatedEvents: anInteger [
 
 	numberOfSimulatedEvents := anInteger
 ]
 
-{ #category : 'hooks' }
+{ #category : #hooks }
 BlTextEditorProfileCase >> spaceExtent [
 
 	^ 500 @ 900

@@ -10,8 +10,8 @@ There is also an example on class-side.
 
 "
 Class {
-	#name : 'BlMouseMoveBenchmark',
-	#superclass : 'Object',
+	#name : #BlMouseMoveBenchmark,
+	#superclass : #Object,
 	#instVars : [
 		'geometries',
 		'benchDuration',
@@ -20,12 +20,10 @@ Class {
 		'delayBetweenEventDispatchs',
 		'host'
 	],
-	#category : 'BlocBenchs-Old-MouseMove',
-	#package : 'BlocBenchs-Old',
-	#tag : 'MouseMove'
+	#category : #'BlocBenchs-Old-MouseMove'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 BlMouseMoveBenchmark class >> exampleRun [
 
 	| aProcess w |
@@ -61,44 +59,44 @@ BlMouseMoveBenchmark class >> exampleRun [
 		     open
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> benchDuration: aDuration [
 
 	benchDuration := aDuration
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> doLittleWait [
 
 	^ 500 milliSeconds wait
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> extent: aPoint [
 
 	extent := aPoint
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> frequencyStringFor: aBenchmarkResult [
 
 	^ String streamContents: [ :stream | 
 		  aBenchmarkResult frequency printOn: stream showingDecimalPlaces: 2 ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> geometries: aCollection [
 
 	geometries := aCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> host: aBlOSWindowSDL2Host [ 
 
 	host := aBlOSWindowSDL2Host
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BlMouseMoveBenchmark >> initialize [ 
 
 	super initialize.
@@ -124,7 +122,7 @@ BlMouseMoveBenchmark >> initialize [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> mouseMoveOn: aSpace at: aPoint [
 	
 	| aProcess |
@@ -139,7 +137,7 @@ BlMouseMoveBenchmark >> mouseMoveOn: aSpace at: aPoint [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> mouseMoverLoopOn: aSpace at: aPoint [
 	
 	[ 	| anEvent |
@@ -151,13 +149,13 @@ BlMouseMoveBenchmark >> mouseMoverLoopOn: aSpace at: aPoint [
 		aSpace dispatchEvent: anEvent ] repeat
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BlMouseMoveBenchmark >> nestingLevel: aNumber [
 
 	nestingLevel := aNumber
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> newPointerElement [
 
 	^ BlElement new
@@ -168,7 +166,7 @@ BlMouseMoveBenchmark >> newPointerElement [
 		yourself
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 BlMouseMoveBenchmark >> run [
 
 	| outputDataFrame |
@@ -188,7 +186,7 @@ BlMouseMoveBenchmark >> run [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BlMouseMoveBenchmark >> runFor: aGeometry addingResultsOn: aDataFrame [
 
 	| count elements aSpace firstTime lastTime resultForHandledEvents resultForFindMouseTargetAt eventPosition random |
@@ -251,7 +249,7 @@ BlMouseMoveBenchmark >> runFor: aGeometry addingResultsOn: aDataFrame [
 		named: aGeometry className
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 BlMouseMoveBenchmark >> runInFork [
 
 	[ self run ] fork
