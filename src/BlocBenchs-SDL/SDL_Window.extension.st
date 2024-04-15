@@ -1,20 +1,9 @@
 Extension { #name : #'SDL_Window' }
 
 { #category : #'*BlocBenchs-SDL' }
-SDL_Window >> createSoftwareRenderer [
-	^ self createRenderer: -1 flags: SDL_RENDERER_SOFTWARE 
-]
-
-{ #category : #'*BlocBenchs-SDL' }
 SDL_Window >> isShaped [
 
 	^ self ffiCall: #(bool SDL_IsShapedWindow(void))
-]
-
-{ #category : #'*BlocBenchs-SDL' }
-SDL_Window >> position: aPoint [
-
-	self setPositionX: aPoint x asInteger y: aPoint y asInteger
 ]
 
 { #category : #'*BlocBenchs-SDL' }
