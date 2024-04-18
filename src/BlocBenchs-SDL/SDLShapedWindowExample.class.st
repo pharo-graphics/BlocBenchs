@@ -17,18 +17,12 @@ Class {
 }
 
 { #category : #examples }
-SDLShapedWindowExample class >> bigPharoSurface [
-		
-	^ self surfaceFromForm: (self iconNamed: #pharoBig)
-]
-
-{ #category : #examples }
 SDLShapedWindowExample class >> exampleByBinarizedAlpha [
 
 	| example |
 	example := self new
-		shapeSurface: self bigPharoSurface;
-		shapeByBinarizedAlpha: 255;
+		shapeSurface: self newShapeSurface;
+		shapeByBinarizedAlpha: 1;
 		yourself.
 		
 	example show.
@@ -44,8 +38,8 @@ SDLShapedWindowExample class >> exampleByColorKey [
 
 	| example |
 	example := self new
-		shapeSurface: self bigPharoSurface;
-		shapeByColorKey: Color white;
+		shapeSurface: self newShapeSurface;
+		shapeByColorKey: Color transparent;
 		yourself.
 	
 	example show.
@@ -57,11 +51,20 @@ SDLShapedWindowExample class >> exampleByColorKey [
 ]
 
 { #category : #examples }
+SDLShapedWindowExample class >> newShapeSurface [
+	
+	^ self surfaceWithRoundedCornersExtent: 256 asPoint
+	"^ self surfaceFromForm: (self iconNamed: #pharoBig)"
+]
+
+{ #category : #examples }
 SDLShapedWindowExample class >> surfaceFromForm: aForm [
 
 	| convertedForm aSDLSurface |
 	convertedForm := aForm unhibernate; asFormOfDepth: 32.
-	aSDLSurface := SDL2 createRGBSurfaceFromPixels: convertedForm bits
+	aSDLSurface :=
+		SDL2
+			createRGBSurfaceFromPixels: convertedForm bits
 			width: convertedForm width height: convertedForm height
 			depth: 32 pitch: convertedForm width * 4
 			rmask: 16r00ff0000 
@@ -79,24 +82,26 @@ SDLShapedWindowExample class >> surfaceWithRoundedCornersExtent: extent [
 
 	| sdlSurface cairoSurface |
 
-	sdlSurface := SDL2
-		createRGBSurfaceWithFormat: SDL_PIXELFORMAT_ARGB8888
-		depth: 32
-		width: extent x
-		height: extent y.
+	sdlSurface :=
+		SDL2
+			createRGBSurfaceWithFormat: SDL_PIXELFORMAT_ARGB8888
+			depth: 32
+			width: extent x
+			height: extent y.
 
 	sdlSurface lockSurface.
 		
-	cairoSurface := AeCairoImageSurface
-		newForData: sdlSurface pixels
-		extent: extent
-		stride: sdlSurface pitch
-		format: AeCairoSurfaceFormat argb32.
+	cairoSurface :=
+		AeCairoImageSurface
+			newForData: sdlSurface pixels
+			extent: extent
+			stride: sdlSurface pitch
+			format: AeCairoSurfaceFormat argb32.
 
 	cairoSurface newContext
 		sourceColor: Color transparent;
 		paint;
-		sourceColor: Color black;
+		sourceColor: Color yellow;
 		roundedRectangleTo: extent radius: extent min / 3;
 		fill.
 
@@ -130,12 +135,6 @@ SDLShapedWindowExample >> sdlRenderer [
 ]
 
 { #category : #examples }
-SDLShapedWindowExample >> sdlSurface [
-
-	^ shapeSurface
-]
-
-{ #category : #examples }
 SDLShapedWindowExample >> sdlWindow [
 
 	^ sdlWindow
@@ -153,14 +152,7 @@ SDLShapedWindowExample >> shapeByBinarizedAlpha: threshold [
 SDLShapedWindowExample >> shapeByColorKey: aColor [
 
 	| aSDLColor aSDLWindowShapeParams |
-	aSDLColor :=
-		SDL_Color externalNew
-			autoRelease;
-			r: (aColor red   * 255) asInteger;
-			g: (aColor green * 255) asInteger;
-			b: (aColor blue  * 255) asInteger;
-			a: (aColor alpha * 255) asInteger;
-			yourself.
+	aSDLColor := SDL_Color autoReleasingNewFrom: aColor.
 	aSDLWindowShapeParams := SDL_WindowShapeParams colorKey: aSDLColor.
 
 	shapeMode := SDL_WindowShapeMode
@@ -170,7 +162,6 @@ SDLShapedWindowExample >> shapeByColorKey: aColor [
 	referencedObjectsUntilTearDown
 		add: aSDLColor;
 		add: aSDLWindowShapeParams
-
 ]
 
 { #category : #examples }
@@ -186,28 +177,32 @@ SDLShapedWindowExample >> show [
 
 	sdlWindow := SDL2
 		createShapedWindow: 'Shaped Window - Color Key'
-		x: 20
-		y: 20
+		x: 50
+		y: 50
 		width: shapeSurface w
 		height: shapeSurface h
 		flags: SDL_WINDOW_SHOWN.
 	
-	[ sdlWindow isShaped ] whileFalse: [
+	100 milliSeconds wait.
+	
+"	[ 20 milliSeconds wait ] doWhileFalse: [
 		';' trace.
-		10 milliSeconds wait ].
+		sdlWindow isShaped ].
 	'.' traceCr.	
-
-	(sdlWindow primSetWindowShape: shapeSurface mode: shapeMode) in: [ :result |
-		result = 0 ifFalse: [ self error: 'Unsuccessful operation' ] ].
+"
+	(sdlWindow
+		primSetWindowShape: shapeSurface
+		mode: shapeMode) in: [ :result |
+			result = 0 ifFalse: [
+				self error: 'Unsuccessful operation' ] ].
 
 	sdlRenderer := sdlWindow createDefaultRenderer.
-	sdlTexture := sdlRenderer primCreateTextureFromSurface: "sdlSurface"self class bigPharoSurface.
+	sdlTexture := sdlRenderer primCreateTextureFromSurface: shapeSurface.
 	sdlRenderer
-		drawColorR: 0 g: 255 b: 255 a: 255;
+		drawColorR: 0 g: 255 b: 255 a: 255; "cyan"
 		clear;
 		copy: sdlTexture;
 		present
-
 ]
 
 { #category : #examples }
