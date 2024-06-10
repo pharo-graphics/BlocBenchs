@@ -41,7 +41,7 @@ BaselineOfBlocBenchs >> declareBlocOn: spec [
 	spec
 		baseline: 'Bloc'
 		with: [
-			spec repository: 'github://pharo-graphics/Bloc:master/src' ]
+			spec repository: 'github://pharo-graphics/Bloc:dev/src' ]
 ]
 
 { #category : #'external projects' }
@@ -85,5 +85,5 @@ BaselineOfBlocBenchs >> declareSdlExperimentsOn: spec [
 BaselineOfBlocBenchs >> declareToploOn: spec [
 	spec
 		baseline: 'Toplo'
-		with: [ spec repository: 'github://pharo-graphics/Toplo:master/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Toplo:dev/src' ]
 ]
