@@ -87,7 +87,7 @@ BlHighlightOnMouseMoveProfileCase >> newSteppingAnimation [
 					position: newPosition;
 					screenPosition: space position + newPosition;
 					delta: newPosition - oldPosition;
-					timestamp: DateAndTime now;
+					timestamp: space time now;
 					yourself.
 				space dispatchEvent: anEvent ];
 		  yourself

@@ -38,7 +38,7 @@ BlKeysCursorMoveTextEditorProfileCase >> dispatchEvent [
 	
 	| key time |
 	key := KeyboardKey down.
-	time := DateAndTime now.
+	time := editorElement space time now.
 	{ BlKeyDownEvent new. BlKeyUpEvent new }
 		do: [ :anEvent |
 			anEvent

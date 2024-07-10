@@ -26,7 +26,7 @@ BlMouseWheelScrollTextEditorProfileCase >> dispatchEvent [
 
 	| anEvent |
 	anEvent := BlMouseWheelEvent new
-		timestamp: DateAndTime now;
+		timestamp: editorElement space time now;
 		vector: (BlVector x: 0 y: -7);
 		position: editorElement bounds inSpace center;
 		yourself.
