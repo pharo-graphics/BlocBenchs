@@ -88,7 +88,7 @@ PCRawSDLCairoWindow >> openWithTitle: title position: position extent: extent [
 
 	sdlRenderer := sdlWindow createDefaultRenderer.
 
-	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
+	deviceScalePoint := sdlRenderer outputExtent / sdlWindow extent.
 	isHighDPI := deviceScalePoint x > 1.0 or: [ deviceScalePoint y > 1.0 ].
 
 	self resetMainTexture.
