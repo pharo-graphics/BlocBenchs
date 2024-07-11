@@ -143,7 +143,7 @@ BlMouseMoveBenchmark >> mouseMoverLoopOn: aSpace at: aPoint [
 	[ 	| anEvent |
 		delayBetweenEventDispatchs wait.
 		anEvent := BlMouseMoveEvent new
-			timestamp: DateAndTime now;
+			timestamp: aSpace time now;
 			position: aPoint;
 			yourself.
 		aSpace dispatchEvent: anEvent ] repeat
