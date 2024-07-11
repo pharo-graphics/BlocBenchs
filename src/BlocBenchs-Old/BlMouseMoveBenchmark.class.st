@@ -201,12 +201,12 @@ BlMouseMoveBenchmark >> runFor: aGeometry addingResultsOn: aDataFrame [
 			            size: extent;
 			            geometry: aGeometry;
 			            background: (Color random: random);
-			            addEventHandler: (BlEventHandler
-					             on: BlMouseMoveEvent
-					             do: [ :evt |
-						             count := count + 1.
-						             firstTime ifNil: [ firstTime := evt timestamp ].
-						             lastTime := evt timestamp ]);
+			            addEventHandlerOn: BlMouseMoveEvent
+				            do: [ :evt |
+					            count := count + 1.
+					            firstTime ifNil: [
+					               firstTime := evt timestamp ].
+					            lastTime := evt timestamp ];
 			            transformDo: [ :builder | builder scaleBy: 0.9 ];
 			            yourself ].
 
@@ -218,9 +218,10 @@ BlMouseMoveBenchmark >> runFor: aGeometry addingResultsOn: aDataFrame [
 
 	aSpace root
 		addChild: elements first;
-		addChild: (self newPointerElement
-				 position: eventPosition;
-				 yourself).
+		addChild:
+			(self newPointerElement
+				position: eventPosition;
+				yourself).
 
 	aSpace
 		extent: extent;

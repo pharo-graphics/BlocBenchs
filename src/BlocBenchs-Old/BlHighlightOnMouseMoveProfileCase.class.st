@@ -49,7 +49,7 @@ BlHighlightOnMouseMoveProfileCase >> newElement [
 				size: cellExtent + 1;
 				background: Color random darker;
 				clipChildren: false;
-				when: BlMouseMoveEvent
+				addEventHandlerOn: BlMouseMoveEvent
 				do: [ :evt |
 					"Highlight element, but enforce changing color only 
 					if has not been already highlighted.
