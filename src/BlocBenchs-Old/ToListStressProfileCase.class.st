@@ -29,5 +29,5 @@ ToListStressProfileCase >> label [
 ToListStressProfileCase >> newElement [
 	"Answer the element under study."
 
-	^ ToListElementStresser new tabsPanel
+	^ ToListElementStresserWithAdditionalSelecters new tabsPanel
 ]
