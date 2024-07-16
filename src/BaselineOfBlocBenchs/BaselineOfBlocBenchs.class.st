@@ -25,7 +25,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 				package: 'BlocBenchs-Printing'
 					with: [ spec requires: #('DataFrame') ];
 				package: 'BlocBenchs-Old'
-					with: [ spec requires: #('BlocTutorials-Boids' 'Toplo' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
+					with: [ spec requires: #('BlocTutorialsBoids' 'Toplo' 'SaucoPerfMeter' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-FPS'
 					with: [ spec requires: #('BlocBenchs-SDL' 'DataFrame' 'FFICallLogger' 'BlocBenchs-Printing') ];
 				package: 'BlocBenchs-Alexandrie'
