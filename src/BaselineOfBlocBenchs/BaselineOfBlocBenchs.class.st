@@ -48,7 +48,7 @@ BaselineOfBlocBenchs >> declareBlocOn: spec [
 BaselineOfBlocBenchs >> declareBoidsOn: spec [
 
 	spec
-		package: 'BlocTutorials-Boids'
+		baseline: 'BlocTutorialsBoids'
 		with: [
 			spec repository: 'github://pharo-graphics/Tutorials:master/src' ]
 ]
