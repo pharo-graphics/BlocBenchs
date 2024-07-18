@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+#set -x
 #set -e
 
 # Define SCRIPTS_DIR and REPO_DIR in a way this script can
@@ -17,10 +17,16 @@ esac
 REPO_DIR="$(dirname "$SCRIPTS_DIR")"
 
 
-# Get a fresh image
-curl https://get.pharo.org/64/120+vmLatest | bash
+PHARO_VERSION=${1:-120}
+echo "|"
+echo "| Downloading Pharo $PHARO_VERSION"
+echo "| (change default value by passing as first argument e.g. 110, 120, or 130)"
+echo "|"
+curl https://get.pharo.org/64/$PHARO_VERSION+vmLatest | bash
 
-# Load code overriding image packages
+echo "|"
+echo "| Loading project"
+echo "|"
 ./pharo Pharo.image eval --save $(cat <<EOF
 [ EpMonitor disableDuring: [ 
   Author useAuthor: 'Load' during: [
@@ -36,10 +42,16 @@ curl https://get.pharo.org/64/120+vmLatest | bash
 EOF
 )
 
-# Add this repository to Iceberg
+echo "|"
+echo "| Add this repository to Iceberg"
+echo "|"
 ./pharo Pharo.image eval --save $(cat <<EOF
 (IceRepositoryCreator new
   location: '$REPO_DIR' asFileReference;
   createRepository) register
 EOF
 )
+
+echo "|"
+echo "| Finished"
+echo "|"
