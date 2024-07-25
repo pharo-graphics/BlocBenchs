@@ -11,7 +11,16 @@ Class {
 }
 
 { #category : #examples }
-BlbSpaceTallyPrinter class >> example [
+BlbSpaceTallyPrinter class >> runToStdout [
+	<example>
+
+	3 timesRepeat: [ Smalltalk garbageCollect ].
+	self new run; reportOnStdout
+]
+
+{ #category : #examples }
+BlbSpaceTallyPrinter class >> runToTranscript [
+	<example>
 
 	3 timesRepeat: [ Smalltalk garbageCollect ].
 	self new run; reportOnTranscript
