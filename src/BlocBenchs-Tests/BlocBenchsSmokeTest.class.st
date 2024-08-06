@@ -65,9 +65,9 @@ BlocBenchsSmokeTest >> testPCOSWindowScrollingExample2 [
 { #category : #tests }
 BlocBenchsSmokeTest >> testSDLShapedWindowExample [
 
-	OSPlatform current isMacOS ifTrue: [
-		"Ensure initialized to avoid segfault in CI headless image"
-		OSSDL2Driver current. 
+	2 timesRepeat: [
+		[ (SDL2 pollEvent: SDL_Event new) > 0 ] whileTrue.
+		0.1 seconds wait ].
 
-		SDLShapedWindowExample exampleByColorKey ]
+	SDLShapedWindowExample exampleByColorKey
 ]
