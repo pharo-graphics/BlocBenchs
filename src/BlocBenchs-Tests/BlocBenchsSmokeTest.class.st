@@ -11,6 +11,14 @@ BlocBenchsSmokeTest >> defaultTimeLimit [
 ]
 
 { #category : #tests }
+BlocBenchsSmokeTest >> expectedFailures [
+
+	^ OSPlatform current isLinux
+		ifFalse: [ #() ]
+		ifTrue: [ #(testSDLShapedWindowExample) ]
+]
+
+{ #category : #tests }
 BlocBenchsSmokeTest >> testAeBenchManySiblingsRunner [
 
 	AeBenchFigureGridRunner new run
