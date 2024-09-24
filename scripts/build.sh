@@ -29,16 +29,11 @@ echo "| Loading project"
 echo "|"
 ./pharo Pharo.image eval --save $(cat <<EOF
 [ EpMonitor disableDuring: [ 
-  Author useAuthor: 'Load' during: [
-    [	Metacello new
+    Metacello new
         baseline: 'BlocBenchs';
         repository: 'tonel://$REPO_DIR/src';
-        onConflictUseIncoming;
-        ignoreImage;
-        load.
-    ]	on: MCMergeOrLoadWarning
-      do: [ :warning | warning load ] ] ]
-] timeToRun
+        load
+] ] timeToRun
 EOF
 )
 
