@@ -90,7 +90,7 @@ BlFPSTracer >> initializeOnSpace: aSpace [
 	"Our start happens when the space is actually shown."
 	spaceShownEventHandler := BlEventHandler
 		on: BlSpaceShownEvent
-		do: [ :evt |
+		do: [
 			firstMS := Time millisecondClockValue.
 			lastMS := firstMS.
 			self resetFramesDeltaMS.

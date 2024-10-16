@@ -66,7 +66,7 @@ PCBlocBenchmarker >> openWindow [
 		lastMS := currentMS ].
 
 	"Let's consider that start happens when the space is actually shown."
-	space addEventHandlerOn: BlSpaceShownEvent do: [ :evt |
+	space addEventHandlerOn: BlSpaceShownEvent do: [
 		firstMS := Time millisecondClockValue.
 		lastMS := firstMS. ].
 
