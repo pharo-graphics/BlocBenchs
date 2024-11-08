@@ -123,6 +123,40 @@ AeBenchRectangleShadowRunner class >> newFor: shadowSize rampSize: shadowRampSiz
 		yourself
 ]
 
+{ #category : #running }
+AeBenchRectangleShadowRunner class >> pixelDiffsVsGaussian [
+	"Useful to check how well are the shadow emulations compared with our Gaussian blur filter"
+	<script>
+
+	^ (self pixelDiffsWith: #runGaussian) inspect
+]
+
+{ #category : #running }
+AeBenchRectangleShadowRunner class >> pixelDiffsVsNewCenteredGradients [
+	"Useful to check if there are differences between shadow methods"
+	<script>
+
+	^ (self pixelDiffsWith: #runNewCenteredGradients) inspect
+]
+
+{ #category : #running }
+AeBenchRectangleShadowRunner class >> pixelDiffsWith: expectedSurfaceRunSelector [
+
+	| expectedSurface expectedForm |
+	expectedSurface := self new perform: expectedSurfaceRunSelector.
+	expectedForm := expectedSurface asForm.
+	
+	^ self runSelectors collect: [ :eachSelector |
+		| actualSurface actualForm instance |
+		instance := self new.
+		actualSurface := instance perform: eachSelector.
+		actualForm := actualSurface asForm.
+		AePixelComparison
+			expectedForm: expectedForm
+			actualForm: actualForm
+			label: (expectedSurfaceRunSelector, ' vs ', eachSelector) ]
+]
+
 { #category : #accessing }
 AeBenchRectangleShadowRunner class >> runSelectors [
 
