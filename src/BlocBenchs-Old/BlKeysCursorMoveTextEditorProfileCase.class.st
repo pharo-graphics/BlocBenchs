@@ -36,13 +36,10 @@ BlKeysCursorMoveTextEditorProfileCase >> defaultNumberOfSimulatedEvents [
 { #category : #hooks }
 BlKeysCursorMoveTextEditorProfileCase >> dispatchEvent [
 	
-	| key time |
+	| key |
 	key := KeyboardKey down.
-	time := editorElement space time now.
-	{ BlKeyDownEvent new. BlKeyUpEvent new }
-		do: [ :anEvent |
-			anEvent
-				key: key;
-				timestamp: time.
-			editorElement space dispatchEvent: anEvent ]
+	
+	{ BlKeyDownEvent new. BlKeyUpEvent new } do: [ :anEvent |
+		anEvent key: key.
+		editorElement space dispatchEventWithTimestamp: anEvent ]
 ]
