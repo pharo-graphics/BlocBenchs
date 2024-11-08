@@ -65,7 +65,7 @@ Class {
 }
 
 { #category : #running }
-AeBenchRectangleShadowRunner class >> example [
+AeBenchRectangleShadowRunner class >> exampleRun [
 
 	| instance repeatCount benchResult |
 	
