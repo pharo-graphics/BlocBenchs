@@ -71,6 +71,12 @@ BlocBenchsSmokeTest >> testPCOSWindowScrollingExample2 [
 ]
 
 { #category : #tests }
+BlocBenchsSmokeTest >> testRectangleShadowBenchmark [
+
+	AeBenchRectangleShadowRunner exampleRun
+]
+
+{ #category : #tests }
 BlocBenchsSmokeTest >> testSDLShapedWindowExample [
 
 	2 timesRepeat: [
