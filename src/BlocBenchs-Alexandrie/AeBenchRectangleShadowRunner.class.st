@@ -82,7 +82,7 @@ AeBenchRectangleShadowRunner class >> exampleRun [
 	"Run same number of iterations but emulated"
 	repeatCount := benchResult iterations.
 
-	#(runMask runNewCenteredGradients runSharingGradient) do: [ :eachSelector |
+	self runSelectors do: [ :eachSelector |
 		| allMs |
 		'## ' trace.
 		eachSelector traceCr.
@@ -121,6 +121,12 @@ AeBenchRectangleShadowRunner class >> newFor: shadowSize rampSize: shadowRampSiz
 	^ self basicNew
 		initializeFor: shadowSize shadowRampSize: shadowRampSize;
 		yourself
+]
+
+{ #category : #accessing }
+AeBenchRectangleShadowRunner class >> runSelectors [
+
+	^ #(runMaskWithClip runMaskWithMatrix runNewCenteredGradients runSharingGradient)
 ]
 
 { #category : #enumerating }
@@ -274,8 +280,8 @@ AeBenchRectangleShadowRunner >> runGaussian [
 ]
 
 { #category : #running }
-AeBenchRectangleShadowRunner >> runMask [
-	<script: 'self new runMask inspect'>
+AeBenchRectangleShadowRunner >> runMaskWithClip [
+	<script: 'self new runMaskWithClip inspect'>
 
 	| aGradient shadowSurface shadowContext matrixBlocks aMatrix |
 
@@ -359,6 +365,102 @@ AeBenchRectangleShadowRunner >> runMask [
 
 	"Free manually"
 	aMatrix free.
+
+	^ mainSurface
+]
+
+{ #category : #running }
+AeBenchRectangleShadowRunner >> runMaskWithMatrix [
+	<script: 'self new runMaskWithMatrix inspect'>
+
+	| aGradient shadowSurface shadowContext matrixBlocks aMatrix center |
+
+	"-- core --"
+
+	mainContext sourceColor: shadowColor; rectangle: rectangle; fill.
+
+	"-- corners --"
+
+	shadowSurface := AeCairoImageSurface
+		extent: shadowRadius asPoint
+		format: AeCairoSurfaceFormat a8.
+	shadowContext := shadowSurface newContext.
+
+	aGradient := AeCairoRadialGradientPattern
+		innerCenter: shadowRadius asPoint
+		innerRadius: 0
+		outerCenter: shadowRadius asPoint
+		outerRadius: shadowRadius.
+	aGradient addStopsFrom: shadowRamp.
+	shadowContext
+		source: aGradient;
+		paint.
+
+	mainContext sourceColor: shadowColor.
+
+
+	aMatrix := AeCairoMatrix new.
+	center := (rectangle topLeft + rectangle bottomRight ) / 2.
+	matrixBlocks := {
+		[ aMatrix beIdentity ].
+		[ aMatrix beFlipHorizontallyAround: center x ].
+		[ aMatrix beRotationByQuadrants: 2 around: center ].
+		[ aMatrix beFlipVerticallyAround: center y ] }.
+
+	shadowCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
+		eachMatrixBlock value.
+		mainContext
+			matrix: aMatrix;
+			maskSurface: shadowSurface x: 0.0 y: 0.0 ].
+	mainContext setIdentityMatrix.
+
+	"Force free to include this time in the benchmarks"
+	aGradient externallyFree.
+	shadowContext externallyFree.
+	shadowSurface externallyFree.
+
+
+	"-- sides --"
+	shadowSurface := AeCairoImageSurface
+		extent: rectangle extent max @ shadowRadius
+		format: AeCairoSurfaceFormat a8.
+	shadowContext := shadowSurface newContext.
+
+	aGradient :=
+		AeCairoLinearGradientPattern
+			from: 0.0 @ shadowRadius
+			to:   0.0 @ 0.0
+			addStopsFrom: shadowRamp.
+	shadowContext source: aGradient; paint.
+
+	matrixBlocks := {
+		[ aMatrix
+			beTranslationByX: rectangle left
+			y: rectangle top - shadowRadius ].
+		[ aMatrix
+			beRotationByQuadrants: 1 around: rectangle topLeft;
+			translateByX: 0 y: rectangle width negated ].
+		[ aMatrix
+			beFlipVerticallyAround: (rectangle top + rectangle bottom) / 2;
+			translateByX: rectangle left y: 0 ].
+		[ aMatrix beRotationByQuadrants: -1 around: rectangle topLeft ] }.
+
+	shadowSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
+		eachMatrixBlock value.
+
+		"We must restore clipping area after mask"
+		mainContext
+			saveState;
+			rectangle: eachSide third;
+			clip;
+			matrix: aMatrix;
+			maskSurface: shadowSurface x: 0.0 y: 0.0;
+			restoreState ].
+
+	"Free manually"
+	aMatrix free.
+	shadowContext externallyFree.
+	shadowSurface externallyFree.
 
 	^ mainSurface
 ]
