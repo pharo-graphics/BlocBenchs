@@ -258,13 +258,13 @@ AeBenchGradientRunner >> runGaussian [
 
 	shadowSurface newContext
 		sourceColor: Color black;
-		rectangle: rectangle;
+		rectangle: (rectangle expandBy: blurRadius/2); "<---- why?"
 		fill.
 	shadowSurface flush.
 
 	AeCairoA8FastGaussianBlurFilter new
 		surface: shadowSurface;
-		applyRadius: blurRadius.
+		applyRadius: blurRadius / 1.5. "<---- why?"
 
 	mainSurface newContext
 		sourceColor: shadowColor;
