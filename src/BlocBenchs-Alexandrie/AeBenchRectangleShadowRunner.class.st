@@ -48,7 +48,7 @@ iterations: 9
 
 "
 Class {
-	#name : #AeBenchGradientRunner,
+	#name : #AeBenchRectangleShadowRunner,
 	#superclass : #Object,
 	#instVars : [
 		'shadowRadius',
@@ -65,7 +65,7 @@ Class {
 }
 
 { #category : #running }
-AeBenchGradientRunner class >> example [
+AeBenchRectangleShadowRunner class >> example [
 
 	| instance repeatCount benchResult |
 	
@@ -104,19 +104,19 @@ AeBenchGradientRunner class >> example [
 ]
 
 { #category : #'instance creation' }
-AeBenchGradientRunner class >> new [
+AeBenchRectangleShadowRunner class >> new [
 
 	^ self newFor: 20
 ]
 
 { #category : #'instance creation' }
-AeBenchGradientRunner class >> newFor: shadowSize [
+AeBenchRectangleShadowRunner class >> newFor: shadowSize [
 
 	^ self newFor: shadowSize rampSize: shadowSize
 ]
 
 { #category : #'instance creation' }
-AeBenchGradientRunner class >> newFor: shadowSize rampSize: shadowRampSize [
+AeBenchRectangleShadowRunner class >> newFor: shadowSize rampSize: shadowRampSize [
 
 	^ self basicNew
 		initializeFor: shadowSize shadowRampSize: shadowRampSize;
@@ -124,14 +124,14 @@ AeBenchGradientRunner class >> newFor: shadowSize rampSize: shadowRampSize [
 ]
 
 { #category : #enumerating }
-AeBenchGradientRunner >> alphaBellFunctionAt: x [
+AeBenchRectangleShadowRunner >> alphaBellFunctionAt: x [
 	"Answer the evaluation of a number in a Gaussian bell function with mean=0.0 and stdev=1.0, whose peak a 0.0 results in 1.0."
 
 	^ (x squared * -0.5) exp
 ]
 
 { #category : #initialization }
-AeBenchGradientRunner >> initializeFor: aBlurRadius shadowRampSize: shadowRampSize [
+AeBenchRectangleShadowRunner >> initializeFor: aBlurRadius shadowRampSize: shadowRampSize [
 
 	| rectangleExtent |
 	self initialize.
@@ -218,7 +218,7 @@ AeBenchGradientRunner >> initializeFor: aBlurRadius shadowRampSize: shadowRampSi
 ]
 
 { #category : #printing }
-AeBenchGradientRunner >> printOn: aStream [
+AeBenchRectangleShadowRunner >> printOn: aStream [
 	"Generate a string representation of the receiver based on its instance variables."
 
 	super printOn: aStream.
@@ -233,7 +233,7 @@ AeBenchGradientRunner >> printOn: aStream [
 ]
 
 { #category : #enumerating }
-AeBenchGradientRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
+AeBenchRectangleShadowRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
 
 	aBlock value: 0.0 value: 1.0.
 
@@ -248,7 +248,7 @@ AeBenchGradientRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
 ]
 
 { #category : #running }
-AeBenchGradientRunner >> runGaussian [
+AeBenchRectangleShadowRunner >> runGaussian [
 	<script: 'self new runGaussian inspect'>
 
 	| shadowSurface |
@@ -274,7 +274,7 @@ AeBenchGradientRunner >> runGaussian [
 ]
 
 { #category : #running }
-AeBenchGradientRunner >> runMask [
+AeBenchRectangleShadowRunner >> runMask [
 	<script: 'self new runMask inspect'>
 
 	| aGradient shadowSurface shadowContext matrixBlocks aMatrix |
@@ -364,7 +364,7 @@ AeBenchGradientRunner >> runMask [
 ]
 
 { #category : #running }
-AeBenchGradientRunner >> runNewCenteredGradients [
+AeBenchRectangleShadowRunner >> runNewCenteredGradients [
 	<script: 'self new runNewCenteredGradients inspect'>
 
 	"-- core --"
@@ -414,7 +414,7 @@ AeBenchGradientRunner >> runNewCenteredGradients [
 ]
 
 { #category : #running }
-AeBenchGradientRunner >> runSharingGradient [
+AeBenchRectangleShadowRunner >> runSharingGradient [
 	<script: 'self new runSharingGradient inspect'>
 
 	| cornerGradient aMatrix sideGradient matrices |
