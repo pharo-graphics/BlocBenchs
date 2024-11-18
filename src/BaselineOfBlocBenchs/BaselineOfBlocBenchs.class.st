@@ -78,7 +78,7 @@ BaselineOfBlocBenchs >> declareSaucoPerfMeterOn: spec [
 BaselineOfBlocBenchs >> declareSdlExperimentsOn: spec [
 	spec
 		baseline: 'SDLExperiments'
-		with: [ spec repository: 'github://tinchodias/pharo-sdl-experiments:master/' ]
+		with: [ spec repository: 'github://pharo-graphics/pharo-sdl-experiments:master/' ]
 ]
 
 { #category : #'external projects' }
