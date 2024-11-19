@@ -1,71 +1,42 @@
 Class {
 	#name : #BlFrameMeter,
 	#superclass : #BlMeter,
-	#instVars : [
-		'process',
-		'framesAndMicrosendTimestamps',
-		'frameCount'
-	],
 	#category : #'BlocBenchs-Old-ProfileCases'
 }
 
-{ #category : #private }
-BlFrameMeter >> fpsFrom: frameAndMicrosendTimestampA to: frameAndMicrosendTimestampB [
-
-	| totalSeconds |
-	totalSeconds := (Duration microSeconds:
-		frameAndMicrosendTimestampB value - frameAndMicrosendTimestampA value) totalSeconds.
-
-	^ (frameAndMicrosendTimestampB key - frameAndMicrosendTimestampA key) / totalSeconds
-
-]
-
-{ #category : #accessing }
-BlFrameMeter >> intermediateFPS [
-
-	^ framesAndMicrosendTimestamps overlappingPairsCollect: [ :a :b | 
-		  self fpsFrom: a to: b ]
-]
-
-{ #category : #private }
-BlFrameMeter >> registerSampleNow [
-
-	framesAndMicrosendTimestamps add:
-		frameCount -> Time microsecondClockValue
-]
-
 { #category : #printing }
 BlFrameMeter >> reportAsStringOn: stream [
+
+	| stats fpsSamples |
+	
+	stats := case space spaceStatistics.
+	fpsSamples := stats fpsSamples allButFirst collect: [:e | e second].
 
 	stream
 		<< 'Number of samples:';
 		lf;
 		tab;
-		print: framesAndMicrosendTimestamps size;
+		print: fpsSamples size;
 		lf.
-
-	framesAndMicrosendTimestamps size >= 1 ifFalse: [ ^ self ].
 
 	stream
 		<< 'Frame count:';
 		lf;
 		tab;
-		print: framesAndMicrosendTimestamps last key;
+		print: stats totalFrames;
 		lf.
 
-	framesAndMicrosendTimestamps size >= 2 ifFalse: [ ^ self ].
+	fpsSamples ifEmpty: [ ^ self ].
 
 	stream
 		<< 'FPS mean and error margin (90% confidence level):';
 		lf;
 		tab;
-		<< (MeanConfidenceIntervalPrinter new print: self intermediateFPS);
+		<< (MeanConfidenceIntervalPrinter new print: fpsSamples);
 		lf.
 
-	framesAndMicrosendTimestamps size > 2 ifFalse: [ ^ self ].
-
 	stream << 'FPS samples:'; lf.
-	self intermediateFPS withIndexDo: [ :fps :index |
+	fpsSamples withIndexDo: [ :fps :index |
 		stream
 			tab;
 			print: index;
@@ -89,53 +60,12 @@ BlFrameMeter >> reportsAsPagesUsing: aBuilder [
 
 { #category : #API }
 BlFrameMeter >> startMetering [
-	"Start a high-priority process that will tally the space's frame id. The id of a space increases on every new frame.
-	"
 
-	| delay |
-	framesAndMicrosendTimestamps := OrderedCollection new.
-	delay := Delay forSeconds: 1.
-
-	"Count frames"
-	frameCount := 0.
-	case space
-		addEventHandlerOn: BlSpaceRenderEndEvent
-		do: [ :evt |
-		frameCount := frameCount + 1 ].
-
-
-	[	process := Processor activeProcess.
-
-		[[ process == Processor activeProcess ] whileTrue: [
-
-			"Add a new sample"
-			self registerSampleNow.
-			
-			delay wait.
-		]] onErrorDo:[ :e | process := nil. e traceCr ]
-	] forkAt: Processor highestPriority - 1
-
+	case space enableStatistics
 ]
 
 { #category : #API }
 BlFrameMeter >> stopMetering [
-
-	process terminate.
-	process := nil.
-]
-
-{ #category : #accessing }
-BlFrameMeter >> totalFPS [
-
-	^ self
-		  fpsFrom: framesAndMicrosendTimestamps first
-		  to: framesAndMicrosendTimestamps last
-]
-
-{ #category : #accessing }
-BlFrameMeter >> totalSeconds [
-	"Answer the number of elapsed seconds, expressed as a Float."
-
-	^ (Duration microSeconds: framesAndMicrosendTimestamps last value
-		   - framesAndMicrosendTimestamps first value) totalSeconds
+	
+	
 ]

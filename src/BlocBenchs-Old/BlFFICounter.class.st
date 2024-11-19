@@ -2,8 +2,7 @@ Class {
 	#name : #BlFFICounter,
 	#superclass : #BlMeter,
 	#instVars : [
-		'functionNamesAndCounts',
-		'frameCount'
+		'functionNamesAndCounts'
 	],
 	#category : #'BlocBenchs-Old-ProfileCases'
 }
@@ -55,17 +54,17 @@ BlFFICounter >> startMetering [
 	"Really start"
 	TFLFunctionCounter start.
 
-	"Count frames"
-	frameCount := 0.
-	case space
-		addEventHandlerOn: BlSpaceRenderEndEvent
-		do: [ :evt |
-		frameCount := frameCount + 1 ].
+	case space enableStatistics.
 ]
 
 { #category : #API }
 BlFFICounter >> stopMetering [
+
 	"Extract relevant information of the global logger, and reset it."
+
+	| frameCount |
+
+	frameCount := case space spaceStatistics totalFrames.
 
 	functionNamesAndCounts := TFLFunctionCounter instance functionNamesAndCounts.
 	functionNamesAndCounts := OrderedDictionary newFrom: 
