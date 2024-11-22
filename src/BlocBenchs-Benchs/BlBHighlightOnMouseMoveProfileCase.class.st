@@ -4,28 +4,13 @@ I'm a benchmarking case that simulates mouse move in a circle over a grid of ele
 This is a scenario where updating only dirty rectangles can benefit.
 "
 Class {
-	#name : #BlHighlightOnMouseMoveProfileCase,
-	#superclass : #BlFixedDurationProfileCase,
-	#category : #'BlocBenchs-Old-ProfileCases'
+	#name : #BlBHighlightOnMouseMoveProfileCase,
+	#superclass : #BlBBlocCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
-{ #category : #examples }
-BlHighlightOnMouseMoveProfileCase class >> example [
-	
-	[ 	| case |
-		case := self new
-			hostClass: BlOSWindowSDL2Host;
-			yourself.
-
-		(BlProfileRunner newForCase: case)
-			enableASProfiler;
-			enableFPS;
-			run;
-			openMeterReports ] fork
-]
-
 { #category : #hooks }
-BlHighlightOnMouseMoveProfileCase >> newElement [
+BlBHighlightOnMouseMoveProfileCase >> newElement [
 	"Answer the element under study."
 
 	| columnCount rowCount boardExtent cellExtent board |
@@ -67,17 +52,17 @@ BlHighlightOnMouseMoveProfileCase >> newElement [
 ]
 
 { #category : #private }
-BlHighlightOnMouseMoveProfileCase >> newSteppingAnimation [
+BlBHighlightOnMouseMoveProfileCase >> newSteppingAnimation [
 
 	| oldPosition newPosition center |
 	newPosition := 0.0 asPoint.
 	center := self spaceExtent / 2.
 	
 	^ BlNumberTransition new
-		  duration: duration;
+		  duration: self duration;
 		  from: 0.0;
 		  to: Float twoPi;
-		  onStepDo: [ :angle |
+		  onStepDo: [ :angle :target |
 				| anEvent |
 				oldPosition := newPosition.
 				newPosition :=
@@ -85,22 +70,22 @@ BlHighlightOnMouseMoveProfileCase >> newSteppingAnimation [
 					+ ((center x * angle cos) @ (center y * angle sin)).
 				anEvent := BlMouseMoveEvent new
 					position: newPosition;
-					screenPosition: space position + newPosition;
+					screenPosition: target space position + newPosition;
 					delta: newPosition - oldPosition;
-					timestamp: space time now;
+					timestamp: target space time now;
 					yourself.
-				space dispatchEvent: anEvent ];
+				target space dispatchEvent: anEvent ];
 		  yourself
 ]
 
 { #category : #private }
-BlHighlightOnMouseMoveProfileCase >> numberOfCellsOnEachSide [
+BlBHighlightOnMouseMoveProfileCase >> numberOfCellsOnEachSide [
 
 	^ 100
 ]
 
 { #category : #hooks }
-BlHighlightOnMouseMoveProfileCase >> spaceExtent [
+BlBHighlightOnMouseMoveProfileCase >> spaceExtent [
 
 	^ 500 asPoint
 ]
