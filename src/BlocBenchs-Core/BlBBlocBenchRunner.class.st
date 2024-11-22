@@ -10,6 +10,12 @@ Class {
 	#category : #'BlocBenchs-Core'
 }
 
+{ #category : #adding }
+BlBBlocBenchRunner >> addMeter: aBlBMeter [ 
+
+	self meters add: aBlBMeter
+]
+
 { #category : #'as yet unclassified' }
 BlBBlocBenchRunner >> cleanUpAfterCase [
 	
@@ -53,7 +59,7 @@ BlBBlocBenchRunner >> duration: aDuration [
 { #category : #running }
 BlBBlocBenchRunner >> meters [
 
-	^ meters ifNil: [ meters := self defaultMeters ]
+	^ meters ifNil: [ meters := self defaultMeters asOrderedCollection ]
 ]
 
 { #category : #'as yet unclassified' }
