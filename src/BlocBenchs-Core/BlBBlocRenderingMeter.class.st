@@ -1,11 +1,11 @@
 Class {
-	#name : #BlBRenderingMeter,
+	#name : #BlBBlocRenderingMeter,
 	#superclass : #BlBMeter,
-	#category : #'BlocBenchs-Core'
+	#category : #'BlocBenchs-Core-Core'
 }
 
 { #category : #'as yet unclassified' }
-BlBRenderingMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
+BlBBlocRenderingMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 	
 	| stats fpsSamples |
 	stats := aBlBBlocBenchRunner space spaceStatistics.
@@ -39,13 +39,13 @@ BlBRenderingMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 ]
 
 { #category : #'as yet unclassified' }
-BlBRenderingMeter >> startMetering: aBlBBlocBenchRunner [ 
+BlBBlocRenderingMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
 	aBlBBlocBenchRunner space enableStatistics 
 ]
 
 { #category : #'as yet unclassified' }
-BlBRenderingMeter >> stopMetering: aBlBBlocBenchRunner [ 
+BlBBlocRenderingMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
 	
 ]

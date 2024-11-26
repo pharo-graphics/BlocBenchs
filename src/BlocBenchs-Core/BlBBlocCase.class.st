@@ -1,7 +1,7 @@
 Class {
 	#name : #BlBBlocCase,
 	#superclass : #BlBCase,
-	#category : #'BlocBenchs-Core'
+	#category : #'BlocBenchs-Core-Core'
 }
 
 { #category : #running }

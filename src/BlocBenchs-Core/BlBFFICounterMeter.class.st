@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'functionNamesAndCounts'
 	],
-	#category : #'BlocBenchs-Core'
+	#category : #'BlocBenchs-Core-Core'
 }
 
 { #category : #'as yet unclassified' }
@@ -31,18 +31,16 @@ BlBFFICounterMeter >> startMetering: aBlBBlocBenchRunner [
 
 	"Really start"
 	TFLFunctionCounter start.
-
-	aBlBBlocBenchRunner space enableStatistics.
 ]
 
 { #category : #'as yet unclassified' }
-BlBFFICounterMeter >> stopMetering: aBlBBlocBenchRunner [ 
+BlBFFICounterMeter >> stopMetering: aBlBBenchRunner [ 
 	
 	"Extract relevant information of the global logger, and reset it."
 
 	| frameCount |
 
-	frameCount := aBlBBlocBenchRunner space spaceStatistics totalFrames.
+	frameCount := aBlBBenchRunner totalFrames.
 
 	functionNamesAndCounts := TFLFunctionCounter instance functionNamesAndCounts.
 	functionNamesAndCounts := OrderedDictionary newFrom: 

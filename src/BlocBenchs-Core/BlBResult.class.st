@@ -6,7 +6,7 @@ Class {
 		'caseClassName',
 		'caseLabel'
 	],
-	#category : #'BlocBenchs-Core'
+	#category : #'BlocBenchs-Core-Core'
 }
 
 { #category : #adding }

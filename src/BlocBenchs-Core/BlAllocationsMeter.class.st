@@ -5,7 +5,7 @@ Class {
 		'initialAllocationBytes',
 		'finalAllocationBytes'
 	],
-	#category : #'BlocBenchs-Core'
+	#category : #'BlocBenchs-Core-Core'
 }
 
 { #category : #'as yet unclassified' }

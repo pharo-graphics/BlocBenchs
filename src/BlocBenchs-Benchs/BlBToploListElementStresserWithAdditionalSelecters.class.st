@@ -4,10 +4,11 @@ Class {
 	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
-{ #category : #printing }
-BlBToploListElementStresserWithAdditionalSelecters >> label [
+{ #category : #initialization }
+BlBToploListElementStresserWithAdditionalSelecters >> initialize [
 
-	^ 'Toplo list stress'
+	super initialize.
+	label := 'Toplo list stress'
 ]
 
 { #category : #'instance creation' }
