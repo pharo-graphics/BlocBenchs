@@ -240,7 +240,7 @@ AeBenchBlurRectangleRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
 	aBlock value: 1.0 value: 0.0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurRectangleRunner >> runGaussian [
 	<script: 'self new runGaussian inspect'>
 
@@ -357,7 +357,7 @@ AeBenchBlurRectangleRunner >> runMaskWithClip [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 	<script: 'self new runMaskWithMatrix inspect'>
 
@@ -453,7 +453,111 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
+AeBenchBlurRectangleRunner >> runMaskWithMatrix2 [
+	<script: 'self new runMaskWithMatrix2 inspect'>
+
+	| aGradient shadowSurface shadowContext matrixBlocks aMatrix center |
+
+	"-- core --"
+
+	mainContext sourceColor: shadowColor; rectangle: rectangle; fill.
+
+	"-- corners --"
+
+	shadowSurface := AeCairoImageSurface
+		extent: shadowRadius asPoint
+		format: AeCairoSurfaceFormat a8.
+	shadowContext := shadowSurface newContext.
+
+	aGradient := AeCairoRadialGradientPattern
+		innerCenter: shadowRadius asPoint
+		innerRadius: 0
+		outerCenter: shadowRadius asPoint
+		outerRadius: shadowRadius.
+	aGradient addStopsFrom: shadowRamp.
+	shadowContext
+		source: aGradient;
+		paint.
+
+	mainContext sourceColor: shadowColor.
+
+
+	aMatrix := AeCairoMatrix new.
+	center := (rectangle topLeft + rectangle bottomRight ) / 2.
+	matrixBlocks := {
+		[ aMatrix beIdentity ].
+		[ aMatrix beFlipHorizontallyAround: center x ].
+		[ aMatrix beRotationByQuadrants: 2 around: center ].
+		[ aMatrix beFlipVerticallyAround: center y ] }.
+
+	shadowCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
+		eachMatrixBlock value.
+		mainContext
+			matrix: aMatrix;
+			maskSurface: shadowSurface x: 0.0 y: 0.0 ].
+
+	"Force free to include this time in the benchmarks"
+	aGradient externallyFree.
+	shadowContext externallyFree.
+	shadowSurface externallyFree.
+
+
+	"-- horizontal sides --"
+	shadowSurface := AeCairoImageSurface
+		extent: rectangle width @ shadowRadius
+		format: AeCairoSurfaceFormat a8.
+	shadowContext := shadowSurface newContext.
+
+	aGradient :=
+		AeCairoLinearGradientPattern
+			from: 0.0 @ shadowRadius
+			to:   0.0 @ 0.0
+			addStopsFrom: shadowRamp.
+	shadowContext source: aGradient; paint.
+
+	mainContext
+		setIdentityMatrix;
+		maskSurface: shadowSurface x: rectangle left y: rectangle top - shadowRadius.
+	aMatrix beFlipVerticallyAround: center y.
+	mainContext
+		matrix: aMatrix;
+		maskSurface: shadowSurface x: rectangle left y: 0.0.
+
+	"Free manually"
+	shadowContext externallyFree.
+	shadowSurface externallyFree.
+
+
+	"-- vertical sides --"
+
+	shadowSurface := AeCairoImageSurface
+		extent: shadowRadius @ rectangle height
+		format: AeCairoSurfaceFormat a8.
+	shadowContext := shadowSurface newContext.
+	aMatrix beRotationByQuadrants: 1 around: rectangle topLeft.
+	aGradient matrix: aMatrix.
+	shadowContext source: aGradient; paint.
+
+	mainContext
+		setIdentityMatrix;
+		maskSurface: shadowSurface x: rectangle left - shadowRadius y: rectangle top.
+	aMatrix beFlipHorizontallyAround: center x.
+	mainContext
+		matrix: aMatrix;
+		maskSurface: shadowSurface x: 0.0 y: rectangle top.
+
+	"Free manually"
+	shadowContext externallyFree.
+	shadowSurface externallyFree.
+
+	aGradient externallyFree.
+	aMatrix free.
+
+	^ mainSurface
+]
+
+{ #category : #running }
 AeBenchBlurRectangleRunner >> runNewCenteredGradients [
 	<script: 'self new runNewCenteredGradients inspect'>
 
@@ -503,7 +607,7 @@ AeBenchBlurRectangleRunner >> runNewCenteredGradients [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurRectangleRunner >> runSharingGradient [
 	<script: 'self new runSharingGradient inspect'>
 
