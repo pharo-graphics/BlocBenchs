@@ -1,7 +1,7 @@
 Class {
 	#name : #AeBenchHbBufferSetup,
 	#superclass : #Object,
-	#category : #'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie-Text'
 }
 
 { #category : #bench }

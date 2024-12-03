@@ -18,7 +18,7 @@ Class {
 		'results',
 		'cairoSurface'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie-Text'
 }
 
 { #category : #benchmarking }

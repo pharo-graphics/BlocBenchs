@@ -10,7 +10,7 @@ Class {
 		'surfaceClass',
 		'numberOfRuns'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie-Grid'
 }
 
 { #category : #running }

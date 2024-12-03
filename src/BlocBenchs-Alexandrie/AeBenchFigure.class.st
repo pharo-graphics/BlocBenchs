@@ -8,7 +8,7 @@ Class {
 		'extent',
 		'cachedPath'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie-Grid'
 }
 
 { #category : #initialization }

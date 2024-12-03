@@ -5,7 +5,7 @@ Class {
 		'radius',
 		'center'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie-Grid'
 }
 
 { #category : #drawing }
