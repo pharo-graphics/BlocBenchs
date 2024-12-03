@@ -61,6 +61,12 @@ BlBCase >> defaultDuration [
 ]
 
 { #category : #accessing }
+BlBCase >> defaultLabel [
+
+	^ self class name asString
+]
+
+{ #category : #accessing }
 BlBCase >> duration [
 	
 	^ duration ifNil: [ self defaultDuration ]
@@ -75,7 +81,7 @@ BlBCase >> duration: aDuration [
 { #category : #accessing }
 BlBCase >> label [
 
-	^ label ifNil: [ self class name ] 
+	^ label ifNil: [ self defaultLabel ] 
 ]
 
 { #category : #accessing }

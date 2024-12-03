@@ -1,11 +1,11 @@
 Class {
-	#name : #PCRotatedImagesBenchCase,
-	#superclass : #PCImagesBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlBRotatedImagesCase,
+	#superclass : #BlBAbstractImagesCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
 { #category : #'instance creation' }
-PCRotatedImagesBenchCase >> newImageElementWith: random [
+BlBRotatedImagesCase >> newImageElementWith: random [
 	
 	| randomIcon |
 	randomIcon := self newFormWith: random.

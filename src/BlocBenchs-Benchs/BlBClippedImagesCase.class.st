@@ -1,11 +1,11 @@
 Class {
-	#name : #PCClippedImagesBenchCase,
-	#superclass : #PCImagesBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlBClippedImagesCase,
+	#superclass : #BlBAbstractImagesCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
 { #category : #'instance creation' }
-PCClippedImagesBenchCase >> newImageElementWith: random [
+BlBClippedImagesCase >> newImageElementWith: random [
 	
 	| randomIcon |
 	randomIcon := self newFormWith: random.

@@ -1,17 +1,17 @@
 Class {
-	#name : #PCDashedBorderCirclesBenchCase,
-	#superclass : #PCCirclesBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlBDashedBorderCirclesCase,
+	#superclass : #BlBAbstractCircleCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
 { #category : #accessing }
-PCDashedBorderCirclesBenchCase >> borderWidth [
+BlBDashedBorderCirclesCase >> borderWidth [
 
 	^ 10
 ]
 
 { #category : #hook }
-PCDashedBorderCirclesBenchCase >> prepare: anElement with: random [
+BlBDashedBorderCirclesCase >> prepare: anElement with: random [
 
 	anElement border:
 		(BlBorder builder

@@ -1,29 +1,13 @@
 Class {
-	#name : #PCNestedTransformationsBenchCase,
-	#superclass : #PCBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlBNestedTransformationsCase,
+	#superclass : #BlBBlocCase,
+	#traits : 'TBlBNestedTransformationsLogic',
+	#classTraits : 'TBlBNestedTransformationsLogic classTrait',
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
-{ #category : #accessing }
-PCNestedTransformationsBenchCase >> figureExtent [
-
-	^ 600.0 asPoint
-]
-
 { #category : #hook }
-PCNestedTransformationsBenchCase >> figureOffset [
-
-	^ 50.0 asPoint
-]
-
-{ #category : #accessing }
-PCNestedTransformationsBenchCase >> logicalExtent [
-
-	^ 750 @ 750
-]
-
-{ #category : #hook }
-PCNestedTransformationsBenchCase >> newElement [
+BlBNestedTransformationsCase >> newElement [
 
 	| elements random anAnimation |
 	random := self newRandom.
@@ -67,28 +51,4 @@ PCNestedTransformationsBenchCase >> newElement [
 	^ elements first
 		position: self figureOffset;
 		yourself
-]
-
-{ #category : #hook }
-PCNestedTransformationsBenchCase >> newRawSDLCairoWindow [
-
-	^ PCNestedTransformationsWindow newWith: self
-]
-
-{ #category : #accessing }
-PCNestedTransformationsBenchCase >> numberOfFigures [
-
-	^ 50
-]
-
-{ #category : #accessing }
-PCNestedTransformationsBenchCase >> targetRelativeRotation [
-
-	^ 5.0
-]
-
-{ #category : #accessing }
-PCNestedTransformationsBenchCase >> targetRelativeScale [
-
-	^ 0.9
 ]

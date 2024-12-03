@@ -10,6 +10,12 @@ BlBBlocCase class >> isAbstract [
 	^ self == BlBBlocCase
 ]
 
+{ #category : #utils }
+BlBBlocCase >> angleInDegreesWith: random [
+		
+	^ random nextInteger: 360
+]
+
 { #category : #accessing }
 BlBBlocCase >> defaultRunnerClass [
 

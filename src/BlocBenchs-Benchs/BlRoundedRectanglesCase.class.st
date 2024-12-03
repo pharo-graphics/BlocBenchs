@@ -1,17 +1,17 @@
 Class {
-	#name : #PCRoundedRectanglesBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlRoundedRectanglesCase,
+	#superclass : #BlBAbstractTranslatingFiguresCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
 { #category : #accessing }
-PCRoundedRectanglesBenchCase >> figureExtent [
+BlRoundedRectanglesCase >> figureExtent [
 
 	^ 80.0 asPoint
 ]
 
 { #category : #hook }
-PCRoundedRectanglesBenchCase >> newFigureWith: random [
+BlRoundedRectanglesCase >> newFigureWith: random [
 
 	^ BlElement new
 		  background: (Color random: random);

@@ -1,11 +1,11 @@
 Class {
-	#name : #PCTextBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlBTextCase,
+	#superclass : #BlBAbstractTranslatingFiguresCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
 { #category : #hook }
-PCTextBenchCase >> blTextFor: random [
+BlBTextCase >> blTextFor: random [
 
 	^ (BlRopedText string: (String loremIpsum: 170))
 		  fontSize: 8;
@@ -15,13 +15,13 @@ PCTextBenchCase >> blTextFor: random [
 ]
 
 { #category : #accessing }
-PCTextBenchCase >> logicalExtent [
+BlBTextCase >> logicalExtent [
 
 	^ 900 @ 900
 ]
 
 { #category : #hook }
-PCTextBenchCase >> newFigureWith: random [
+BlBTextCase >> newFigureWith: random [
 	
 	^ BlTextElement new
 		text: (self blTextFor: random);
@@ -30,19 +30,19 @@ PCTextBenchCase >> newFigureWith: random [
 ]
 
 { #category : #accessing }
-PCTextBenchCase >> numberOfFigures [
+BlBTextCase >> numberOfFigures [
 
 	^ 100
 ]
 
 { #category : #hook }
-PCTextBenchCase >> offsetBetweenFigures [
+BlBTextCase >> offsetBetweenFigures [
 
 	^ 0 @ 9
 ]
 
 { #category : #accessing }
-PCTextBenchCase >> targetTranslation [
+BlBTextCase >> targetTranslation [
 
 	^ 0 @ 100
 ]

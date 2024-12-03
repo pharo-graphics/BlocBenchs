@@ -1,17 +1,17 @@
 Class {
-	#name : #PCScaledRectanglesBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlBScaledRectanglesCase,
+	#superclass : #BlBAbstractTranslatingFiguresCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
 { #category : #accessing }
-PCScaledRectanglesBenchCase >> figureExtent [
+BlBScaledRectanglesCase >> figureExtent [
 
 	^ 100.0 asPoint
 ]
 
 { #category : #hook }
-PCScaledRectanglesBenchCase >> newFigureWith: random [
+BlBScaledRectanglesCase >> newFigureWith: random [
 
 	^ BlElement new
 		  geometry: BlRectangleGeometry new;
@@ -22,7 +22,7 @@ PCScaledRectanglesBenchCase >> newFigureWith: random [
 ]
 
 { #category : #accessing }
-PCScaledRectanglesBenchCase >> scale [
+BlBScaledRectanglesCase >> scale [
 
 	^ 0.75 @ 1.5
 ]

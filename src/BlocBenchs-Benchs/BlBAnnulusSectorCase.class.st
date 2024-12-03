@@ -1,11 +1,11 @@
 Class {
-	#name : #PCAnnulusSectorBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlBAnnulusSectorCase,
+	#superclass : #BlBAbstractTranslatingFiguresCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
-{ #category : #hook }
-PCAnnulusSectorBenchCase >> newFigureWith: random [
+{ #category : #'instance creation' }
+BlBAnnulusSectorCase >> newFigureWith: random [
 
 	^ BlElement new
 		  background: (Color random: random);

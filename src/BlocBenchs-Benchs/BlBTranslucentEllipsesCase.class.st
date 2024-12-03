@@ -1,11 +1,11 @@
 Class {
-	#name : #PCTranslucentEllipsesBenchCase,
-	#superclass : #PCTranslatingFiguresBenchCase,
-	#category : #'BlocBenchs-FPS-Cases'
+	#name : #BlBTranslucentEllipsesCase,
+	#superclass : #BlBAbstractTranslatingFiguresCase,
+	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
 { #category : #accessing }
-PCTranslucentEllipsesBenchCase >> figureExtent: aRandom [
+BlBTranslucentEllipsesCase >> figureExtent: aRandom [
 
 	^ Point
 		x: (aRandom nextBetween: 20 and: 80)
@@ -13,7 +13,7 @@ PCTranslucentEllipsesBenchCase >> figureExtent: aRandom [
 ]
 
 { #category : #hook }
-PCTranslucentEllipsesBenchCase >> newFigureWith: random [
+BlBTranslucentEllipsesCase >> newFigureWith: random [
 
 	^ BlElement new
 		  border: (BlBorder

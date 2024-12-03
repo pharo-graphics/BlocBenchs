@@ -17,6 +17,12 @@ Class {
 }
 
 { #category : #running }
+BlBRawCase class >> isAbstract [ 
+
+	^ self == BlBRawCase 
+]
+
+{ #category : #running }
 BlBRawCase >> beforeRunRenderer: aSDLRenderer window: aSDLWindow [
 
 	startMS := Time millisecondClockValue.
@@ -100,6 +106,12 @@ BlBRawCase >> initialize [
 ]
 
 { #category : #accessing }
+BlBRawCase >> numberOfMilliseconds [
+
+	^ self duration asMilliSeconds 
+]
+
+{ #category : #accessing }
 BlBRawCase >> position [
 	
 	^ 30 asPoint
@@ -111,6 +123,10 @@ BlBRawCase >> presentOnWindow [
 	sdlRenderer
 		copy: mainTextureStrategy sdlTexture;
 		present
+]
+
+{ #category : #initialization }
+BlBRawCase >> resetAnimation [
 ]
 
 { #category : #'drawing - steps' }
