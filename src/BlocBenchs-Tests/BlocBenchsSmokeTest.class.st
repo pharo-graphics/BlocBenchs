@@ -71,9 +71,9 @@ BlocBenchsSmokeTest >> testPCOSWindowScrollingExample2 [
 ]
 
 { #category : #tests }
-BlocBenchsSmokeTest >> testRectangleShadowBenchmark [
+BlocBenchsSmokeTest >> testRectangleBlurBenchmark [
 
-	AeBenchRectangleShadowRunner exampleRun
+	AeBenchBlurRectangleRunner benchAllVsGaussian
 ]
 
 { #category : #tests }

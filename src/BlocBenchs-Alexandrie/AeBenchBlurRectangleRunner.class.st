@@ -1,5 +1,5 @@
 "
-Compare several implementations to paint the shadow of a rectangle.
+Compare several implementations to paint a blurred rectangle.
 
 **1st question**: Which implementation is faster?
 
@@ -48,8 +48,10 @@ iterations: 9
 
 "
 Class {
-	#name : #AeBenchRectangleShadowRunner,
+	#name : #AeBenchBlurRectangleRunner,
 	#superclass : #Object,
+	#traits : 'AeTBenchBlurRunner',
+	#classTraits : 'AeTBenchBlurRunner classTrait',
 	#instVars : [
 		'shadowRadius',
 		'mainSurface',
@@ -59,29 +61,38 @@ Class {
 		'shadowRamp',
 		'shadowSides',
 		'rectangle',
-		'blurRadius'
+		'blurRadius',
+		'zoom'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie-Blur'
 }
 
-{ #category : #running }
-AeBenchRectangleShadowRunner class >> exampleRun [
+{ #category : #'instance creation' }
+AeBenchBlurRectangleRunner class >> new [
 
-	| instance repeatCount benchResult |
-	
-	"Gaussian shadow serves as a baseline reference"
-	instance := self new.
-	benchResult := [ instance runGaussian ] benchFor: 1 second.
+	^ self newFor: 20
+]
 
-	'------' traceCr.
-	instance traceCr.
-	'## runGaussian' traceCr.
-	'average ms: ' trace. benchResult period asMilliSeconds traceCr.
-	'iterations: ' trace. benchResult iterations traceCr.	
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner class >> newFor: shadowSize [
 
-	"Run same number of iterations but emulated"
-	repeatCount := benchResult iterations.
+	^ self newFor: shadowSize rampSize: shadowSize
+]
 
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner class >> newFor: shadowSize rampSize: shadowRampSize [
+
+	^ self basicNew
+		initializeFor: shadowSize shadowRampSize: shadowRampSize;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner class >> runComparingRampSize [
+
+	| instance repeatCount |
+	repeatCount := 100.
+		
 	self runSelectors do: [ :eachSelector |
 		| allMs |
 		'## ' trace.
@@ -103,75 +114,8 @@ AeBenchRectangleShadowRunner class >> exampleRun [
 		Transcript cr; flush ]
 ]
 
-{ #category : #'instance creation' }
-AeBenchRectangleShadowRunner class >> new [
-
-	^ self newFor: 20
-]
-
-{ #category : #'instance creation' }
-AeBenchRectangleShadowRunner class >> newFor: shadowSize [
-
-	^ self newFor: shadowSize rampSize: shadowSize
-]
-
-{ #category : #'instance creation' }
-AeBenchRectangleShadowRunner class >> newFor: shadowSize rampSize: shadowRampSize [
-
-	^ self basicNew
-		initializeFor: shadowSize shadowRampSize: shadowRampSize;
-		yourself
-]
-
-{ #category : #running }
-AeBenchRectangleShadowRunner class >> pixelDiffsVsGaussian [
-	"Useful to check how well are the shadow emulations compared with our Gaussian blur filter"
-	<script>
-
-	^ (self pixelDiffsWith: #runGaussian) inspect
-]
-
-{ #category : #running }
-AeBenchRectangleShadowRunner class >> pixelDiffsVsNewCenteredGradients [
-	"Useful to check if there are differences between shadow methods"
-	<script>
-
-	^ (self pixelDiffsWith: #runNewCenteredGradients) inspect
-]
-
-{ #category : #running }
-AeBenchRectangleShadowRunner class >> pixelDiffsWith: expectedSurfaceRunSelector [
-
-	| expectedSurface expectedForm |
-	expectedSurface := self new perform: expectedSurfaceRunSelector.
-	expectedForm := expectedSurface asForm.
-	
-	^ self runSelectors collect: [ :eachSelector |
-		| actualSurface actualForm instance |
-		instance := self new.
-		actualSurface := instance perform: eachSelector.
-		actualForm := actualSurface asForm.
-		AePixelComparison
-			expectedForm: expectedForm
-			actualForm: actualForm
-			label: (expectedSurfaceRunSelector, ' vs ', eachSelector) ]
-]
-
-{ #category : #accessing }
-AeBenchRectangleShadowRunner class >> runSelectors [
-
-	^ #(runMaskWithClip runMaskWithMatrix runNewCenteredGradients runSharingGradient)
-]
-
-{ #category : #enumerating }
-AeBenchRectangleShadowRunner >> alphaBellFunctionAt: x [
-	"Answer the evaluation of a number in a Gaussian bell function with mean=0.0 and stdev=1.0, whose peak a 0.0 results in 1.0."
-
-	^ (x squared * -0.5) exp
-]
-
 { #category : #initialization }
-AeBenchRectangleShadowRunner >> initializeFor: aBlurRadius shadowRampSize: shadowRampSize [
+AeBenchBlurRectangleRunner >> initializeFor: aBlurRadius shadowRampSize: shadowRampSize [
 
 	| rectangleExtent |
 	self initialize.
@@ -182,9 +126,11 @@ AeBenchRectangleShadowRunner >> initializeFor: aBlurRadius shadowRampSize: shado
 	rectangleExtent := (shadowRadius*2) @ (shadowRadius). "make it non-squared for fun"
 	rectangle := shadowRadius asPoint extent: rectangleExtent.
 	
+	zoom := 2.
 	mainSurface := AeCairoImageSurface
-		extent: (rectangleExtent + (shadowRadius*2)) asIntegerPoint
+		extent: (rectangleExtent + (shadowRadius*2)) ceiling * zoom
 		format: AeCairoSurfaceFormat argb32.
+	mainSurface deviceScale: zoom asPoint.
 	mainContext := mainSurface newContext.
 
 	"Shared"
@@ -258,7 +204,7 @@ AeBenchRectangleShadowRunner >> initializeFor: aBlurRadius shadowRampSize: shado
 ]
 
 { #category : #printing }
-AeBenchRectangleShadowRunner >> printOn: aStream [
+AeBenchBlurRectangleRunner >> printOn: aStream [
 	"Generate a string representation of the receiver based on its instance variables."
 
 	super printOn: aStream.
@@ -272,8 +218,15 @@ AeBenchRectangleShadowRunner >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #enumerating }
-AeBenchRectangleShadowRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
+{ #category : #private }
+AeBenchBlurRectangleRunner >> rampFunctionAt: x [
+	"Answer the evaluation of a number scaled by 4.0 in a Gaussian function with mu=0.0 and sigma=1.0, whoose peak a 0.0 results in 1.0."
+
+	^ ((4.0 * x) squared * -0.5) exp
+]
+
+{ #category : #private }
+AeBenchBlurRectangleRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
 
 	aBlock value: 0.0 value: 1.0.
 
@@ -282,13 +235,13 @@ AeBenchRectangleShadowRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
 		stop := i / (rampSize - 1) asFloat.
 		aBlock
 			value: stop
-			value: (self alphaBellFunctionAt: stop * 4.0) ].
+			value: (self rampFunctionAt: stop) ].
 
 	aBlock value: 1.0 value: 0.0
 ]
 
-{ #category : #running }
-AeBenchRectangleShadowRunner >> runGaussian [
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runGaussian [
 	<script: 'self new runGaussian inspect'>
 
 	| shadowSurface |
@@ -300,7 +253,6 @@ AeBenchRectangleShadowRunner >> runGaussian [
 		sourceColor: Color black;
 		rectangle: (rectangle expandBy: blurRadius/2); "<---- why?"
 		fill.
-	shadowSurface flush.
 
 	AeCairoA8FastGaussianBlurFilter new
 		surface: shadowSurface;
@@ -314,7 +266,7 @@ AeBenchRectangleShadowRunner >> runGaussian [
 ]
 
 { #category : #running }
-AeBenchRectangleShadowRunner >> runMaskWithClip [
+AeBenchBlurRectangleRunner >> runMaskWithClip [
 	<script: 'self new runMaskWithClip inspect'>
 
 	| aGradient shadowSurface shadowContext matrixBlocks aMatrix |
@@ -326,8 +278,9 @@ AeBenchRectangleShadowRunner >> runMaskWithClip [
 	"-- corners --"
 
 	shadowSurface := AeCairoImageSurface
-		extent: (shadowRadius * 2) asPoint
+		extent: (shadowRadius * 2) ceiling * zoom asPoint
 		format: AeCairoSurfaceFormat a8.
+	shadowSurface deviceScale: zoom asPoint.
 	shadowContext := shadowSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
@@ -361,8 +314,9 @@ AeBenchRectangleShadowRunner >> runMaskWithClip [
 
 	"-- sides --"
 	shadowSurface := AeCairoImageSurface
-		extent: rectangle extent max @ shadowRadius
+		extent: ((rectangle extent max @ shadowRadius) * zoom) ceiling
 		format: AeCairoSurfaceFormat a8.
+	shadowSurface deviceScale: zoom asPoint.
 	shadowContext := shadowSurface newContext.
 
 	aGradient :=
@@ -403,8 +357,8 @@ AeBenchRectangleShadowRunner >> runMaskWithClip [
 	^ mainSurface
 ]
 
-{ #category : #running }
-AeBenchRectangleShadowRunner >> runMaskWithMatrix [
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 	<script: 'self new runMaskWithMatrix inspect'>
 
 	| aGradient shadowSurface shadowContext matrixBlocks aMatrix center |
@@ -499,8 +453,8 @@ AeBenchRectangleShadowRunner >> runMaskWithMatrix [
 	^ mainSurface
 ]
 
-{ #category : #running }
-AeBenchRectangleShadowRunner >> runNewCenteredGradients [
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runNewCenteredGradients [
 	<script: 'self new runNewCenteredGradients inspect'>
 
 	"-- core --"
@@ -549,8 +503,8 @@ AeBenchRectangleShadowRunner >> runNewCenteredGradients [
 	^ mainSurface
 ]
 
-{ #category : #running }
-AeBenchRectangleShadowRunner >> runSharingGradient [
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runSharingGradient [
 	<script: 'self new runSharingGradient inspect'>
 
 	| cornerGradient aMatrix sideGradient matrices |
