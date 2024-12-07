@@ -11,12 +11,12 @@ Class {
 		'mainContext',
 		'shadowColor',
 		'shadowRamp',
-		'blurRadius',
 		'circleRadius',
 		'circleCenter',
-		'changedRadius',
 		'centerOffset',
-		'zoom'
+		'zoom',
+		'blurSigma',
+		'margin'
 	],
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
@@ -24,37 +24,54 @@ Class {
 { #category : #'instance creation' }
 AeBenchBlurCircleRunner class >> new [
 
-	^ self newFor: 17
+	^ self newFor: 10
 ]
 
-{ #category : #'as yet unclassified' }
-AeBenchBlurCircleRunner class >> newFor: aBlurRadius [
+{ #category : #'instance creation' }
+AeBenchBlurCircleRunner class >> newFor: aBlurSigma [
 
-	^ self newFor: aBlurRadius blurRadius: aBlurRadius
+	"See margin at instance initialization"
+	^ self newFor: aBlurSigma * Float pi + 1 blurSigma: aBlurSigma
 ]
 
-{ #category : #'as yet unclassified' }
-AeBenchBlurCircleRunner class >> newFor: aCircleRadius blurRadius: aBlurRadius [
+{ #category : #'instance creation' }
+AeBenchBlurCircleRunner class >> newFor: aCircleRadius blurSigma: aBlurSigma [
 
 	^ self basicNew
-		initializeFor: aCircleRadius blurRadius: aBlurRadius;
+		initializeFor: aCircleRadius blurSigma: aBlurSigma;
 		yourself
 ]
 
+{ #category : #debugging }
+AeBenchBlurCircleRunner >> diffsBySigmas [
+	<script: 'self new diffsBySigmas inspect'>
+
+	| dict |
+	dict := OrderedDictionary new.
+
+	2 to: 15 by: 1 do: [ :sigma |
+		dict
+			at: sigma
+			put:
+				(AePixelComparison
+					expectedForm: ((self class newFor: sigma) runGaussian) asForm 
+					actualForm: ((self class newFor: sigma) runDirect) asForm
+					label: '') ].
+	^ dict
+]
+
 { #category : #initialization }
-AeBenchBlurCircleRunner >> initializeFor: aCircleRadius blurRadius: aBlurRadius [
+AeBenchBlurCircleRunner >> initializeFor: aCircleRadius blurSigma: aSigma [
 
 	self initialize.
 
 	circleRadius := aCircleRadius.
-	blurRadius := aBlurRadius.
+	blurSigma := aSigma.
+	margin := (blurSigma * Float pi) ceiling."floor."
 
-	"Margin for the blur"
-	changedRadius := blurRadius * 1.5.
+	circleCenter := (circleRadius + margin) asPoint.
 
-	circleCenter := (circleRadius + changedRadius) asPoint.
-
-	zoom := 2.
+	zoom := 1.
 	mainSurface := AeCairoImageSurface
 		extent: (circleCenter * 2) ceiling * zoom
 		format: AeCairoSurfaceFormat argb32.
@@ -68,10 +85,44 @@ AeBenchBlurCircleRunner >> initializeFor: aCircleRadius blurRadius: aBlurRadius 
 	shadowColor := Color blue.
 	shadowRamp := Array streamContents: [ :stream |
 		self
-			rampSize: changedRadius asInteger
+			rampSize: margin asInteger
 			stopsAndAlphasDo: [ :eachStop :eachAlpha |
 				stream nextPut:
 					(eachStop -> (shadowColor alpha: eachAlpha)) ] ]
+]
+
+{ #category : #debugging }
+AeBenchBlurCircleRunner >> plotsBySigmas [
+	<script: 'self new plotsBySigmas inspect'>
+
+	| dict |
+	dict := OrderedDictionary new.
+
+	2 to: 20 by: 2 do: [ :sigma |
+		dict
+			at: sigma
+			put:
+				(AePixelComparison
+					expectedForm: ((self class newFor: sigma) runGaussian) asForm 
+					actualForm: ((self class newFor: sigma) runDirect) asForm
+					label: '') ].
+
+	^ dict collect: [ :each |
+		| halfW halfH sampleActual sampleExpected indexOfMax |
+		halfW := each comparableWidth // 2.
+		halfH := each comparableHeight // 2.
+
+		sampleActual := (1 to: halfW) collect: [ :x |
+			(each actualForm colorAt: x-1 @ halfH) blue ].
+		sampleExpected := (1 to: halfW) collect: [ :x |
+			(each expectedForm colorAt: x-1 @ halfH) blue ].
+		indexOfMax := sampleExpected
+			detectIndex: [ :s | s = sampleExpected max ].
+		sampleActual := sampleActual first: indexOfMax.
+		sampleExpected := sampleExpected first: indexOfMax.
+
+		((RSScatterPlot x: (1 to: sampleExpected size) y: sampleExpected ) color: Color black)
+		+ ((RSScatterPlot x: (1 to: sampleActual size) y: sampleActual ) color: Color green) ]
 ]
 
 { #category : #printing }
@@ -81,7 +132,7 @@ AeBenchBlurCircleRunner >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		nextPutAll: '(blurRadius: ';
-		print: blurRadius;
+		print: blurSigma;
 		nextPutAll: ' rampSize: ';
 		print: shadowRamp size;
 		nextPutAll: ' surfaceExtent: ';
@@ -89,14 +140,14 @@ AeBenchBlurCircleRunner >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 AeBenchBlurCircleRunner >> rampFunctionAt: x [
-	"Answer the evaluation of a number scaled by 4.0 in a Gaussian function with mu=0.0 and sigma=1.0, whoose peak a 0.0 results in 1.0."
+	"Evaluate 1.0 minus a sigmoid (logistic) function, with mu and sigma determined manually by try and error."
 
-	^ ((4.0 * x) squared * -0.5) exp
+	^ 1.0 - (1.0 / (1.0 + (((x - 0.475) * -10.0) exp)))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 AeBenchBlurCircleRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
 
 	aBlock value: 0.0 value: 1.0.
@@ -111,16 +162,16 @@ AeBenchBlurCircleRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
 	aBlock value: 1.0 value: 0.0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurCircleRunner >> runDirect [
 	<script: 'self new runDirect inspect'>
 
 	| aGradient |
 	aGradient := AeCairoRadialGradientPattern
 		innerCenter: circleCenter
-		innerRadius: circleRadius - (blurRadius / 1.5)
+		innerRadius: circleRadius - margin
 		outerCenter: circleCenter
-		outerRadius: circleRadius + changedRadius.
+		outerRadius: circleRadius + margin.
 	aGradient addStopsFrom: shadowRamp.
 
 	mainContext source: aGradient; paint.
@@ -132,7 +183,7 @@ AeBenchBlurCircleRunner >> runDirect [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurCircleRunner >> runGaussian [
 	<script: 'self new runGaussian inspect'>
 
@@ -148,16 +199,16 @@ AeBenchBlurCircleRunner >> runGaussian [
 
 	AeCairoA8FastGaussianBlurFilter new
 		surface: shadowSurface;
-		applyRadius: blurRadius.
+		applySigma: blurSigma.
 
 	mainSurface newContext
 		sourceColor: shadowColor;
-		maskSurface: shadowSurface x: 0.0 y: 0.0.
+		maskSurface: shadowSurface.
 	
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurCircleRunner >> runMaskFull [
 	<script: 'self new runMaskFull inspect'>
 
@@ -170,17 +221,16 @@ AeBenchBlurCircleRunner >> runMaskFull [
 
 	aGradient := AeCairoRadialGradientPattern
 		innerCenter: circleCenter
-		innerRadius: circleRadius - (blurRadius / 1.5)
+		innerRadius: circleRadius - margin
 		outerCenter: circleCenter
-		outerRadius: circleRadius + changedRadius.
+		outerRadius: circleRadius + margin.
 	aGradient addStopsFrom: shadowRamp.
-	shadowContext
-		source: aGradient;
-		paint.
+	
+	shadowContext source: aGradient; paint.
 
 	mainContext
 		sourceColor: shadowColor;
-		maskSurface: shadowSurface x: 0.0 y: 0.0.
+		maskSurface: shadowSurface.
 
 	"Force free to include this time in the benchmarks"
 	aGradient externallyFree.
@@ -191,7 +241,7 @@ AeBenchBlurCircleRunner >> runMaskFull [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 	<script: 'self new runMaskQuadrantClipping inspect'>
 
@@ -207,13 +257,12 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 
 	aGradient := AeCairoRadialGradientPattern
 		innerCenter: fix
-		innerRadius: circleRadius - (blurRadius / 1.5)
+		innerRadius: circleRadius - margin
 		outerCenter: fix
-		outerRadius: circleRadius + changedRadius.
+		outerRadius: circleRadius + margin.
 	aGradient addStopsFrom: shadowRamp.
-	shadowContext
-		source: aGradient;
-		paint.
+	
+	shadowContext source: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	matrixBlocks := {
@@ -233,8 +282,7 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 		quadrantExtent extent: quadrantExtent.
 		0 @ quadrantExtent y extent: quadrantExtent.
 		0 @ 0 extent: quadrantExtent.
-		quadrantExtent x @ 0 extent: quadrantExtent.
-		}.
+		quadrantExtent x @ 0 extent: quadrantExtent }.
 
 	mainContext sourceColor: shadowColor.
 	matrixBlocks with: rects do: [ :eachMatrixBlock :rect |
@@ -243,7 +291,7 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 			saveState;
 			rectangle: rect; clip;
 			matrix: aMatrix;
-			maskSurface: shadowSurface x: 0.0 y: 0.0;
+			maskSurface: shadowSurface;
 			restoreState ].
 
 	"Force free to include this time in the benchmarks"
@@ -256,26 +304,25 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurCircleRunner >> runPaintQuadrantReflected [
 	<script: 'self new runPaintQuadrantReflected inspect'>
 
 	| shadowSurface shadowContext aGradient |
 	shadowSurface := AeCairoImageSurface
-		extent: circleCenter ceiling * zoom
+		extent: circleCenter floor * zoom
 		format: AeCairoSurfaceFormat argb32.
 	shadowSurface deviceScale: zoom asPoint.
 	shadowContext := shadowSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
 		innerCenter: circleCenter
-		innerRadius: circleRadius - (blurRadius / 1.5)
+		innerRadius: circleRadius - margin
 		outerCenter: circleCenter
-		outerRadius: circleRadius + changedRadius.
+		outerRadius: circleRadius + margin.
 	aGradient addStopsFrom: shadowRamp.
-	shadowContext
-		source: aGradient;
-		paint.
+	
+	shadowContext source: aGradient; paint.
 
 	mainContext sourceSurface: shadowSurface.
 	mainContext source extend: AeCairoExtendMode reflect.
