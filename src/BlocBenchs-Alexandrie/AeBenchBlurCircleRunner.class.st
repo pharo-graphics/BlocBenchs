@@ -117,7 +117,7 @@ AeBenchBlurCircleRunner >> plotsBySigmas [
 		+ ((RSScatterPlot x: (1 to: sampleActual size) y: sampleActual ) color: Color green) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 AeBenchBlurCircleRunner >> printOn: aStream [
 	"Generate a string representation of the receiver based on its instance variables."
 

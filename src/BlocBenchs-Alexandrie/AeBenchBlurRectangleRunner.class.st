@@ -53,16 +53,18 @@ Class {
 	#traits : 'AeTBenchBlurRunner',
 	#classTraits : 'AeTBenchBlurRunner classTrait',
 	#instVars : [
-		'shadowRadius',
 		'mainSurface',
 		'mainContext',
 		'shadowCorners',
 		'shadowColor',
-		'shadowRamp',
 		'shadowSides',
+		'zoom',
+		'blurSigma',
+		'blurMargin',
 		'rectangle',
-		'blurRadius',
-		'zoom'
+		'core',
+		'blurMargin2',
+		'ramp'
 	],
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
@@ -70,65 +72,36 @@ Class {
 { #category : #'instance creation' }
 AeBenchBlurRectangleRunner class >> new [
 
-	^ self newFor: 20
+	^ self newFor: 6
 ]
 
-{ #category : #'as yet unclassified' }
-AeBenchBlurRectangleRunner class >> newFor: shadowSize [
-
-	^ self newFor: shadowSize rampSize: shadowSize
-]
-
-{ #category : #'as yet unclassified' }
-AeBenchBlurRectangleRunner class >> newFor: shadowSize rampSize: shadowRampSize [
+{ #category : #'instance creation' }
+AeBenchBlurRectangleRunner class >> newFor: aBlurSigma [
 
 	^ self basicNew
-		initializeFor: shadowSize shadowRampSize: shadowRampSize;
+		initializeFor: aBlurSigma;
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-AeBenchBlurRectangleRunner class >> runComparingRampSize [
-
-	| instance repeatCount |
-	repeatCount := 100.
-		
-	self runSelectors do: [ :eachSelector |
-		| allMs |
-		'## ' trace.
-		eachSelector traceCr.
-
-		allMs := Array streamContents: [ :msStream |
-			50 timesRepeat: [
-				instance := self new.
-				msStream nextPut: ([
-					repeatCount timesRepeat: [
-						instance perform: eachSelector ]
-					] timeToRun asMilliSeconds / repeatCount) ] ].
-
-		"Print collected ms nicely"
-		MeanConfidenceIntervalPrinter new
-			unitString: 'ms';
-			fixedDecimalPlaces: 2;
-			print: allMs on: Transcript.
-		Transcript cr; flush ]
-]
-
 { #category : #initialization }
-AeBenchBlurRectangleRunner >> initializeFor: aBlurRadius shadowRampSize: shadowRampSize [
+AeBenchBlurRectangleRunner >> initializeFor: aBlurSigma [
 
 	| rectangleExtent |
 	self initialize.
-	
-	blurRadius := aBlurRadius.
-	shadowRadius := blurRadius * 1.5. "Estimate the radius that a Gaussian shadows affects"
+
 	shadowColor := Color blue.
-	rectangleExtent := (shadowRadius*2) @ (shadowRadius). "make it non-squared for fun"
-	rectangle := shadowRadius asPoint extent: rectangleExtent.
+	
+	blurSigma := aBlurSigma.
+	blurMargin := (blurSigma * 2) ceiling.
+	blurMargin2 := blurMargin * 2.
+
+	rectangleExtent := (blurMargin * 6) @ (blurMargin * 3). "make it non-squared for fun"
+	rectangle := blurMargin asPoint extent: rectangleExtent. "This is the real ractangle that runGaussian blurs"
+	core := rectangle insetBy: blurMargin.
 	
 	zoom := 2.
 	mainSurface := AeCairoImageSurface
-		extent: (rectangleExtent + (shadowRadius*2)) ceiling * zoom
+		extent: (rectangleExtent + (blurMargin2)) * zoom
 		format: AeCairoSurfaceFormat argb32.
 	mainSurface deviceScale: zoom asPoint.
 	mainContext := mainSurface newContext.
@@ -137,69 +110,64 @@ AeBenchBlurRectangleRunner >> initializeFor: aBlurRadius shadowRampSize: shadowR
 	mainContext sourceColor: Color yellow; paint. "Background"
 
 	"The ramp defines all stops, playing with alpha channel"
-	shadowRamp := Array streamContents: [ :stream |
-		self
-			rampSize: shadowRampSize
-			stopsAndAlphasDo: [ :eachStop :eachAlpha |
-				stream nextPut:
-					(eachStop -> (shadowColor alpha: eachAlpha)) ] ].
+	ramp := self shadowRampSize: blurMargin.
 
 	shadowCorners := {
-		{	rectangle topLeft.
+		{	core topLeft.
 			Rectangle
-				left: rectangle left - shadowRadius
-				right: rectangle left
-				top: rectangle top - shadowRadius
-				bottom: rectangle top }.
-		{	rectangle topRight.
+				left: core left - blurMargin2
+				right: core left
+				top: core top - blurMargin2
+				bottom: core top }.
+		{	core topRight.
 			Rectangle
-				left: rectangle right
-				right: rectangle right + shadowRadius
-				top: rectangle top - shadowRadius
-				bottom: rectangle top }.
-		{	rectangle bottomRight.
+				left: core right
+				right: core right + blurMargin2
+				top: core top - blurMargin2
+				bottom: core top }.
+		{	core bottomRight.
 			Rectangle
-				left: rectangle right
-				right: rectangle right + shadowRadius
-				top: rectangle bottom
-				bottom: rectangle bottom + shadowRadius }.
-		{	rectangle bottomLeft.
+				left: core right
+				right: core right + blurMargin2
+				top: core bottom
+				bottom: core bottom + blurMargin2 }.
+		{	core bottomLeft.
 			Rectangle
-				left: rectangle left - shadowRadius
-				right: rectangle left
-				top: rectangle bottom
-				bottom: rectangle bottom + shadowRadius }.
+				left: core left - blurMargin2
+				right: core left
+				top: core bottom
+				bottom: core bottom + blurMargin2 }.
 		}.
 	
 	shadowSides := {
-		{	0 @ rectangle top.
-			0 @ (rectangle top - shadowRadius).
+		{	0 @ core top.
+			0 @ (core top - blurMargin2).
 		 	(Rectangle
-				left: rectangle left
-				right: rectangle right
-				top: rectangle top - shadowRadius
-				bottom: rectangle top) }.
-		{	rectangle right @ 0.
-			(rectangle right + shadowRadius) @ 0.
+				left: core left
+				right: core right
+				top: core top - blurMargin2
+				bottom: core top) }.
+		{	core right @ 0.
+			(core right + blurMargin2) @ 0.
 		 	(Rectangle
-				left: rectangle right
-				right: rectangle right + shadowRadius
-				top: rectangle top
-				bottom: rectangle bottom) }.
-		{	0 @ rectangle bottom.
-			0 @ (rectangle bottom + shadowRadius).
+				left: core right
+				right: core right + blurMargin2
+				top: core top
+				bottom: core bottom) }.
+		{	0 @ core bottom.
+			0 @ (core bottom + blurMargin2).
 		 	(Rectangle
-				left: rectangle left
-				right: rectangle right
-				top: rectangle bottom
-				bottom: rectangle bottom + shadowRadius) }.
-		{	rectangle left @ 0.
-			(rectangle left - shadowRadius) @ 0.
+				left: core left
+				right: core right
+				top: core bottom
+				bottom: core bottom + blurMargin2) }.
+		{	core left @ 0.
+			(core left - blurMargin2) @ 0.
 		 	(Rectangle
-				left: rectangle left - shadowRadius
-				right: rectangle left
-				top: rectangle top
-				bottom: rectangle bottom) }.
+				left: core left - blurMargin2
+				right: core left
+				top: core top
+				bottom: core bottom) }.
 		}
 ]
 
@@ -210,34 +178,12 @@ AeBenchBlurRectangleRunner >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		nextPutAll: '(blurRadius: ';
-		print: blurRadius;
+		print: blurSigma;
 		nextPutAll: ' rampSize: ';
-		print: shadowRamp size;
+		print: ramp size;
 		nextPutAll: ' surfaceExtent: ';
 		print: mainSurface extent;
 		nextPut: $)
-]
-
-{ #category : #private }
-AeBenchBlurRectangleRunner >> rampFunctionAt: x [
-	"Answer the evaluation of a number scaled by 4.0 in a Gaussian function with mu=0.0 and sigma=1.0, whoose peak a 0.0 results in 1.0."
-
-	^ ((4.0 * x) squared * -0.5) exp
-]
-
-{ #category : #private }
-AeBenchBlurRectangleRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
-
-	aBlock value: 0.0 value: 1.0.
-
-	1 to: rampSize - 2 do: [ :i |
-		| stop |
-		stop := i / (rampSize - 1) asFloat.
-		aBlock
-			value: stop
-			value: (self rampFunctionAt: stop) ].
-
-	aBlock value: 1.0 value: 0.0
 ]
 
 { #category : #running }
@@ -251,16 +197,16 @@ AeBenchBlurRectangleRunner >> runGaussian [
 
 	shadowSurface newContext
 		sourceColor: Color black;
-		rectangle: (rectangle expandBy: blurRadius/2); "<---- why?"
+		rectangle: rectangle;
 		fill.
 
 	AeCairoA8FastGaussianBlurFilter new
 		surface: shadowSurface;
-		applyRadius: blurRadius / 1.5. "<---- why?"
+		applySigma: blurSigma.
 
 	mainSurface newContext
 		sourceColor: shadowColor;
-		maskSurface: shadowSurface x: 0.0 y: 0.0.
+		maskSurface: shadowSurface.
 	
 	^ mainSurface
 ]
@@ -273,25 +219,20 @@ AeBenchBlurRectangleRunner >> runMaskWithClip [
 
 	"-- core --"
 
-	mainContext sourceColor: shadowColor; rectangle: rectangle; fill.
+	mainContext sourceColor: shadowColor; rectangle: core; fill.
 
 	"-- corners --"
 
 	shadowSurface := AeCairoImageSurface
-		extent: (shadowRadius * 2) ceiling * zoom asPoint
+		extent: 2 * blurMargin2 asPoint
 		format: AeCairoSurfaceFormat a8.
-	shadowSurface deviceScale: zoom asPoint.
 	shadowContext := shadowSurface newContext.
-
 	aGradient := AeCairoRadialGradientPattern
-		innerCenter: shadowRadius asPoint
-		innerRadius: 0
-		outerCenter: shadowRadius asPoint
-		outerRadius: shadowRadius.
-	aGradient addStopsFrom: shadowRamp.
-	shadowContext
-		source: aGradient;
-		paint.
+		center: blurMargin2 asPoint
+		innerRadius: 0.0
+		outerRadius: blurMargin2.
+	aGradient addStopsFrom: ramp.
+	shadowContext source: aGradient; paint.
 
 	mainContext sourceColor: shadowColor.
 
@@ -302,8 +243,8 @@ AeBenchBlurRectangleRunner >> runMaskWithClip [
 			rectangle: each second;
 			clip;
 			maskSurface: shadowSurface
-				x: each first x - shadowRadius
-				y: each first y - shadowRadius;
+				x: each first x - blurMargin2
+				y: each first y - blurMargin2;
 			restoreState ].
 
 	"Force free to include this time in the benchmarks"
@@ -314,30 +255,30 @@ AeBenchBlurRectangleRunner >> runMaskWithClip [
 
 	"-- sides --"
 	shadowSurface := AeCairoImageSurface
-		extent: ((rectangle extent max @ shadowRadius) * zoom) ceiling
+		extent: (core extent max @ blurMargin2) * zoom
 		format: AeCairoSurfaceFormat a8.
 	shadowSurface deviceScale: zoom asPoint.
 	shadowContext := shadowSurface newContext.
 
 	aGradient :=
 		AeCairoLinearGradientPattern
-			from: 0.0 @ shadowRadius
+			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
-			addStopsFrom: shadowRamp.
+			addStopsFrom: ramp.
 	shadowContext source: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	matrixBlocks := {
 		[ aMatrix
-			beTranslationByX: rectangle left
-			y: rectangle top - shadowRadius ].
+			beTranslationByX: core left
+			y: core top - blurMargin2 ].
 		[ aMatrix
-			beRotationByQuadrants: 1 around: rectangle topLeft;
-			translateByX: 0 y: rectangle width negated ].
+			beRotationByQuadrants: 1 around: core topLeft;
+			translateByX: 0 y: core width negated ].
 		[ aMatrix
-			beFlipVerticallyAround: (rectangle top + rectangle bottom) / 2;
-			translateByX: rectangle left y: 0 ].
-		[ aMatrix beRotationByQuadrants: -1 around: rectangle topLeft ] }.
+			beFlipVerticallyAround: (core top + core bottom) / 2.0;
+			translateByX: core left y: 0 ].
+		[ aMatrix beRotationByQuadrants: -1 around: core topLeft ] }.
 
 	shadowSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
 		eachMatrixBlock value.
@@ -348,7 +289,7 @@ AeBenchBlurRectangleRunner >> runMaskWithClip [
 			rectangle: eachSide third;
 			clip;
 			matrix: aMatrix;
-			maskSurface: shadowSurface x: 0.0 y: 0.0;
+			maskSurface: shadowSurface;
 			restoreState ].
 
 	"Free manually"
@@ -365,41 +306,36 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 
 	"-- core --"
 
-	mainContext sourceColor: shadowColor; rectangle: rectangle; fill.
+	mainContext sourceColor: shadowColor; rectangle: core; fill.
 
 	"-- corners --"
 
 	shadowSurface := AeCairoImageSurface
-		extent: shadowRadius asPoint
+		extent: blurMargin2 asPoint
 		format: AeCairoSurfaceFormat a8.
 	shadowContext := shadowSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
-		innerCenter: shadowRadius asPoint
-		innerRadius: 0
-		outerCenter: shadowRadius asPoint
-		outerRadius: shadowRadius.
-	aGradient addStopsFrom: shadowRamp.
-	shadowContext
-		source: aGradient;
-		paint.
-
-	mainContext sourceColor: shadowColor.
-
+		center: blurMargin2 asPoint
+		innerRadius: 0.0
+		outerRadius: blurMargin2.
+	aGradient addStopsFrom: ramp.
+	shadowContext source: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
-	center := (rectangle topLeft + rectangle bottomRight ) / 2.
+	center := (core topLeft + core bottomRight ) / 2.0.
 	matrixBlocks := {
 		[ aMatrix beIdentity ].
 		[ aMatrix beFlipHorizontallyAround: center x ].
 		[ aMatrix beRotationByQuadrants: 2 around: center ].
 		[ aMatrix beFlipVerticallyAround: center y ] }.
 
+	mainContext sourceColor: shadowColor.
 	shadowCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
 		eachMatrixBlock value.
 		mainContext
 			matrix: aMatrix;
-			maskSurface: shadowSurface x: 0.0 y: 0.0 ].
+			maskSurface: shadowSurface ].
 	mainContext setIdentityMatrix.
 
 	"Force free to include this time in the benchmarks"
@@ -408,30 +344,32 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 	shadowSurface externallyFree.
 
 
+
 	"-- sides --"
+
 	shadowSurface := AeCairoImageSurface
-		extent: rectangle extent max @ shadowRadius
+		extent: core extent max @ blurMargin2
 		format: AeCairoSurfaceFormat a8.
 	shadowContext := shadowSurface newContext.
 
 	aGradient :=
 		AeCairoLinearGradientPattern
-			from: 0.0 @ shadowRadius
+			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
-			addStopsFrom: shadowRamp.
+			addStopsFrom: ramp.
 	shadowContext source: aGradient; paint.
 
 	matrixBlocks := {
 		[ aMatrix
-			beTranslationByX: rectangle left
-			y: rectangle top - shadowRadius ].
+			beTranslationByX: core left
+			y: core top - blurMargin2 ].
 		[ aMatrix
-			beRotationByQuadrants: 1 around: rectangle topLeft;
-			translateByX: 0 y: rectangle width negated ].
+			beRotationByQuadrants: 1 around: core topLeft;
+			translateByX: 0 y: core width negated ].
 		[ aMatrix
-			beFlipVerticallyAround: (rectangle top + rectangle bottom) / 2;
-			translateByX: rectangle left y: 0 ].
-		[ aMatrix beRotationByQuadrants: -1 around: rectangle topLeft ] }.
+			beFlipVerticallyAround: (core top + core bottom) / 2;
+			translateByX: core left y: 0 ].
+		[ aMatrix beRotationByQuadrants: -1 around: core topLeft ] }.
 
 	shadowSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
 		eachMatrixBlock value.
@@ -442,7 +380,7 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 			rectangle: eachSide third;
 			clip;
 			matrix: aMatrix;
-			maskSurface: shadowSurface x: 0.0 y: 0.0;
+			maskSurface: shadowSurface;
 			restoreState ].
 
 	"Free manually"
@@ -461,41 +399,36 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix2 [
 
 	"-- core --"
 
-	mainContext sourceColor: shadowColor; rectangle: rectangle; fill.
+	mainContext sourceColor: shadowColor; rectangle: core; fill.
 
 	"-- corners --"
 
 	shadowSurface := AeCairoImageSurface
-		extent: shadowRadius asPoint
+		extent: blurMargin2 asPoint
 		format: AeCairoSurfaceFormat a8.
 	shadowContext := shadowSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
-		innerCenter: shadowRadius asPoint
-		innerRadius: 0
-		outerCenter: shadowRadius asPoint
-		outerRadius: shadowRadius.
-	aGradient addStopsFrom: shadowRamp.
-	shadowContext
-		source: aGradient;
-		paint.
-
-	mainContext sourceColor: shadowColor.
-
+		center: blurMargin2 asPoint
+		innerRadius: 0.0
+		outerRadius: blurMargin2.
+	aGradient addStopsFrom: ramp.
+	shadowContext source: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
-	center := (rectangle topLeft + rectangle bottomRight ) / 2.
+	center := (core topLeft + core bottomRight ) / 2.
 	matrixBlocks := {
 		[ aMatrix beIdentity ].
 		[ aMatrix beFlipHorizontallyAround: center x ].
 		[ aMatrix beRotationByQuadrants: 2 around: center ].
 		[ aMatrix beFlipVerticallyAround: center y ] }.
 
+	mainContext sourceColor: shadowColor.
 	shadowCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
 		eachMatrixBlock value.
 		mainContext
 			matrix: aMatrix;
-			maskSurface: shadowSurface x: 0.0 y: 0.0 ].
+			maskSurface: shadowSurface ].
 
 	"Force free to include this time in the benchmarks"
 	aGradient externallyFree.
@@ -505,24 +438,24 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix2 [
 
 	"-- horizontal sides --"
 	shadowSurface := AeCairoImageSurface
-		extent: rectangle width @ shadowRadius
+		extent: core width @ blurMargin2
 		format: AeCairoSurfaceFormat a8.
 	shadowContext := shadowSurface newContext.
 
 	aGradient :=
 		AeCairoLinearGradientPattern
-			from: 0.0 @ shadowRadius
+			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
-			addStopsFrom: shadowRamp.
+			addStopsFrom: ramp.
 	shadowContext source: aGradient; paint.
 
 	mainContext
 		setIdentityMatrix;
-		maskSurface: shadowSurface x: rectangle left y: rectangle top - shadowRadius.
+		maskSurface: shadowSurface x: core left y: core top - blurMargin2.
 	aMatrix beFlipVerticallyAround: center y.
 	mainContext
 		matrix: aMatrix;
-		maskSurface: shadowSurface x: rectangle left y: 0.0.
+		maskSurface: shadowSurface x: core left y: 0.0.
 
 	"Free manually"
 	shadowContext externallyFree.
@@ -532,20 +465,20 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix2 [
 	"-- vertical sides --"
 
 	shadowSurface := AeCairoImageSurface
-		extent: shadowRadius @ rectangle height
+		extent: blurMargin2 @ core height
 		format: AeCairoSurfaceFormat a8.
 	shadowContext := shadowSurface newContext.
-	aMatrix beRotationByQuadrants: 1 around: rectangle topLeft.
+	aMatrix beRotationByQuadrants: 1 around: core topLeft.
 	aGradient matrix: aMatrix.
 	shadowContext source: aGradient; paint.
 
 	mainContext
 		setIdentityMatrix;
-		maskSurface: shadowSurface x: rectangle left - shadowRadius y: rectangle top.
+		maskSurface: shadowSurface x: core left - blurMargin2 y: core top.
 	aMatrix beFlipHorizontallyAround: center x.
 	mainContext
 		matrix: aMatrix;
-		maskSurface: shadowSurface x: 0.0 y: rectangle top.
+		maskSurface: shadowSurface x: 0.0 y: core top.
 
 	"Free manually"
 	shadowContext externallyFree.
@@ -563,7 +496,7 @@ AeBenchBlurRectangleRunner >> runNewCenteredGradients [
 
 	"-- core --"
 
-	mainContext sourceColor: shadowColor; rectangle: rectangle; fill.
+	mainContext sourceColor: shadowColor; rectangle: core; fill.
 
 
 	"-- corners --"
@@ -571,11 +504,10 @@ AeBenchBlurRectangleRunner >> runNewCenteredGradients [
 	shadowCorners do: [ :each |
 		| aGradient |
 		aGradient := AeCairoRadialGradientPattern
-			innerCenter: each first
+			center: each first
 			innerRadius: 0.0
-			outerCenter: each first
-			outerRadius: shadowRadius.
-		aGradient addStopsFrom: shadowRamp.
+			outerRadius: blurMargin2.
+		aGradient addStopsFrom: ramp.
 
 		mainContext
 			source: aGradient;
@@ -594,7 +526,7 @@ AeBenchBlurRectangleRunner >> runNewCenteredGradients [
 			AeCairoLinearGradientPattern
 				from: each first
 				to: each second
-				addStopsFrom: shadowRamp.
+				addStopsFrom: ramp.
 	
 		mainContext
 			source: aGradient;
@@ -615,18 +547,17 @@ AeBenchBlurRectangleRunner >> runSharingGradient [
 
 	"-- core --"
 
-	mainContext sourceColor: shadowColor; rectangle: rectangle; fill.
+	mainContext sourceColor: shadowColor; rectangle: core; fill.
 
 
 	"-- corners --"
 
 	cornerGradient :=
 		AeCairoRadialGradientPattern
-			innerCenter: 0@0
-			innerRadius: 0
-			outerCenter: 0@0
-			outerRadius: shadowRadius
-			addStopsFrom: shadowRamp.
+			center: 0.0 @ 0.0
+			innerRadius: 0.0
+			outerRadius: blurMargin2.
+	cornerGradient addStopsFrom: ramp.
 	mainContext source: cornerGradient.
 
 	aMatrix := AeCairoMatrix newIdentity.
@@ -639,16 +570,16 @@ AeBenchBlurRectangleRunner >> runSharingGradient [
 
 	sideGradient := 
 		AeCairoLinearGradientPattern
-			from: 0.0 @ shadowRadius
+			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
-			addStopsFrom: shadowRamp.
+			addStopsFrom: ramp.
 	mainContext source: sideGradient.
 
 	matrices := {
 		[ aMatrix beIdentity ].
-		[ aMatrix beRotationByQuadrants: -1 around: rectangle topRight ].
-		[ aMatrix beFlipVerticallyAround: (rectangle top + rectangle bottom) / 2 ].
-		[ aMatrix beRotationByQuadrants: 1 around: rectangle topLeft ].
+		[ aMatrix beRotationByQuadrants: -1 around: core topRight ].
+		[ aMatrix beFlipVerticallyAround: (core top + core bottom) / 2.0 ].
+		[ aMatrix beRotationByQuadrants: 1 around: core topLeft ].
 		}.
 
 	shadowSides with: matrices do: [ :eachSide :eachMatrixBlock |
