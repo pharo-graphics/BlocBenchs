@@ -9,14 +9,12 @@ Class {
 	#instVars : [
 		'mainSurface',
 		'mainContext',
-		'shadowColor',
-		'shadowRamp',
 		'circleRadius',
 		'circleCenter',
-		'centerOffset',
 		'zoom',
 		'blurSigma',
-		'margin'
+		'blurMargin',
+		'ramp'
 	],
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
@@ -67,9 +65,9 @@ AeBenchBlurCircleRunner >> initializeFor: aCircleRadius blurSigma: aSigma [
 
 	circleRadius := aCircleRadius.
 	blurSigma := aSigma.
-	margin := (blurSigma * Float pi) ceiling."floor."
+	blurMargin := (blurSigma * Float pi) ceiling.
 
-	circleCenter := (circleRadius + margin) asPoint.
+	circleCenter := (circleRadius + blurMargin) asPoint.
 
 	zoom := 1.
 	mainSurface := AeCairoImageSurface
@@ -82,13 +80,7 @@ AeBenchBlurCircleRunner >> initializeFor: aCircleRadius blurSigma: aSigma [
 	mainContext sourceColor: Color yellow; paint.
 
 	"The ramp defines all stops, playing with alpha channel"
-	shadowColor := Color blue.
-	shadowRamp := Array streamContents: [ :stream |
-		self
-			rampSize: margin asInteger
-			stopsAndAlphasDo: [ :eachStop :eachAlpha |
-				stream nextPut:
-					(eachStop -> (shadowColor alpha: eachAlpha)) ] ]
+	ramp := self shadowRampSize: blurMargin
 ]
 
 { #category : #debugging }
@@ -125,7 +117,7 @@ AeBenchBlurCircleRunner >> plotsBySigmas [
 		+ ((RSScatterPlot x: (1 to: sampleActual size) y: sampleActual ) color: Color green) ]
 ]
 
-{ #category : #printing }
+{ #category : #'as yet unclassified' }
 AeBenchBlurCircleRunner >> printOn: aStream [
 	"Generate a string representation of the receiver based on its instance variables."
 
@@ -134,32 +126,10 @@ AeBenchBlurCircleRunner >> printOn: aStream [
 		nextPutAll: '(blurRadius: ';
 		print: blurSigma;
 		nextPutAll: ' rampSize: ';
-		print: shadowRamp size;
+		print: ramp size;
 		nextPutAll: ' surfaceExtent: ';
 		print: mainSurface extent;
 		nextPut: $)
-]
-
-{ #category : #initialization }
-AeBenchBlurCircleRunner >> rampFunctionAt: x [
-	"Evaluate 1.0 minus a sigmoid (logistic) function, with mu and sigma determined manually by try and error."
-
-	^ 1.0 - (1.0 / (1.0 + (((x - 0.475) * -10.0) exp)))
-]
-
-{ #category : #initialization }
-AeBenchBlurCircleRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
-
-	aBlock value: 0.0 value: 1.0.
-
-	1 to: rampSize - 2 do: [ :i |
-		| stop |
-		stop := i / (rampSize - 1) asFloat.
-		aBlock
-			value: stop
-			value: (self rampFunctionAt: stop) ].
-
-	aBlock value: 1.0 value: 0.0
 ]
 
 { #category : #running }
@@ -168,11 +138,10 @@ AeBenchBlurCircleRunner >> runDirect [
 
 	| aGradient |
 	aGradient := AeCairoRadialGradientPattern
-		innerCenter: circleCenter
-		innerRadius: circleRadius - margin
-		outerCenter: circleCenter
-		outerRadius: circleRadius + margin.
-	aGradient addStopsFrom: shadowRamp.
+		center: circleCenter
+		innerRadius: circleRadius - blurMargin
+		outerRadius: circleRadius + blurMargin.
+	aGradient addStopsFrom: ramp.
 
 	mainContext source: aGradient; paint.
 
@@ -202,7 +171,7 @@ AeBenchBlurCircleRunner >> runGaussian [
 		applySigma: blurSigma.
 
 	mainSurface newContext
-		sourceColor: shadowColor;
+		sourceColor: self shadowColor;
 		maskSurface: shadowSurface.
 	
 	^ mainSurface
@@ -220,16 +189,15 @@ AeBenchBlurCircleRunner >> runMaskFull [
 	shadowContext := shadowSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
-		innerCenter: circleCenter
-		innerRadius: circleRadius - margin
-		outerCenter: circleCenter
-		outerRadius: circleRadius + margin.
-	aGradient addStopsFrom: shadowRamp.
+		center: circleCenter
+		innerRadius: circleRadius - blurMargin
+		outerRadius: circleRadius + blurMargin.
+	aGradient addStopsFrom: ramp.
 	
 	shadowContext source: aGradient; paint.
 
 	mainContext
-		sourceColor: shadowColor;
+		sourceColor: self shadowColor;
 		maskSurface: shadowSurface.
 
 	"Force free to include this time in the benchmarks"
@@ -256,11 +224,10 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 	shadowContext := shadowSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
-		innerCenter: fix
-		innerRadius: circleRadius - margin
-		outerCenter: fix
-		outerRadius: circleRadius + margin.
-	aGradient addStopsFrom: shadowRamp.
+		center: fix
+		innerRadius: circleRadius - blurMargin
+		outerRadius: circleRadius + blurMargin.
+	aGradient addStopsFrom: ramp.
 	
 	shadowContext source: aGradient; paint.
 
@@ -284,7 +251,7 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 		0 @ 0 extent: quadrantExtent.
 		quadrantExtent x @ 0 extent: quadrantExtent }.
 
-	mainContext sourceColor: shadowColor.
+	mainContext sourceColor: self shadowColor.
 	matrixBlocks with: rects do: [ :eachMatrixBlock :rect |
 		eachMatrixBlock value.
 		mainContext
@@ -316,11 +283,10 @@ AeBenchBlurCircleRunner >> runPaintQuadrantReflected [
 	shadowContext := shadowSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
-		innerCenter: circleCenter
-		innerRadius: circleRadius - margin
-		outerCenter: circleCenter
-		outerRadius: circleRadius + margin.
-	aGradient addStopsFrom: shadowRamp.
+		center: circleCenter
+		innerRadius: circleRadius - blurMargin
+		outerRadius: circleRadius + blurMargin.
+	aGradient addStopsFrom: ramp.
 	
 	shadowContext source: aGradient; paint.
 

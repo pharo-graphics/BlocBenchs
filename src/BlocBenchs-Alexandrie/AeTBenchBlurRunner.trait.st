@@ -100,3 +100,42 @@ AeTBenchBlurRunner >> allSurfaces [
 
 	^ dict
 ]
+
+{ #category : #initialization }
+AeTBenchBlurRunner >> rampFunctionAt: x [
+	"Evaluate 1.0 minus a sigmoid (logistic) function, with mu and sigma determined manually by try and error."
+
+	^ 1.0 - (1.0 / (1.0 + (((x - 0.475) * -10.0) exp)))
+]
+
+{ #category : #initialization }
+AeTBenchBlurRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
+
+	aBlock value: 0.0 value: 1.0.
+
+	1 to: rampSize - 2 do: [ :i |
+		| stop |
+		stop := i / (rampSize - 1) asFloat.
+		aBlock
+			value: stop
+			value: (self rampFunctionAt: stop) ].
+
+	aBlock value: 1.0 value: 0.0
+]
+
+{ #category : #initialization }
+AeTBenchBlurRunner >> shadowColor [
+
+	^ Color blue
+]
+
+{ #category : #initialization }
+AeTBenchBlurRunner >> shadowRampSize: anInteger [
+
+	^ Array streamContents: [ :stream |
+		self
+			rampSize: anInteger
+			stopsAndAlphasDo: [ :eachStop :eachAlpha |
+				stream nextPut:
+					(eachStop -> (self shadowColor alpha: eachAlpha)) ] ]
+]
