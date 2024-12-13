@@ -12,7 +12,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 		for: #common
 		do: [ 
 			self
-				"declareBlocOn: spec;"
+				declareBlocOn: spec;
 				declareBoidsOn: spec;
 				declareToploOn: spec;
 				declareFFICallLoggerOn: spec;
