@@ -123,10 +123,8 @@ AeBenchBlurCircleRunner >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
-		nextPutAll: '(blurRadius: ';
+		nextPutAll: '(blurSigma: ';
 		print: blurSigma;
-		nextPutAll: ' rampSize: ';
-		print: ramp size;
 		nextPutAll: ' surfaceExtent: ';
 		print: mainSurface extent;
 		nextPut: $)
@@ -143,7 +141,9 @@ AeBenchBlurCircleRunner >> runDirect [
 		outerRadius: circleRadius + blurMargin.
 	aGradient addStopsFrom: ramp.
 
-	mainContext source: aGradient; paint.
+	mainContext
+		source: aGradient;
+		paintWithAlpha: self shadowColor alpha.
 
 	"Force free to include this time in the benchmarks"
 	aGradient externallyFree.
@@ -194,10 +194,12 @@ AeBenchBlurCircleRunner >> runMaskFull [
 		outerRadius: circleRadius + blurMargin.
 	aGradient addStopsFrom: ramp.
 	
-	shadowContext source: aGradient; paint.
+	shadowContext
+		source: aGradient;
+		paintWithAlpha: self shadowColor alpha.
 
 	mainContext
-		sourceColor: self shadowColor;
+		sourceColor: (self shadowColor alpha: 1.0); "alpha is already in the ramp"
 		maskSurface: shadowSurface.
 
 	"Force free to include this time in the benchmarks"
@@ -213,15 +215,15 @@ AeBenchBlurCircleRunner >> runMaskFull [
 AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 	<script: 'self new runMaskQuadrantClipping inspect'>
 
-	| shadowSurface shadowContext aGradient aMatrix matrixBlocks quadrantExtent fix rects |
+	| maskSurface maskContext aGradient aMatrix matrixBlocks quadrantExtent fix rects |
 	quadrantExtent := circleCenter ceiling.
 	fix := (quadrantExtent - circleCenter) ceiling. "A point with 0 or 1 coordinates"
 
-	shadowSurface := AeCairoImageSurface
+	maskSurface := AeCairoImageSurface
 		extent: quadrantExtent * zoom
 		format: AeCairoSurfaceFormat a8.
-	shadowSurface deviceScale: zoom asPoint.
-	shadowContext := shadowSurface newContext.
+	maskSurface deviceScale: zoom asPoint.
+	maskContext := maskSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
 		center: fix
@@ -229,7 +231,7 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 		outerRadius: circleRadius + blurMargin.
 	aGradient addStopsFrom: ramp.
 	
-	shadowContext source: aGradient; paint.
+	maskContext source: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	matrixBlocks := {
@@ -258,14 +260,14 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 			saveState;
 			rectangle: rect; clip;
 			matrix: aMatrix;
-			maskSurface: shadowSurface;
+			maskSurface: maskSurface;
 			restoreState ].
 
 	"Force free to include this time in the benchmarks"
 	aMatrix free.
 	aGradient externallyFree.
-	shadowContext externallyFree.
-	shadowSurface externallyFree.
+	maskContext externallyFree.
+	maskSurface externallyFree.
 
 
 	^ mainSurface
@@ -288,7 +290,9 @@ AeBenchBlurCircleRunner >> runPaintQuadrantReflected [
 		outerRadius: circleRadius + blurMargin.
 	aGradient addStopsFrom: ramp.
 	
-	shadowContext source: aGradient; paint.
+	shadowContext
+		source: aGradient;
+		paintWithAlpha: self shadowColor alpha.
 
 	mainContext sourceSurface: shadowSurface.
 	mainContext source extend: AeCairoExtendMode reflect.

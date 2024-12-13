@@ -126,7 +126,7 @@ AeTBenchBlurRunner >> rampSize: rampSize stopsAndAlphasDo: aBlock [
 { #category : #initialization }
 AeTBenchBlurRunner >> shadowColor [
 
-	^ Color blue
+	^ Color blue alpha: 0.75
 ]
 
 { #category : #initialization }
