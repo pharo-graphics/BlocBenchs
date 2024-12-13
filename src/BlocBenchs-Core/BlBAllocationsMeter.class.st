@@ -1,5 +1,5 @@
 Class {
-	#name : #BlAllocationsMeter,
+	#name : #BlBAllocationsMeter,
 	#superclass : #BlBMeter,
 	#instVars : [
 		'initialAllocationBytes',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-BlAllocationsMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
+BlBAllocationsMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 
 	aBlBResult
 		addField: #allocatedBytes
@@ -18,13 +18,13 @@ BlAllocationsMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 ]
 
 { #category : #'as yet unclassified' }
-BlAllocationsMeter >> startMetering: aBlBBlocBenchRunner [ 
+BlBAllocationsMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
 	initialAllocationBytes := Smalltalk vm getParameters at: 34.
 ]
 
 { #category : #'as yet unclassified' }
-BlAllocationsMeter >> stopMetering: aBlBBlocBenchRunner [ 
+BlBAllocationsMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
 	finalAllocationBytes := Smalltalk vm getParameters at: 34.
 ]

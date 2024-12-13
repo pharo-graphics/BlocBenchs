@@ -54,6 +54,19 @@ BlBCase class >> run [
 
 ]
 
+{ #category : #'as yet unclassified' }
+BlBCase class >> runAllWithResultsIn: aDirectory [
+
+	| allBenchs result |
+	aDirectory ensureCreateDirectory.
+	allBenchs := self benchSuite.
+
+	^ allBenchs collect: [ :aBench |
+		result := aBench run.
+		result serializeResultsInto: aDirectory.
+		result ]
+]
+
 { #category : #'accessing - defaults' }
 BlBCase >> defaultDuration [
 	

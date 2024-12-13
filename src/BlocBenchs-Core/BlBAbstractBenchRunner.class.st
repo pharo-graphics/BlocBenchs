@@ -25,13 +25,27 @@ BlBAbstractBenchRunner >> defaultMeters [
 
 	^ {
 		  BlBTimeMeter new.
-		  BlAllocationsMeter new.
-		  BlBFFICounterMeter new }
+		  BlBAllocationsMeter new.
+		  BlBGCMeter new.
+		  BlBVersionsMeter new }
 ]
 
 { #category : #'as yet unclassified' }
 BlBAbstractBenchRunner >> doRun: aBlBBlocCase [ 
 	^ self subclassResponsibility
+]
+
+{ #category : #running }
+BlBAbstractBenchRunner >> doRunCase: aCase [
+
+	[
+		self prepareBeforeRun: aCase.
+		self setDuration: aCase.
+		self startMeters.
+		self doRun: aCase.
+		self stopMeters.
+		self reportMeters 
+	] ensure: [ self cleanUpAfterCase: aCase ]
 ]
 
 { #category : #accessing }
@@ -43,6 +57,11 @@ BlBAbstractBenchRunner >> duration: aDuration [
 BlBAbstractBenchRunner >> meters [
 
 	^ meters ifNil: [ meters := self defaultMeters asOrderedCollection ]
+]
+
+{ #category : #'as yet unclassified' }
+BlBAbstractBenchRunner >> prepareBeforeRun: aBlBCase [ 
+	^ self subclassResponsibility
 ]
 
 { #category : #running }
@@ -57,15 +76,12 @@ BlBAbstractBenchRunner >> runCase: aCase [
 	result := BlBResult new.
 	result initializeFrom: aCase.
 
-	^ [
-		self prepareBeforeRun: aCase.
-		self setDuration: aCase.
-		self startMeters.
-		self doRun: aCase.
-		self stopMeters.
-		self reportMeters.
-		result 
-	] ensure: [ self cleanUpAfterCase: aCase ]
+	[ self doRunCase: aCase ] 
+		onErrorDo: [ :e |
+			e freeze.
+			result error: e ].
+
+	^ result
 ]
 
 { #category : #running }

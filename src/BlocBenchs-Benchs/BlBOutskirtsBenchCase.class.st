@@ -13,11 +13,17 @@ Class {
 { #category : #benchmarking }
 BlBOutskirtsBenchCase class >> benchMatrix [ 
 	
-	^ super benchMatrix 
+"	^ super benchMatrix 
 		forSelector: #mustClipChildren addOptions: #(true false);
 		forSelector: #outskirts addOptions: { BlOutskirts centered. BlOutskirts inside. BlOutskirts outside };
 		forSelector: #backgroundColor addOptions: { Color transparent. Color orange.  Color green alpha: 0.1. };
-		forSelector: #useExplicitBorderPathGeometry addOptions: #(true false)
+		forSelector: #useExplicitBorderPathGeometry addOptions: #(true false)"
+
+	^ super benchMatrix 
+		addCase: { #mustClipChildren -> true. #outskirts -> BlOutskirts centered. #backgroundColor -> Color orange. #useExplicitBorderPathGeometry -> true };
+		addCase: { #mustClipChildren -> true. #outskirts -> BlOutskirts inside. #backgroundColor -> (Color green alpha: 0.1). #useExplicitBorderPathGeometry -> false };
+		addCase: { #mustClipChildren -> true. #outskirts -> BlOutskirts outside. #backgroundColor -> (Color green alpha: 0.1). #useExplicitBorderPathGeometry -> true };
+		yourself
 ]
 
 { #category : #hook }
