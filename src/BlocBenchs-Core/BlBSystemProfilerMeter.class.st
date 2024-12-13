@@ -7,7 +7,7 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
 BlBSystemProfilerMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 
 	| flameGraph |
@@ -42,14 +42,14 @@ BlBSystemProfilerMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult 
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBSystemProfilerMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
 	profiler := AndreasSystemProfiler new.
 	profiler startProfiling
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBSystemProfilerMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
 	profiler stopProfiling

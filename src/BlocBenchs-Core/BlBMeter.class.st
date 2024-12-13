@@ -4,7 +4,17 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
+BlBMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
+
+]
+
+{ #category : #mettering }
 BlBMeter >> startMetering: aBlBBlocBenchRunner [ 
+	^ self subclassResponsibility
+]
+
+{ #category : #mettering }
+BlBMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	^ self subclassResponsibility
 ]

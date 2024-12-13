@@ -12,20 +12,20 @@ BlBVersionsMeter >> imageVersion [
 		SystemVersion current datedVersion
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlBVersionsMeter >> osName [
 	
 	^ OSPlatform current in: [:p | 
 		p platformName , ' ' , p processorArchitecture ] 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlBVersionsMeter >> osVersion [
 	
 	^ OSPlatform current version 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
 BlBVersionsMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 
 	aBlBResult
@@ -54,7 +54,7 @@ BlBVersionsMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 		value: self osVersion.	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlBVersionsMeter >> repositoriesVersions [
 	
 	^ IceRepository registry 
@@ -62,17 +62,17 @@ BlBVersionsMeter >> repositoriesVersions [
 		thenCollect: [ :e | {e name. e description} ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBVersionsMeter >> startMetering: aBlBBlocBenchRunner [ 
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBVersionsMeter >> stopMetering: aBlBBlocBenchRunner [ 
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlBVersionsMeter >> vmVersioon [
 	
 	^ Smalltalk vm version

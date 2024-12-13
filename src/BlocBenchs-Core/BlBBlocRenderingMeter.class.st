@@ -4,10 +4,10 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
 BlBBlocRenderingMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 	
-	| stats fpsSamples |
+	| stats fpsSamples mean |
 	stats := aBlBBlocBenchRunner space spaceStatistics.
 	fpsSamples := stats fpsSamples allButFirst collect: [:e | e second].
 
@@ -21,10 +21,14 @@ BlBBlocRenderingMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 		title: 'Frame Count'
 		value: stats totalFrames.
 
+	mean := fpsSamples 
+		ifEmpty: [ 0 ] 
+		ifNotEmpty: [ (MeanConfidenceIntervalPrinter new print: fpsSamples)].
+
 	aBlBResult 
 		addField: #fps 
 		title: 'FPS mean and error margin (90% confidence level)'
-		value: (MeanConfidenceIntervalPrinter new print: fpsSamples).
+		value: mean.
 	
 	aBlBResult 
 		addField: #fpsSamples 
@@ -38,13 +42,13 @@ BlBBlocRenderingMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBBlocRenderingMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
 	aBlBBlocBenchRunner space enableStatistics 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBBlocRenderingMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
 	

@@ -7,7 +7,7 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
 BlBFFILogger >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 
 	aBlBResult 
@@ -16,7 +16,7 @@ BlBFFILogger >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 		value: loggerCopy
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBFFILogger >> startMetering: aBlBBlocBenchRunner [ 
 
 	"Ensure prepared"
@@ -28,7 +28,7 @@ BlBFFILogger >> startMetering: aBlBBlocBenchRunner [
 	TFLCallLogger instance start
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBFFILogger >> stopMetering: aBlBBlocBenchRunner [ 
 
 	"Store a copy of the global logger, and reset it."

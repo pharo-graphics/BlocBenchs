@@ -14,7 +14,7 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
 BlBGCMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 
 	aBlBResult
@@ -38,7 +38,7 @@ BlBGCMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 		value: finalIncrementalGCTime - initialIncrementalGCTime				
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBGCMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
 	"We force a GC to have better statistics"
@@ -51,7 +51,7 @@ BlBGCMeter >> startMetering: aBlBBlocBenchRunner [
 	 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBGCMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
 	finalFullGCCount := Smalltalk vm fullGCCount.

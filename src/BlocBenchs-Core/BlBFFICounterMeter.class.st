@@ -7,7 +7,7 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
 BlBFFICounterMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 
 	aBlBResult 
@@ -22,7 +22,7 @@ BlBFFICounterMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBFFICounterMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
 	"Ensure prepared"
@@ -33,7 +33,7 @@ BlBFFICounterMeter >> startMetering: aBlBBlocBenchRunner [
 	TFLFunctionCounter start.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBFFICounterMeter >> stopMetering: aBlBBenchRunner [ 
 	
 	"Extract relevant information of the global logger, and reset it."

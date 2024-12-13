@@ -8,7 +8,7 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
 BlBTimeMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 	
 	aBlBResult 
@@ -18,13 +18,13 @@ BlBTimeMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBTimeMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
 	initialTime := Time millisecondClockValue 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBTimeMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
 	finalTime := Time millisecondClockValue 

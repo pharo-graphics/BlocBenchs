@@ -8,7 +8,7 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #reporting }
 BlBAllocationsMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 
 	aBlBResult
@@ -17,13 +17,13 @@ BlBAllocationsMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 		value: finalAllocationBytes - initialAllocationBytes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBAllocationsMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
 	initialAllocationBytes := Smalltalk vm getParameters at: 34.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mettering }
 BlBAllocationsMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
 	finalAllocationBytes := Smalltalk vm getParameters at: 34.
