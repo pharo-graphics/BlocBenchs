@@ -31,7 +31,11 @@ BaselineOfBlocBenchs >> baseline: spec [
 				package: 'BlocBenchs-Alexandrie'
 					with: [ spec requires: #('Toplo' 'BlocBenchs-Printing' 'BlocBenchs-FPS') ];
 				package: 'BlocBenchs-Tests'
-					with: [ spec requires: #('BlocBenchs-SDL' 'BlocBenchs-Alexandrie' 'BlocBenchs-Old' 'BlocBenchs-FPS') ]
+					with: [ spec requires: #('BlocBenchs-SDL' 'BlocBenchs-Alexandrie' 'BlocBenchs-Old' 'BlocBenchs-FPS') ];
+				package: 'BlocBenchs-Core'
+					with: [ spec requires: #('Bloc' 'BlocBenchs-FPS' 'FFICallLogger' 'SaucoPerfMeter' 'SDLExperiments') ];
+				package: 'BlocBenchs-Benchs'
+					with: [ spec requires: #('Toplo' 'BlocBenchs-Core' 'BlocTutorialsBoids') ]		
 			]
 ]
 
