@@ -27,7 +27,6 @@ BlBKeysCursorMoveTextEditorCase >> dispatchEvent [
 	
 	{ BlKeyDownEvent new. BlKeyUpEvent new } do: [ :anEvent |
 		anEvent key: key.
-		'aaa' traceCr.
 		MorphicRenderLoop new doOneCycle.
 		editorElement space dispatchEventWithTimestamp: anEvent ]
 ]
