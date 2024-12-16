@@ -26,6 +26,11 @@ BlBResult >> addField: aFieldName title: aTitle value: aValue [
 ]
 
 { #category : #accessing }
+BlBResult >> caseLabel [
+	^ caseLabel
+]
+
+{ #category : #accessing }
 BlBResult >> content [
 	
 	^ content ifNil: [ content := Dictionary new ]
@@ -35,6 +40,22 @@ BlBResult >> content [
 BlBResult >> error: anError [
 
 	error := anError
+]
+
+{ #category : #accessing }
+BlBResult >> fpsSamples [
+
+	^ (content at: #fpsSamples) second in: [ :anOrderedCollection |
+		  anOrderedCollection
+			  ifEmpty: [ anOrderedCollection ]
+			  ifNotEmpty: [
+			  anOrderedCollection allButFirst collect: [ :e | e second ] ] ]
+]
+
+{ #category : #accessing }
+BlBResult >> imageVersion [
+	
+	^ (content at: #imageVersion) second.
 ]
 
 { #category : #initialization }
@@ -67,5 +88,18 @@ BlBResult >> serializeResultsInto: aDirectory [
 	
 	stonFile writeStreamDo: [ :aStream |  
 		STON put: self onStreamPretty: aStream ].
+
+]
+
+{ #category : #accessing }
+BlBResult >> shortImageVersion [
+
+	| fullImageVersion parts |
+	fullImageVersion := self imageVersion.
+
+	parts := (fullImageVersion allButFirst: 'Pharo-' size) splitOn: [ :e |
+		         #( $. $+ ) includes: e ].
+
+	^ '{1}.{2}.{3} build {6}' format: parts.
 
 ]

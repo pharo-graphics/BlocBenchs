@@ -13,8 +13,10 @@ Class {
 BlBCompositionCase class >> benchMatrix [ 
 
 	^ ParametrizedTestMatrix new
-			addCase: { #label -> 'BlBCompositionCase without using composition'. #useSingleComposition -> false};
-			addCase: { #label -> 'BlBCompositionCase without using composition'. #useSingleComposition -> true};
+			addCase: { #label -> 'BlBCompositionCase without using composition useSingleComposition: false'. 
+						  #useSingleComposition -> false};
+			addCase: { #label -> 'BlBCompositionCase without using composition useSingleComposition: true'. 
+						  #useSingleComposition -> true};
 			yourself
 ]
 

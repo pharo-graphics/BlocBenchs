@@ -62,10 +62,9 @@ BlBCase class >> runAllWithResultsIn: aDirectory [
 	allBenchs := self benchSuite.
 
 	^ allBenchs collectWithIndex: [ :aBench : index|
-		('Running {1} / {2}...' format: { index. allBenchs size }) trace. 
-		result := aBench run.
+		Stdio stdout << ('Running {1} / {2}...' format: { index. allBenchs size }). 		result := aBench run.
 		result serializeResultsInto: aDirectory.
-		' Ended' traceCr. 
+		Stdio stdout << ' Ended'; crlf; flush. 
 		result ]
 ]
 
