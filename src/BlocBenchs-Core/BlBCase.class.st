@@ -61,9 +61,11 @@ BlBCase class >> runAllWithResultsIn: aDirectory [
 	aDirectory ensureCreateDirectory.
 	allBenchs := self benchSuite.
 
-	^ allBenchs collect: [ :aBench |
+	^ allBenchs collectWithIndex: [ :aBench : index|
+		('Running {1} / {2}...' format: { index. allBenchs size }) trace. 
 		result := aBench run.
 		result serializeResultsInto: aDirectory.
+		' Ended' traceCr. 
 		result ]
 ]
 
