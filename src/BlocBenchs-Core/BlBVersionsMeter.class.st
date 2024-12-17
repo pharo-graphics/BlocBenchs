@@ -59,7 +59,7 @@ BlBVersionsMeter >> repositoriesVersions [
 	
 	^ IceRepository registry 
 		reject: [ :e | e location isNil ]
-		thenCollect: [ :e | {e name. e description} ]
+		thenCollect: [ :e | {e name. e description. e workingCopy referenceCommit id} ]
 ]
 
 { #category : #mettering }

@@ -1,22 +1,24 @@
 Class {
-	#name : #BlBResultsGrapher,
+	#name : #BlBResultsExporter,
 	#superclass : #Object,
 	#instVars : [
 		'resultsDirectory',
 		'results',
 		'groups'
 	],
-	#category : #'BlocBenchs-Core-Core'
+	#category : #'BlocBenchs-Core-Exporter'
 }
 
 { #category : #'as yet unclassified' }
-BlBResultsGrapher >> ensureGroups [
-	
-	^ groups ifNil: [ groups := results groupedBy: [ :e | e caseLabel ] ]
+BlBResultsExporter >> ensureGroups [
+
+	^ groups ifNil: [
+		  groups := (results groupedBy: [ :e | e caseLabel ]) collect: [ :e |
+			            e groupedBy: [ :x | x versionIdentifier ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
-BlBResultsGrapher >> ensureResults [
+BlBResultsExporter >> ensureResults [
 
 	results ifNotNil: [ ^ results ].
 
@@ -27,7 +29,7 @@ BlBResultsGrapher >> ensureResults [
 ]
 
 { #category : #accessing }
-BlBResultsGrapher >> plots [
+BlBResultsExporter >> plots [
 	
 	| aCaseLabel data labels boxPlot |
 	self ensureResults.
@@ -41,19 +43,19 @@ BlBResultsGrapher >> plots [
 		boxPlot := RSBoxPlot data: data.
 		boxPlot xTickLabels: labels.
 		boxPlot title: aCaseLabel.
-		boxPlot 	
+		boxPlot build
 	]
 ]
 
 { #category : #'as yet unclassified' }
-BlBResultsGrapher >> resultsDirectory: aFileLocator [ 
+BlBResultsExporter >> resultsDirectory: aFileLocator [ 
 
 	resultsDirectory := aFileLocator 
 	
 ]
 
 { #category : #'as yet unclassified' }
-BlBResultsGrapher >> tryToReadResult: aDiskDirectoryEntry [
+BlBResultsExporter >> tryToReadResult: aDiskDirectoryEntry [
 
 	^ [ STON fromString: aDiskDirectoryEntry asFileReference contents ]
 		  onErrorDo: [ :e |

@@ -69,6 +69,12 @@ BlBResult >> initializeFrom: aBlBCase [
 ]
 
 { #category : #'as yet unclassified' }
+BlBResult >> osName [
+
+	^ (content at: #osName) second
+]
+
+{ #category : #'as yet unclassified' }
 BlBResult >> serializeErrorInto: aDirectory [
 
 	FLDebuggerStackSerializer
@@ -91,6 +97,18 @@ BlBResult >> serializeResultsInto: aDirectory [
 
 ]
 
+{ #category : #'as yet unclassified' }
+BlBResult >> shortBlocToploVersion [
+	
+	| versions toploCommit blocCommit | 
+	
+	versions := (content at: #repositoriesVersions) second.
+	toploCommit := versions detect: [ :e | e first sameAs: 'toplo'  ] ifFound: [ :e | e third ].
+	blocCommit := versions detect: [ :e | e first sameAs: 'bloc'  ] ifFound: [ :e | e third ].
+	
+	^ 'T{1}-B{2}' format: { toploCommit. blocCommit }
+]
+
 { #category : #accessing }
 BlBResult >> shortImageVersion [
 
@@ -100,6 +118,24 @@ BlBResult >> shortImageVersion [
 	parts := (fullImageVersion allButFirst: 'Pharo-' size) splitOn: [ :e |
 		         #( $. $+ ) includes: e ].
 
-	^ '{1}.{2}.{3} build {6}' format: parts.
+	^ '{1}.{2}.{3}-{6}' format: parts.
 
+]
+
+{ #category : #'as yet unclassified' }
+BlBResult >> shortVMVersion [
+	
+	| matcher |
+
+	matcher := '.*v(\d+\.\d+\.\d+).* Commit\: (\w+) .*' asRegex.
+	matcher matches: (content at: #vmVersion) second.
+	
+	^ '{1}-{2}' format: { matcher subexpression: 2. matcher subexpression: 3 }
+
+]
+
+{ #category : #accessing }
+BlBResult >> versionIdentifier [
+
+	^ '{1}-{2}-{3}-{4}' format: { self shortImageVersion. self shortVMVersion. self shortBlocToploVersion. self osName}
 ]

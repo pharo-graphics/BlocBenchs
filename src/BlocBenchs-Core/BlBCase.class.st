@@ -61,11 +61,19 @@ BlBCase class >> runAllWithResultsIn: aDirectory [
 	aDirectory ensureCreateDirectory.
 	allBenchs := self benchSuite.
 
-	^ allBenchs collectWithIndex: [ :aBench : index|
-		Stdio stdout << ('Running {1} / {2}...' format: { index. allBenchs size }). 		result := aBench run.
-		result serializeResultsInto: aDirectory.
-		Stdio stdout << ' Ended'; crlf; flush. 
-		result ]
+	^ allBenchs collectWithIndex: [ :aBench :index |
+		  Stdio stdout
+			  << ('Running {1} / {2}...' format: {
+							   index.
+							   allBenchs size });
+			  flush.
+		  result := aBench run.
+		  result serializeResultsInto: aDirectory.
+		  Stdio stdout
+			  << ' Ended';
+			  crlf;
+			  flush.
+		  result ]
 ]
 
 { #category : #'accessing - defaults' }
