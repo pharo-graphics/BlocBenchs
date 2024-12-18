@@ -103,8 +103,8 @@ BlBResult >> shortBlocToploVersion [
 	| versions toploCommit blocCommit | 
 	
 	versions := (content at: #repositoriesVersions) second.
-	toploCommit := versions detect: [ :e | e first sameAs: 'toplo'  ] ifFound: [ :e | e third ].
-	blocCommit := versions detect: [ :e | e first sameAs: 'bloc'  ] ifFound: [ :e | e third ].
+	toploCommit := (versions detect: [ :e | e first sameAs: 'toplo' ]) third first: 8.
+	blocCommit := (versions detect: [ :e | e first sameAs: 'bloc' ]) third first: 8.
 	
 	^ 'T{1}-B{2}' format: { toploCommit. blocCommit }
 ]
@@ -112,13 +112,14 @@ BlBResult >> shortBlocToploVersion [
 { #category : #accessing }
 BlBResult >> shortImageVersion [
 
-	| fullImageVersion parts |
+	| fullImageVersion matcher |
 	fullImageVersion := self imageVersion.
 
-	parts := (fullImageVersion allButFirst: 'Pharo-' size) splitOn: [ :e |
-		         #( $. $+ ) includes: e ].
-
-	^ '{1}.{2}.{3}-{6}' format: parts.
+	matcher := '.*-(\d+\.\d+.\d+).*build\.(\d+)\..*' asRegex.
+	(matcher matches: fullImageVersion) 
+		ifFalse: [ self error: 'Cannot parse imageVersion' ].
+		
+	^ '{1}-{2}' format: {matcher subexpression: 2. matcher subexpression: 3}.
 
 ]
 

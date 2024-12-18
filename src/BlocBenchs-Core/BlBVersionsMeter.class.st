@@ -51,7 +51,12 @@ BlBVersionsMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 	aBlBResult
 		addField: #osVersion
 		title: 'Operating System Version'
-		value: self osVersion.	
+		value: self osVersion.
+		
+	aBlBResult 
+		addField: #hostname
+		title: 'Hostname'
+		value: NetNameResolver localHostName
 ]
 
 { #category : #accessing }
