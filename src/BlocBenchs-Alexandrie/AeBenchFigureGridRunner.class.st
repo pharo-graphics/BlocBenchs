@@ -88,7 +88,7 @@ AeBenchFigureGridRunner >> prepareSurface [
 		format: AeCairoSurfaceFormat argb32.
 	cairoContext := cairoSurface newContext.
 	cairoContext antialias: AeCairoAntialias good.
-	cairoContext lineWidth: 1
+	cairoContext strokeSize: 1
 ]
 
 { #category : #running }

@@ -15,7 +15,7 @@ PCPolylinesWindow >> resetAnimation [
 
 	super resetAnimation.
 
-	cairoContext lineWidth: case borderWidth
+	cairoContext strokeSize: case borderWidth
 
 ]
 

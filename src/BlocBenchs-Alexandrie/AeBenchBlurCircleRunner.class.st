@@ -156,23 +156,24 @@ AeBenchBlurCircleRunner >> runDirect [
 AeBenchBlurCircleRunner >> runGaussian [
 	<script: 'self new runGaussian inspect'>
 
-	| shadowSurface |
-	shadowSurface := AeCairoImageSurface
+	| blurSurface |
+	blurSurface := AeCairoImageSurface
 		extent: mainSurface extent
 		format: AeCairoSurfaceFormat a8.
 
-	shadowSurface newContext
+	blurSurface newContext
+		matrix: mainContext matrix;
 		sourceColor: Color black;
 		circleCenter: circleCenter radius: circleRadius;
 		fill.
 
 	AeCairoA8FastGaussianBlurFilter new
-		surface: shadowSurface;
+		surface: blurSurface;
 		applySigma: blurSigma.
 
 	mainSurface newContext
 		sourceColor: self shadowColor;
-		maskSurface: shadowSurface.
+		maskSurface: blurSurface.
 	
 	^ mainSurface
 ]
@@ -277,12 +278,12 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 AeBenchBlurCircleRunner >> runPaintQuadrantReflected [
 	<script: 'self new runPaintQuadrantReflected inspect'>
 
-	| shadowSurface shadowContext aGradient |
-	shadowSurface := AeCairoImageSurface
+	| blurSurface blurContext aGradient |
+	blurSurface := AeCairoImageSurface
 		extent: circleCenter floor * zoom
 		format: AeCairoSurfaceFormat argb32.
-	shadowSurface deviceScale: zoom asPoint.
-	shadowContext := shadowSurface newContext.
+	blurSurface deviceScale: zoom asPoint.
+	blurContext := blurSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
 		center: circleCenter
@@ -290,18 +291,18 @@ AeBenchBlurCircleRunner >> runPaintQuadrantReflected [
 		outerRadius: circleRadius + blurMargin.
 	aGradient addStopsFrom: ramp.
 	
-	shadowContext
+	blurContext
 		source: aGradient;
 		paintWithAlpha: self shadowColor alpha.
 
-	mainContext sourceSurface: shadowSurface.
+	mainContext sourceSurface: blurSurface.
 	mainContext source extend: AeCairoExtendMode reflect.
 	mainContext paint.
 
 	"Force free to include this time in the benchmarks"
 	aGradient externallyFree.
-	shadowContext externallyFree.
-	shadowSurface externallyFree.
+	blurContext externallyFree.
+	blurSurface externallyFree.
 
 
 	^ mainSurface

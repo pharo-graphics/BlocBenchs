@@ -8,6 +8,6 @@ Class {
 PCSolidBorderCirclesWindow >> drawPath [
 
 	cairoContext
-		lineWidth: case borderWidth;
+		strokeSize: case borderWidth;
 		stroke
 ]
