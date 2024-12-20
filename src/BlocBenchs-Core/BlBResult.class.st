@@ -31,9 +31,29 @@ BlBResult >> caseLabel [
 ]
 
 { #category : #accessing }
+BlBResult >> confidenceInterval [
+	
+	| avg deviation |
+	
+	avg := self fpsSamples average.
+	
+	deviation := MeanConfidenceIntervalPrinter new
+		gaussianConfidenceFactor: 2;
+		confidenceIntervalFor: self fpsSamples.
+		
+	^ { avg - deviation. avg + deviation }
+]
+
+{ #category : #accessing }
 BlBResult >> content [
 	
 	^ content ifNil: [ content := Dictionary new ]
+]
+
+{ #category : #accessing }
+BlBResult >> date [
+	
+	^ dateAndTime asDate 
 ]
 
 { #category : #accessing }
@@ -58,6 +78,19 @@ BlBResult >> imageVersion [
 	^ (content at: #imageVersion) second.
 ]
 
+{ #category : #accessing }
+BlBResult >> imageVersionGroups [
+
+	| fullImageVersion matcher |
+	fullImageVersion := self imageVersion.
+
+	matcher := '.*-(\d+\.\d+.\d+).*build\.(\d+)\..*' asRegex.
+	(matcher matches: fullImageVersion) 
+		ifFalse: [ self error: 'Cannot parse imageVersion' ].
+
+	^ {matcher subexpression: 2. matcher subexpression: 3}
+]
+
 { #category : #initialization }
 BlBResult >> initializeFrom: aBlBCase [ 
 	
@@ -66,6 +99,22 @@ BlBResult >> initializeFrom: aBlBCase [
 	dateAndTime := DateAndTime now.
 	id := UUID new asString.
 	hasError := false.
+]
+
+{ #category : #testing }
+BlBResult >> isBetterThan: aBlBResult [ 
+	
+	| mine other |
+	mine := self confidenceInterval.
+	other := aBlBResult confidenceInterval.
+	
+	^ mine second > other second or: [ mine second between: other first and: other second ]
+]
+
+{ #category : #accessing }
+BlBResult >> mainImageVersion [
+
+	^ self imageVersionGroups first
 ]
 
 { #category : #'as yet unclassified' }
@@ -111,15 +160,8 @@ BlBResult >> shortBlocToploVersion [
 
 { #category : #accessing }
 BlBResult >> shortImageVersion [
-
-	| fullImageVersion matcher |
-	fullImageVersion := self imageVersion.
-
-	matcher := '.*-(\d+\.\d+.\d+).*build\.(\d+)\..*' asRegex.
-	(matcher matches: fullImageVersion) 
-		ifFalse: [ self error: 'Cannot parse imageVersion' ].
 		
-	^ '{1}-{2}' format: {matcher subexpression: 2. matcher subexpression: 3}.
+	^ '{1}-{2}' format: self imageVersionGroups.
 
 ]
 
