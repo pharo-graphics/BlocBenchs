@@ -55,16 +55,17 @@ Class {
 	#instVars : [
 		'mainSurface',
 		'mainContext',
-		'shadowCorners',
-		'shadowColor',
-		'shadowSides',
 		'zoom',
 		'blurSigma',
 		'blurMargin',
 		'rectangle',
 		'core',
 		'blurMargin2',
-		'ramp'
+		'ramp',
+		'rampMu',
+		'rampK',
+		'blurCorners',
+		'blurSides'
 	],
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
@@ -89,22 +90,32 @@ AeBenchBlurRectangleRunner >> initializeFor: aBlurSigma [
 	| rectangleExtent |
 	self initialize.
 
-	shadowColor := Color blue.
-	
 	blurSigma := aBlurSigma.
-	blurMargin := (blurSigma * 2) ceiling.
+	blurMargin := (blurSigma * Float e) ceiling.
 	blurMargin2 := blurMargin * 2.
 
 	rectangleExtent := (blurMargin * 6) @ (blurMargin * 3). "make it non-squared for fun"
 	rectangle := blurMargin asPoint extent: rectangleExtent. "This is the real ractangle that runGaussian blurs"
-	core := rectangle insetBy: blurMargin.
+	core := rectangle insetBy: blurMargin "(blurMargin * 0.9) ceiling".
+	rampMu := 0.475.
+	rampK := -10.
+
+	"blurMargin factor. inset. rampMu. rampK
+	pi. 0.85. 0.45. .10.
+	e. 
 	
-	zoom := 2.
+	"	
+	zoom := 1.
 	mainSurface := AeCairoImageSurface
-		extent: (rectangleExtent + (blurMargin2)) * zoom
+		extent: (rectangleExtent + blurMargin2) * zoom
 		format: AeCairoSurfaceFormat argb32.
 	mainSurface deviceScale: zoom asPoint.
 	mainContext := mainSurface newContext.
+"	mainContext matrix: (AeCairoMatrix newIdentity shx: (-15 degreesToRadians tan); yourself)."
+"	mainContext matrix: (AeCairoMatrix newIdentity
+		rotateByRadians: 10 degreesToRadians center: mainSurface extent / 2;
+		yourself)."
+	mainContext antialias: AeCairoAntialias none. "<--- fixes gaps, and it's invisible"
 
 	"Shared"
 	mainContext sourceColor: Color yellow; paint. "Background"
@@ -112,7 +123,7 @@ AeBenchBlurRectangleRunner >> initializeFor: aBlurSigma [
 	"The ramp defines all stops, playing with alpha channel"
 	ramp := self shadowRampSize: blurMargin.
 
-	shadowCorners := {
+	blurCorners := {
 		{	core topLeft.
 			Rectangle
 				left: core left - blurMargin2
@@ -139,7 +150,7 @@ AeBenchBlurRectangleRunner >> initializeFor: aBlurSigma [
 				bottom: core bottom + blurMargin2 }.
 		}.
 	
-	shadowSides := {
+	blurSides := {
 		{	0 @ core top.
 			0 @ (core top - blurMargin2).
 		 	(Rectangle
@@ -177,95 +188,213 @@ AeBenchBlurRectangleRunner >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
-		nextPutAll: '(blurRadius: ';
+		nextPutAll: '(blurSigma: ';
 		print: blurSigma;
-		nextPutAll: ' rampSize: ';
-		print: ramp size;
 		nextPutAll: ' surfaceExtent: ';
 		print: mainSurface extent;
 		nextPut: $)
+]
+
+{ #category : #initialization }
+AeBenchBlurRectangleRunner >> rampFunctionAt: x [
+	"Evaluate 1.0 minus a sigmoid (logistic) function, with mu and sigma determined manually by try and error."
+
+	^ 1.0 - (1.0 / (1.0 + (((x - rampMu) * rampK) exp)))
+]
+
+{ #category : #running }
+AeBenchBlurRectangleRunner >> runDirectNaive [
+	<script: 'self new runDirectNaive inspect'>
+
+	"-- core --"
+
+	mainContext sourceColor: self shadowColor; rectangle: core; fill.
+
+
+	"-- corners --"
+
+	blurCorners do: [ :each |
+		| aGradient |
+		aGradient := AeCairoRadialGradientPattern
+			center: each first
+			innerRadius: 0.0
+			outerRadius: blurMargin2.
+		aGradient addStopsFrom: ramp.
+
+		mainContext
+			source: aGradient;
+			rectangle: each second;
+			fillPreservingPath: false alpha: self shadowColor alpha.
+
+		"Force free to include this time in the benchmarks"
+		aGradient externallyFree ].
+
+
+	"-- sides --"
+
+	blurSides do: [ :each |
+		| aGradient |
+		aGradient :=
+			AeCairoLinearGradientPattern
+				from: each first
+				to: each second
+				addStopsFrom: ramp.
+	
+		mainContext
+			source: aGradient;
+			rectangle: each third;
+			fillPreservingPath: false alpha: self shadowColor alpha.
+
+		"Force free to include this time in the benchmarks"
+		aGradient externallyFree ].
+
+	^ mainSurface
+]
+
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runDirectReusingGradient [
+	<script: 'self new runDirectReusingGradient inspect'>
+
+	| cornerGradient aMatrix sideGradient matrixBlocks |
+
+	"-- core --"
+
+	mainContext sourceColor: self shadowColor; rectangle: core; fill.
+
+
+	"-- corners --"
+
+	cornerGradient :=
+		AeCairoRadialGradientPattern
+			center: 0.0 @ 0.0
+			innerRadius: 0.0
+			outerRadius: blurMargin2.
+	cornerGradient addStopsFrom: ramp.
+	mainContext source: cornerGradient.
+
+	aMatrix := AeCairoMatrix newIdentity.
+	blurCorners do: [ :each |
+		aMatrix beTranslationBy: each first negated.
+		cornerGradient matrix: aMatrix.
+		mainContext
+			rectangle: each second;
+			fillPreservingPath: false
+			alpha: self shadowColor alpha ].
+
+	"-- sides --"
+
+	sideGradient := 
+		AeCairoLinearGradientPattern
+			from: 0.0 @ blurMargin2
+			to:   0.0 @ 0.0
+			addStopsFrom: ramp.
+	mainContext source: sideGradient.
+
+	matrixBlocks := {
+		[ aMatrix beIdentity ].
+		[ aMatrix beRotationByQuadrants: -1 around: core topRight ].
+		[ aMatrix beFlipVerticallyAround: (core top + core bottom) / 2.0 ].
+		[ aMatrix beRotationByQuadrants: 1 around: core topLeft ].
+		}.
+
+	blurSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
+		eachMatrixBlock value.
+		sideGradient matrix: aMatrix.
+		mainContext
+			rectangle: eachSide third;
+			fillPreservingPath: false
+			alpha: self shadowColor alpha ].
+
+
+	"Force free to include this time in the benchmarks"
+	cornerGradient externallyFree.
+	sideGradient externallyFree.
+	aMatrix free.
+	
+	^ mainSurface
 ]
 
 { #category : #running }
 AeBenchBlurRectangleRunner >> runGaussian [
 	<script: 'self new runGaussian inspect'>
 
-	| shadowSurface |
-	shadowSurface := AeCairoImageSurface
+	| maskSurface |
+	maskSurface := AeCairoImageSurface
 		extent: mainSurface extent
 		format: AeCairoSurfaceFormat a8.
 
-	shadowSurface newContext
+	maskSurface newContext
 		sourceColor: Color black;
+		matrix: mainContext matrix;
 		rectangle: rectangle;
 		fill.
 
 	AeCairoA8FastGaussianBlurFilter new
-		surface: shadowSurface;
+		surface: maskSurface;
 		applySigma: blurSigma.
 
-	mainSurface newContext
-		sourceColor: shadowColor;
-		maskSurface: shadowSurface.
+	mainContext
+		sourceColor: self shadowColor;
+		maskSurface: maskSurface.
+
 	
 	^ mainSurface
 ]
 
-{ #category : #running }
-AeBenchBlurRectangleRunner >> runMaskWithClip [
-	<script: 'self new runMaskWithClip inspect'>
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runMaskFull [
+	<script: 'self new runMaskFull inspect'>
 
-	| aGradient shadowSurface shadowContext matrixBlocks aMatrix |
+	| aGradient maskSurface maskContext matrixBlocks aMatrix |
 
 	"-- core --"
 
-	mainContext sourceColor: shadowColor; rectangle: core; fill.
+	mainContext sourceColor: self shadowColor; rectangle: core; fill.
 
 	"-- corners --"
 
-	shadowSurface := AeCairoImageSurface
+	maskSurface := AeCairoImageSurface
 		extent: 2 * blurMargin2 asPoint
 		format: AeCairoSurfaceFormat a8.
-	shadowContext := shadowSurface newContext.
+	maskContext := maskSurface newContext.
 	aGradient := AeCairoRadialGradientPattern
 		center: blurMargin2 asPoint
 		innerRadius: 0.0
 		outerRadius: blurMargin2.
 	aGradient addStopsFrom: ramp.
-	shadowContext source: aGradient; paint.
+	maskContext source: aGradient; paint.
 
-	mainContext sourceColor: shadowColor.
+	mainContext sourceColor: self shadowColor.
 
-	shadowCorners do: [ :each |
+	blurCorners do: [ :each |
 		"We must restore clipping area after mask"
 		mainContext
 			saveState;
 			rectangle: each second;
 			clip;
-			maskSurface: shadowSurface
+			maskSurface: maskSurface
 				x: each first x - blurMargin2
 				y: each first y - blurMargin2;
 			restoreState ].
 
 	"Force free to include this time in the benchmarks"
 	aGradient externallyFree.
-	shadowContext externallyFree.
-	shadowSurface externallyFree.
+	maskContext externallyFree.
+	maskSurface externallyFree.
 
 
 	"-- sides --"
-	shadowSurface := AeCairoImageSurface
-		extent: (core extent max @ blurMargin2) * zoom
+	maskSurface := AeCairoImageSurface
+		extent: (core extent max @ blurMargin2)
 		format: AeCairoSurfaceFormat a8.
-	shadowSurface deviceScale: zoom asPoint.
-	shadowContext := shadowSurface newContext.
+	maskContext := maskSurface newContext.
 
 	aGradient :=
 		AeCairoLinearGradientPattern
 			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
 			addStopsFrom: ramp.
-	shadowContext source: aGradient; paint.
+	maskContext source: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	matrixBlocks := {
@@ -280,7 +409,7 @@ AeBenchBlurRectangleRunner >> runMaskWithClip [
 			translateByX: core left y: 0 ].
 		[ aMatrix beRotationByQuadrants: -1 around: core topLeft ] }.
 
-	shadowSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
+	blurSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
 		eachMatrixBlock value.
 
 		"We must restore clipping area after mask"
@@ -289,7 +418,7 @@ AeBenchBlurRectangleRunner >> runMaskWithClip [
 			rectangle: eachSide third;
 			clip;
 			matrix: aMatrix;
-			maskSurface: shadowSurface;
+			maskSurface: maskSurface;
 			restoreState ].
 
 	"Free manually"
@@ -298,29 +427,29 @@ AeBenchBlurRectangleRunner >> runMaskWithClip [
 	^ mainSurface
 ]
 
-{ #category : #running }
-AeBenchBlurRectangleRunner >> runMaskWithMatrix [
-	<script: 'self new runMaskWithMatrix inspect'>
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runMaskQuadrant [
+	<script: 'self new runMaskQuadrant inspect'>
 
-	| aGradient shadowSurface shadowContext matrixBlocks aMatrix center |
+	| aGradient maskSurface maskContext matrixBlocks aMatrix center |
 
 	"-- core --"
 
-	mainContext sourceColor: shadowColor; rectangle: core; fill.
+	mainContext sourceColor: self shadowColor; rectangle: core; fill.
 
 	"-- corners --"
 
-	shadowSurface := AeCairoImageSurface
+	maskSurface := AeCairoImageSurface
 		extent: blurMargin2 asPoint
 		format: AeCairoSurfaceFormat a8.
-	shadowContext := shadowSurface newContext.
+	maskContext := maskSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
 		center: blurMargin2 asPoint
 		innerRadius: 0.0
 		outerRadius: blurMargin2.
 	aGradient addStopsFrom: ramp.
-	shadowContext source: aGradient; paint.
+	maskContext source: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	center := (core topLeft + core bottomRight ) / 2.0.
@@ -330,34 +459,34 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 		[ aMatrix beRotationByQuadrants: 2 around: center ].
 		[ aMatrix beFlipVerticallyAround: center y ] }.
 
-	mainContext sourceColor: shadowColor.
-	shadowCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
+	mainContext sourceColor: self shadowColor.
+	blurCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
 		eachMatrixBlock value.
 		mainContext
 			matrix: aMatrix;
-			maskSurface: shadowSurface ].
+			maskSurface: maskSurface ].
 	mainContext setIdentityMatrix.
 
 	"Force free to include this time in the benchmarks"
 	aGradient externallyFree.
-	shadowContext externallyFree.
-	shadowSurface externallyFree.
+	maskContext externallyFree.
+	maskSurface externallyFree.
 
 
 
 	"-- sides --"
 
-	shadowSurface := AeCairoImageSurface
+	maskSurface := AeCairoImageSurface
 		extent: core extent max @ blurMargin2
 		format: AeCairoSurfaceFormat a8.
-	shadowContext := shadowSurface newContext.
+	maskContext := maskSurface newContext.
 
 	aGradient :=
 		AeCairoLinearGradientPattern
 			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
 			addStopsFrom: ramp.
-	shadowContext source: aGradient; paint.
+	maskContext source: aGradient; paint.
 
 	matrixBlocks := {
 		[ aMatrix
@@ -371,7 +500,7 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 			translateByX: core left y: 0 ].
 		[ aMatrix beRotationByQuadrants: -1 around: core topLeft ] }.
 
-	shadowSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
+	blurSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
 		eachMatrixBlock value.
 
 		"We must restore clipping area after mask"
@@ -380,218 +509,112 @@ AeBenchBlurRectangleRunner >> runMaskWithMatrix [
 			rectangle: eachSide third;
 			clip;
 			matrix: aMatrix;
-			maskSurface: shadowSurface;
+			maskSurface: maskSurface;
 			restoreState ].
 
 	"Free manually"
 	aMatrix free.
-	shadowContext externallyFree.
-	shadowSurface externallyFree.
+	maskContext externallyFree.
+	maskSurface externallyFree.
 
 	^ mainSurface
 ]
 
-{ #category : #running }
-AeBenchBlurRectangleRunner >> runMaskWithMatrix2 [
-	<script: 'self new runMaskWithMatrix2 inspect'>
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runMaskQuadrant2 [
+	<script: 'self new runMaskQuadrant2 inspect'>
 
-	| aGradient shadowSurface shadowContext matrixBlocks aMatrix center |
+	| aGradient maskSurface maskContext matrixBlocks aMatrix center |
 
 	"-- core --"
 
-	mainContext sourceColor: shadowColor; rectangle: core; fill.
+	mainContext sourceColor: self shadowColor; rectangle: core; fill.
 
 	"-- corners --"
 
-	shadowSurface := AeCairoImageSurface
+	maskSurface := AeCairoImageSurface
 		extent: blurMargin2 asPoint
 		format: AeCairoSurfaceFormat a8.
-	shadowContext := shadowSurface newContext.
+	maskContext := maskSurface newContext.
 
 	aGradient := AeCairoRadialGradientPattern
 		center: blurMargin2 asPoint
 		innerRadius: 0.0
 		outerRadius: blurMargin2.
 	aGradient addStopsFrom: ramp.
-	shadowContext source: aGradient; paint.
+	maskContext source: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
-	center := (core topLeft + core bottomRight ) / 2.
+	center := (core topLeft + core bottomRight ) / 2.0.
 	matrixBlocks := {
 		[ aMatrix beIdentity ].
 		[ aMatrix beFlipHorizontallyAround: center x ].
 		[ aMatrix beRotationByQuadrants: 2 around: center ].
 		[ aMatrix beFlipVerticallyAround: center y ] }.
 
-	mainContext sourceColor: shadowColor.
-	shadowCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
+	mainContext sourceColor: self shadowColor.
+	blurCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
 		eachMatrixBlock value.
 		mainContext
 			matrix: aMatrix;
-			maskSurface: shadowSurface ].
+			maskSurface: maskSurface ].
 
 	"Force free to include this time in the benchmarks"
 	aGradient externallyFree.
-	shadowContext externallyFree.
-	shadowSurface externallyFree.
+	maskContext externallyFree.
+	maskSurface externallyFree.
 
 
 	"-- horizontal sides --"
-	shadowSurface := AeCairoImageSurface
+	maskSurface := AeCairoImageSurface
 		extent: core width @ blurMargin2
 		format: AeCairoSurfaceFormat a8.
-	shadowContext := shadowSurface newContext.
+	maskContext := maskSurface newContext.
 
 	aGradient :=
 		AeCairoLinearGradientPattern
 			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
 			addStopsFrom: ramp.
-	shadowContext source: aGradient; paint.
+	maskContext source: aGradient; paint.
 
 	mainContext
 		setIdentityMatrix;
-		maskSurface: shadowSurface x: core left y: core top - blurMargin2.
+		maskSurface: maskSurface x: core left y: core top - blurMargin2.
 	aMatrix beFlipVerticallyAround: center y.
 	mainContext
 		matrix: aMatrix;
-		maskSurface: shadowSurface x: core left y: 0.0.
+		maskSurface: maskSurface x: core left y: 0.0.
 
 	"Free manually"
-	shadowContext externallyFree.
-	shadowSurface externallyFree.
+	maskContext externallyFree.
+	maskSurface externallyFree.
 
 
 	"-- vertical sides --"
 
-	shadowSurface := AeCairoImageSurface
+	maskSurface := AeCairoImageSurface
 		extent: blurMargin2 @ core height
 		format: AeCairoSurfaceFormat a8.
-	shadowContext := shadowSurface newContext.
+	maskContext := maskSurface newContext.
 	aMatrix beRotationByQuadrants: 1 around: core topLeft.
 	aGradient matrix: aMatrix.
-	shadowContext source: aGradient; paint.
+	maskContext source: aGradient; paint.
 
 	mainContext
 		setIdentityMatrix;
-		maskSurface: shadowSurface x: core left - blurMargin2 y: core top.
+		maskSurface: maskSurface x: core left - blurMargin2 y: core top.
 	aMatrix beFlipHorizontallyAround: center x.
 	mainContext
 		matrix: aMatrix;
-		maskSurface: shadowSurface x: 0.0 y: core top.
+		maskSurface: maskSurface x: 0.0 y: core top.
 
 	"Free manually"
-	shadowContext externallyFree.
-	shadowSurface externallyFree.
+	maskContext externallyFree.
+	maskSurface externallyFree.
 
 	aGradient externallyFree.
 	aMatrix free.
 
-	^ mainSurface
-]
-
-{ #category : #running }
-AeBenchBlurRectangleRunner >> runNewCenteredGradients [
-	<script: 'self new runNewCenteredGradients inspect'>
-
-	"-- core --"
-
-	mainContext sourceColor: shadowColor; rectangle: core; fill.
-
-
-	"-- corners --"
-
-	shadowCorners do: [ :each |
-		| aGradient |
-		aGradient := AeCairoRadialGradientPattern
-			center: each first
-			innerRadius: 0.0
-			outerRadius: blurMargin2.
-		aGradient addStopsFrom: ramp.
-
-		mainContext
-			source: aGradient;
-			rectangle: each second;
-			fill.
-
-		"Force free to include this time in the benchmarks"
-		aGradient externallyFree ].
-
-
-	"-- sides --"
-
-	shadowSides do: [ :each |
-		| aGradient |
-		aGradient :=
-			AeCairoLinearGradientPattern
-				from: each first
-				to: each second
-				addStopsFrom: ramp.
-	
-		mainContext
-			source: aGradient;
-			rectangle: each third;
-			fill.
-
-		"Force free to include this time in the benchmarks"
-		aGradient externallyFree ].
-
-	^ mainSurface
-]
-
-{ #category : #running }
-AeBenchBlurRectangleRunner >> runSharingGradient [
-	<script: 'self new runSharingGradient inspect'>
-
-	| cornerGradient aMatrix sideGradient matrices |
-
-	"-- core --"
-
-	mainContext sourceColor: shadowColor; rectangle: core; fill.
-
-
-	"-- corners --"
-
-	cornerGradient :=
-		AeCairoRadialGradientPattern
-			center: 0.0 @ 0.0
-			innerRadius: 0.0
-			outerRadius: blurMargin2.
-	cornerGradient addStopsFrom: ramp.
-	mainContext source: cornerGradient.
-
-	aMatrix := AeCairoMatrix newIdentity.
-	shadowCorners do: [ :each |
-		aMatrix beTranslationBy: each first negated.
-		cornerGradient matrix: aMatrix.
-		mainContext rectangle: each second; fill ].
-
-	"-- sides --"
-
-	sideGradient := 
-		AeCairoLinearGradientPattern
-			from: 0.0 @ blurMargin2
-			to:   0.0 @ 0.0
-			addStopsFrom: ramp.
-	mainContext source: sideGradient.
-
-	matrices := {
-		[ aMatrix beIdentity ].
-		[ aMatrix beRotationByQuadrants: -1 around: core topRight ].
-		[ aMatrix beFlipVerticallyAround: (core top + core bottom) / 2.0 ].
-		[ aMatrix beRotationByQuadrants: 1 around: core topLeft ].
-		}.
-
-	shadowSides with: matrices do: [ :eachSide :eachMatrixBlock |
-		eachMatrixBlock value.
-		sideGradient matrix: aMatrix.
-		mainContext rectangle: eachSide third; fill ].
-
-
-	"Force free to include this time in the benchmarks"
-	cornerGradient externallyFree.
-	sideGradient externallyFree.
-	aMatrix free.
-	
 	^ mainSurface
 ]
