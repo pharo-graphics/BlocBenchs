@@ -14,7 +14,7 @@ Class {
 		'strokeFigures',
 		'fillFigures'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie-Grid'
 }
 
 { #category : #accessing }

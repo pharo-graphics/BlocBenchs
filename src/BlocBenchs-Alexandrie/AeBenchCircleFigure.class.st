@@ -5,7 +5,7 @@ Class {
 		'radius',
 		'center'
 	],
-	#category : #'BlocBenchs-Alexandrie'
+	#category : #'BlocBenchs-Alexandrie-Grid'
 }
 
 { #category : #drawing }
@@ -20,8 +20,5 @@ AeBenchCircleFigure >> consolidate [
 { #category : #drawing }
 AeBenchCircleFigure >> drawPathOn: aCairoContext [
 
-	aCairoContext
-		circleCenterX: center x
-		y: center y
-		radius: radius
+	aCairoContext circleCenter: center radius: radius
 ]
