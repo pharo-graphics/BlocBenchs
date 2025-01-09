@@ -55,7 +55,8 @@ BlBResultsExporter >> exportResults [
 	self ensureResults.
 	self ensureGroups.
 
-	outputDirectory ensureCreateDirectory.
+	outputDirectory ensureDeleteAll.
+	templates copyAllResourcesTo: outputDirectory.
 
 	self generateIndex
 ]

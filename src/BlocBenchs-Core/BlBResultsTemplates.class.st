@@ -1,6 +1,9 @@
 Class {
 	#name : #BlBResultsTemplates,
 	#superclass : #Object,
+	#instVars : [
+		'templatesDirectory'
+	],
 	#category : #'BlocBenchs-Core-Exporter'
 }
 
@@ -32,56 +35,31 @@ BlBResultsTemplates class >> equalsIcon [
 	<path d="M48 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l352 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L48 128zm0 192c-17.7 0-32 14.3-32 32s14.3 32 32 32l352 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L48 320z"/></svg>'
 ]
 
+{ #category : #copying }
+BlBResultsTemplates >> copyAllResourcesTo: aDirectory [
+
+	(templatesDirectory / 'resources') copyAllTo: aDirectory 
+]
+
 { #category : #accessing }
 BlBResultsTemplates >> header [
 
-	^ '
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"  crossorigin="anonymous"></script>
-    <title>{{pageTitle}}</title>
-  </head>
-'
+	^ (templatesDirectory / 'header.html') contents
 ]
 
 { #category : #accessing }
 BlBResultsTemplates >> index [
 
-	^ '
-<!doctype html>
-<html lang="en">
-  {{> header }}
-  <body>
-    <h1>{{pageTitle}}</h1>
+	^ (templatesDirectory / 'index.html') contents
+]
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Bench Label</th>
-          {{#imageVersions}}
-          <th scope="col">{{.}}</th>
-          {{/imageVersions}}
-        </tr>
-      </thead>
-      <tbody>
-        {{#benchs}}
-        <tr>
-          <td><a href="./cases/{{caseLabelAsFileName}}.html">{{caseLabel}}</a></td>
-          {{#versionTicks}}
-          <td>{{#.}}
-					<span>{{{.}}}</span>
-				  {{/.}}
-			 </td>
-          {{/versionTicks}}
-        </tr>
-        {{/benchs}}
-      </tbody>
-    </table>
-  </body>
-</html>
-'
+{ #category : #initialization }
+BlBResultsTemplates >> initialize [
+
+	super initialize.
+
+	templatesDirectory := (IceRepository registry detect: [ :e |
+		                       e name = 'BlocBenchs' ]) location / 'templates'.
 ]
 
 { #category : #'as yet unclassified' }
