@@ -31,12 +31,6 @@ BlocBenchsSmokeTest >> testBlMouseMoveBenchmark [
 ]
 
 { #category : #tests }
-BlocBenchsSmokeTest >> testBlProfileRunner [
-
-	BlProfileRunner exampleAll
-]
-
-{ #category : #tests }
 BlocBenchsSmokeTest >> testPCBenchmarker1 [
 
 	PCBenchmarker exampleAllBenchs

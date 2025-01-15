@@ -47,9 +47,9 @@ PCBenchmarker class >> exampleAllBenchsWithRaw [
 PCBenchmarker class >> exampleAllSDL2Drivers [
 
 	| case driverNames |
-	case := PCBoxWindmillBenchCase new.
-	"case := PCCompositionEnabledBenchCase new."
-	case numberOfSeconds: 30.
+  "case := PCBoxWindmillBenchCase new."
+"	case := PCCompositionEnabledBenchCase new.
+"	case numberOfSeconds: 30.
 
 	driverNames := SDL2 renderDriverInfos collect: #nameString.
 
@@ -92,43 +92,6 @@ PCBenchmarker class >> exampleAnimations [
 		 ]
 
 	] fork.
-
-]
-
-{ #category : #examples }
-PCBenchmarker class >> exampleBunchOfBenchs [
-
-	PCBenchmarkSuite new
-
-		addCase: PCSolidCirclesBenchCase new;
-		addCase: PCDashedBorderCirclesBenchCase new;
-		addCase: (PCOutskirtsBenchCase new
-			beTranslucentBackgroundColor;
-			outskirts: BlOutskirts outside;
-			yourself);
-		addCase: PCHexagonBenchCase new;
-		addCase: PCLinearGradientCirclesBenchCase new;
-		addCase: PCRadialGradientCirclesBenchCase new;
-		addCase: PCBoxWindmillBenchCase new;
-		addCase: PCTextBenchCase new;
-		addCase: PCRoundedRectanglesBenchCase new;
-
-		numberOfSeconds: 4;
-"		addSpartaCairoBenchmarker;"
-		addAlexandrieBenchmarker;
-		runInForkWithGUI
-
-]
-
-{ #category : #examples }
-PCBenchmarker class >> exampleComposition [
-
-	PCBenchmarkSuite new
-		addCase: PCCompositionEnabledBenchCase new;
-		addCase: PCCompositionDisabledBenchCase new;
-		numberOfSeconds: 10;
-		addAlexandrieBenchmarker;
-		runInForkWithGUI
 
 ]
 
