@@ -22,6 +22,8 @@ Class {
 { #category : #running }
 BlBRawBenchRunner >> cleanUpAfterCase: aBlBRawCase [
 
+	super cleanUpAfterCase: aBlBRawCase.
+
 	steppingProcess ifNotNil: [ 
 		steppingProcess terminate.
 		steppingProcess := nil ].

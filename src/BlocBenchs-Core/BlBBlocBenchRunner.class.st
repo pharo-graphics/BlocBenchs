@@ -10,6 +10,8 @@ Class {
 { #category : #running }
 BlBBlocBenchRunner >> cleanUpAfterCase: aBlBCase [
 	
+	super cleanUpAfterCase: aBlBCase.
+	
 	space ifNil: [ ^ self ].
 	
 	space close.

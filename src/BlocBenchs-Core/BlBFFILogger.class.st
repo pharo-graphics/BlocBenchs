@@ -7,6 +7,13 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
+{ #category : #mettering }
+BlBFFILogger >> ensureStop [ 
+
+	TFLSignal uninstall.
+	TFLCallLogger stop; resetInstance.
+]
+
 { #category : #reporting }
 BlBFFILogger >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 
@@ -35,6 +42,5 @@ BlBFFILogger >> stopMetering: aBlBBlocBenchRunner [
 
 	loggerCopy := TFLCallLogger instance copy.
 
-	TFLSignal uninstall.
-	TFLCallLogger stop; resetInstance.
+	self ensureStop 
 ]

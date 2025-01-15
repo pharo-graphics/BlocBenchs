@@ -17,7 +17,8 @@ BlBAbstractBenchRunner >> addMeter: aBlBMeter [
 
 { #category : #'as yet unclassified' }
 BlBAbstractBenchRunner >> cleanUpAfterCase: aBlBCase [ 
-	^ self subclassResponsibility
+	
+	self meters reverse do: [:e | e ensureStop].
 ]
 
 { #category : #running }

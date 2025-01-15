@@ -7,6 +7,13 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
+{ #category : #mettering }
+BlBFFICounterMeter >> ensureStop [
+
+	TFLSignal uninstall.
+	TFLFunctionCounter stop; resetInstance.
+]
+
 { #category : #reporting }
 BlBFFICounterMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
 
@@ -49,6 +56,5 @@ BlBFFICounterMeter >> stopMetering: aBlBBenchRunner [
 	functionNamesAndCounts := functionNamesAndCounts
 		collect: [ :value | (value / frameCount) asFloat ].
 
-	TFLSignal uninstall.
-	TFLFunctionCounter stop; resetInstance.
+	self ensureStop
 ]

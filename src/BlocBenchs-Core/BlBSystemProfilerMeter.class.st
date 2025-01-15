@@ -2,10 +2,27 @@ Class {
 	#name : #BlBSystemProfilerMeter,
 	#superclass : #BlBMeter,
 	#instVars : [
-		'profiler'
+		'profiler',
+		'alreadyStopped'
 	],
 	#category : #'BlocBenchs-Core-Core'
 }
+
+{ #category : #mettering }
+BlBSystemProfilerMeter >> ensureStop [
+
+	alreadyStopped ifTrue: [ ^ self ].
+
+	profiler stopProfiling.
+	alreadyStopped := true
+]
+
+{ #category : #mettering }
+BlBSystemProfilerMeter >> initialize [
+
+	super initialize.
+	alreadyStopped := false
+]
 
 { #category : #reporting }
 BlBSystemProfilerMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
@@ -52,5 +69,5 @@ BlBSystemProfilerMeter >> startMetering: aBlBBlocBenchRunner [
 { #category : #mettering }
 BlBSystemProfilerMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
-	profiler stopProfiling
+	self ensureStop 
 ]

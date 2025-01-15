@@ -1,8 +1,19 @@
 Class {
 	#name : #BlBBlocRenderingMeter,
 	#superclass : #BlBMeter,
+	#instVars : [
+		'spaceStatistics'
+	],
 	#category : #'BlocBenchs-Core-Core'
 }
+
+{ #category : #mettering }
+BlBBlocRenderingMeter >> ensureStop [
+
+	spaceStatistics ifNil: [ ^ self ].
+	spaceStatistics spaceClosed.
+	spaceStatistics := nil
+]
 
 { #category : #reporting }
 BlBBlocRenderingMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [ 
@@ -45,11 +56,12 @@ BlBBlocRenderingMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 { #category : #mettering }
 BlBBlocRenderingMeter >> startMetering: aBlBBlocBenchRunner [ 
 	
-	aBlBBlocBenchRunner space enableStatistics 
+	aBlBBlocBenchRunner space enableStatistics. 
+	spaceStatistics := aBlBBlocBenchRunner space spaceStatistics.
 ]
 
 { #category : #mettering }
 BlBBlocRenderingMeter >> stopMetering: aBlBBlocBenchRunner [ 
 	
-	
+	self ensureStop
 ]

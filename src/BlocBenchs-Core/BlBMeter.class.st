@@ -4,6 +4,10 @@ Class {
 	#category : #'BlocBenchs-Core-Core'
 }
 
+{ #category : #'as yet unclassified' }
+BlBMeter >> ensureStop [
+]
+
 { #category : #reporting }
 BlBMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 
