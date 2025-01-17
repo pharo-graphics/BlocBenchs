@@ -36,7 +36,7 @@ BlBSolidImagesRawCase >> drawOnCairoSurface [
 			aPattern matrix: tmpMatrix.
 
 			cairoContext
-				source: aPattern;
+				sourcePattern: aPattern;
 				paint
 
 		]]

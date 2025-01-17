@@ -14,7 +14,7 @@ PCCompositionEnabledViaCairoWindow >> drawOnCairoSurface [
 
 	"Figures are cached"
 	cairoContext
-		source: layerCairoSurfacePattern;
+		sourcePattern: layerCairoSurfacePattern;
 		paint
 
 ]

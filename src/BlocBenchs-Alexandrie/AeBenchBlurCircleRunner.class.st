@@ -142,7 +142,7 @@ AeBenchBlurCircleRunner >> runDirect [
 	aGradient addStopsFrom: ramp.
 
 	mainContext
-		source: aGradient;
+		sourcePattern: aGradient;
 		paintWithAlpha: self shadowColor alpha.
 
 	"Force free to include this time in the benchmarks"
@@ -196,7 +196,7 @@ AeBenchBlurCircleRunner >> runMaskFull [
 	aGradient addStopsFrom: ramp.
 	
 	shadowContext
-		source: aGradient;
+		sourcePattern: aGradient;
 		paintWithAlpha: self shadowColor alpha.
 
 	mainContext
@@ -232,7 +232,7 @@ AeBenchBlurCircleRunner >> runMaskQuadrantClipping [
 		outerRadius: circleRadius + blurMargin.
 	aGradient addStopsFrom: ramp.
 	
-	maskContext source: aGradient; paint.
+	maskContext sourcePattern: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	matrixBlocks := {
@@ -292,7 +292,7 @@ AeBenchBlurCircleRunner >> runPaintQuadrantReflected [
 	aGradient addStopsFrom: ramp.
 	
 	blurContext
-		source: aGradient;
+		sourcePattern: aGradient;
 		paintWithAlpha: self shadowColor alpha.
 
 	mainContext sourceSurface: blurSurface.

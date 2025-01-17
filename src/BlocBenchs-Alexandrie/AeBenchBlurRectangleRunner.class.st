@@ -222,7 +222,7 @@ AeBenchBlurRectangleRunner >> runDirectNaive [
 		aGradient addStopsFrom: ramp.
 
 		mainContext
-			source: aGradient;
+			sourcePattern: aGradient;
 			rectangle: each second;
 			fillPreservingPath: false alpha: self shadowColor alpha.
 
@@ -241,7 +241,7 @@ AeBenchBlurRectangleRunner >> runDirectNaive [
 				addStopsFrom: ramp.
 	
 		mainContext
-			source: aGradient;
+			sourcePattern: aGradient;
 			rectangle: each third;
 			fillPreservingPath: false alpha: self shadowColor alpha.
 
@@ -270,7 +270,7 @@ AeBenchBlurRectangleRunner >> runDirectReusingGradient [
 			innerRadius: 0.0
 			outerRadius: blurMargin2.
 	cornerGradient addStopsFrom: ramp.
-	mainContext source: cornerGradient.
+	mainContext sourcePattern: cornerGradient.
 
 	aMatrix := AeCairoMatrix newIdentity.
 	blurCorners do: [ :each |
@@ -288,7 +288,7 @@ AeBenchBlurRectangleRunner >> runDirectReusingGradient [
 			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
 			addStopsFrom: ramp.
-	mainContext source: sideGradient.
+	mainContext sourcePattern: sideGradient.
 
 	matrixBlocks := {
 		[ aMatrix beIdentity ].
@@ -362,7 +362,7 @@ AeBenchBlurRectangleRunner >> runMaskFull [
 		innerRadius: 0.0
 		outerRadius: blurMargin2.
 	aGradient addStopsFrom: ramp.
-	maskContext source: aGradient; paint.
+	maskContext sourcePattern: aGradient; paint.
 
 	mainContext sourceColor: self shadowColor.
 
@@ -394,7 +394,7 @@ AeBenchBlurRectangleRunner >> runMaskFull [
 			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
 			addStopsFrom: ramp.
-	maskContext source: aGradient; paint.
+	maskContext sourcePattern: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	matrixBlocks := {
@@ -449,7 +449,7 @@ AeBenchBlurRectangleRunner >> runMaskQuadrant [
 		innerRadius: 0.0
 		outerRadius: blurMargin2.
 	aGradient addStopsFrom: ramp.
-	maskContext source: aGradient; paint.
+	maskContext sourcePattern: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	center := (core topLeft + core bottomRight ) / 2.0.
@@ -486,7 +486,7 @@ AeBenchBlurRectangleRunner >> runMaskQuadrant [
 			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
 			addStopsFrom: ramp.
-	maskContext source: aGradient; paint.
+	maskContext sourcePattern: aGradient; paint.
 
 	matrixBlocks := {
 		[ aMatrix
@@ -542,7 +542,7 @@ AeBenchBlurRectangleRunner >> runMaskQuadrant2 [
 		innerRadius: 0.0
 		outerRadius: blurMargin2.
 	aGradient addStopsFrom: ramp.
-	maskContext source: aGradient; paint.
+	maskContext sourcePattern: aGradient; paint.
 
 	aMatrix := AeCairoMatrix new.
 	center := (core topLeft + core bottomRight ) / 2.0.
@@ -576,7 +576,7 @@ AeBenchBlurRectangleRunner >> runMaskQuadrant2 [
 			from: 0.0 @ blurMargin2
 			to:   0.0 @ 0.0
 			addStopsFrom: ramp.
-	maskContext source: aGradient; paint.
+	maskContext sourcePattern: aGradient; paint.
 
 	mainContext
 		setIdentityMatrix;
@@ -599,7 +599,7 @@ AeBenchBlurRectangleRunner >> runMaskQuadrant2 [
 	maskContext := maskSurface newContext.
 	aMatrix beRotationByQuadrants: 1 around: core topLeft.
 	aGradient matrix: aMatrix.
-	maskContext source: aGradient; paint.
+	maskContext sourcePattern: aGradient; paint.
 
 	mainContext
 		setIdentityMatrix;

@@ -133,7 +133,7 @@ AeBenchBlurRoundedRectangleRunner >> runDirectNaive [
 				addStopsFrom: ramp.
 	
 		mainContext
-			source: aGradient;
+			sourcePattern: aGradient;
 			rectangle: (each at: #clipArea);
 			fillPreservingPath: false alpha: self shadowColor alpha.
 
@@ -202,7 +202,7 @@ AeBenchBlurRoundedRectangleRunner >> runDirectNaive [
 		aGradient addStopsFrom: ramp.
 
 		mainContext
-			source: aGradient;
+			sourcePattern: aGradient;
 			rectangle: each third;
 			fillPreservingPath: false alpha: self shadowColor alpha.
 

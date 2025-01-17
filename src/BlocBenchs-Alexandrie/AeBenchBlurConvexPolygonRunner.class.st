@@ -108,7 +108,7 @@ AeBenchBlurConvexPolygonRunner >> _runDirectNaive0 [
 				height: blurMargin * 2.
 
 		mainContext
-			source: aGradient;
+			sourcePattern: aGradient;
 			fillPreservingPath: false alpha: self shadowColor alpha.
 
 		topLeft := mainContext matrix value: 0 @ blurMargin negated. 
@@ -262,7 +262,7 @@ AeBenchBlurConvexPolygonRunner >> _runDirectNaive2 [
 			sourceColor: (Color black alpha: 1.0/index);
 			stroke."
 
-		mainContext source:
+		mainContext sourcePattern:
 			((AeCairoLinearGradientPattern
 				from: (each at: #gradientFrom)
 				to: (each at: #outside1))
@@ -466,7 +466,7 @@ AeBenchBlurConvexPolygonRunner >> runDirectNaive [
 				to: (each at: #outside1))
 					addStopsFrom: ramp;
 					yourself).
-		mainContext source: aGradient.
+		mainContext sourcePattern: aGradient.
 		mainContext paintWithAlpha: self shadowColor alpha.
 		mainContext restoreState.
 		"Force free to include this time in the benchmarks"
@@ -494,7 +494,7 @@ AeBenchBlurConvexPolygonRunner >> runDirectNaive [
 				outerRadius: cornerRadius)
 					addStopsFrom: ramp;
 					yourself).
-		mainContext source: aGradient.
+		mainContext sourcePattern: aGradient.
 		mainContext fillPreservingPath: false alpha: self shadowColor alpha.
 
 "		mainContext
