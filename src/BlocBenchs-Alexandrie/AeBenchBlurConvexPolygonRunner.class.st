@@ -17,6 +17,73 @@ Class {
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
 
+{ #category : #'as yet unclassified' }
+AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
+
+	| cornerExtent blurSigma a theVertices shadowElement polygonElement refreshShadowBlock theCorners space |
+	cornerExtent := 20 asPoint.
+	blurSigma := 12.
+
+	a := 300.
+	theVertices := {
+		0 @ 0.
+		a @ 0.
+		a @ a.
+		0 @ a }.
+			
+	shadowElement := BlElement new
+		position: 100 asPoint;
+		clipChildren: false;
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ];
+		yourself.
+	polygonElement :=
+		BlElement new
+			position: (blurSigma * 2) asPoint;
+			clipChildren: false;
+			geometry: (BlPolygonGeometry vertices: theVertices);
+			yourself.
+
+	refreshShadowBlock :=
+		MinMaxDeferrer
+			value: [
+				polygonElement enqueueTask: (BlTaskAction on: [
+					polygonElement geometry vertices: theVertices.
+					polygonElement size: polygonElement geometry extent.
+					shadowElement background:
+						(AeBenchBlurConvexPolygonRunner
+							newForVertices: theVertices
+							blurSigma: blurSigma) runDirectNaive asForm ]) ]
+			notBefore: 50 milliSeconds
+			notAfter: 250 milliSeconds.
+	refreshShadowBlock schedule.
+
+	theCorners := theVertices withIndexCollect: [ :eachPoint :index |
+		BlElement new
+			size: cornerExtent;
+			position: eachPoint - (cornerExtent / 2);
+			geometry: BlCircleGeometry new;
+			background: Color black translucent;
+			addEventHandler: BlPullHandler new;
+			addEventHandlerOn: BlPullEvent do: [ :evt |
+				theVertices
+					at: index
+					put: evt currentPosition + (cornerExtent / 2).
+				refreshShadowBlock schedule ];
+			yourself ].
+
+		
+	space := BlSpace new.
+	space extent: 500@500.
+
+	polygonElement	addChildren: theCorners.
+	shadowElement addChild: polygonElement.
+	space root addChild: shadowElement.
+
+	space show
+]
+
 { #category : #'instance creation' }
 AeBenchBlurConvexPolygonRunner class >> new [
 

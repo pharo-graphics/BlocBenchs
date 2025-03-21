@@ -1,5 +1,8 @@
 "
 Benchmark for Athens surfaces analog to `AeBenchFigureGridRunner` with `#AeBenchCircleFigure`.
+
+Running requires 'Alexandrie-Athens' package to be loaded.
+
 "
 Class {
 	#name : #AeBenchAthensCircleGrid,
@@ -15,6 +18,8 @@ Class {
 
 { #category : #running }
 AeBenchAthensCircleGrid class >> run [
+	"AthensAeCairoSurface belongs to 'Alexandrie-Athens' package.
+	It may require manual load via Iceberg."
 	<script: 'self run'>
 	
 	{ AthensCairoSurface. AthensAeCairoSurface } do: [ :each |
