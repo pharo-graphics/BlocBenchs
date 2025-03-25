@@ -43,7 +43,7 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 		BlElement new
 			position: (blurSigma * 2) asPoint;
 			clipChildren: false;
-			geometry: (BlRoundedPolygonGeometry vertices: vertices radius: blurSigma);
+			geometry: (BlRoundedPolygonGeometry vertices: vertices radius: blurSigma/2);
 			yourself.
 
 	refreshShadowDeferrer :=
@@ -57,11 +57,9 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 							blurSigma: blurSigma)
 							"showDebugMarks: false;"
 							yourself.
-					shadowElement background: runner "runDirectNaive" runGaussian asForm.
-					polygonElement geometry vertices: vertices.
-					polygonElement size: polygonElement geometry extent ]) ]
-			notBefore: 50 milliSeconds
-			notAfter: 200 milliSeconds.
+					shadowElement background: runner "runDirectNaive" runGaussian asForm ]) ]
+			notBefore: 150 milliSeconds
+			notAfter:  500 milliSeconds.
 	refreshShadowDeferrer schedule.
 
 	draggableVertexElements :=
@@ -75,15 +73,17 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 					vertices
 						at: index
 						put: evt currentPosition + (cornerExtent / 2).
+					polygonElement geometry vertices: vertices.
+					polygonElement size: polygonElement geometry extent.
 					refreshShadowDeferrer schedule ];
 				yourself ].
 
 	polygonElement
 		addEventHandlerOn: BlMouseEnterEvent do: [ :evt |
-			polygonElement border: (BlBorder builder paint: Color white; width: 1; dashArray: #(3); build).
+			polygonElement border: (BlBorder builder paint: Color black; width: 1.5; dashArray: #(3); build).
 			draggableVertexElements do: [ :each |
 				each background: (Color white alpha: 0.25).
-				each border: (BlBorder builder paint: Color gray; width: 1; dashArray: #(3); build) ] ];
+				each border: (BlBorder builder paint: Color black; width: 1.5; dashArray: #(3); build) ] ];
 		addEventHandlerOn: BlMouseLeaveEvent do: [ :evt |
 			polygonElement border: BlBorder empty.
 			draggableVertexElements do: [ :each |
