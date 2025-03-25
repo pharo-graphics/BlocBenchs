@@ -20,7 +20,7 @@ BlBFFICounterMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 	aBlBResult 
 		addField: #totalFFICallsPerFrame 
 		title: 'Total FFI Calls per frame'
-		value: functionNamesAndCounts values sum.
+		value: functionNamesAndCounts values sumNumbers.
 
 	aBlBResult 
 		addField: #ffiCalls 
