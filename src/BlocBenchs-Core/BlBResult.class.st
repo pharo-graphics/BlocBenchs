@@ -25,6 +25,15 @@ BlBResult >> addField: aFieldName title: aTitle value: aValue [
 	self content at: aFieldName put: { aTitle. aValue }
 ]
 
+{ #category : #'as yet unclassified' }
+BlBResult >> blocVersion [
+
+	^ (self contentAt: #repositoriesVersions) 
+		detect: [ :e | e first sameAs: 'bloc' ]
+		ifFound: [ :e | e second ]
+		ifNone: [ #unknown ]
+]
+
 { #category : #accessing }
 BlBResult >> caseLabel [
 	^ caseLabel
@@ -51,6 +60,12 @@ BlBResult >> content [
 ]
 
 { #category : #accessing }
+BlBResult >> contentAt: aKey [
+
+	^ (content at: aKey) second
+]
+
+{ #category : #accessing }
 BlBResult >> date [
 	
 	^ dateAndTime asDate 
@@ -65,17 +80,28 @@ BlBResult >> error: anError [
 { #category : #accessing }
 BlBResult >> fpsSamples [
 
-	^ (content at: #fpsSamples) second in: [ :anOrderedCollection |
+	^ (self contentAt: #fpsSamples) in: [ :anOrderedCollection |
 		  anOrderedCollection
 			  ifEmpty: [ anOrderedCollection ]
 			  ifNotEmpty: [
 			  anOrderedCollection allButFirst collect: [ :e | e second ] ] ]
 ]
 
+{ #category : #hook }
+BlBResult >> frameCount [
+	
+	^ self contentAt: #frameCount
+]
+
+{ #category : #accessing }
+BlBResult >> hasError [
+	^ hasError
+]
+
 { #category : #accessing }
 BlBResult >> imageVersion [
 	
-	^ (content at: #imageVersion) second.
+	^ self contentAt: #imageVersion.
 ]
 
 { #category : #accessing }
@@ -120,7 +146,7 @@ BlBResult >> mainImageVersion [
 { #category : #'as yet unclassified' }
 BlBResult >> osName [
 
-	^ (content at: #osName) second
+	^ self contentAt: #osName
 ]
 
 { #category : #'as yet unclassified' }
@@ -151,7 +177,7 @@ BlBResult >> shortBlocToploVersion [
 	
 	| versions toploCommit blocCommit | 
 	
-	versions := (content at: #repositoriesVersions) second.
+	versions := self contentAt: #repositoriesVersions.
 	toploCommit := (versions detect: [ :e | e first sameAs: 'toplo' ]) third first: 8.
 	blocCommit := (versions detect: [ :e | e first sameAs: 'bloc' ]) third first: 8.
 	
@@ -171,7 +197,7 @@ BlBResult >> shortVMVersion [
 	| matcher |
 
 	matcher := '.*v(\d+\.\d+\.\d+).* Commit\: (\w+) .*' asRegex.
-	matcher matches: (content at: #vmVersion) second.
+	matcher matches: (self contentAt: #vmVersion).
 	
 	^ '{1}-{2}' format: { matcher subexpression: 2. matcher subexpression: 3 }
 

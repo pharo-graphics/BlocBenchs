@@ -15,14 +15,14 @@ Class {
 
 { #category : #drawing }
 BlBBoxWindmillCompositionRawCase >> drawBoxOn: aeCairoContext [
-
 	"set path (outskirts = center)"
+
 	aeCairoContext
 		rectangleX: self boxBorderWidth / 2
-			y: self boxBorderWidth / 2
-			width: self boxExtent x
-			height: self boxExtent y.
-			
+		y: self boxBorderWidth / 2
+		width: self boxExtent x
+		height: self boxExtent y.
+
 	"draw background"
 	aeCairoContext
 		sourceColor: self boxColor;
@@ -31,9 +31,8 @@ BlBBoxWindmillCompositionRawCase >> drawBoxOn: aeCairoContext [
 	"draw border"
 	aeCairoContext
 		sourceColor: self boxBorderColor;
-		lineWidth: self boxBorderWidth;
-		stroke.
-
+		strokeSize: self boxBorderWidth;
+		stroke
 ]
 
 { #category : #'drawing - steps' }

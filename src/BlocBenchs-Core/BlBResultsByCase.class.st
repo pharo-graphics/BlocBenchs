@@ -40,9 +40,61 @@ BlBResultsByCase >> caseLabelAsFileName [
 ]
 
 { #category : #'as yet unclassified' }
+BlBResultsByCase >> findBest [
+
+	| maybeBest |
+	maybeBest := (versions values sorted: [ :a :b | a isBetterThan: b ]) first.
+
+	^ ((versions values copyWithout: maybeBest) noneSatisfy: [ :e |
+		   e isBetterThan: maybeBest ])
+		  ifTrue: [ maybeBest ]
+		  ifFalse: [ nil ]
+]
+
+{ #category : #'as yet unclassified' }
+BlBResultsByCase >> findBestImpact [
+	
+	| best |
+	
+	best := self findBest ifNil: [^ 0].
+
+	^ (versions values copyWithout: best) 
+		max: [ :e | best average / e average ]
+]
+
+{ #category : #'as yet unclassified' }
+BlBResultsByCase >> findBestVersionName [
+	
+	^ self findBest ifNotNil: [ :e | e version ] ifNil: [ 'None' ]
+]
+
+{ #category : #'as yet unclassified' }
 BlBResultsByCase >> mustacheDefaultWhenLookupFails [ 
 
 	self error
+]
+
+{ #category : #'as yet unclassified' }
+BlBResultsByCase >> resultsRow [
+	
+	| myTable best impact |
+	
+	myTable := self resultsTable.
+	best := self findBestVersionName.
+	impact := self findBestImpact. 
+
+	^ Array streamContents: [ :stream | 
+		stream nextPut: caseLabel.
+		myTable do: [ :aVersion | stream nextPutAll: aVersion ].
+		stream nextPut: best.
+		stream nextPut: impact].
+]
+
+{ #category : #'as yet unclassified' }
+BlBResultsByCase >> resultsTable [
+	
+	^ versions associations collect: [ :anAssoc |
+		{ anAssoc key. anAssoc value confidenceInterval  } ]
 ]
 
 { #category : #versions }
@@ -53,6 +105,11 @@ BlBResultsByCase >> versionTicks [
 			  at: e
 			  ifPresent: [ :x | x versionTicks ]
 			  ifAbsent: { BlBResultsTemplates dashIcon } ]
+]
+
+{ #category : #accessing }
+BlBResultsByCase >> versions [
+	^ versions
 ]
 
 { #category : #'instance creation' }
