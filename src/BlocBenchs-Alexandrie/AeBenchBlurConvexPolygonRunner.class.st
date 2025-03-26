@@ -12,7 +12,8 @@ Class {
 		'polygonVertices',
 		'blurSigma',
 		'ramp',
-		'blurMargin'
+		'blurMargin',
+		'showDebugMarks'
 	],
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
@@ -20,12 +21,12 @@ Class {
 { #category : #'as yet unclassified' }
 AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 
-	| cornerExtent blurSigma a theVertices shadowElement polygonElement refreshShadowBlock theCorners space |
+	| cornerExtent blurSigma a vertices shadowElement polygonElement refreshShadowDeferrer draggableVertexElements space |
 	cornerExtent := 20 asPoint.
 	blurSigma := 12.
 
 	a := 300.
-	theVertices := {
+	vertices := {
 		0 @ 0.
 		a @ 0.
 		a @ a.
@@ -42,46 +43,61 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 		BlElement new
 			position: (blurSigma * 2) asPoint;
 			clipChildren: false;
-			geometry: (BlPolygonGeometry vertices: theVertices);
+			geometry: (BlRoundedPolygonGeometry vertices: vertices radius: blurSigma/2);
 			yourself.
 
-	refreshShadowBlock :=
+	refreshShadowDeferrer :=
 		MinMaxDeferrer
 			value: [
-				polygonElement enqueueTask: (BlTaskAction on: [
-					polygonElement geometry vertices: theVertices.
-					polygonElement size: polygonElement geometry extent.
-					shadowElement background:
+				polygonElement enqueueTask: (BlTaskAction new action: [
+					| runner |
+					runner :=
 						(AeBenchBlurConvexPolygonRunner
-							newForVertices: theVertices
-							blurSigma: blurSigma) runDirectNaive asForm ]) ]
-			notBefore: 50 milliSeconds
-			notAfter: 250 milliSeconds.
-	refreshShadowBlock schedule.
+							newForVertices: vertices
+							blurSigma: blurSigma)
+							"showDebugMarks: false;"
+							yourself.
+					shadowElement background: runner "runDirectNaive" runGaussian asForm ]) ]
+			notBefore: 150 milliSeconds
+			notAfter:  500 milliSeconds.
+	refreshShadowDeferrer schedule.
 
-	theCorners := theVertices withIndexCollect: [ :eachPoint :index |
-		BlElement new
-			size: cornerExtent;
-			position: eachPoint - (cornerExtent / 2);
-			geometry: BlCircleGeometry new;
-			background: Color black translucent;
-			addEventHandler: BlPullHandler new;
-			addEventHandlerOn: BlPullEvent do: [ :evt |
-				theVertices
-					at: index
-					put: evt currentPosition + (cornerExtent / 2).
-				refreshShadowBlock schedule ];
-			yourself ].
+	draggableVertexElements :=
+		vertices withIndexCollect: [ :eachPoint :index |
+			BlElement new
+				size: cornerExtent;
+				position: eachPoint - (cornerExtent / 2);
+				geometry: BlCircleGeometry new;
+				addEventHandler: BlPullHandler new;
+				addEventHandlerOn: BlPullEvent do: [ :evt |
+					vertices
+						at: index
+						put: evt currentPosition + (cornerExtent / 2).
+					polygonElement geometry vertices: vertices.
+					polygonElement size: polygonElement geometry extent.
+					refreshShadowDeferrer schedule ];
+				yourself ].
 
-		
+	polygonElement
+		addEventHandlerOn: BlMouseEnterEvent do: [ :evt |
+			polygonElement border: (BlBorder builder paint: Color black; width: 1.5; dashArray: #(3); build).
+			draggableVertexElements do: [ :each |
+				each background: (Color white alpha: 0.25).
+				each border: (BlBorder builder paint: Color black; width: 1.5; dashArray: #(3); build) ] ];
+		addEventHandlerOn: BlMouseLeaveEvent do: [ :evt |
+			polygonElement border: BlBorder empty.
+			draggableVertexElements do: [ :each |
+				each background: Color transparent.
+				each border: BlBorder empty ] ].
+
+	
 	space := BlSpace new.
 	space extent: 500@500.
-
-	polygonElement	addChildren: theCorners.
+	space show.
+	
+	polygonElement	addChildren: draggableVertexElements.
 	shadowElement addChild: polygonElement.
-	space root addChild: shadowElement.
-
-	space show
+	space root addChild: shadowElement
 ]
 
 { #category : #'instance creation' }
