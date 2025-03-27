@@ -2,7 +2,8 @@ Class {
 	#name : #BlBBlocBenchRunner,
 	#superclass : #BlBAbstractBenchRunner,
 	#instVars : [
-		'space'
+		'space',
+		'stopSemaphore'
 	],
 	#category : #'BlocBenchs-Core-Core'
 }
@@ -27,12 +28,15 @@ BlBBlocBenchRunner >> defaultMeters [
 
 { #category : #running }
 BlBBlocBenchRunner >> doRun: aBlBBlocCase [ 
+	
+	stopSemaphore := Semaphore new.
 		
 	space extent: aBlBBlocCase spaceExtent.	
 	space root addChild: aBlBBlocCase newElement.	
 	space root children first requestFocus.		
 	space show. 
-	aBlBBlocCase duration wait.
+	
+	stopSemaphore waitTimeoutMilliseconds: aBlBBlocCase duration asMilliSeconds.
 	
 	
 ]
@@ -47,6 +51,12 @@ BlBBlocBenchRunner >> prepareBeforeRun: aBlBCase [
 { #category : #accessing }
 BlBBlocBenchRunner >> space [
 	^ space
+]
+
+{ #category : #accessing }
+BlBBlocBenchRunner >> stop [
+
+	stopSemaphore signal
 ]
 
 { #category : #accessing }
