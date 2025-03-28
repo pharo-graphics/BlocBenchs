@@ -152,7 +152,7 @@ SDLShapedWindowExample >> shapeByBinarizedAlpha: threshold [
 SDLShapedWindowExample >> shapeByColorKey: aColor [
 
 	| aSDLColor aSDLWindowShapeParams |
-	aSDLColor := SDL_Color autoReleasingNewFrom: aColor.
+	aSDLColor := SDL_Color newFrom: aColor.
 	aSDLWindowShapeParams := SDL_WindowShapeParams colorKey: aSDLColor.
 
 	shapeMode := SDL_WindowShapeMode
