@@ -88,6 +88,12 @@ BlBCase >> defaultLabel [
 	^ self class name asString
 ]
 
+{ #category : #'accessing - defaults' }
+BlBCase >> defaultRunnerClass [
+
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 BlBCase >> duration [
 	

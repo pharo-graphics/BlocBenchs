@@ -61,7 +61,7 @@ BlBRawCase >> clearCairoSurface [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - defaults' }
 BlBRawCase >> defaultRunnerClass [
 
 	^ BlBRawBenchRunner

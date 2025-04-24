@@ -16,7 +16,7 @@ BlBBlocCase >> angleInDegreesWith: random [
 	^ random nextInteger: 360
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - defaults' }
 BlBBlocCase >> defaultRunnerClass [
 
 	^ BlBBlocBenchRunner
