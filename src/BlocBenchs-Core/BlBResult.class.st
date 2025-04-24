@@ -149,6 +149,16 @@ BlBResult >> osName [
 	^ self contentAt: #osName
 ]
 
+{ #category : #printing }
+BlBResult >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		nextPutAll: caseLabel asString;
+		nextPut: $)
+]
+
 { #category : #'as yet unclassified' }
 BlBResult >> serializeErrorInto: aDirectory [
 
