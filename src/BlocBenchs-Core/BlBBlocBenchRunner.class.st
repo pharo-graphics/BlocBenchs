@@ -45,7 +45,8 @@ BlBBlocBenchRunner >> doRun: aBlBBlocCase [
 BlBBlocBenchRunner >> prepareBeforeRun: aBlBCase [
 	
 	space := BlSpace new.
-	space enableStatistics.	
+	space title: aBlBCase label.
+	space enableStatistics.
 ]
 
 { #category : #accessing }
