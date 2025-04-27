@@ -11,11 +11,19 @@ Class {
 { #category : #running }
 BlBBlocBenchRunner >> cleanUpAfterCase: aBlBCase [
 	
+	| semaphore |
 	super cleanUpAfterCase: aBlBCase.
 	
 	space ifNil: [ ^ self ].
 	
+	semaphore := Semaphore new.
+	space
+		addEventHandlerOn: BlSpaceClosedEvent
+		do: [ semaphore signal ].
 	space close.
+	semaphore wait.
+	self assert: space isOpened not.
+
 	space spaceStatistics ifNotNil: [ :stats | stats spaceClosed ].
 
 ]
