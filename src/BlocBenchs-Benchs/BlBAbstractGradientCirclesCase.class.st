@@ -7,11 +7,11 @@ Class {
 	#category : #'BlocBenchs-Benchs-Bloc'
 }
 
-{ #category : #running }
+{ #category : #benchmarking }
 BlBAbstractGradientCirclesCase class >> benchMatrix [
 
 	^ super benchMatrix
-		forSelector: #numberOfStops addOptions: #(2 3 5)
+		forSelector: #numberOfStops addOptions: #(2 10)
 ]
 
 { #category : #running }
