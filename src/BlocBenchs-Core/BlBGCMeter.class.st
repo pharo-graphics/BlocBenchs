@@ -21,21 +21,21 @@ BlBGCMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult [
 		addField: #fullGCCount
 		title: 'Number of Full GCs'
 		value: finalFullGCCount - initialFullGCCount.
-		
+
 	aBlBResult
 		addField: #incrementalGCCount
 		title: 'Number of Incremental GCs'
-		value: finalIncrementalGCCount - initialIncrementalGCCount	.
-		
+		value: finalIncrementalGCCount - initialIncrementalGCCount.
+
 	aBlBResult
 		addField: #fullGCTotalTime
-		title: 'Incremental GC Total Time (in ms)'
+		title: 'Full GC Total Time (in ms)'
 		value: finalFullGCTime - initialFullGCTime.
-			
+
 	aBlBResult
 		addField: #incrementalGCTotalTime
 		title: 'Incremental GC Total Time (in ms)'
-		value: finalIncrementalGCTime - initialIncrementalGCTime				
+		value: finalIncrementalGCTime - initialIncrementalGCTime
 ]
 
 { #category : #mettering }
