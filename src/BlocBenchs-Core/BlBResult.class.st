@@ -25,7 +25,7 @@ BlBResult >> addField: aFieldName title: aTitle value: aValue [
 	self content at: aFieldName put: { aTitle. aValue }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlBResult >> blocVersion [
 
 	^ (self contentAt: #repositoriesVersions) 
@@ -127,6 +127,23 @@ BlBResult >> initializeFrom: aBlBCase [
 	hasError := false.
 ]
 
+{ #category : #newtools }
+BlBResult >> inspectionForContentOn: aBuilder [
+	<inspectorPresentationOrder: 1.0 title: 'Content'>
+
+	^ aBuilder newTable
+		items: (content values sorted: [:a :b | a first < b first]);
+		addColumn: ((SpStringTableColumn 
+			title: 'Key'
+			evaluated: [ :each | each first ])
+			yourself);
+		addColumn: ((SpStringTableColumn 
+			title: 'Value'
+			evaluated: [ :each | each second ])
+			yourself);
+		yourself
+]
+
 { #category : #testing }
 BlBResult >> isBetterThan: aBlBResult [ 
 	
@@ -143,7 +160,7 @@ BlBResult >> mainImageVersion [
 	^ self imageVersionGroups first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlBResult >> osName [
 
 	^ self contentAt: #osName
@@ -159,7 +176,7 @@ BlBResult >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #serializing }
 BlBResult >> serializeErrorInto: aDirectory [
 
 	FLDebuggerStackSerializer
@@ -167,7 +184,7 @@ BlBResult >> serializeErrorInto: aDirectory [
 		toFileNamed: ((aDirectory / id) withExtension: 'fuel') fullName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #serializing }
 BlBResult >> serializeResultsInto: aDirectory [ 
 	
 	| stonFile |
@@ -182,7 +199,7 @@ BlBResult >> serializeResultsInto: aDirectory [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlBResult >> shortBlocToploVersion [
 	
 	| versions toploCommit blocCommit | 
@@ -201,7 +218,7 @@ BlBResult >> shortImageVersion [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BlBResult >> shortVMVersion [
 	
 	| matcher |
