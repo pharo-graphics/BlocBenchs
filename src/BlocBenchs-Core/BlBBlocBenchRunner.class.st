@@ -41,8 +41,15 @@ BlBBlocBenchRunner >> doRun: aBlBBlocCase [
 		
 	space extent: aBlBBlocCase spaceExtent.	
 	space root addChild: aBlBBlocCase newElement.	
-	space root children first requestFocus.		
-	space show. 
+	space root children first requestFocus.
+	space show.
+	
+	self flag: #todo. "See: https://github.com/pharo-graphics/Bloc/issues/767"
+	space addEventHandlerOn: BlSpaceShownEvent doOnce: [
+		space center.
+		stopSemaphore signal ].
+
+	stopSemaphore wait.
 	
 	stopSemaphore waitTimeoutMilliseconds: aBlBBlocCase duration asMilliSeconds.
 	
