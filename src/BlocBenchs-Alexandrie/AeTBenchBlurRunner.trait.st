@@ -3,6 +3,10 @@ I have behavior for runners that explore blurring geometries.
 "
 Trait {
 	#name : #AeTBenchBlurRunner,
+	#instVars : [
+		'shadowColor',
+		'backgroundColor'
+	],
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
 
@@ -10,25 +14,29 @@ Trait {
 AeTBenchBlurRunner classSide >> benchAllVsGaussian [
 	<script>
 
-	| instance repeatCount benchResult |
+	| aStream instance repeatCount benchResult |
+	aStream := Stdio stdout.
 	
 	"Gaussian shadow serves as a baseline reference"
 	instance := self new.
 	benchResult := [ instance runGaussian ] benchFor: 1 second.
 
-	'------' traceCr.
-	instance traceCr.
-	'## runGaussian' traceCr.
-	'average ms: ' trace. benchResult period asMilliSeconds traceCr.
-	'iterations: ' trace. benchResult iterations traceCr.	
+	aStream
+		<< '------'; lf;
+		print: instance; lf;
+		<< '## runGaussian'; lf;
+		<< 'average ms: '; print: benchResult period asMilliSeconds; lf;
+		<< 'iterations: '; print: benchResult iterations; lf.	
 
 	"Run same number of iterations but emulated"
 	repeatCount := benchResult iterations.
 
 	self runSelectorsWithoutGaussian do: [ :eachSelector |
 		| allMs |
-		'## ' trace.
-		eachSelector traceCr.
+		aStream
+			<< '## ';
+			<< eachSelector;
+			lf.
 
 		allMs := Array streamContents: [ :msStream |
 			50 timesRepeat: [
@@ -42,8 +50,8 @@ AeTBenchBlurRunner classSide >> benchAllVsGaussian [
 		MeanConfidenceIntervalPrinter new
 			unitString: 'ms';
 			fixedDecimalPlaces: 2;
-			print: allMs on: Transcript.
-		Transcript cr; flush ]
+			print: allMs on: aStream.
+		aStream lf; flush ]
 ]
 
 { #category : #running }
