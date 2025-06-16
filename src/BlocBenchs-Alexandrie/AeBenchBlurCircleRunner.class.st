@@ -153,6 +153,23 @@ AeBenchBlurCircleRunner >> runDirect [
 ]
 
 { #category : #running }
+AeBenchBlurCircleRunner >> runFilter [
+	<script: 'self new runFilter inspect'>
+
+	mainContext restoreStateAfter: [
+
+		AeCircleGradientBlurFilter new
+			initializeFor: mainContext
+			center: circleCenter
+			radius: circleRadius
+			sigma: blurSigma
+			color: self shadowColor;
+			draw ].
+
+	^ mainSurface
+]
+
+{ #category : #running }
 AeBenchBlurCircleRunner >> runGaussian [
 	<script: 'self new runGaussian inspect'>
 

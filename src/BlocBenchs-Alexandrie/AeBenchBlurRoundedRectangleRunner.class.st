@@ -239,6 +239,23 @@ AeBenchBlurRoundedRectangleRunner >> runDirectNaive [
 ]
 
 { #category : #running }
+AeBenchBlurRoundedRectangleRunner >> runFilter [
+	<script: 'self new runFilter inspect'>
+
+	mainContext restoreStateAfter: [
+	
+		AeRoundedRectangleGradientBlurFilter new
+			initializeFor: mainContext
+			rectangle: rectangle
+			radii: radii
+			sigma: blurSigma
+			color: self shadowColor;
+			draw ].
+
+	^ mainSurface
+]
+
+{ #category : #running }
 AeBenchBlurRoundedRectangleRunner >> runGaussian [
 	<script: 'self new runGaussian inspect'>
 
