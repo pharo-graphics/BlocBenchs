@@ -23,7 +23,7 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 
 	| cornerExtent blurSigma a vertices shadowElement polygonElement refreshShadowDeferrer draggableVertexElements space |
 	cornerExtent := 20 asPoint.
-	blurSigma := 12.
+	blurSigma := 10.
 
 	a := 300.
 	vertices := {
@@ -31,6 +31,7 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 		a @ 0.
 		a @ a.
 		0 @ a }.
+	"vertices := self starPoints."
 			
 	shadowElement := BlElement new
 		position: 100 asPoint;
@@ -43,13 +44,13 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 		BlElement new
 			position: (blurSigma * 2) asPoint;
 			clipChildren: false;
-			geometry: (BlRoundedPolygonGeometry vertices: vertices radius: blurSigma/2);
+			geometry: (BlRoundedPolygonGeometry vertices: vertices radius: blurSigma);
 			yourself.
 
 	refreshShadowDeferrer :=
 		MinMaxDeferrer
 			value: [
-				polygonElement enqueueTask: (BlTaskAction new action: [
+				polygonElement enqueueTask: (BlTaskAction on: [
 					| runner |
 					runner :=
 						(AeBenchBlurConvexPolygonRunner
@@ -57,9 +58,11 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 							blurSigma: blurSigma)
 							"showDebugMarks: false;"
 							yourself.
-					shadowElement background: runner "runDirectNaive" runGaussian asForm ]) ]
-			notBefore: 150 milliSeconds
-			notAfter:  500 milliSeconds.
+					shadowElement background: runner runFilter "runGaussian" asForm.
+					polygonElement geometry vertices: vertices.
+					polygonElement size: polygonElement geometry extent ]) ]
+			notBefore: 50 milliSeconds
+			notAfter: 200 milliSeconds.
 	refreshShadowDeferrer schedule.
 
 	draggableVertexElements :=
@@ -73,17 +76,15 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 					vertices
 						at: index
 						put: evt currentPosition + (cornerExtent / 2).
-					polygonElement geometry vertices: vertices.
-					polygonElement size: polygonElement geometry extent.
 					refreshShadowDeferrer schedule ];
 				yourself ].
 
 	polygonElement
 		addEventHandlerOn: BlMouseEnterEvent do: [ :evt |
-			polygonElement border: (BlBorder builder paint: Color black; width: 1.5; dashArray: #(3); build).
+			polygonElement border: (BlBorder builder paint: Color green; width: 1; dashArray: #(3); build).
 			draggableVertexElements do: [ :each |
 				each background: (Color white alpha: 0.25).
-				each border: (BlBorder builder paint: Color black; width: 1.5; dashArray: #(3); build) ] ];
+				each border: (BlBorder builder paint: Color green; width: 1; dashArray: #(3); build) ] ];
 		addEventHandlerOn: BlMouseLeaveEvent do: [ :evt |
 			polygonElement border: BlBorder empty.
 			draggableVertexElements do: [ :each |
@@ -130,6 +131,23 @@ AeBenchBlurConvexPolygonRunner class >> newForVertices: points blurSigma: aBlurS
 	^ self basicNew
 		initializeForVertices: points blurSigma: aBlurSigma;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+AeBenchBlurConvexPolygonRunner class >> starPoints [
+	
+	| starPoints outerRadius innerRadius angles |
+	outerRadius := 200.0.
+	innerRadius := outerRadius * 0.382. "Approximate ratio for a pentagram (golden ratio conjugate)"
+	starPoints := Array new: 10.
+	angles := (0 to: 9) collect: [ :i | (i * 36) degreesToRadians ]. "36° increments for 10 points"
+
+	1 to: starPoints size do: [ :i |
+	    | radius |
+	    radius := i odd ifTrue: [ outerRadius ] ifFalse: [ innerRadius ].
+	    starPoints at: i put: (Point r: radius theta: (angles at: i)) ].
+
+	^ starPoints + outerRadius asPoint
 ]
 
 { #category : #running }
@@ -371,8 +389,10 @@ AeBenchBlurConvexPolygonRunner >> _runDirectNaive2 [
 { #category : #initialization }
 AeBenchBlurConvexPolygonRunner >> initializeForVertices: points blurSigma: aBlurSigma [
 
-	| mainExtent |
+	| mainExtent encompassingRectangle |
 	self initialize.
+	
+	showDebugMarks := true.
 
 	polygonVertices := points.
 	blurSigma := aBlurSigma.
@@ -380,8 +400,10 @@ AeBenchBlurConvexPolygonRunner >> initializeForVertices: points blurSigma: aBlur
 	"Estimated radius that Gaussian blur affects"
 	blurMargin := (blurSigma * 2) ceiling.
 	
-	mainExtent := ((Rectangle encompassing: polygonVertices)
-		expandBy: blurMargin) extent asIntegerPoint.
+	encompassingRectangle := Rectangle encompassing: polygonVertices.
+	polygonVertices := polygonVertices collect: [ :each | each - encompassingRectangle origin ].
+	
+	mainExtent := (encompassingRectangle expandBy: blurMargin) extent asIntegerPoint.
 	mainSurface := AeCairoImageSurface
 		extent: mainExtent
 		format: AeCairoSurfaceFormat argb32.
@@ -597,6 +619,23 @@ AeBenchBlurConvexPolygonRunner >> runDirectNaive [
 
 
 
+
+	^ mainSurface
+]
+
+{ #category : #running }
+AeBenchBlurConvexPolygonRunner >> runFilter [
+	<script: 'self new runFilter inspect'>
+
+	mainContext restoreStateAfter: [
+		mainContext translateByX: blurMargin y: blurMargin.
+
+		AePolygonGradientBlurFilter basicNew
+			initializeFor: mainContext
+			vertices: polygonVertices
+			sigma: blurSigma
+			color: self shadowColor;
+			draw ].
 
 	^ mainSurface
 ]
