@@ -50,7 +50,7 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 	refreshShadowDeferrer :=
 		MinMaxDeferrer
 			value: [
-				polygonElement enqueueTask: (BlTaskAction on: [
+				polygonElement enqueueTask: (BlTaskAction new action: [
 					| runner |
 					runner :=
 						(AeBenchBlurConvexPolygonRunner
