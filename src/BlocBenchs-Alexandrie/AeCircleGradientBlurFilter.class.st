@@ -1,64 +1,87 @@
+"
+I'm a gradient-based blur filter for circles.
+"
 Class {
 	#name : #AeCircleGradientBlurFilter,
 	#superclass : #AeGradientBlurFilter,
 	#instVars : [
 		'circleCenter',
-		'circleRadius',
-		'zoom'
+		'circleRadius'
 	],
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
 
 { #category : #initialization }
-AeCircleGradientBlurFilter >> draw [
+AeCircleGradientBlurFilter >> center: aPoint radius: aCircleRadius [
 
-	| maskSurface maskContext aGradient aMatrix matrixBlocks quadrantExtent fix rects |
-	quadrantExtent := circleCenter ceiling.
-	fix := (quadrantExtent - circleCenter) ceiling. "A point with 0 or 1 coordinates"
+	circleCenter := aPoint asIntegerPoint.
+	circleRadius := aCircleRadius asInteger
+]
 
-	maskSurface := AeCairoImageSurface
-		extent: quadrantExtent * zoom
-		format: AeCairoSurfaceFormat a8.
-	maskSurface deviceScale: zoom asPoint.
-	maskContext := maskSurface newContext.
+{ #category : #drawing }
+AeCircleGradientBlurFilter >> drawFragments00On: context [
 
+	self
+		drawRectangleOn: context
+		cornersRadius: circleRadius
+		left: circleCenter x
+		top: circleCenter y
+		right: circleCenter x
+		bottom: circleCenter y
+]
+
+{ #category : #drawing }
+AeCircleGradientBlurFilter >> drawFragments1On: context [
+
+	| maskSurface maskContext aGradient aMatrix outerRadius |
 	aGradient := AeCairoRadialGradientPattern
-		center: fix
-		innerRadius: circleRadius - blurMargin
-		outerRadius: circleRadius + blurMargin.
+		innerX: 0.0
+		innerY: 0.0
+		innerRadius: circleRadius - blurRadius
+		outerX: 0.0
+		outerY: 0.0
+		outerRadius: (outerRadius := circleRadius + blurRadius).
 	aGradient addStopsFrom: ramp.
 	
+	maskSurface := AeCairoImageSurface
+		newWithFormat: AeCairoSurfaceFormat a8
+		width: outerRadius ceiling
+		height: outerRadius ceiling.
+	maskContext := maskSurface newContext.
 	maskContext sourcePattern: aGradient; paint.
 
-	aMatrix := AeCairoMatrix new.
-	matrixBlocks := {
-		[ aMatrix
-			beTranslationByX: circleCenter x - fix x y: circleCenter y - fix y ].
-		[ aMatrix
-			beFlipHorizontallyAround: 0.0;
-			translateByX: circleCenter x negated - fix x y: circleCenter y - fix y ].
-		[ aMatrix
-			beFlipBothAroundX: 0.0 y: 0.0;
-			translateByX: circleCenter x negated - fix x y: circleCenter y negated - fix y ].
-		[ aMatrix
-			beFlipVerticallyAround: 0.0;
-			translateByX: circleCenter x - fix x  y: circleCenter y negated - fix y ] }.
-
-	rects := {
-		quadrantExtent extent: quadrantExtent.
-		0 @ quadrantExtent y extent: quadrantExtent.
-		0 @ 0 extent: quadrantExtent.
-		quadrantExtent x @ 0 extent: quadrantExtent }.
-
 	context sourceColor: color.
-	matrixBlocks with: rects do: [ :eachMatrixBlock :rect |
-		eachMatrixBlock value.
-		context
-			saveState;
-			rectangle: rect; clip;
-			matrix: aMatrix;
-			maskSurface: maskSurface;
-			restoreState ].
+
+	"Bottom right"
+	context
+		maskSurface: maskSurface
+			x: circleCenter x
+			y: circleCenter y.
+
+	"Bottom left"
+	aMatrix := AeCairoMatrix new.
+	aMatrix beFlipHorizontallyAround: 0.0.
+	context
+		matrix: aMatrix;
+		maskSurface: maskSurface
+			x: circleCenter x negated
+			y: circleCenter y.
+
+	"Top left"
+	aMatrix beFlipBothAroundX: 0.0 y: 0.0.
+	context
+		matrix: aMatrix;
+		maskSurface: maskSurface
+			x: circleCenter x negated
+			y: circleCenter y negated.
+
+	"Top right"
+	aMatrix beFlipVerticallyAround: 0.0.
+	context
+		matrix: aMatrix;
+		maskSurface: maskSurface
+			x: circleCenter x
+			y: circleCenter y negated.
 
 	"Force free to include this time in the benchmarks"
 	aMatrix free.
@@ -67,21 +90,20 @@ AeCircleGradientBlurFilter >> draw [
 	maskSurface externallyFree
 ]
 
-{ #category : #initialization }
-AeCircleGradientBlurFilter >> initializeFor: aContext center: aPoint radius: aCircleRadius sigma: aSigma color: aColor [
+{ #category : #drawing }
+AeCircleGradientBlurFilter >> drawFragmentsOn: context [
 
-	self initialize.
+	| aGradient |
+	aGradient := AeCairoRadialGradientPattern
+		center: circleCenter
+		innerRadius: circleRadius - blurRadius
+		outerRadius: circleRadius + blurRadius.
+	aGradient addStopsFrom: ramp.
 
-	context := aContext.
-	color := aColor.
-	
-	blurMargin := (aSigma * Float pi) ceiling.
+	context
+		sourcePattern: aGradient;
+		paintWithAlpha: color alpha.
 
-	zoom := 1.0. "Should be context actual zoom i.e. scale * deviceScale"
-	
-	circleCenter := aPoint.
-	circleRadius := aCircleRadius.
-
-	"The ramp defines all stops, playing with alpha channel"
-	ramp := AeBenchBlurCircleRunner basicNew shadowRampSize: blurMargin
+	"Force free to include this time in the benchmarks"
+	aGradient externallyFree
 ]

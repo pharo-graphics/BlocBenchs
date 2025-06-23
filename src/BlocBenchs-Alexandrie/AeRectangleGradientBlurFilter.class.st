@@ -1,180 +1,148 @@
+"
+I'm a gradient-based blur filter for rectangles.
+"
 Class {
 	#name : #AeRectangleGradientBlurFilter,
 	#superclass : #AeGradientBlurFilter,
 	#instVars : [
 		'rectangle',
 		'core',
-		'blurMargin2',
 		'blurCorners',
-		'blurSides'
+		'blurSides',
+		'blurRadius2'
 	],
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
 
-{ #category : #drawing }
-AeRectangleGradientBlurFilter >> draw [
+{ #category : #private }
+AeRectangleGradientBlurFilter >> drawCoreOn: context [
 
-	| aGradient maskSurface maskContext matrixBlocks aMatrix center |
+	context
+		sourceColor: color;
+		rectangle: core;
+		fill
+]
 
-	"-- core --"
+{ #category : #private }
+AeRectangleGradientBlurFilter >> drawCornersOn: context [
 
-	context sourceColor: color; rectangle: core; fill.
-
-	"-- corners --"
-
-	maskSurface := AeCairoImageSurface
-		extent: blurMargin2 asPoint
-		format: AeCairoSurfaceFormat a8.
-	maskContext := maskSurface newContext.
-
-	aGradient := AeCairoRadialGradientPattern
-		center: blurMargin2 asPoint
-		innerRadius: 0.0
-		outerRadius: blurMargin2.
+	| aGradient aMatrix |
+	aGradient :=
+		AeCairoRadialGradientPattern
+			innerX: 0.0
+			innerY: 0.0
+			innerRadius: 0.0
+			outerX: 0.0
+			outerY: 0.0
+			outerRadius: blurRadius2.
 	aGradient addStopsFrom: ramp.
-	maskContext sourcePattern: aGradient; paint.
+	context sourcePattern: aGradient.
 
 	aMatrix := AeCairoMatrix new.
-	center := (core topLeft + core bottomRight ) / 2.0.
-	matrixBlocks := {
-		[ aMatrix beIdentity ].
-		[ aMatrix beFlipHorizontallyAround: center x ].
-		[ aMatrix beRotationByQuadrants: 2 around: center ].
-		[ aMatrix beFlipVerticallyAround: center y ] }.
-
-	context sourceColor: color.
-	blurCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
-		eachMatrixBlock value.
+	blurCorners do: [ :each |
+		aMatrix beTranslationBy: each first negated.
+		aGradient matrix: aMatrix.
 		context
-			matrix: aMatrix;
-			maskSurface: maskSurface ].
-	context setIdentityMatrix.
+			rectangle: each second;
+			fillPreservingPath: false
+			alpha: color alpha ].
 
 	"Force free to include this time in the benchmarks"
 	aGradient externallyFree.
-	maskContext externallyFree.
-	maskSurface externallyFree.
+	aMatrix free
+]
 
+{ #category : #drawing }
+AeRectangleGradientBlurFilter >> drawFragmentsOn: context [
 
+	self
+		drawCoreOn: context;
+		drawSidesOn: context;
+		drawCornersOn: context
+]
 
-	"-- sides --"
+{ #category : #private }
+AeRectangleGradientBlurFilter >> drawSidesOn: context [
 
-	maskSurface := AeCairoImageSurface
-		extent: core extent max @ blurMargin2
-		format: AeCairoSurfaceFormat a8.
-	maskContext := maskSurface newContext.
-
-	aGradient :=
-		AeCairoLinearGradientPattern
-			from: 0.0 @ blurMargin2
-			to:   0.0 @ 0.0
-			addStopsFrom: ramp.
-	maskContext sourcePattern: aGradient; paint.
-
-	matrixBlocks := {
-		[ aMatrix
-			beTranslationByX: core left
-			y: core top - blurMargin2 ].
-		[ aMatrix
-			beRotationByQuadrants: 1 around: core topLeft;
-			translateByX: 0 y: core width negated ].
-		[ aMatrix
-			beFlipVerticallyAround: (core top + core bottom) / 2;
-			translateByX: core left y: 0 ].
-		[ aMatrix beRotationByQuadrants: -1 around: core topLeft ] }.
-
-	blurSides with: matrixBlocks do: [ :eachSide :eachMatrixBlock |
-		eachMatrixBlock value.
-
-		"We must restore clipping area after mask"
+	blurSides do: [ :each |
+		| aGradient |
+		aGradient :=
+			AeCairoLinearGradientPattern
+				from: each first
+				to: each second
+				addStopsFrom: ramp.
+	
 		context
-			saveState;
-			rectangle: eachSide third;
-			clip;
-			matrix: aMatrix;
-			maskSurface: maskSurface;
-			restoreState ].
+			sourcePattern: aGradient;
+			rectangle: each third;
+			fillPreservingPath: false alpha: color alpha.
 
-	"Free manually"
-	aMatrix free.
-	maskContext externallyFree.
-	maskSurface externallyFree.
-
+		"Force free to include this time in the benchmarks"
+		aGradient externallyFree ]
 ]
 
 { #category : #initialization }
-AeRectangleGradientBlurFilter >> initializeFor: aContext rectangle: aRectangle sigma: aBlurSigma color: aColor [
-
-	self initialize.
-
-	color := aColor.
-	context := aContext.
+AeRectangleGradientBlurFilter >> rectangle: aRectangle [
 	
-	blurMargin := (aBlurSigma * Float e) ceiling.
-	blurMargin2 := blurMargin * 2.
+	blurRadius2 := blurRadius*2.
 
 	rectangle := aRectangle.
-	core := rectangle insetBy: blurMargin.
-"	rampMu := 0.475.
-	rampK := -10."
+	core := rectangle insetBy: blurRadius.
 
-
-	"The ramp defines all stops, playing with alpha channel"
-	ramp := AeBenchBlurRoundedRectangleRunner basicNew  shadowRampSize: blurMargin.
 
 	blurCorners := {
 		{	core topLeft.
 			Rectangle
-				left: core left - blurMargin2
+				left: core left - blurRadius2
 				right: core left
-				top: core top - blurMargin2
+				top: core top - blurRadius2
 				bottom: core top }.
 		{	core topRight.
 			Rectangle
 				left: core right
-				right: core right + blurMargin2
-				top: core top - blurMargin2
+				right: core right + blurRadius2
+				top: core top - blurRadius2
 				bottom: core top }.
 		{	core bottomRight.
 			Rectangle
 				left: core right
-				right: core right + blurMargin2
+				right: core right + blurRadius2
 				top: core bottom
-				bottom: core bottom + blurMargin2 }.
+				bottom: core bottom + blurRadius2 }.
 		{	core bottomLeft.
 			Rectangle
-				left: core left - blurMargin2
+				left: core left - blurRadius2
 				right: core left
 				top: core bottom
-				bottom: core bottom + blurMargin2 }.
+				bottom: core bottom + blurRadius2 }.
 		}.
 	
 	blurSides := {
 		{	0 @ core top.
-			0 @ (core top - blurMargin2).
+			0 @ (core top - blurRadius2).
 		 	(Rectangle
 				left: core left
 				right: core right
-				top: core top - blurMargin2
+				top: core top - blurRadius2
 				bottom: core top) }.
 		{	core right @ 0.
-			(core right + blurMargin2) @ 0.
+			(core right + blurRadius2) @ 0.
 		 	(Rectangle
 				left: core right
-				right: core right + blurMargin2
+				right: core right + blurRadius2
 				top: core top
 				bottom: core bottom) }.
 		{	0 @ core bottom.
-			0 @ (core bottom + blurMargin2).
+			0 @ (core bottom + blurRadius2).
 		 	(Rectangle
 				left: core left
 				right: core right
 				top: core bottom
-				bottom: core bottom + blurMargin2) }.
+				bottom: core bottom + blurRadius2) }.
 		{	core left @ 0.
-			(core left - blurMargin2) @ 0.
+			(core left - blurRadius2) @ 0.
 		 	(Rectangle
-				left: core left - blurMargin2
+				left: core left - blurRadius2
 				right: core left
 				top: core top
 				bottom: core bottom) }.

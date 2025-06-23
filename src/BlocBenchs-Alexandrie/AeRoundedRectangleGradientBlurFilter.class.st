@@ -1,3 +1,6 @@
+"
+I'm a gradient-based blur filter for rounded rectangles.
+"
 Class {
 	#name : #AeRoundedRectangleGradientBlurFilter,
 	#superclass : #AeGradientBlurFilter,
@@ -10,23 +13,8 @@ Class {
 	#category : #'BlocBenchs-Alexandrie-Blur'
 }
 
-{ #category : #drawing }
-AeRoundedRectangleGradientBlurFilter >> draw [
-
-	context saveState.
-	context antialias: AeCairoAntialias none.
-
-	self drawSides.
-	self drawCorners.
-	self drawCore.
-	
-	context restoreState
-	
-
-]
-
 { #category : #private }
-AeRoundedRectangleGradientBlurFilter >> drawCore [
+AeRoundedRectangleGradientBlurFilter >> drawCoreOn: context [
 
 	context
 		sourceColor: color;
@@ -52,14 +40,14 @@ AeRoundedRectangleGradientBlurFilter >> drawCore [
 ]
 
 { #category : #private }
-AeRoundedRectangleGradientBlurFilter >> drawCorners [
+AeRoundedRectangleGradientBlurFilter >> drawCornersOn: context [
 
 	blurCorners do: [ :each |
 		| aGradient |
 		aGradient := AeCairoRadialGradientPattern
 			center: each first
-			innerRadius: each second - blurMargin
-			outerRadius: each second + blurMargin.
+			innerRadius: each second - blurRadius
+			outerRadius: each second + blurRadius.
 		aGradient addStopsFrom: ramp.
 
 		context
@@ -71,8 +59,17 @@ AeRoundedRectangleGradientBlurFilter >> drawCorners [
 		aGradient externallyFree ]
 ]
 
+{ #category : #drawing }
+AeRoundedRectangleGradientBlurFilter >> drawFragmentsOn: context [
+
+	self
+		drawSidesOn: context;
+		drawCornersOn: context;
+		drawCoreOn: context
+]
+
 { #category : #private }
-AeRoundedRectangleGradientBlurFilter >> drawSides [
+AeRoundedRectangleGradientBlurFilter >> drawSidesOn: context [
 
 	blurSides do: [ :each |
 		| aGradient |
@@ -92,71 +89,61 @@ AeRoundedRectangleGradientBlurFilter >> drawSides [
 ]
 
 { #category : #initialization }
-AeRoundedRectangleGradientBlurFilter >> initializeFor: aContext rectangle: aRectangle radii: anArray sigma: aBlurSigma color: aColor [
+AeRoundedRectangleGradientBlurFilter >> rectangle: aRectangle radii: anArray [
+	"radii: topLeft, topRight, bottomRight, bottomLeft"
 
-	self initialize.
-
-	context := aContext.
-	color := aColor.
 	rectangle := aRectangle.
 	radii := anArray.
-
-
-	"Estimated radius that Gaussian blur affects"
-	blurMargin := (aBlurSigma * Float e) ceiling.
-
-	"The ramp defines all stops, playing with alpha channel"
-	ramp := AeBenchBlurRoundedRectangleRunner basicNew shadowRampSize: blurMargin.
-
+	
 
 	"-- sides --"
 
 	blurSides := {
-		{	#gradientFrom -> (0 @ (rectangle top + blurMargin)).
-			#gradientTo   -> (0 @ (rectangle top - blurMargin)).
+		{	#gradientFrom -> (0 @ (rectangle top + blurRadius)).
+			#gradientTo   -> (0 @ (rectangle top - blurRadius)).
 			#clipArea ->
 				(Rectangle
-					left:   rectangle left  + (radii first  max: blurMargin)
-					right:  rectangle right - (radii second max: blurMargin)
-					top:    rectangle top - blurMargin
-					bottom: rectangle top + blurMargin).
-			#inset -> (radii first  max: blurMargin) } asOrderedDictionary.
+					left:   rectangle left  + (radii first  max: blurRadius)
+					right:  rectangle right - (radii second max: blurRadius)
+					top:    rectangle top - blurRadius
+					bottom: rectangle top + blurRadius).
+			#inset -> (radii first  max: blurRadius) } asOrderedDictionary.
 
-		{	#gradientFrom -> ((rectangle right - blurMargin) @ 0).
-			#gradientTo   -> ((rectangle right + blurMargin) @ 0).
+		{	#gradientFrom -> ((rectangle right - blurRadius) @ 0).
+			#gradientTo   -> ((rectangle right + blurRadius) @ 0).
 		 	#clipArea ->
 				(Rectangle
-					left:   rectangle right - blurMargin
-					right:  rectangle right + blurMargin
-					top:    rectangle top    + (radii second max: blurMargin)
-					bottom: rectangle bottom - (radii third  max: blurMargin)).
-			#inset -> (radii second max: blurMargin) } asOrderedDictionary.
+					left:   rectangle right - blurRadius
+					right:  rectangle right + blurRadius
+					top:    rectangle top    + (radii second max: blurRadius)
+					bottom: rectangle bottom - (radii third  max: blurRadius)).
+			#inset -> (radii second max: blurRadius) } asOrderedDictionary.
 
-		{	#gradientFrom -> (0 @ (rectangle bottom - blurMargin)).
-			#gradientTo   -> (0 @ (rectangle bottom + blurMargin)).
+		{	#gradientFrom -> (0 @ (rectangle bottom - blurRadius)).
+			#gradientTo   -> (0 @ (rectangle bottom + blurRadius)).
 		 	#clipArea ->
 				(Rectangle
-					left:   rectangle left  + (radii fourth max: blurMargin)
-					right:  rectangle right - (radii third  max: blurMargin)
-					top:    rectangle bottom - blurMargin
-					bottom: rectangle bottom + blurMargin).
-			#inset -> (radii third  max: blurMargin) } asOrderedDictionary.
+					left:   rectangle left  + (radii fourth max: blurRadius)
+					right:  rectangle right - (radii third  max: blurRadius)
+					top:    rectangle bottom - blurRadius
+					bottom: rectangle bottom + blurRadius).
+			#inset -> (radii third  max: blurRadius) } asOrderedDictionary.
 
-		{	#gradientFrom -> ((rectangle left + blurMargin) @ 0).
-			#gradientTo   -> ((rectangle left - blurMargin) @ 0).
+		{	#gradientFrom -> ((rectangle left + blurRadius) @ 0).
+			#gradientTo   -> ((rectangle left - blurRadius) @ 0).
 		 	#clipArea ->
 				(Rectangle
-					left:   rectangle left - blurMargin
-					right:  rectangle left + blurMargin
-					top:    rectangle top    + (radii first  max: blurMargin)
-					bottom: rectangle bottom - (radii fourth max: blurMargin)).
-			#inset -> (radii fourth max: blurMargin) } asOrderedDictionary.
+					left:   rectangle left - blurRadius
+					right:  rectangle left + blurRadius
+					top:    rectangle top    + (radii first  max: blurRadius)
+					bottom: rectangle bottom - (radii fourth max: blurRadius)).
+			#inset -> (radii fourth max: blurRadius) } asOrderedDictionary.
 		}.
 		
 
 	"-- corners --"
 	
-	blurCorners := Array streamContents: [ :stream |
+	blurCorners := Array new: 4 streamContents: [ :stream |
 		| gradientCenter |
 
 		stream nextPut: {
@@ -165,9 +152,9 @@ AeRoundedRectangleGradientBlurFilter >> initializeFor: aContext rectangle: aRect
 				@ (blurSides fourth at: #clipArea) top.
 			blurSides first at: #inset.
 			Rectangle
-				left: rectangle left - blurMargin
+				left: rectangle left - blurRadius
 				right: gradientCenter x
-				top: rectangle top - blurMargin
+				top: rectangle top - blurRadius
 				bottom: gradientCenter y }.
 
 		stream nextPut: {
@@ -177,8 +164,8 @@ AeRoundedRectangleGradientBlurFilter >> initializeFor: aContext rectangle: aRect
 			blurSides second at: #inset.
 			Rectangle
 				left: gradientCenter x
-				right: rectangle right + blurMargin
-				top: rectangle top - blurMargin
+				right: rectangle right + blurRadius
+				top: rectangle top - blurRadius
 				bottom: gradientCenter y }.
 
 		stream nextPut: {
@@ -188,9 +175,9 @@ AeRoundedRectangleGradientBlurFilter >> initializeFor: aContext rectangle: aRect
 			blurSides third at: #inset.
 			Rectangle
 				left: gradientCenter x
-				right: rectangle right + blurMargin
+				right: rectangle right + blurRadius
 				top: gradientCenter y
-				bottom: rectangle bottom + blurMargin }.
+				bottom: rectangle bottom + blurRadius }.
 
 		stream nextPut: {
 			gradientCenter :=
@@ -198,10 +185,10 @@ AeRoundedRectangleGradientBlurFilter >> initializeFor: aContext rectangle: aRect
 				@ (blurSides fourth at: #clipArea) bottom.
 			blurSides fourth at: #inset.
 			Rectangle
-				left: rectangle left - blurMargin
+				left: rectangle left - blurRadius
 				right: gradientCenter x
 				top: gradientCenter y
-				bottom: rectangle bottom + blurMargin }.
+				bottom: rectangle bottom + blurRadius }.
 
-		].
+		]
 ]

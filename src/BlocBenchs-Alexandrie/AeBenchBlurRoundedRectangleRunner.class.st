@@ -242,15 +242,10 @@ AeBenchBlurRoundedRectangleRunner >> runDirectNaive [
 AeBenchBlurRoundedRectangleRunner >> runFilter [
 	<script: 'self new runFilter inspect'>
 
-	mainContext restoreStateAfter: [
-	
-		AeRoundedRectangleGradientBlurFilter new
-			initializeFor: mainContext
-			rectangle: rectangle
-			radii: radii
-			sigma: blurSigma
-			color: self shadowColor;
-			draw ].
+	AeRoundedRectangleGradientBlurFilter new
+		blurSigma: blurSigma color: self shadowColor;
+		rectangle: rectangle radii: radii;
+		drawOn: mainContext.
 
 	^ mainSurface
 ]

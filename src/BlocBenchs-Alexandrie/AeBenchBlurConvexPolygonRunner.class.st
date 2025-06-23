@@ -631,11 +631,9 @@ AeBenchBlurConvexPolygonRunner >> runFilter [
 		mainContext translateByX: blurMargin y: blurMargin.
 
 		AePolygonGradientBlurFilter basicNew
-			initializeFor: mainContext
-			vertices: polygonVertices
-			sigma: blurSigma
-			color: self shadowColor;
-			draw ].
+			blurSigma: blurSigma color: self shadowColor;
+			vertices: polygonVertices;
+			drawOn: mainContext ].
 
 	^ mainSurface
 ]

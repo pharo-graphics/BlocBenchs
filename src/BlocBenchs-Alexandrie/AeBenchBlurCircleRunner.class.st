@@ -156,15 +156,10 @@ AeBenchBlurCircleRunner >> runDirect [
 AeBenchBlurCircleRunner >> runFilter [
 	<script: 'self new runFilter inspect'>
 
-	mainContext restoreStateAfter: [
-
-		AeCircleGradientBlurFilter new
-			initializeFor: mainContext
-			center: circleCenter
-			radius: circleRadius
-			sigma: blurSigma
-			color: self shadowColor;
-			draw ].
+	AeCircleGradientBlurFilter new
+		blurSigma: blurSigma color: self shadowColor;
+		center: circleCenter radius: circleRadius;
+		drawOn: mainContext.
 
 	^ mainSurface
 ]
