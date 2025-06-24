@@ -642,3 +642,122 @@ AeBenchBlurRectangleRunner >> runMaskQuadrant2 [
 
 	^ mainSurface
 ]
+
+{ #category : #'as yet unclassified' }
+AeBenchBlurRectangleRunner >> runPaintLine [
+	<script: 'self new runPaintLine inspect'>
+
+	| aGradient tmpSurface tmpContext matrixBlocks aMatrix center |
+
+	"-- core --"
+
+	mainContext sourceColor: self shadowColor; rectangle: core; fill.
+
+	"-- corners --"
+
+	tmpSurface := AeCairoImageSurface
+		extent: blurMargin2 asPoint
+		format: AeCairoSurfaceFormat a8.
+	tmpContext := tmpSurface newContext.
+
+	aGradient := AeCairoRadialGradientPattern
+		center: blurMargin2 asPoint
+		innerRadius: 0.0
+		outerRadius: blurMargin2.
+	aGradient addStopsFrom: ramp.
+	tmpContext sourcePattern: aGradient; paint.
+
+	aMatrix := AeCairoMatrix new.
+	center := (core topLeft + core bottomRight ) / 2.0.
+	matrixBlocks := {
+		[ aMatrix beIdentity ].
+		[ aMatrix beFlipHorizontallyAround: center x ].
+		[ aMatrix beRotationByQuadrants: 2 around: center ].
+		[ aMatrix beFlipVerticallyAround: center y ] }.
+
+	mainContext sourceColor: self shadowColor.
+	blurCorners with: matrixBlocks do: [ :eachArray :eachMatrixBlock |
+		eachMatrixBlock value.
+		mainContext
+			matrix: aMatrix;
+			maskSurface: tmpSurface ].
+
+	"Force free to include this time in the benchmarks"
+	aGradient externallyFree.
+	tmpContext externallyFree.
+	tmpSurface externallyFree.
+
+
+	"-- horizontal sides --"
+	tmpSurface := AeCairoImageSurface
+		extent: 1 @ blurMargin2
+		format: AeCairoSurfaceFormat argb32.
+	tmpContext := tmpSurface newContext.
+	aGradient :=
+		AeCairoLinearGradientPattern
+			from: 0.0 @ blurMargin2
+			to:   0.0 @ 0.0
+			addStopsFrom: ramp.
+	tmpContext
+		sourcePattern: aGradient;
+		paintWithAlpha: self shadowColor alpha.
+
+	mainContext setIdentityMatrix.
+	mainContext sourceSurface: tmpSurface x: core left y: core top - blurMargin2.
+	mainContext source extend: AeCairoExtendMode repeat.
+	mainContext restoreStateAfter: [
+		mainContext rectangle: blurSides first third.
+		mainContext clip; paint ].
+
+	aMatrix beFlipVerticallyAround: center y.
+	mainContext matrix: aMatrix.
+	mainContext sourceSurface: tmpSurface x: core left y: core top - blurMargin2.
+	mainContext source extend: AeCairoExtendMode repeat.
+	mainContext restoreStateAfter: [
+		mainContext rectangle: blurSides first third.
+		mainContext clip; paint ].
+
+	"Free manually"
+	tmpContext externallyFree.
+	tmpSurface externallyFree.
+
+
+	"-- vertical sides --"
+
+	tmpSurface := AeCairoImageSurface
+		extent: blurMargin2 @ 1
+		format: AeCairoSurfaceFormat argb32.
+	tmpContext := tmpSurface newContext.
+	aMatrix beRotationByQuadrants: 1 around: core topLeft.
+	aGradient matrix: aMatrix.
+	tmpContext
+		sourcePattern: aGradient;
+		paintWithAlpha: self shadowColor alpha.
+
+	mainContext
+		setIdentityMatrix;
+		sourceSurface: tmpSurface x: core left - blurMargin2 y: core top.
+	mainContext source extend: AeCairoExtendMode repeat.
+	mainContext restoreStateAfter: [
+		mainContext rectangle: blurSides fourth third.
+		mainContext clip; paint ].
+
+
+	aMatrix beFlipHorizontallyAround: center x.
+	mainContext
+		matrix: aMatrix;
+		sourceSurface: tmpSurface x: 0.0 y: core top.
+	mainContext source extend: AeCairoExtendMode repeat.
+	mainContext restoreStateAfter: [
+		mainContext rectangle: blurSides fourth third.
+		mainContext clip; paint ].
+
+	"Free manually"
+	tmpContext externallyFree.
+	tmpSurface externallyFree.
+
+	aGradient externallyFree.
+	aMatrix free.
+
+	^ mainSurface
+]
