@@ -154,7 +154,7 @@ AeBenchFigureGridRunner >> run [
 			msStream nextPut:
 				(Time millisecondsToRun: [ self step ]) ] ].
 
-	Transcript show: self reportString; cr.
+	self reportString traceCr.
 	cairoSurface inspect
 ]
 
