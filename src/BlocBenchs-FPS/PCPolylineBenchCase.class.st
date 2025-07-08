@@ -15,7 +15,7 @@ PCPolylineBenchCase >> newFigureWith: random [
 
 	^ BlElement new
 		  geometry: (BlPolylineGeometry vertices: self vertices);
-		  size: (Rectangle encompassing: self vertices) extent;
+		  extent: (Rectangle encompassing: self vertices) extent;
 		  border: (BlBorder paint: (Color random: random) width: self borderWidth);
 		  background: Color transparent;
 		  yourself

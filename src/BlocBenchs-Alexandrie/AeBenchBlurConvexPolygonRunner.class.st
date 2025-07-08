@@ -60,7 +60,7 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 							yourself.
 					shadowElement background: runner runFilter "runGaussian" asForm.
 					polygonElement geometry vertices: vertices.
-					polygonElement size: polygonElement geometry extent ]) ]
+					polygonElement extent: polygonElement geometry extent ]) ]
 			notBefore: 50 milliSeconds
 			notAfter: 200 milliSeconds.
 	refreshShadowDeferrer schedule.
@@ -68,7 +68,7 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 	draggableVertexElements :=
 		vertices withIndexCollect: [ :eachPoint :index |
 			BlElement new
-				size: cornerExtent;
+				extent: cornerExtent;
 				position: eachPoint - (cornerExtent / 2);
 				geometry: BlCircleGeometry new;
 				addEventHandler: BlPullHandler new;

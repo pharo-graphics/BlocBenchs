@@ -197,7 +197,7 @@ BlMouseMoveBenchmark >> runFor: aGeometry addingResultsOn: aDataFrame [
 	elements := (1 to: nestingLevel) collect: [ :index |
 		            BlElement new
 			            position: 0 @ 0;
-			            size: extent;
+			            extent: extent;
 			            geometry: aGeometry;
 			            background: (Color random: random);
 			            addEventHandlerOn: BlMouseMoveEvent

@@ -15,7 +15,7 @@ BlBAbstractCircleCase >> newFigureWith: random [
 
 	^ BlElement new
 		geometry: BlCircleGeometry new;
-		size: self radius * 2;
+		extent: self radius * 2;
 		in:[ :me | self prepare: me with: random ];
 		yourself
 

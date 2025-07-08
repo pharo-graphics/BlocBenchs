@@ -47,7 +47,7 @@ BlBAbstractTranslatingFiguresCase >> newElementWithIndependentAnimations [
 	| random container |
 	random := self newRandom.
 	container := BlElement new
-		size: self spaceExtent;
+		extent: self spaceExtent;
 		yourself.
 
 	1 to: self numberOfFigures do: [ :index |
@@ -69,7 +69,7 @@ BlBAbstractTranslatingFiguresCase >> newElementWithSingleAnimation [
 	| random container |
 	random := self newRandom.
 	container := BlElement new
-		size: self spaceExtent;
+		extent: self spaceExtent;
 		addAnimation: ((BlTransformAnimation translate: self targetTranslation)
 		  duration: self duration;
 		  yourself);

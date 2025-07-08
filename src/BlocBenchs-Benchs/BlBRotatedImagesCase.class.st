@@ -12,7 +12,7 @@ BlBRotatedImagesCase >> newImageElementWith: random [
 	
 	^ BlElement new
 		transformDo: [ :t | t rotateBy: (self angleInDegreesWith: random) ];
-		size: randomIcon extent;
+		extent: randomIcon extent;
 		background: randomIcon;
 		yourself
 ]

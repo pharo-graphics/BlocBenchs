@@ -13,7 +13,7 @@ BlBClippedImagesCase >> newImageElementWith: random [
 	^ BlElement new
 		clipChildren: true;
 		geometry: BlRectangleGeometry new;
-		size: randomIcon extent // 2;
+		extent: randomIcon extent // 2;
 		background: randomIcon;
 		yourself
 

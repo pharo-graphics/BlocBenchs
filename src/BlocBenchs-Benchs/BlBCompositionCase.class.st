@@ -29,7 +29,7 @@ BlBCompositionCase >> newElement [
 
 	container :=
 		BlElement new
-			size: self logicalExtent;
+			extent: self logicalExtent;
 			addAnimation: (BlBasicAnimation new
 				onStepDo: [ :target | target background: backgroundColorGenerator next ];
 				yourself);
@@ -38,7 +38,7 @@ BlBCompositionCase >> newElement [
 	"static"
 	staticComplexElement := BlElement new
 		background: Color transparent;
-		size: self layerExtent;
+		extent: self layerExtent;
 		yourself.
 	1 to: self numberOfFigures do: [ :index |
 		staticComplexElement addChild: (self newFigure: random) ].
@@ -56,7 +56,7 @@ BlBCompositionCase >> newFigure: random [
 	^ BlElement new
 		background: (Color random: random);
 		position: (self nextLocation: random);
-		size: self figureExtent;
+		extent: self figureExtent;
 		yourself
 ]
 

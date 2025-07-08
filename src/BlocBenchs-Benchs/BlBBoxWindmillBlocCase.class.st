@@ -14,14 +14,14 @@ BlBBoxWindmillBlocCase >> newElement [
 
 	aContainerElement := BlElement new
 		clipChildren: false;
-		size: self logicalExtent;
+		extent: self logicalExtent;
 		background: self backgroundColor;
 		yourself.
 
 	boxElements := self boxPositions collect: [ :eachPoint | 
 		BlElement new
 			outskirts: BlOutskirts centered;
-			size: self boxExtent;
+			extent: self boxExtent;
 			background: self boxColor;
 			position: eachPoint;
 			border: (BlBorder
