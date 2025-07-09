@@ -18,7 +18,7 @@ BlBAbstractSimpleAnimationCase >> newElement [
 
 	^ BlElement new
 		position: 100 asPoint;
-		size: 100 asPoint;
+		extent: 100 asPoint;
 		border: (BlBorder paint: Color gray width: 4);
 		addAnimation: (self newSteppingAnimation);
 		yourself

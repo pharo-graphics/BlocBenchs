@@ -85,7 +85,7 @@ BlBOutskirtsBenchCase >> newChildWith: random [
 	^ BlElement new
 		  geometry: BlRectangleGeometry new;
 		  background: (Color gray alpha: 0.5);
-		  size: self figureExtent / 2;
+		  extent: self figureExtent / 2;
 		  yourself
 ]
 
@@ -117,7 +117,7 @@ BlBOutskirtsBenchCase >> newFigureWith: random [
 		  background: self backgroundColor;
 		  outskirts: self outskirts;
 		  geometry: self newFigureGeometry;
-		  size: self figureExtent;
+		  extent: self figureExtent;
 		  clipChildren: self mustClipChildren;
 		  addChild: (self newChildWith: random);
 		  yourself

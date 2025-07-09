@@ -31,7 +31,7 @@ BlBHighlightOnMouseMoveProfileCase >> newElement [
 				position: (Point
 					x: cellExtent x * (col-1)
 					y: cellExtent y * (row-1));
-				size: cellExtent + 1;
+				extent: cellExtent + 1;
 				background: Color random darker;
 				clipChildren: false;
 				addEventHandlerOn: BlMouseMoveEvent
@@ -47,7 +47,7 @@ BlBHighlightOnMouseMoveProfileCase >> newElement [
 		addAnimation: self newSteppingAnimation;
 		addChildren: board asArray;
 		clipChildren: false;
-		size: boardExtent;
+		extent: boardExtent;
 		yourself
 ]
 

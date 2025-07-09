@@ -15,6 +15,6 @@ BlBAnnulusSectorCase >> newFigureWith: random [
 				   innerRadius: (random nextBetween: 0.0 and: 0.4);
 				   outerRadius: (random nextBetween: 0.5 and: 1.0);
 				   yourself);
-		  size: 100 asPoint;
+		  extent: 100 asPoint;
 		  yourself
 ]

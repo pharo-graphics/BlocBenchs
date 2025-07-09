@@ -11,7 +11,7 @@ BlBSolidImagesCase >> newImageElementWith: random [
 	randomIcon := self newFormWith: random.
 	
 	^ BlElement new
-	  size: randomIcon extent;
+	  extent: randomIcon extent;
 	  background: randomIcon;
 	  yourself
 ]

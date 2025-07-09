@@ -65,7 +65,7 @@ AeBenchBlurConvexPolygonRunner class >> exampleInteractive [
 	draggableVertexElements :=
 		vertices withIndexCollect: [ :eachPoint :index |
 			BlElement new
-				size: cornerExtent;
+				extent: cornerExtent;
 				position: eachPoint - (cornerExtent / 2);
 				geometry: BlCircleGeometry new;
 				addEventHandler: BlPullHandler new;

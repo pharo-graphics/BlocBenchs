@@ -11,7 +11,7 @@ BlBTranslucentImagesCase >> newImageElementWith: random [
 	randomIcon := self newFormWith: random.
 	
 	^ BlElement new
-	  size: randomIcon extent;
+	  extent: randomIcon extent;
 	  background: (randomIcon asBlBackground opacity: 0.5; yourself);
 	  yourself
 ]
