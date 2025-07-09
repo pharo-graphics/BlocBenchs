@@ -20,6 +20,6 @@ BlBTranslucentEllipsesCase >> newFigureWith: random [
 				paint: ((Color random: random) alpha: 0.8)
 				width: 10);
 		  geometry: BlEllipseGeometry new;
-		  size: (self figureExtent: random);
+		  extent: (self figureExtent: random);
 		  yourself
 ]
