@@ -48,6 +48,16 @@ BlBCase class >> possibleBenchCases [
 ]
 
 { #category : #running }
+BlBCase class >> profile [
+
+	^ self benchSuite collect: [ :e |
+			e runner meters
+				removeAll;
+				add: BlBSystemProfilerMeter new.
+			e run ]
+]
+
+{ #category : #running }
 BlBCase class >> run [
 	
 	^ self benchSuite collect: [ :e | e run ]

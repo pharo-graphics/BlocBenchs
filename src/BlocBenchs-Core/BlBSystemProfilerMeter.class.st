@@ -47,16 +47,15 @@ BlBSystemProfilerMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult 
 						from: Color pink;
 					yourself)	.
 	
-	aBlBResult 
-		addField: #systemProfilerReport 
+	aBlBResult
+		addField: #systemProfilerReport
 		title: 'System Profiler Report'
 		value: profiler report.
 
-	aBlBResult 
-		addField: #flameGraph 
+	aBlBResult
+		addField: #flameGraph
 		title: 'Flame Graph'
-		value: flameGraph.
-
+		value: flameGraph
 ]
 
 { #category : #mettering }
