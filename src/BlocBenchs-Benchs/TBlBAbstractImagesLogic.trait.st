@@ -30,7 +30,7 @@ TBlBAbstractImagesLogic >> numberOfRows [
 { #category : #hook }
 TBlBAbstractImagesLogic >> offsetBetweenFigures [
 
-	^ 20 @ 20
+	^ 20 @ 10
 ]
 
 { #category : #hook }

@@ -53,7 +53,7 @@ BlBAbstractTranslatingFiguresCase >> newElementWithIndependentAnimations [
 	1 to: self numberOfFigures do: [ :index |
 		| aFigure |
 		aFigure := self newFigureWith: random.
-		aFigure position: self figureOffset + ((index * self offsetBetweenFigures x) @ 0).
+		aFigure position: self figureOffset + (index * self offsetBetweenFigures).
 		aFigure addAnimation: ((BlTransformAnimation translate: self targetTranslation)
 		  duration: self duration;
 		  yourself).
@@ -78,7 +78,7 @@ BlBAbstractTranslatingFiguresCase >> newElementWithSingleAnimation [
 	1 to: self numberOfFigures do: [ :index |
 		| aFigure |
 		aFigure := self newFigureWith: random.
-		aFigure position: self figureOffset + ((index * self offsetBetweenFigures x) @ 0).
+		aFigure position: self figureOffset + (index * self offsetBetweenFigures).
 		container addChild: aFigure ].
 
 	^ container

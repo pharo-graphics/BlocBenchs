@@ -10,7 +10,7 @@ BlBTextCase >> blTextFor: random [
 	^ (BlRopedText string: (String loremIpsum: 170))
 		  fontSize: 8;
 		  fontName: 'Source Sans Pro';
-		  foreground: (Color random: random) muchDarker;
+		  foreground: (Color random: random) darker;
 		  yourself
 ]
 
@@ -38,7 +38,7 @@ BlBTextCase >> numberOfFigures [
 { #category : #hook }
 BlBTextCase >> offsetBetweenFigures [
 
-	^ 0 @ 9
+	^ 0 @ 4
 ]
 
 { #category : #accessing }
