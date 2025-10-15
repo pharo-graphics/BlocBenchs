@@ -36,12 +36,7 @@ BaselineOfBlocBenchs >> baseline: spec [
 					with: [ spec requires: #('Bloc' 'BlocBenchs-FPS' 'FFICallLogger' 'Sauco' 'SDLExperiments') ];
 				package: 'BlocBenchs-Benchs'
 					with: [ spec requires: #('Toplo' 'BlocBenchs-Core' 'BlocTutorialsBoids') ]		
-			].
-	
-	spec for: #'pharo11.x'
-		  do: [ 
-				spec package:  'BlocBenchs-Compatibility-P11'.
-		  ]
+			]
 ]
 
 { #category : #'external projects' }
