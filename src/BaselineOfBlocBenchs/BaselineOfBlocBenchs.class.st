@@ -75,7 +75,7 @@ BaselineOfBlocBenchs >> declareFFICallLoggerOn: spec [
 BaselineOfBlocBenchs >> declareSaucoOn: spec [
 	spec
 		baseline: 'Sauco'
-		with: [ spec repository: 'github://tinchodias/pharo-sauco-profiler:master/' ]
+		with: [ spec repository: 'github://tinchodias/Sauco:master/' ]
 ]
 
 { #category : #'external projects' }
