@@ -79,7 +79,7 @@ AeBenchTextCycleRunner >> add1ShapeBenchs [
 			ftFace := ftLibrary
 				newFaceFromFile: ttfFileReference
 				index: 0.
-			cairoFontFace := AeCairoFreetypeFontFace newForFace: ftFace ]
+			cairoFontFace := ftFace newCairoFontFace ]
 		do: [ self shape1: cairoFontFace ].
 
 	self
@@ -128,7 +128,7 @@ AeBenchTextCycleRunner >> add2DrawBenchs [
 			ftFace := ftLibrary
 				newFaceFromFile: ttfFileReference
 				index: 0.
-			cairoFontFace := AeCairoFreetypeFontFace newForFace: ftFace.
+			cairoFontFace := ftFace newCairoFontFace.
 			glyphArray := self shape1: cairoFontFace ]
 		do: [ self draw: glyphArray ].
 
