@@ -45,7 +45,7 @@ BlBSystemProfilerMeter >> reportResultsFrom: aBlBBlocBenchRunner in: aBlBResult 
 						'Album'
 						'Toplo')
 						from: Color pink;
-					yourself)	.
+					yourself).
 	
 	aBlBResult
 		addField: #systemProfilerReport

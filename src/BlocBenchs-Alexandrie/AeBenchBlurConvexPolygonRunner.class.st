@@ -622,7 +622,7 @@ AeBenchBlurConvexPolygonRunner >> runGaussian [
 		sourceColor: Color black;
 		fill.
 
-	AeCairoA8FastGaussianBlurFilter new
+	AeCairoA8GaussianBlurFilter new
 		surface: maskSurface;
 		applySigma: blurSigma.
 
