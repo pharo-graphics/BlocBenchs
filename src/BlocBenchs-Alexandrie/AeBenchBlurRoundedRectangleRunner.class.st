@@ -261,7 +261,7 @@ AeBenchBlurRoundedRectangleRunner >> runGaussian [
 			bl: radii fourth;
 		fill.
 
-	AeCairoA8FastGaussianBlurFilter new
+	AeCairoA8GaussianBlurFilter new
 		surface: maskSurface;
 		applySigma: blurSigma.
 

@@ -251,7 +251,7 @@ AeBenchBlurRectangleRunner >> runDirectNaive [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurRectangleRunner >> runDirectReusingGradient [
 	<script: 'self new runDirectReusingGradient inspect'>
 
@@ -329,7 +329,7 @@ AeBenchBlurRectangleRunner >> runGaussian [
 		rectangle: rectangle;
 		fill.
 
-	AeCairoA8FastGaussianBlurFilter new
+	AeCairoA8GaussianBlurFilter new
 		surface: maskSurface;
 		applySigma: blurSigma.
 
@@ -341,7 +341,7 @@ AeBenchBlurRectangleRunner >> runGaussian [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurRectangleRunner >> runMaskFull [
 	<script: 'self new runMaskFull inspect'>
 
@@ -427,7 +427,7 @@ AeBenchBlurRectangleRunner >> runMaskFull [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurRectangleRunner >> runMaskQuadrant [
 	<script: 'self new runMaskQuadrant inspect'>
 
@@ -520,7 +520,7 @@ AeBenchBlurRectangleRunner >> runMaskQuadrant [
 	^ mainSurface
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 AeBenchBlurRectangleRunner >> runMaskQuadrant2 [
 	<script: 'self new runMaskQuadrant2 inspect'>
 

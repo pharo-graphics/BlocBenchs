@@ -167,7 +167,7 @@ AeBenchBlurCircleRunner >> runGaussian [
 		circleCenter: circleCenter radius: circleRadius;
 		fill.
 
-	AeCairoA8FastGaussianBlurFilter new
+	AeCairoA8GaussianBlurFilter new
 		surface: blurSurface;
 		applySigma: blurSigma.
 
