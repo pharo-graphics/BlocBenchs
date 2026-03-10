@@ -17,10 +17,10 @@ esac
 REPO_DIR="$(dirname "$SCRIPTS_DIR")"
 
 
-PHARO_VERSION=${1:-120}
+PHARO_VERSION=${1:-130}
 echo "|"
 echo "| Downloading Pharo $PHARO_VERSION"
-echo "| (change default value by passing as first argument e.g. 110, 120, or 130)"
+echo "| (change default value by passing as first argument e.g. 120, 130, or 140)"
 echo "|"
 curl https://get.pharo.org/64/$PHARO_VERSION+vmLatest | bash
 
