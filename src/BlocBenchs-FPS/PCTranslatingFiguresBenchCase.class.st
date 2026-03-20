@@ -23,3 +23,9 @@ PCTranslatingFiguresBenchCase class >> exampleOpenFigureSamples [
 			show ]
 
 ]
+
+{ #category : #accessing }
+PCTranslatingFiguresBenchCase >> logicalExtent [
+
+	^ 800 asPoint
+]

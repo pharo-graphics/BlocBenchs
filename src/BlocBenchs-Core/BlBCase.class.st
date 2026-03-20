@@ -156,3 +156,9 @@ BlBCase >> runner [
 
 	^ runner ifNil: [ runner := self defaultRunnerClass new ]
 ]
+
+{ #category : #accessing }
+BlBCase >> runner: aRunner [ 
+	
+	runner := aRunner
+]

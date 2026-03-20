@@ -7,9 +7,7 @@ Class {
 { #category : #accessing }
 BlBVersionsMeter >> imageVersion [
 
-	^ SystemVersion current imageVersionString , 
-		String crlf, 
-		SystemVersion current datedVersion
+	^ SystemVersion current imageVersionString
 ]
 
 { #category : #accessing }

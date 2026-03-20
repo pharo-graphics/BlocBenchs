@@ -45,13 +45,16 @@ BlBBlocBenchRunner >> doRun: aBlBBlocCase [
 	space show.
 	
 	self flag: #todo. "See: https://github.com/pharo-graphics/Bloc/issues/767"
+	
+	self prepareSpace.
+	
 	space addEventHandlerOn: BlSpaceShownEvent doOnce: [
 		space center.
 		stopSemaphore signal ].
 
 	stopSemaphore wait.
 	
-	stopSemaphore waitTimeoutMilliseconds: aBlBBlocCase duration asMilliSeconds.
+	self waitForEndFor: aBlBBlocCase 
 	
 	
 ]
@@ -62,6 +65,12 @@ BlBBlocBenchRunner >> prepareBeforeRun: aBlBCase [
 	space := BlSpace new.
 	space title: aBlBCase label.
 	space enableStatistics.
+]
+
+{ #category : #running }
+BlBBlocBenchRunner >> prepareSpace [
+
+	
 ]
 
 { #category : #accessing }
@@ -79,4 +88,10 @@ BlBBlocBenchRunner >> stop [
 BlBBlocBenchRunner >> totalFrames [
 
 	^ self space spaceStatistics totalFrames
+]
+
+{ #category : #running }
+BlBBlocBenchRunner >> waitForEndFor: aBlBBlocCase [
+
+	stopSemaphore waitTimeoutMilliseconds: aBlBBlocCase duration asMilliSeconds
 ]
