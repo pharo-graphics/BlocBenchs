@@ -8,7 +8,7 @@ Class {
 BlBAnnulusSectorCase >> newFigureWith: random [
 
 	^ BlElement new
-		  background: (Color random: random);
+		  background: (Color blbRandom: random);
 		  geometry: (BlAnnulusSectorGeometry new
 				   startAngle: (random nextInteger: 360);
 				   endAngle: (random nextInteger: 360);

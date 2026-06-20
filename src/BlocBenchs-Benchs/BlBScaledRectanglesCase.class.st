@@ -17,7 +17,7 @@ BlBScaledRectanglesCase >> newFigureWith: random [
 		  geometry: BlRectangleGeometry new;
 		  extent: self figureExtent;
 		  transformDo: [ :aBuilder | aBuilder scaleBy: self scale ];
-		  background: (Color random: random);
+		  background: (Color blbRandom: random);
 		  yourself
 ]
 

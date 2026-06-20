@@ -10,7 +10,7 @@ PCRoassalSolidBorderCirclesMorph >> prepareCircle: aCircleShape [
 	aCircleShape
 		noPaint;
 		border: (RSBorder new
-			 color: (Color random: random);
+			 color: (Color blbRandom: random);
 			 width: case borderWidth)
 
 ]

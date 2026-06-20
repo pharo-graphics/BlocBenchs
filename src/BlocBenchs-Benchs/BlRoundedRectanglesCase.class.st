@@ -14,7 +14,7 @@ BlRoundedRectanglesCase >> figureExtent [
 BlRoundedRectanglesCase >> newFigureWith: random [
 
 	^ BlElement new
-		  background: (Color random: random);
+		  background: (Color blbRandom: random);
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 20);
 		  extent: self figureExtent;
 		  yourself

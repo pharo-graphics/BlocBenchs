@@ -28,5 +28,5 @@ PCSolidBorderCirclesBenchCase >> newRoassalWrapperMorph [
 PCSolidBorderCirclesBenchCase >> prepare: anElement with: random [
 
 	anElement border:
-		(BlBorder paint: (Color random: random) width: self borderWidth)
+		(BlBorder paint: (Color blbRandom: random) width: self borderWidth)
 ]

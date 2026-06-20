@@ -41,7 +41,7 @@ BlBOutskirtsBenchCase >> backgroundColor: aColor [
 { #category : #hook }
 BlBOutskirtsBenchCase >> borderColorWith: random [
 		
-	^ (Color random: random) alpha: 0.3
+	^ (Color blbRandom: random) alpha: 0.3
 ]
 
 { #category : #hook }

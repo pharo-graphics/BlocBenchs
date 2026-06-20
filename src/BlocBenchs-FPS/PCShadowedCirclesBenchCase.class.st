@@ -51,13 +51,13 @@ PCShadowedCirclesBenchCase >> newShadowColor: shadowColor offset: shadowOffset [
 PCShadowedCirclesBenchCase >> prepare: anElement with: random [
 
 	| shadowColor shadowOffset |
-	shadowColor := Color random: random.
+	shadowColor := Color blbRandom: random.
 	isTranslucent ifTrue: [ shadowColor := shadowColor translucent ].
 
 	shadowOffset := random nextBetween: 2 and: maximumOffset.
 
 	anElement
-		background: (Color random: random);
+		background: (Color blbRandom: random);
 		effect:
 			(self
 				newShadowColor: shadowColor

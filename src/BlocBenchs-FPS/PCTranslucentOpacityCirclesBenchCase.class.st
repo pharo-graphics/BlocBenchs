@@ -8,6 +8,6 @@ Class {
 PCTranslucentOpacityCirclesBenchCase >> prepare: anElement with: random [
 
 	anElement
-		background: (Color random: random);
+		background: (Color blbRandom: random);
 		opacity: 0.5.
 ]

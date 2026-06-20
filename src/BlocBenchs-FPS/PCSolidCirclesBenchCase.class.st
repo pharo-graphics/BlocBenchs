@@ -21,5 +21,5 @@ PCSolidCirclesBenchCase >> newRoassalWrapperMorph [
 { #category : #hook }
 PCSolidCirclesBenchCase >> prepare: anElement with: random [
 
-	anElement background: (Color random: random)
+	anElement background: (Color blbRandom: random)
 ]

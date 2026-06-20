@@ -14,7 +14,7 @@ BlBRotatedRectanglesCase >> figureExtent [
 BlBRotatedRectanglesCase >> newFigureWith: random [
 
 	^ BlElement new
-		  background: (Color random: random);
+		  background: (Color blbRandom: random);
 		  geometry: BlRectangleGeometry new;
 		  extent: self figureExtent;
 		  transformDo: [ :t | t rotateBy: (self angleInDegreesWith: random) ];

@@ -10,7 +10,7 @@ BlBRotatedTextCase >> blTextFor: random [
 	^ (BlRopedText string: (String loremIpsum: 90))
 		  fontSize: 8;
 		  fontName: 'Arial';
-		  foreground: (Color random: random);
+		  foreground: (Color blbRandom: random);
 		  yourself
 ]
 

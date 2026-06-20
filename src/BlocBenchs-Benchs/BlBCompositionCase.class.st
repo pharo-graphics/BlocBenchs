@@ -54,7 +54,7 @@ BlBCompositionCase >> newElement [
 BlBCompositionCase >> newFigure: random [
 	
 	^ BlElement new
-		background: (Color random: random);
+		background: (Color blbRandom: random);
 		position: (self nextLocation: random);
 		extent: self figureExtent;
 		yourself

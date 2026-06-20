@@ -10,7 +10,7 @@ BlBTextCase >> blTextFor: random [
 	^ (BlRopedText string: (String loremIpsum: 170))
 		  fontSize: 8;
 		  fontName: 'Source Sans Pro';
-		  foreground: (Color random: random) darker;
+		  foreground: (Color blbRandom: random) darker;
 		  yourself
 ]
 

@@ -39,7 +39,7 @@ BlBNestedTransformationsCase >> newElement [
 			
 		BlElement new
 			clipChildren: false;
-			background: (Color random: random);
+			background: (Color blbRandom: random);
 			extent: self figureExtent;
 			addAnimation: anAnimation;
 			yourself ].

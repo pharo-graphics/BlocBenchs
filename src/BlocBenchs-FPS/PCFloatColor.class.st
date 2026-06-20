@@ -31,7 +31,7 @@ PCFloatColor class >> newFrom: aColor [
 { #category : #'instance creation' }
 PCFloatColor class >> newRandom: aRandom [
 
-	^ self newFrom: (Color random: aRandom)
+	^ self newFrom: (Color blbRandom: aRandom)
 ]
 
 { #category : #accessing }

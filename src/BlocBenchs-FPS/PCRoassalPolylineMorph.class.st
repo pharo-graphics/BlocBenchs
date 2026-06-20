@@ -16,7 +16,7 @@ PCRoassalPolylineMorph >> newShape: index [
 		controlPoints: translatedPoints;
 		noPaint;
 		border: (RSBorder new
-			 color: (Color random: random);
+			 color: (Color blbRandom: random);
 			 width: case borderWidth);
 		yourself
 

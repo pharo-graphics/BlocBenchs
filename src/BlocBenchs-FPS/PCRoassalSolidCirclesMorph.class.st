@@ -7,5 +7,5 @@ Class {
 { #category : #'instance creation' }
 PCRoassalSolidCirclesMorph >> prepareCircle: aCircleShape [
 
-	aCircleShape color: (Color random: random)
+	aCircleShape color: (Color blbRandom: random)
 ]

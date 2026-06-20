@@ -46,7 +46,7 @@ BlBAbstractGradientCirclesCase >> newGradient: random [
 BlBAbstractGradientCirclesCase >> newStops: random [
 
 	^ (0.0 to: 1.0 by: 1 / (numberOfStops - 1)) collect: [ :each |
-		  each -> (Color random: random) ]
+		  each -> (Color blbRandom: random) ]
 ]
 
 { #category : #accessing }

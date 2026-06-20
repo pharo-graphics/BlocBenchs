@@ -199,7 +199,7 @@ BlMouseMoveBenchmark >> runFor: aGeometry addingResultsOn: aDataFrame [
 			            position: 0 @ 0;
 			            extent: extent;
 			            geometry: aGeometry;
-			            background: (Color random: random);
+			            background: (Color blbRandom: random);
 			            addEventHandlerOn: BlMouseMoveEvent
 				            do: [ :evt |
 					            count := count + 1.

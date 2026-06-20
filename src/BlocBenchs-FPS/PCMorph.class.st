@@ -34,7 +34,7 @@ PCMorph >> case: aPCBenchCase [
 
 	case := aPCBenchCase.
 	self surfaceExtent: aPCBenchCase logicalExtent.
-	self random: aPCBenchCase newRandom.
+	self blbRandom: aPCBenchCase newRandom.
 
 ]
 
