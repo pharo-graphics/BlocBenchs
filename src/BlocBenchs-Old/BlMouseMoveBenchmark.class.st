@@ -28,7 +28,7 @@ BlMouseMoveBenchmark class >> exampleRun [
 
 	| aProcess w |
 	aProcess := [
-		{ BlOSWindowSDL2Host } do: [ :eachHostClass |
+		BlHost supportedHostClasses do: [ :eachHostClass |
 			{ 400 asPoint } do: [ :eachExtent |
 				{ 20. 5 } do: [ :eachNestingLevel |
 					('{1} {2} (nesting levels={3}):' format: {

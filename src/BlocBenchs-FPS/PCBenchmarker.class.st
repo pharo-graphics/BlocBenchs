@@ -134,8 +134,9 @@ PCBenchmarker class >> exampleGradients [
 { #category : #examples }
 PCBenchmarker class >> exampleMinimizeLoopPeriods [
 
-	{ BlOSWindowSDL2Host } do: [ :each |
-		each pulsePeriod: 1 milliSecond ].
+	{ BlOSWindowSDL2Host. BlOSSDL3Host }
+		select: #isSupported
+		thenDo: [ :each | each pulsePeriod: 1 milliSecond ].
 
 	WorldState MinCycleLapse: 1. "By default, 16"
 
